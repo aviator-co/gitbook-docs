@@ -18,7 +18,7 @@ All of the settings in the UI are also covered in the Rules section of [<mark st
 
 #### Configuring Status Checks
 
-See `Required Checks` under `Merge Preconditions` to set status checks for your PRs that need to be validated before merging. Selecting `Use Github mergeability check` will use all Github required tests for the repo.
+See `Required Checks` under `Merge Preconditions` to set status checks for your PRs that need to be validated before merging. Selecting `Use GitHub mergeability check` will use all GitHub required tests for the repo.
 
 <figure><img src="../.gitbook/assets/Screen Shot 2022-12-29 at 9.14.58 AM.png" alt=""><figcaption><p>required check configuration from UI</p></figcaption></figure>
 

@@ -12,7 +12,7 @@ To use Aviator’s Slack notifications, your team will need to set up a Slack ap
 
 Navigate to `Basic Information`. Here you will find the information that allows your app to access the Slack API.
 
-You’ll also need to add info for your Github app. Find it under `General` > `About` and `Client secrets` at the top of your app page.
+You’ll also need to add info for your GitHub app. Find it under `General` > `About` and `Client secrets` at the top of your app page.
 
 Set the following environment variables:
 
@@ -53,13 +53,13 @@ Select the following **Bot Token Scopes:** `chat:write`, `chat:write.customize`,
 
 ### Add Slash commands
 
-Create the following slash command, it will link a user’s Slack account with their Aviator activity on Github so individuals can receive DMs about their own PRs.
+Create the following slash command, it will link a user’s Slack account with their Aviator activity on GitHub so individuals can receive DMs about their own PRs.
 
 **Command**: `/aviator`
 
 **Request URL**: `https://<your_domain>/slack/slash_command`
 
-**Short Description**: `connect Github to your Slack account`
+**Short Description**: `connect GitHub to your Slack account`
 
 **Usage Hint**: `github connect`
 

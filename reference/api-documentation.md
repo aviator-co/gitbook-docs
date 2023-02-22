@@ -29,11 +29,11 @@ Example:
 {% endswagger-description %}
 
 {% swagger-parameter in="body" name="org" type="String" required="true" %}
-Name of the Github organization.
+Name of the GitHub organization.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="name" type="String" required="true" %}
-Name of the repository in the Github organization.
+Name of the repository in the GitHub organization.
 {% endswagger-parameter %}
 
 {% swagger-parameter in="body" name="paused" type="Boolean" required="true" %}
@@ -453,7 +453,7 @@ _YYYY-MM-DD_
 {% endswagger-parameter %}
 
 {% swagger-parameter in="query" name="repo" required="true" type="String" %}
-Name of the Github repo, in the format: 
+Name of the GitHub repo, in the format: 
 
 _orgname/reponame_
 {% endswagger-parameter %}

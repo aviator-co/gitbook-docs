@@ -2,7 +2,7 @@
 description: Permissions & explanations
 ---
 
-# Github App Permissions
+# GitHub App Permissions
 
 The Aviator app requests a set of permissions on your GitHub repositories that you choose to connect with Aviator. While Aviator tries to request as few permissions as it needs to function, GitHub only allows us to request fairly broad groups of permissions. We’re committed to your privacy and security, so Aviator only uses the subset of permissions it needs to do its job.
 

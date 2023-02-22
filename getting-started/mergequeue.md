@@ -6,7 +6,7 @@ description: Automated merge workflow
 
 ## Introduction <a href="#introduction" id="introduction"></a>
 
-MergeQueue is a configurable queue that manages the merge workflow for your Github repository. The Aviator bot uses GitHub labels to identify pull requests (PRs) that are ready to be merged and queues them. Once a PR has been queued, the Aviator bot pulls the latest base branch for each PR, runs and verifies the required status checks, and then merges the changes once the checks pass.&#x20;
+MergeQueue is a configurable queue that manages the merge workflow for your GitHub repository. The Aviator bot uses GitHub labels to identify pull requests (PRs) that are ready to be merged and queues them. Once a PR has been queued, the Aviator bot pulls the latest base branch for each PR, runs and verifies the required status checks, and then merges the changes once the checks pass.&#x20;
 
 ![Dashboard view](<../.gitbook/assets/Screen Shot 2022-05-17 at 9.56.31 PM.png>)
 
@@ -27,7 +27,7 @@ You could configure GitHub to block pull requests that are not up-to-date with `
 
 Aviator provides several merge modes that you can optimize for your team's repositories. All modes follow the same basic flow:
 
-1. Aviator monitors all pull requests on your Github repository.
+1. Aviator monitors all pull requests on your GitHub repository.
 2. Instead of manually merging pull requests, the engineers comment `/aviator merge` or add a GitHub label when they are ready to merge their PR.
 3. Based on your configurations, Aviator performs the required operations on ready-to-merge PRs.
 4. Aviator automatically merges the PR when all the merge criteria has been met.

@@ -22,7 +22,7 @@
 * [Webhooks](reference/webhooks.md)
 * [Slack Integration](reference/slack-integration.md)
 * [API Documentation](reference/api-documentation.md)
-* [Github App Permissions](reference/github-app-permissions.md)
+* [GitHub App Permissions](reference/github-app-permissions.md)
 * [Aviator CLI](reference/aviator-cli/README.md)
   * [Installation](reference/aviator-cli/installation.md)
   * [Configuration](reference/aviator-cli/configuration.md)

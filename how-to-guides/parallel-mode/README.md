@@ -10,8 +10,8 @@ Parallel Mode requires good understanding of several concepts, as things work so
 
 Before configuring parallel mode, please read the entire documentation. In addition, please note a few things:
 
-* Parallel mode uses Draft PRs to define parallel pipelines. Your repository must have the capability to support Draft PRs. On Github, draft PRs are supported on Team or Enterprise plans.
-* The Github Mergeability check does not work on Draft PRs in Parallel mode, so you should explicitly specify the required checks for Draft PRs on the Status Check page. You will still need Github Mergeability checks to validate the original PR.
+* Parallel mode uses Draft PRs to define parallel pipelines. Your repository must have the capability to support Draft PRs. On GitHub, draft PRs are supported on Team or Enterprise plans.
+* The GitHub Mergeability check does not work on Draft PRs in Parallel mode, so you should explicitly specify the required checks for Draft PRs on the Status Check page. You will still need GitHub Mergeability checks to validate the original PR.
 * At a minimum, we recommend setting the **max bot builds in parallel** configuration while enabling parallel mode. The rest of the settings correspond to advanced capabilities.
 
 ## **Draft PRs**
@@ -56,7 +56,7 @@ In case the Draft PR CI passes, but the associated original PR's CI is stuck, th
 
 Since every Draft PR triggers a new CI run, you may want to manage the parallelism for CI runs. You can set this in **Max bot builds in parallel**. The bot will pause queuing PRs once it hits the parallel limit. After that, the next one will only be created after one of the Draft PRs is closed.
 
-Similar to capping the parallelism, you may need to pause queuing until a particular PR is merged. This may be needed if you have a long running CI that gets triggered by modifying specific files. Every subsequent Draft PR will also touch that file causing all subsequent CIs to be long running. In the Parallel mode configuration, you can specify a Github label to **Block further bot builds**. Once the specified Github label is added to a PR, no further Draft PRs will be built on top of it until that PR is merged or dequeued.
+Similar to capping the parallelism, you may need to pause queuing until a particular PR is merged. This may be needed if you have a long running CI that gets triggered by modifying specific files. Every subsequent Draft PR will also touch that file causing all subsequent CIs to be long running. In the Parallel mode configuration, you can specify a GitHub label to **Block further bot builds**. Once the specified GitHub label is added to a PR, no further Draft PRs will be built on top of it until that PR is merged or dequeued.
 
 ## **Resets**
 

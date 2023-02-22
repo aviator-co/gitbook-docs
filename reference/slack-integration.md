@@ -8,9 +8,9 @@ You can use the Slack app integration to receive notifications about queue event
 
 ### DM Notifications
 
-You can also link your Github account to the Slack integration. The Aviator Slack app will send direct messages about your own PR activity. Simply use the slash command `/aviator github connect` and follow the instructions to complete Github oauth.
+You can also link your GitHub account to the Slack integration. The Aviator Slack app will send direct messages about your own PR activity. Simply use the slash command `/aviator github connect` and follow the instructions to complete GitHub oauth.
 
-<figure><img src="../.gitbook/assets/Screen Shot 2022-09-20 at 3.59.14 PM.png" alt=""><figcaption><p>Link your Github and Slack accounts.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screen Shot 2022-09-20 at 3.59.14 PM.png" alt=""><figcaption><p>Link your GitHub and Slack accounts.</p></figcaption></figure>
 
 Once completed, you'll receive DMs about your PR activity.
 

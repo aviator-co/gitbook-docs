@@ -30,6 +30,6 @@ Finally, when your YAML configuration file is set up in your repo, we store the 
 
 <figure><img src="../../.gitbook/assets/Screen Shot 2022-09-21 at 3.48.29 PM.png" alt=""><figcaption><p>A configuration history record of a change made to the repository config YAML file</p></figcaption></figure>
 
-The `github_user` is displayed as their Github `login` or username. The commit is represented as the short hash which links to the actual commit information.
+The `github_user` is displayed as their GitHub `login` or username. The commit is represented as the short hash which links to the actual commit information.
 
 While under this configuration set up, your source control also can act as its own audit trail. However, these changes are additionally stored in our database both for completeness and to make it clear what changes actually made it through in the event of any desync between `Aviator` and your source control.

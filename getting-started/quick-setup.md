@@ -8,7 +8,7 @@ This setup guide will walk you through the initial set up for MergeQueue. Since 
 
 1\. Create an account. [<mark style="color:blue;">Register here</mark>](https://mergequeue.com/register).
 
-2\. Follow the onboarding flow to connect to the Aviator Github app, authorize one or more repositories that you want to automate.
+2\. Follow the onboarding flow to connect to the Aviator GitHub app, authorize one or more repositories that you want to automate.
 
 3\. Select the repository on the **Repositories** page to configure the rules.
 

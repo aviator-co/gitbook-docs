@@ -8,7 +8,7 @@ The ChangeSets feature allows you to create a list of PRs to be merged together.
 
 You can create a ChangeSet by clicking the "Create New" button on the ChangeSet page. This will create an empty ChangeSet.
 
-Add a PR to this ChangeSet by finding the PR you want to add (search by Github user, or by Repository name), and click the "Add to ChangeSet" button next to it. Repeat the process to add as many PRs as you like to this ChangeSet.
+Add a PR to this ChangeSet by finding the PR you want to add (search by GitHub user, or by Repository name), and click the "Add to ChangeSet" button next to it. Repeat the process to add as many PRs as you like to this ChangeSet.
 
 To remove a PR from a ChangeSet, click the "Remove" button next to the PR name.
 

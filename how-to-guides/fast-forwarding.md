@@ -53,7 +53,7 @@ preconditions:
 
 
 
-### Step 2: Modify your Github protected branch settings
+### Step 2: Modify your GitHub protected branch settings
 
 * To ensure that Aviator can forward your default branch, it may require additional privileges. Aviator requires permission to be able to force push to the default branch. To do so, you should authorize the Aviator app to be able to force push to the protected branch. We don’t force push the commits, but this is required to be able to fast forward protected branches that requires PullRequests.
 
