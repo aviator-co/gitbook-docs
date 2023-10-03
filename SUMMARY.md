@@ -17,6 +17,7 @@
     * [Slash Commands Using GitHub Comments](mergequeue/how-to-guides/slash-commands.md)
     * [Customize Sticky Comments](mergequeue/how-to-guides/customize-sticky-comments.md)
     * [Require an Aviator Status Check](mergequeue/how-to-guides/require-an-aviator-status-check.md)
+    * [Backport a PR](mergequeue/how-to-guides/backport-a-pr.md)
   * [Concepts](mergequeue/concepts/README.md)
     * [Analytics](mergequeue/concepts/analytics.md)
     * [Parallel Mode](mergequeue/concepts/parallel-mode/README.md)
