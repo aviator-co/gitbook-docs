@@ -30,6 +30,7 @@
     * [Timeline](mergequeue/concepts/timeline.md)
   * [Reference](mergequeue/reference/README.md)
     * [GitHub Slash Commands](mergequeue/slash-commands.md)
+    * [API Documentation](mergequeue/reference/api-documentation.md)
   * [Customizing required checks](mergequeue/customizing-required-checks.md)
   * [Priority merges](mergequeue/priority-merges/README.md)
     * [Instant Merges](mergequeue/priority-merges/instant-merges.md)
@@ -40,7 +41,7 @@
     * [FAQs](mergequeue/changesets/faqs.md)
   * [Managing flaky tests in MergeQueue](mergequeue/managing-flaky-tests-in-mergequeue.md)
   * [Comments and Status Codes](mergequeue/comments-and-status-codes.md)
-  * [Aviator Chrome Extension](mergequeue/aviator-chrome-extension.md)
+* [Aviator Chrome Extension](aviator-chrome-extension.md)
 * [Aviator CLI](aviator-cli/README.md)
   * [Installation](aviator-cli/installation.md)
   * [Quickstart](aviator-cli/quickstart.md)
@@ -94,7 +95,6 @@
   * [SAML Configuration](custom-integrations/saml-configuration/README.md)
     * [Microsoft Active Directory](custom-integrations/saml-configuration/microsoft-active-directory.md)
   * [Personal Access Tokens](custom-integrations/personal-access-tokens.md)
-* [API Documentation](api-documentation.md)
 * [Webhooks](webhooks.md)
 
 ## Manage
