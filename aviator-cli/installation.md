@@ -46,9 +46,6 @@ Finally, in the repo where you want to use `av`, make sure to initialize the rep
 av init
 ```
 
-### 4. Use it!
-
-See the [Broken link](broken-reference "mention") quickstart guide for a step-by-step tutorial.
 
 ## Upgrade <a href="#upgrade" id="upgrade"></a>
 

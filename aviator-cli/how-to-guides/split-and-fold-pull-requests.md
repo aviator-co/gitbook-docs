@@ -9,7 +9,7 @@ In Aviator CLI, one branch corresponds to one PR. To split a large pull request,
 1. Split a large commit into multiple commits.
 2. Reorder and split commits into stacked branches.
 
-By using [Split a Commit feature](broken-reference), you can split a large commit into pieces. The guide below walks you through how to reorder and split those commits.
+By using [<mark style="color:blue;">Split a Commit feature</mark>](splitting-a-commit.md), you can split a large commit into pieces. The guide below walks you through how to reorder and split those commits.
 
 ## Setup
 

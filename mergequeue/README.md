@@ -39,7 +39,7 @@ Aviator provides several merge modes that you can optimize for your team's repos
 
 * Default - The default mode uses a simple FIFO queue. PRs will be merged in the order they are queued. Aviator bot pulls latest changes from mainline to validate CI before merging.
 * [<mark style="color:blue;">Parallel mode</mark>](concepts/parallel-mode/) - CI builds are run optimistically in parallel in order to decrease time-to-merge for high output teams.
-* [<mark style="color:blue;">Fast Forwarding</mark>](broken-reference) - This works similar to parallel mode, but keeps branch history linear and avoids creating extra commits.
+* [<mark style="color:blue;">Fast Forwarding</mark>](how-to-guides/fast-forwarding.md) - This works similar to parallel mode, but keeps branch history linear and avoids creating extra commits.
 * [Affected targets](concepts/affected-targets/) - Use MergeQueue as a dynamic sub-queue based on the build targets.
 * [<mark style="color:blue;">ChangeSets</mark>](concepts/changesets/) - PRs can be merged together in a user-defined set.
 
