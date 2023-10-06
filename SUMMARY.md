@@ -45,7 +45,7 @@
   * [Reference](mergequeue/reference/README.md)
     * [GitHub Slash Commands](mergequeue/slash-commands.md)
     * [API Documentation](mergequeue/reference/api-documentation.md)
-    * [Status Codes](mergequeue/reference/comments-and-status-codes.md)
+    * [Status Codes](mergequeue/reference/status-codes.md)
   * [Customizing Required Checks](mergequeue/customizing-required-checks.md)
   * [Managing Flaky Tests in MergeQueue](mergequeue/managing-flaky-tests-in-mergequeue.md)
 * [Aviator Chrome Extension](mergequeue/aviator-chrome-extension.md)
