@@ -1,4 +1,4 @@
-# Customizing required checks
+# Customize required checks
 
 You can configure required checks in a few different ways.
 
