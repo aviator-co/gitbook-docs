@@ -22,13 +22,13 @@ You can alternatively specify a set of separate required checks. This may be use
 
 Aviator already pre-populates all the checks from your repository here and default selects the required GitHub checks.
 
-<figure><img src="../.gitbook/assets/Screen Shot 2022-12-29 at 9.14.58 AM.png" alt=""><figcaption><p>Customize required checks modal</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screen Shot 2022-12-29 at 9.14.58 AM.png" alt=""><figcaption><p>Customize required checks modal</p></figcaption></figure>
 
 ### Specifying from config file
 
 While specifying in the config file, you should follow the naming convention as specified in your GitHub pull requests. Typically it is the full bolded name in the PR. Example:
 
-<figure><img src="../.gitbook/assets/Screen Shot 2023-04-17 at 9.52.06 AM.png" alt=""><figcaption><p>status checks from GitHub Pull Request</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screen Shot 2023-04-17 at 9.52.06 AM.png" alt=""><figcaption><p>status checks from GitHub Pull Request</p></figcaption></figure>
 
 So in this case, the check for the last CircleCI test will be `ci/circleci: pytest`, but for the case of GitHub actions, only the job name is used (after forward slash). So the above check names would be in-order:
 
