@@ -14,7 +14,7 @@ Represents how many PRs were merged by the bot vs. merged manually segmented by 
 
 ## **PR failure reasons**
 
-Gives you a better understanding of how many PRs are failing to automatically merge and why. The breakdown is done by Failure reasons. You can find more details in the [<mark style="color:blue;">Error Codes</mark>](../reference/comments-and-status-codes.md) section.
+Gives you a better understanding of how many PRs are failing to automatically merge and why. The breakdown is done by Failure reasons. You can find more details in the [<mark style="color:blue;">Error Codes</mark>](../reference/status-codes.md) section.
 
 The failed PR is counted multiple times if it failed multiple times in its lifecycle.
 

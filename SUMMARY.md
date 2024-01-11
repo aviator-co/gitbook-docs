@@ -53,7 +53,7 @@
     * [Configuration Schema](https://app.aviator.co/schema/index.html#aviator\_config\_yaml.json)
     * [Configuration Reference](mergequeue/reference/complete-reference-guide.md)
     * [GitHub Slash Commands](mergequeue/slash-commands.md)
-    * [Status Codes](mergequeue/reference/comments-and-status-codes.md)
+    * [Status Codes](mergequeue/reference/status-codes.md)
 * [TestDeck (Beta)](testdeck-beta/README.md)
   * [Getting started](testdeck-beta/getting-started.md)
   * [TestDeck Dashboard](testdeck-beta/testdeck-dashboard.md)

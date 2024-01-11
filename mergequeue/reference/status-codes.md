@@ -1,6 +1,6 @@
 # Status Codes
 
-If Aviator runs in any issues or failures, we will surface a status code or its corresponding description. Please refer to the table below.
+If Aviator runs in to any issues or failures, we will surface a status code or its corresponding description. Please refer to the table below.
 
 | Status                      | Code | Description                                                                                                                                                                                                                                                                                                                                            |
 | --------------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
