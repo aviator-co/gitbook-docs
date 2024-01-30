@@ -4,7 +4,7 @@ On-Prem installation requires a GitHub App. This page describes how to create on
 
 ## Prerequisite
 
-* You need to have the priviledge to create a GitHub App and authorize the app for your repositories.
+* You need to have the privilege to create a GitHub App and authorize the app for your repositories.
 * A domain name that will be used for your on-prem installation.
 
 ## Variable definitions
