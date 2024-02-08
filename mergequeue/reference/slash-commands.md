@@ -1,4 +1,4 @@
-# GitHub Slash Commands
+# Aviator Slash Commands
 
 {% hint style="info" %}
 Read the how-to-guide on [<mark style="color:blue;">using Slash commands</mark>](how-to-guides/slash-commands.md) from within GitHub comments.

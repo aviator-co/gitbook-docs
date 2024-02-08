@@ -11,5 +11,5 @@ For instance, to get the latest status of your pull request from Aviator, you ca
 <figure><img src="../../.gitbook/assets/Screen Shot 2023-10-03 at 1.45.04 PM.png" alt=""><figcaption><p>Slash command to get the latest PR status</p></figcaption></figure>
 
 {% hint style="info" %}
-Checkout [<mark style="color:blue;">the reference guide</mark>](../slash-commands.md) for list of all the slash commands.
+Checkout [<mark style="color:blue;">the reference guide</mark>](../reference/slash-commands.md) for list of all the slash commands.
 {% endhint %}

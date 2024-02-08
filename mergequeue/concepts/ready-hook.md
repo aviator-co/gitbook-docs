@@ -2,7 +2,7 @@
 
 MergeQueue supports user-defined _ready hooks_ which can execute custom JavaScript code to finely control how MergeQueue behaves.
 
-The ready hook is executed once whenever a pull request is marked as ready-to-merge (usually via adding the repository's configured label, by using a [slash command](../slash-commands.md), or using the [Aviator API](../../api/)).
+The ready hook is executed once whenever a pull request is marked as ready-to-merge (usually via adding the repository's configured label, by using a [slash command](../reference/slash-commands.md), or using the [Aviator API](../../api/)).
 
 The ready hook is defined by creating a file in your GitHub repository at `.aviator/mergequeue/ready.js` and should define a function `ready` that will be called by the [Pilot JavaScript runtime](../../pilot-automated-actions/js-execution.md).
 
