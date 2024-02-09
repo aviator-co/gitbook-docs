@@ -19,11 +19,11 @@ The Aviator webapp provides a way to see FlexREview suggestions without writing 
 
 Choose the respective repository.
 
-![WebApp Repo Choice](<../.gitbook/assets/top_of_revsug_dock.png>)
+![WebApp Repo Choice](<../../.gitbook/assets/top_of_revsug_dock.png>)
 
 Then enter a pull request number to see suggested reviewers. 
 
-![WebApp Suggested Reviewer](<../.gitbook/assets/FR_webapp_example.png>)
+![WebApp Suggested Reviewer](<../../.gitbook/assets/FR_webapp_example.png>)
 
 
 ### Automatic reviewer suggestion on PRs
@@ -31,7 +31,7 @@ Then enter a pull request number to see suggested reviewers.
 Automatic reviewer suggestion can be configured in the Aviator web app. See the [<mark style="color:blue;">configuration page.</mark>](https://app.aviator.co/flexreview/config) With this enabled, Avaitor will post an autmatic FlexReview suggestion on to pull requests that contain files matching the file path prefix. 
 
 
-![WebApp Sub Repo paths](<../.gitbook/assets/FR_sub-repo-config.png>)
+![WebApp Sub Repo paths](<../../.gitbook/assets/FR_sub-repo-config.png>)
 
 ## See Also
 * [<mark style="color:blue;">Aviator Slash Commands</mark>](../../mergequeue/reference/slash-commands.md) For aviator slash commands reference.
