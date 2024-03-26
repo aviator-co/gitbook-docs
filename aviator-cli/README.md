@@ -70,6 +70,8 @@ And when it comes time to submit our work as PR, we use the `av pr create` comma
 
 When creating this PR, the CLI again automatically sets the base branch in GitHub as `bookstore-backend` rather than `main` to ensure that GitHub shows the diff between `bookstore-frontend` and `bookstore-backend`. Otherwise, it would show all the changes from `bookstore-backend` in the PR for `bookstore-frontend` which would make code review much harder.
 
+Already have git branches created? Take a look at [<mark style="color:blue;">how-to adopt a branch.</mark>](https://docs.aviator.co/aviator-cli/how-to-guides/adopt-a-branch)
+
 ## Updating the stack
 
 Since stacked PRs are designed to make code review easier and more incremental, it's likely that you'll need to change code that you wrote earlier in the stack. The `av stack sync` command is used to make sure every branch is up-to-date with its stack parent.
