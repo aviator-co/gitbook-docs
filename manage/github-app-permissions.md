@@ -8,6 +8,12 @@ The Aviator app requests a set of permissions on your GitHub repositories that y
 
 ## Repository Permissions
 
+### Actions (read & write)
+
+This permission includes access to workflows, workflow runs and artifacts.
+
+Aviator uses this permission for fetching and triggering GitHub Action workflows in Release Management.
+
 ### Administration (read only)
 
 This permission includes read-only access to repository settings, teams, and collaborators.
