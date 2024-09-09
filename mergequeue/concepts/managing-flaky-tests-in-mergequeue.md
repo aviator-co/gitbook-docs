@@ -24,9 +24,9 @@ Continue from the example above. When a CI run for `Draft PR #3` fails, without 
 
 There are two settings to configure optimistic validation. Both are specified within the parallel mode section of the configuration.
 
-`optimistic_validation` - boolean value that configures only the look-ahead of CI. If the CI of the top of the PR fails, it will still immediately dequeue the PR. Defaults to `true`.
+`use_optimistic_validation` - boolean value that configures only the look-ahead of CI. If the CI of the top of the PR fails, it will still immediately dequeue the PR. Defaults to `true`.
 
-`optimistic_validation_failure_depth` - integer value that how many PRs, including the failing PR itself, it will check for the optimistic validation. Setting `1` effectively means that it won't use optimistic validation. This is capped to 3 in order to cap the GitHub API calls. Requires `optimistic_validation` to be enabled.
+`optimistic_validation_failure_depth` - integer value that how many PRs, including the failing PR itself, it will check for the optimistic validation. Setting `1` effectively means that it won't use optimistic validation. This is capped to 3 in order to cap the GitHub API calls. Requires `use_optimistic_validation` to be enabled.
 
 ```
 merge_rules:
@@ -36,7 +36,7 @@ merge_rules:
     type: "parallel"
   parallel_mode:
     max_parallel_builds: 10
-    optimistic_validation: true
+    use_optimistic_validation: true
     optimistic_validation_failure_depth: 2
 ```
 
