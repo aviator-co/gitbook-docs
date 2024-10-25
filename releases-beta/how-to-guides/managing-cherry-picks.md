@@ -40,9 +40,9 @@ Note: You can skip this step if you already have an existing release to base the
 
 ![](../../.gitbook/assets/release-cherry-pick-versions.png)
 
-7. During the cherry-pick process, Aviator will display the current status of the operation. It may take a few seconds for the cherry-pick to be applied, and the status will indicate the progress:
+During the cherry-pick process, Aviator will display the current status of the operation. It may take a few seconds for the cherry-pick to be applied, and the status will indicate the progress:
 
-    - **Pending**: The cherry-pick is in progress.
+    - **In Progress**: The cherry-pick is still in progress.
   ![](../../.gitbook/assets/release-cherry-pick-pending.png)
 
     - **Success**: The cherry-pick has been successfully applied, and a new release candidate has been created.
@@ -52,7 +52,7 @@ Note: You can skip this step if you already have an existing release to base the
   ![](../../.gitbook/assets/release-cherry-pick-failure.png)
 
 
-7. If the cherry-pick is successful, a second release candidate of the release will be created.
+If the cherry-pick is successful, a second release candidate of the release will be created.
 
 
 
