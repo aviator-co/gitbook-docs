@@ -20,7 +20,7 @@ scenarios:
   trigger:
     pull_request:
       labeled:
-        label "av-instant-merge"
+        label: "av-instant-merge"
   actions:
   - mergequeue:
       instant_merge: {}
@@ -34,7 +34,7 @@ scenarios:
   trigger:
     pull_request:
       labeled:
-        label "av-instant-merge"
+        label: "av-instant-merge"
         labeled_by: “@aviator-co/leads”
   actions:
   - mergequeue:
@@ -63,4 +63,4 @@ If you need assistance in setting up the personal access token, please contact [
 
 \
 \
-\
+\\
