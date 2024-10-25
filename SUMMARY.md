@@ -22,6 +22,7 @@
     * [Create a scheduled release](releases-beta/how-to-guides/create-a-scheduled-release.md)
     * [Create Custom Workflow Parameters](releases-beta/how-to-guides/create-custom-workflow-parameters.md)
     * [Resolving a Cherry-Pick Failure](releases-beta/how-to-guides/resolving-a-cherry-pick-failure.md)
+    * [Overall Release Management](releases-beta/how-to-guides/release-management.md)
     * [Working with your CI / CD](releases-beta/how-to-guides/working-with-your-ci-cd/README.md)
       * [GitHub Actions workflow](releases-beta/how-to-guides/working-with-your-ci-cd/github-actions-workflow.md)
       * [Buildkite workflow](releases-beta/how-to-guides/working-with-your-ci-cd/buildkite-workflow.md)
