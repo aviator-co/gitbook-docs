@@ -39,15 +39,15 @@ If you have trouble connecting the GitHub app, please read the [<mark style="col
 on:
   workflow_dispatch:
     inputs:
-      release_cut_id:
+      aviator_release_cut_id:
         description: "Database ID of release cut"
         required: false
         type: string
-      commit_sha:
+      aviator_release_cut_commit_hash:
         description: "Commit SHA, branch name, or tag of the HEAD to be built"
         required: false
         type: string
-      version:
+      aviator_release_candidate_version:
         description: "Name of the version"
         required: true
         type: string
