@@ -57,20 +57,20 @@ on:
 
     ```yaml
     steps:
-      - if: inputs.release_cut_id != ''
+      - if: inputs.aviator_release_cut_id != ''
         name: Sync workflow run ID via Aviator API
         uses: fjogeleit/http-request-action@v1
         with:
-          url: '<https://api.aviator.co/api/v1/sync-build-github-action>'
+          url: 'https://api.aviator.co/api/v1/sync-build-github-action'
           method: 'POST'
           bearerToken: ${{ secrets.AVIATOR_API_TOKEN }}
-          data: '{"release_cut_id": "${{ inputs.release_cut_id }}", "workflow_run_id": "${{ github.run_id }}"}'
+          data: '{"release_cut_id": "${{ inputs.aviator_release_cut_id }}", "workflow_run_id": "${{ github.run_id }}"}'
 
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
           # if custom commit_sha is not defined, this should fall back to the head branch
-          ref: "${{ inputs.commit_sha }}"
+          ref: "${{ inputs.aviator_release_cut_commit_hash }}"
           lfs: true
           submodules: 'recursive'
     ```
