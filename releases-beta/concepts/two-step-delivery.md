@@ -2,6 +2,8 @@
 
 In many software companies with cloud based infrastructure, releases and deployments are used interchangeably. When using [trunk based development](https://trunkbaseddevelopment.com/) and Aviator Releases, we recommend splitting the delivery in two steps.
 
+{% embed url="https://youtu.be/yEuALidHHhY" %}
+
 In a two-step delivery workflow we create a build, and then deploy that build to an environment, or more appropriately:
 
 * **Cutting a release**: Cutting a release is an act of snapshotting your mainline (trunk) by picking a commit SHA, thereby creating a release candidate. In this process, you build the artifacts that will be then used to deploy. The advantage is to build this once and deploy the same artifacts to all environments ensuring that you are testing the same images in all environments. After cutting a release, it may be deployed to various pre-production environments (sandbox, staging, etc) for validation. During this process, any critical bugs identified may also be fixed and cherry-picked to create additional release candidates.
