@@ -23,6 +23,7 @@
     * [Create Custom Workflow Parameters](releases-beta/how-to-guides/create-custom-workflow-parameters.md)  
     * [Managing Cherry-Picks](releases-beta/how-to-guides/managing-cherry-picks.md)
     * [Resolving a Cherry-Pick Failure](releases-beta/how-to-guides/resolving-a-cherry-pick-failure.md)
+    * [Release Management for Admin](releases-beta/how-to-guides/release-for-admin.md)
     * [Working with your CI / CD](releases-beta/how-to-guides/working-with-your-ci-cd/README.md)
       * [GitHub Actions workflow](releases-beta/how-to-guides/working-with-your-ci-cd/github-actions-workflow.md)
       * [Buildkite workflow](releases-beta/how-to-guides/working-with-your-ci-cd/buildkite-workflow.md)
