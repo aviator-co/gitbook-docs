@@ -2,75 +2,127 @@
 
 The Aviator command line tool (invoked as `av`) can be used to streamline and automate common tasks within your Git and GitHub workflows. Currently, the tool is used primarily to manage Stacked PRs<mark style="color:blue;">.</mark>
 
-## First-time setup
+### macOS (Homebrew)
 
-### 1. Download the command line tool
+First, if not already done, [install Homebrew](https://brew.sh).
 
-The `av` tool can be installed in a few ways, depending on your operating system and package manager preferences.
 
-#### Homebrew (macOS)
 
-First, if not already done, [<mark style="color:blue;">install Homebrew</mark>](https://brew.sh/)<mark style="color:blue;">.</mark>
+Then install using Homebrew tap.
 
-Then, install `av` using the Homebrew tap.
-
-```
-brew install aviator-co/tap/av
+```sh
+brew install gh aviator-co/tap/av
 ```
 
-#### Debian / Ubuntu
+### Arch Linux (AUR)
 
-Download the `.deb` file from [the releases page](https://github.com/aviator-co/av/releases).
+Published as [`av-cli-bin`](https://aur.archlinux.org/packages/av-cli-bin) in AUR.
 
-```
-apt install ./av_$VERSION_linux_$ARCH.deb
-```
-
-#### RPM-based systems
-
-Download the `.rpm` file from [the releases page](https://github.com/aviator-co/av/releases).
-
-```
-rpm -i ./av_$VERSION_linux_$ARCH.rpm
-```
-
-#### Arch Linux (AUR)
-
-Published as [av-cli-bin](https://aur.archlinux.org/packages/av-cli-bin) in AUR.
-
-```
+```sh
 yay av-cli
 ```
 
-#### Download executable (advanced, all operating systems)
+### Debian/Ubuntu
 
-Download the latest `av` executable from the [<mark style="color:blue;">GitHub releases page on the</mark> <mark style="color:blue;">`av`</mark> <mark style="color:blue;">repository</mark>](https://github.com/aviator-co/av/releases). Extract the archive and add the executable to your `PATH`.
+Add Aviator to your APT repositories.
 
-### 2. Connect av to GitHub
-
-av CLI interacts with GitHub to fetch and push branches as well as create PRs. There are two ways to to authenticate with GitHub:
-
-* **GitHub CLI** - The av CLI can automatically use [GitHub CLI credential](https://cli.github.com/) if it's available. Simply install the GitHub CLI and run [`gh auth login`](https://cli.github.com/manual/gh\_auth\_login)
-* **Personal access token** - Alternatively create a Personal Access Token to authenticate with the CLI. See [create-a-user-access-token.md](how-to-guides/create-a-user-access-token.md "mention").
-
-### 3. Initialize your repository
-
-Finally, in the repo where you want to use `av`, make sure to initialize the repository. From within your git repository, run the following command:
-
-```
-av init
+```sh
+echo "deb [trusted=yes] https://apt.fury.io/aviator/ /" > \
+/etc/apt/sources.list.d/fury.list
 ```
 
-## Upgrade <a href="#upgrade" id="upgrade"></a>
+And then apt install.
 
-#### Homebrew
-
-Run the following command to upgrade `av` if it was installed with Homebrew.
-
+```sh
+sudo apt update
+sudo apt install av
 ```
+
+#### Alternatively
+
+If you'd prefer you can download the `.deb` file from the [releases page](https://github.com/aviator-co/av/releases).
+
+```sh
+apt install ./av_$VERSION_linux_$ARCH.deb
+```
+
+### RPM-based systems
+
+Add the following file `/etc/yum.repos.d/fury.repo`.
+
+```conf
+[fury]
+name=Gemfury Private Repo
+baseurl=https://yum.fury.io/aviator/
+enabled=1
+gpgcheck=0
+```
+
+Run the following command to confirm the configuration is working.
+
+```sh
+yum --disablerepo=* --enablerepo=fury list available
+```
+
+And then run yum install.
+
+```sh
+sudo yum install av
+```
+
+#### Alternatively
+
+If you'd prefer you can download the `.rpm` file from the [releases page](https://github.com/aviator-co/av/releases).
+
+```sh
+rpm -i ./av_$VERSION_linux_$ARCH.rpm
+```
+
+### Binary download
+
+Download the binary from the [releases page](https://github.com/aviator-co/av/releases). Extract the archive and add the executable to your PATH.
+
+## Setup
+
+1.  Set up the GitHub CLI for GitHub authentication:
+
+    ```sh
+    gh auth login
+    ```
+
+    Or you can create a Personal Access Token as described in the [Configuration](https://docs.aviator.co/aviator-cli/configuration#github-personal-access-token) section.
+2.  Set up the `av` CLI autocompletion:
+
+    ```sh
+    # Bash
+    source <(av completion bash)
+    # Zsh
+    source <(av completion zsh)
+    ```
+3.  Initialize the repository:
+
+    ```sh
+    av init
+    ```
+
+## Upgrade
+
+### macOS (Homebrew)
+
+```sh
+brew update
 brew upgrade av
 ```
 
-#### Download executable
+### Debian/Ubuntu
 
-For other platforms, follow the [<mark style="color:blue;">installation instructions above</mark>](installation.md#download-executable-advanced-all-operating-systems) and overwrite the previous `av` binary with the newly downloaded binary.
+```sh
+sudo apt update
+sudo apt upgrade
+```
+
+### RPM-based systems
+
+```sh
+yum update
+```
