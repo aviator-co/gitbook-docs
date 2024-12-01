@@ -165,19 +165,19 @@ Example:
 
 #### Request Body
 
-| Name                                            | Type          | Description                                                                                                                                         |
-| ----------------------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| action<mark style="color:red;">\*</mark>        | String        | Action taken. Valid options: `update`, `queue` or `dequeue`                                                                                         |
-| pull\_request<mark style="color:red;">\*</mark> | Object        | PullRequest object representing the PR that is queued.                                                                                              |
-| > number<mark style="color:red;">\*</mark>      | String        |                                                                                                                                                     |
-| > repository<mark style="color:red;">\*</mark>  | Object        | Repository object associated with the PR                                                                                                            |
-| > > name<mark style="color:red;">\*</mark>      | String        | Name of the repository                                                                                                                              |
-| > > org<mark style="color:red;">\*</mark>       | String        | Organization associated with the repository                                                                                                         |
-| > head\_commit\_sha                             | String        | Representing the commit SHA of the head of the PR.                                                                                                  |
-| > affected\_targets                             | List\[String] | Affected targets for the PR. Please see [<mark style="color:blue;">Affected Targets</mark>](mergequeue/affected-targets/) section for more details. |
-| > merge\_commit\_message                        | Object        | CommitMessage object                                                                                                                                |
-| > > title                                       | String        | Title of merge commit message                                                                                                                       |
-| > > body                                        | String        | Body of merge commit message                                                                                                                        |
+| Name                                            | Type          | Description                                                                                                                               |
+| ----------------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| action<mark style="color:red;">\*</mark>        | String        | Action taken. Valid options: `update`, `queue` or `dequeue`                                                                               |
+| pull\_request<mark style="color:red;">\*</mark> | Object        | PullRequest object representing the PR that is queued.                                                                                    |
+| > number<mark style="color:red;">\*</mark>      | String        |                                                                                                                                           |
+| > repository<mark style="color:red;">\*</mark>  | Object        | Repository object associated with the PR                                                                                                  |
+| > > name<mark style="color:red;">\*</mark>      | String        | Name of the repository                                                                                                                    |
+| > > org<mark style="color:red;">\*</mark>       | String        | Organization associated with the repository                                                                                               |
+| > head\_commit\_sha                             | String        | Representing the commit SHA of the head of the PR.                                                                                        |
+| > affected\_targets                             | List\[String] | Affected targets for the PR. Please see [affected targets](../../mergequeue/concepts/affected-targets/#overview) section for more details |
+| > merge\_commit\_message                        | Object        | CommitMessage object                                                                                                                      |
+| > > title                                       | String        | Title of merge commit message                                                                                                             |
+| > > body                                        | String        | Body of merge commit message                                                                                                              |
 
 {% tabs %}
 {% tab title="200: OK " %}
