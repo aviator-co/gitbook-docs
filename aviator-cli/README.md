@@ -8,7 +8,7 @@ Aviator is a suite of productivity tools purpose-built to reduce friction in dev
 
 
 
-{% embed url="https://youtu.be/xSopIrkf2KM" %}
+{% embed url="https://www.youtube.com/watch?v=R8m7SLjNJv0" %}
 Managing stacked PRs using Aviator CLI
 {% endembed %}
 
