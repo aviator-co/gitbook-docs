@@ -20,7 +20,7 @@ Put the created Personal Access Token in `~/.av/config.yaml`.
 
 User Access Tokens are used to authenticate with the Aviator REST API and Aviator GraphQL API.
 
-1. Navigate to [https://app.aviator.co/settings/personal/api\_token](https://app.aviator.co/settings/personal/api\_token).
+1. Navigate to [https://app.aviator.co/settings/personal/api\_token](https://app.aviator.co/settings/personal/api_token).
 2. Create a name and expiration for your token.
    * The token should be in the format `av_uat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`. Add it to your Aviator configuration file `~/.av/config.yaml` as shown below.
 
@@ -31,9 +31,9 @@ aviator:
 ```
 {% endcode %}
 
-You can verify that your token works with `av auth status`.
+You can verify that your token works with `av auth`.
 
 ```
-$ av auth status
-You are logged in as <your_email>.
+$ av auth
+Logged in to GitHub as <your_email>.
 ```

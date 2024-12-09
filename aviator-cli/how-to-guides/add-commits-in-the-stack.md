@@ -17,12 +17,14 @@ $ git add myfile
 Then, create one branch.
 
 ```bash
-$ av stack branch stack-1
+# Using just 'av'
 $ echo 1a >> myfile
-$ git commit -m 1a myfile
+$ av commit -A -m 1a --branch-name stack-1
 $ echo 1b >> myfile
-$ git commit -m 1b myfile
-$ av stack branch stack-2
+$ av commit -A -m 1b
+
+# Or with a mix of 'av' and 'git'
+$ av branch stack-2
 $ echo 2a >> myfile
 $ git commit -m 2a myfile
 $ echo 2b >> myfile
@@ -47,20 +49,20 @@ gitGraph
 
 ## Changing the stack-1
 
-We have two branches that correspond to two PRs; `stack-1` and `stack-2`. Let's assume that we need to change the `stack-1`. By running `av stack prev`, you can move back to the previous branch.
+We have two branches that correspond to two PRs; `stack-1` and `stack-2`. Let's assume that we need to change the `stack-1`. By running `av prev`, you can move back to the previous branch.
 
 ```
-$ av stack prev
+$ av prev
 Checked out branch stack-1
 ```
 
-You can switch the branch with `git switch` or `git checkout` as well.
+You can switch the branch with `av switch`, `git switch`, or `git checkout` as well.
 
 Now make a necessary change.
 
 ```
 $ echo 1c >> myfile
-$ git commit -m 1c myfile
+$ av commit -A -m 1c
 ```
 
 Currently the commit graph is like this:
@@ -81,10 +83,10 @@ gitGraph
     commit id: "1c"
 ```
 
-We want to make `stack-2` to be on top of the new commit 1c. To do this, run `av stack sync`.
+We want to make `stack-2` to be on top of the new commit 1c. To do this, run `av sync`.
 
 ```
-$ av stack sync
+$ av sync
 
   ✓ GitHub fetch is done
   ⣽ Restacking stack-2...
@@ -103,7 +105,7 @@ $ av stack sync
   Could not apply 8bf865c... 2a
 
 
-  Resolve the conflicts and continue the restack with av stack sync --continue
+  Resolve the conflicts and continue the restack with av sync --continue
 ```
 
 The file has a rebase conflict. Open `myfile` and resolve the conflict, and continue.
@@ -112,7 +114,7 @@ The file has a rebase conflict. Open `myfile` and resolve the conflict, and cont
 $ vim myfile
 ... Resolving conflict ...
 $ git add .
-$ av stack sync --continue
+$ av sync --continue
 
   ✓ Restack is done
 
@@ -151,4 +153,4 @@ gitGraph
 
 ## Convenient CLI commands
 
-When you need to change the commit in the middle of the stack, you almost always need to run `av stack sync` to align the child branches. Aviator CLI has convenient commands, `av commit create` and `av commit amend` that runs `git commit` along with `av stack sync` afterwards.
+When you need to change the commit in the middle of the stack, you almost always need to rebase to align the child branches. Aviator CLI has convenient commands, `av commit` and `av commit --amend` that runs `git commit` along with `av restack` afterwards.

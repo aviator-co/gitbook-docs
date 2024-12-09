@@ -1,15 +1,15 @@
-# av-fetch
+# av-fetch(1)
 
-## NAME
+### NAME
 
 av-fetch - Fetch latest repository state from GitHub
 
-## SYNOPSIS
+### SYNOPSIS
 
 ```synopsis
 av fetch
 ```
 
-## DESCRIPTION
+### DESCRIPTION
 
 Fetch latest repository state from GitHub.

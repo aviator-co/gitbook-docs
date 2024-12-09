@@ -2,11 +2,11 @@
 
 When you work on a stack of branches, the state of the stack can be out of sync with the remote or a parent branch. For example, if the `main` branch on the remote gets updates by merging other pull-requests, or a new commit is added or a commit is amended in one of the parent branches, or some of the parents are merged, you want to rebase your branches on top of the new commits.
 
-`av stack sync` and `av stack restack` are commands that do that for you. Aviator CLI fetches the latest commits from the remote, and rebases your branches on top of the new commits. There are some variants of the sync operations depending on your needs.
+`av sync` and `av restack` are commands that do that for you. Aviator CLI fetches the latest commits from the remote, and rebases your branches on top of the new commits. There are some variants of the sync operations depending on your needs.
 
 ## Normal Sync
 
-Running `av stack sync` without any option does the following:
+Running `av sync` without any option does the following:
 
 * Handle the merged branches
   * If a branch is merged, its children branches are reparented to the trunk branch.
@@ -25,18 +25,18 @@ Note that the sync operation without any option rebases branches to the trunk br
 
 ## Sync with Trunk
 
-Running `av stack sync --rebase-to-trunk` does the same as the normal sync but rebase the branches to the latest commit of the trunk branch. This means that the CI/CD pipelines are likely to be triggered for the branches.
+Running `av sync --rebase-to-trunk` does the same as the normal sync but rebase the branches to the latest commit of the trunk branch. This means that the CI/CD pipelines are likely to be triggered for the branches.
 
 This is used when you have a merge conflict with the trunk branch (i.e., the file that you modify in your topic branch is modified in the trunk branch), or you want to make sure that your topic branch is up-to-date with the latest trunk.
 
 ## Sync without Fetching
 
-Running `av stack restack` rebases the children branches that are out-of-sync. This won't interact with GitHub.
+Running `av restack` rebases the children branches that are out-of-sync. This won't interact with GitHub.
 
-This is used when you amended a parent branch or added a new commit to a parent branch, and you want to rebase the children branches. Though, if you don't mind fetching and pushing to GitHub, you can use `av stack sync` instead. There's a convenient commands like `av commit amend` and `av commit create` that does `git commit --amend` and `git commit` followed by `av stack restack` automatically if you want this behavior.
+This is used when you amended a parent branch or added a new commit to a parent branch, and you want to rebase the children branches. Though, if you don't mind fetching and pushing to GitHub, you can use `av sync` instead. There's a convenient commands like `av commit --amend` and `av commit` that does `git commit --amend` and `git commit` followed by `av restack` automatically if you want this behavior.
 
 ## Recap
 
-* Use `av stack sync` most of the time.
-* Use `av stack sync --rebase-to-trunk` when you have a merge conflict with the trunk branch or you want to make sure that your topic branch is up-to-date with the latest trunk.
-* Use `av stack restack` when you want to rebase the children branches without syncing with GitHub.
+* Use `av sync` most of the time.
+* Use `av sync --rebase-to-trunk` when you have a merge conflict with the trunk branch or you want to make sure that your topic branch is up-to-date with the latest trunk.
+* Use `av restack` when you want to rebase the children branches without syncing with GitHub.

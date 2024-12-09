@@ -26,7 +26,7 @@ $ git add myfile
 Then, create one branch.
 
 ```bash
-$ av stack branch stack-1
+$ av branch stack-1
 $ echo 1a >> myfile
 $ git commit -m 1a myfile
 $ echo 1b >> myfile
@@ -53,7 +53,7 @@ gitGraph
 
 ## Split the branch
 
-Run `av stack reorder`. It opens an editor and shows the initial reordering plan.
+Run `av reorder`. It opens an editor and shows the initial reordering plan.
 
 ```
 stack-branch stack-1 --trunk master@7fd1a60b01f91b314f59955a4e4d4e80d8edf11d
@@ -107,7 +107,7 @@ gitGraph
 
 ## Fold the branches
 
-The opposite operation is possible as well. Run `av stack reorder` again.
+The opposite operation is possible as well. Run `av reorder` again.
 
 ```
 stack-branch stack-1 --trunk master@7fd1a60b01f91b314f59955a4e4d4e80d8edf11d

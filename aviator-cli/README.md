@@ -44,12 +44,12 @@ av init
 
 ## Creating a stack
 
-Creating the first branch in the stack is just the same as creating any normal branch in your repository, except now you use the av CLI. The `av stack branch` command requires one argument which is the name of the branch to create. This command will create a branch on top of the current branch.
+Creating the first branch in the stack is just the same as creating any normal branch in your repository, except now you use the av CLI. The `av branch` command requires one argument which is the name of the branch to create. This command will create a branch on top of the current branch.
 
 ```
 # Create a new branch off of your repository default branch
 # (usually main or master)
-av stack branch "bookstore-backend"
+av branch "bookstore-backend"
 
 # Now we can do our development work as normal.
 mkdir ./books
@@ -58,19 +58,19 @@ git add ./books
 git commit -m "Add /books/list route to backend"
 ```
 
-To create the PR, also use the `av pr create` command to ensure that the correct base branch is set in the PR.
+To create the PR, also use the `av pr` command to ensure that the correct base branch is set in the PR.
 
 ```
-av pr create
+av pr
 ```
 
-For the next branch, we use the `av stack branch` command again, except this time we're branching from `bookstore-backend` instead of `main` since we want to build off of our previous work. Behind the scenes, the CLI sets some internal data to be able to recognize that `bookstore-frontend` is dependent on `bookstore-backend`.
+For the next branch, we use the `av branch` command again, except this time we're branching from `bookstore-backend` instead of `main` since we want to build off of our previous work. Behind the scenes, the CLI sets some internal data to be able to recognize that `bookstore-frontend` is dependent on `bookstore-backend`.
 
 ```
-​​av stack branch "bookstore-frontend"
+​​av branch "bookstore-frontend"
 ```
 
-And when it comes time to submit our work as PR, we use the `av pr create` command again.
+And when it comes time to submit our work as PR, we use the `av pr` command again.
 
 When creating this PR, the CLI again automatically sets the base branch in GitHub as `bookstore-backend` rather than `main` to ensure that GitHub shows the diff between `bookstore-frontend` and `bookstore-backend`. Otherwise, it would show all the changes from `bookstore-backend` in the PR for `bookstore-frontend` which would make code review much harder.
 
@@ -78,7 +78,7 @@ Already have git branches created? Take a look at [adopt-a-branch.md](how-to-gui
 
 ## Updating the stack
 
-Since stacked PRs are designed to make code review easier and more incremental, it's likely that you'll need to change code that you wrote earlier in the stack. The `av stack sync` command is used to make sure every branch is up-to-date with its stack parent.
+Since stacked PRs are designed to make code review easier and more incremental, it's likely that you'll need to change code that you wrote earlier in the stack. The `av sync` command is used to make sure every branch is up-to-date with its stack parent.
 
 To edit a branch that is part of a stack, first we need to check it out.
 
@@ -94,10 +94,10 @@ git add ./books
 git commit -m "Fix 500 error on malformed input"
 ```
 
-Finally, we can run `av stack sync` to propagate the changes to all children branches.
+Finally, we can run `av sync` to propagate the changes to all children branches.
 
 ```
-av stack sync
+av sync
 ```
 
 ## Merging the stack
@@ -108,10 +108,10 @@ Merging a stack with Aviator is a little different than merging a non-stacked PR
 
 Aviator MergeQueue is purpose built as a highly scalable stack-aware merge queue. Follow these steps to connect the CLI with Aviator:
 
-1. [<mark style="color:blue;">sign up</mark>](https://app.aviator.co/auth/register) for a free account with Aviator
-2. walk through the initial steps, and install the Aviator app on GitHub
-3. navigate to user access token page: [<mark style="color:blue;">https://app.aviator.co/account/apitoken</mark>](https://app.aviator.co/account/apitoken)
-4. generate a token and add it to your configuration file at `~/.av/config.yaml`
+1. [<mark style="color:blue;">Sign up</mark>](https://app.aviator.co/auth/register) for a free account with Aviator
+2. Walk through the initial steps, and install the Aviator app on GitHub
+3. Navigate to user access token page: [<mark style="color:blue;">https://app.aviator.co/account/apitoken</mark>](https://app.aviator.co/account/apitoken)
+4. Generate a token and add it to your configuration file at `~/.av/config.yaml`
 
 {% code title="~/.av/config.yaml" lineNumbers="true" %}
 ```yaml
@@ -123,7 +123,7 @@ aviator:
 With that, now to merge a partial or full stack, just queue the top most PR of the stack that you would like to merge:
 
 ```
-av pr queue
+av pr --queue
 ```
 
 After this, Aviator will automatically validate the changes in the stack, and merge all the changes to the target branch (typically main or master). At any time, you can also review the state of your PR using `av pr status`.
@@ -133,46 +133,49 @@ After this, Aviator will automatically validate the changes in the stack, and me
 Aviator also publishes man pages, that you can read for more details on the commands:
 
 ```
-man av-stack-sync
+man av-sync
 ```
 
 In addition, all commands also provide in-line help:
 
-<pre class="language-bash"><code class="lang-bash"><strong>$ av stack help
-</strong>managed stacked pull requests
+<pre class="language-bash"><code class="lang-bash"><strong>$ av sync --help
+</strong>Synchronize stacked branches to be up-to-date with their parent branches.
+
+By default, this command will sync all branches starting at the root of the
+stack and recursively rebasing each branch based on the latest commit from the
+parent branch.
+
+If the --all flag is given, this command will sync all branches in the repository.
+
+If the --current flag is given, this command will not recursively sync dependent
+branches of the current branch within the stack. This allows you to make changes
+to the current branch before syncing the rest of the stack.
+
+If the --rebase-to-trunk flag is given, this command will synchronize changes from the
+latest commit to the repository base branch (e.g., main or master) into the
+stack. This is useful for rebasing a whole stack on the latest changes from the
+base branch.
 
 Usage:
-  av stack [command]
-
-Aliases:
-  stack, st
-
-Available Commands:
-  adopt         Adopt branches
-  branch        create a new stacked branch
-  branch-commit create a new stacked branch and commit staged changes to it
-  diff          generate diff between working tree and the parent branch
-  for-each      execute a command for each branch in the current stack
-  next          checkout the next branch in the stack
-  orphan        Current branch and the child branches will be orphaned
-  prev          checkout the previous branch in the stack
-  reorder       reorder the stack
-  reparent      Reparent branches
-  restack       Restack branches
-  submit        Create pull requests for every branch in the stack
-  switch        switch to a different branch
-  sync          Synchronize stacked branches
-  tidy          Tidy stacked branches
-  tree          show the tree of stacked branches
+  av sync [flags]
 
 Flags:
-  -h, --help   help for stack
+      --abort                  abort an in-progress sync
+      --all                    synchronize all branches
+      --continue               continue an in-progress sync
+      --current                only sync changes to the current branch
+                               (don't recurse into descendant branches)
+  -h, --help                   help for sync
+      --prune string[="ask"]   delete branches that have been merged into the parent branch
+                               (ask|yes|no) (default "ask")
+      --push string            push the rebased branches to the remote repository
+                               (ask|yes|no) (default "ask")
+      --rebase-to-trunk        rebase the branches to the latest trunk always
+      --skip                   skip the current commit and continue an in-progress sync
 
 Global Flags:
       --debug         enable verbose debug logging
   -C, --repo string   directory to use for git repository
-
-Use "av stack [command] --help" for more information about a command.
 </code></pre>
 
 ## Advanced guides
@@ -184,6 +187,3 @@ This is just a quick preview of things you can do with the Aviator CLI. Check ou
 * [<mark style="color:blue;">Navigating the stack</mark>](how-to-guides/add-commits-in-the-stack.md)
 * [<mark style="color:blue;">Renaming a branch</mark>](how-to-guides/rename-a-branch.md)
 * [<mark style="color:blue;">Setting up auto-complete</mark>](how-to-guides/setup-auto-completion.md)
-
-\
-\\

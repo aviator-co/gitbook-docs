@@ -19,16 +19,14 @@ Successfully initialized repository for use with av!
 
 ## Create a topic branch
 
-Create a branch with `av stack branch BRANCH_NAME` from `main`.
+You can create a branch with `av branch BRANCH_NAME` from `main`, or you can also use `av commit --branch-name BRANCH_NAME` to both create a branch and commit your changes to the new branch.
 
 ```
 $ git switch main
 Already on 'main'
 Your branch is up to date with 'origin/main'.
-$ av stack branch mytopic
 $ echo "Some changes" > testfile
-$ git add .
-$ git commit -m "Add a new file"
+$ av commit -A -m "Add a new file" --branch-name mytopic
 [mytopic b420345] Add a new file
  1 file changed, 1 insertion(+)
  create mode 100644 testfile
@@ -47,10 +45,10 @@ gitGraph
 
 ## Create a pull-request
 
-Create a pull-request with `av pr create`. It shows an editor for the pull-request description. Every time you update your local branch, you can run this to update the pull-request.
+Create a pull-request with `av pr`. It shows an editor for the pull-request description. Every time you update your local branch, you can run this to update the pull-request.
 
 ```
-$ av pr create
+$ av pr
 Creating pull request for branch mytopic:
   - pushing to origin/mytopic
   - created pull request https://github.com/yourname/yourrepo/pull/16
@@ -58,17 +56,17 @@ Creating pull request for branch mytopic:
 
 ## Stack a new topic branch
 
-Create a new topic branch on top of the current topic branch with `av stack branch`.
+Create a new topic branch on top of the current topic branch with `av branch`.
 
 ```
-$ av stack branch another_topic
+$ av branch another_topic
 ```
 
-You can see the stack with `av stack tree`.
+You can see the stack with `av tree`.
 
 ```
-$ av stack tree
-  * another_topic (HEAD, need sync)
+$ av tree
+  * another_topic (HEAD)
   │ No pull request
   │
   * mytopic
@@ -81,11 +79,11 @@ Add more changes to the branch.
 
 ```
 $ echo "More changes" > newfile
-$ git add .
-$ git commit -m "Add another file"
+$ av commit -A -m "Add another file"
 [another_topic f60c4da] Add another file
  1 file changed, 1 insertion(+)
  create mode 100644 newfile
+nothing to restack
 ```
 
 ```mermaid
@@ -102,19 +100,19 @@ gitGraph
 
 ## Create a second pull-request
 
-The second pull-request can be created with `av pr create` now.
+The second pull-request can be created with `av pr` now.
 
 ```
-$ av pr create
+$ av pr
 Creating pull request for branch another_topic:
   - pushing to origin/another_topic
   - created pull request https://github.com/yourname/yourrepo/pull/17
 ```
 
-You can see the pull-request URLs with `av stack tree`.
+You can see the pull-request URLs with `av tree`.
 
 ```
-$ av stack tree
+$ av tree
   * another_topic (HEAD)
   │ https://github.com/yourname/yourrepo/pull/17
   │
@@ -146,18 +144,16 @@ gitGraph
     merge mytopic
 ```
 
-After this, we want to make the second one to be rebased on top of the newly updated `main` branch. To do this, we run `av stack sync`.
+After this, we want to make the second one to be rebased on top of the newly updated `main` branch. To do this, we run `av sync`.
 
 ```
-$ av stack sync
+$ av sync
 
   ✓ GitHub fetch is done
   ✓ Restack is done
 
     * ✓ another_topic e808923
     │
-    │ * mytopic (merged) 6d19ed1
-    ├─┘
     * main ba8eefe
 
   Confirming the push to GitHub
@@ -183,15 +179,13 @@ $ av stack sync
 It fetches the latest `main` from the remote, rebase the second branch on top of it. Choose to push to the remote.
 
 ```
-$ av stack sync
+$ av sync
 
   ✓ GitHub fetch is done
   ✓ Restack is done
 
     * ✓ another_topic e808923
     │
-    │ * mytopic (merged) 6d19ed1
-    ├─┘
     * main ba8eefe
 
   ✓ Pushed to GitHub
@@ -222,10 +216,10 @@ $ av stack sync
 
 Since the first branch is already merged, it asks you if you want to delete the local branch. Choose yes to delete the merged branch.
 
-&#x20;If you run `av stack tree`, you can see that the second branch now has `main` as the parent.
+&#x20;If you run `av tree`, you can see that the second branch now has `main` as the parent.
 
 ```
-$ av stack tree
+$ av tree
   * another_topic
   │ https://github.com/yourname/yourrepo/pull/17
   │

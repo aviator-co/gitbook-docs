@@ -1,6 +1,6 @@
 # Adopt a Branch
 
-Aviator CLI needs to maintain the metadata for branches so that it can remember the parent-child relationships among them. If you create branches with `av stack branch`, the metadata is created upon branch creation. You can attach the metadata for branches that are created with `git branch`.
+Aviator CLI needs to maintain the metadata for branches so that it can remember the parent-child relationships among them. If you create branches with `av branch`, the metadata is created upon branch creation. You can attach the metadata for branches that are created with `git branch`.
 
 ## Create a repository
 
@@ -19,7 +19,7 @@ Successfully initialized repository for use with av!
 
 ## Creating a branch outside of av
 
-Instead of using `av stack branch`, we use a normal Git command to create a branch and a commit.
+Instead of using `av branch`, we use a normal Git command to create a branch and a commit.
 
 ```
 $ git switch --create mytopic
@@ -28,24 +28,25 @@ $ git commit --allow-empty --message="New commit"
 [mytopic d384683] New commit
 ```
 
-As we can see, the newly created branch `mytopic` is not tracked in `av stack tree`, but it's shown in `git branch`.
+As we can see, the newly created branch `mytopic` is not tracked in `av tree`, but it's shown in `git branch`.
 
 ```
-$ av stack tree
+$ av tree
 $ git branch -vv
   master  7fd1a60 [origin/master] Merge pull request #6 from Spaceghost/patch-1
 * mytopic d384683 New commit
 ```
 
-## Adopting a branch with av stack sync
+## Adopting a branch with av adopt
 
-By running `av stack adopt` specifying the parent branch (in this case `master`) adds metadata for the current branch `mytopic`. Now, if you run `av stack tree`, you can see that `mytopic` is correctly recognized as a child of `master`.
+By running `av adopt` specifying the parent branch (in this case `master`) adds metadata for the current branch `mytopic`. Now, if you run `av tree`, you can see that `mytopic` is correctly recognized as a child of `master`.
 
 ```
-$ av stack adopt
+$ av adopt
 Choose which branches to adopt (Use space to select / deselect).
   * mytopic (HEAD, chosen for adoption)
   │   New commit
   │
   * master
 ```
+
