@@ -108,7 +108,7 @@ On failure, the PRs will automatically requeue before giving up. Only available 
 
 ### Auto update
 
-Keep your PRs up to date. Every time a new. commit is added to the base branch, the PRs are automatically updated using rebase or merge commit. See `merge_rules.auto_update` in [<mark style="color:blue;">the configuration schema reference</mark>](https://app.aviator.co/schema/index.html#aviator\_config\_yaml.json).
+Keep your PRs up to date. Every time a new commit is added to the base branch, the PRs are automatically updated using rebase or merge commit. See `merge_rules.auto_update` in [<mark style="color:blue;">the configuration schema reference</mark>](https://app.aviator.co/schema/index.html#aviator\_config\_yaml.json).
 
 ```yaml
  merge_rules:
