@@ -57,6 +57,14 @@ You can subscribe to notifications for the following events:
 * **`PR_BLOCKED`** – Notifications for PRs marked as blocked by MergeQueue.
 * **`PR_QUEUED`** – Notifications when PRs are queued for merging by Aviator MergeQueue.
 
+### Default Notifications
+
+**Admin privileges required.**
+
+As an admin, you can also set the notifications that all other users will default to. Users can override these settings in the [Personal Notifications](personal-integrations.md#personal-notifications) settings below.
+
+<figure><img src="../.gitbook/assets/F33E0F58-C4C4-41CC-819A-91A8958E0EB8.jpeg" alt=""><figcaption></figcaption></figure>
+
 ### Personal Notifications
 
 In addition to the channel notifications, all Aviator users can set up and customize personal notifications (DMs) in Slack. To do this, follow these steps:
