@@ -31,6 +31,7 @@
   * [Getting started](flexreview/getting-started.md)
   * [Onboarding a large org](flexreview/onboarding-a-large-org.md)
   * [Concepts](flexreview/concepts/README.md)
+    * [Read-only mode](flexreview/concepts/read-only-mode.md)
     * [Recursive ownership](flexreview/concepts/recursive-ownership.md)
     * [Reviewer suggestion and assignment](flexreview/concepts/reviewer-suggestion-and-assignment.md)
     * [Teams and SLO Management](flexreview/concepts/slo-management.md)
