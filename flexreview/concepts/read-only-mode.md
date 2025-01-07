@@ -2,8 +2,6 @@
 
 FlexReview's read-only mode allows you to test out FlexReview without interfering with any workflows.
 
-<figure><img src="../../.gitbook/assets/Screenshot 2024-02-10 at 2.15.49 PM.png" alt=""><figcaption><p>FlexReview in read-only mode</p></figcaption></figure>
-
 ## How it works
 
 When you install the Aviator app and enable FlexReview, it starts in **read-only mode**, that is, it won’t take any actions or post any comments on the PRs automatically.
@@ -12,17 +10,17 @@ When in read-only mode, you can use [<mark style="color:blue;">Slash commands</m
 
 ## Turning off read-only mode
 
-To turn off read-only mode, specify the Sub-repo configuration on the [<mark style="color:blue;">FlexReview Config page</mark>](https://app.aviator.co/flexreview/config)<mark style="color:blue;">.</mark> If you want to enable reviewer suggestions for the entire repository, set the file path for Reviewer Suggestion to `*`.&#x20;
+To turn off read-only mode, activate FlexReview for one or more teams. You can do that directly from the [Teams dashboard](https://app.aviator.co/teams/last_viewed) by selecting the team in the dropdown.
 
-To turn on read-only mode, set the Sub-repo configuration for Reviewer Suggestion and Approval Check to empty.
+To turn on read-only mode, to the [<mark style="color:blue;">teams list view</mark>](https://app.aviator.co/teams) and disable the FlexReview for all of them.
 
 ## Partially read-only
 
-You can also set the value of Reviewer Suggestion to a specific path that you want the suggestions to be enabled for. In that case, FlexReview will only post the reviewer suggestion comments for pull requests that modify at least one file matching that path. The same applies for the Approval Check property.
+When FlexReview is enabled for a team, the code reviews that are owned by a specific team based on CODEOWNERS will receive suggestions and review assignments. If there is a code change that encompasses more than one team, the reviews will be assigned only for the teams that have FlexReview enabled.
 
-## Enabled state vs Read-only mode
+## Global Enabled state vs Read-only mode
 
-After enabling FlexReview in your repository, it will index your past pull request data and GitHub teams data. At this point, even though FlexReview is enabled, it is still in read-only mode. This state allows teams to test out the suggestions and status checks.
+Along with team based enable / disable setting, FlexReview also has a global repository level setting. This global setting enables Aviator to index your past pull request data and GitHub teams data. When onboarding, you will enable global FlexReview to start indexing the data but it will still be in read-only mode. This state allows teams to test out the suggestions and status checks.
 
 ## Disabling FlexReview
 
