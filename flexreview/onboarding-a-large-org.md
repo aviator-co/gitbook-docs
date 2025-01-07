@@ -17,7 +17,7 @@ To ease the transition and familiarize your team with FlexReview, we recommend s
 
 #### Read-only mode
 
-When you install the Aviator app for FlexReview, it starts in [**read-only mode**](concepts/read-only-mode.md), that is, it won’t take any actions or post any comments on the PRs automatically.
+When you install the Aviator app for FlexReview, it starts in [**read-only mode**](broken-reference), that is, it won’t take any actions or post any comments on the PRs automatically.
 
 At this stage, you can use the slash command on any PR to get a suggestion from FlexReview:
 

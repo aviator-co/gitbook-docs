@@ -1,12 +1,30 @@
 # Configuration
 
-FlexReview is a low-config tool. That means you do not need to specify exact ownership for each file or directory. These are calculated dynamically based on historical data.
+FlexReview allows you to onboard teams gradually. You can try FlexReview from one team, and expand it to others. You can configure FlexReview at the repository level and at the team level.
 
-There are a few configuration properties that help you modify how FlexReview behaves. All the configuration values can be set on the [<mark style="color:blue;">FlexReview Config page</mark>](https://app.aviator.co/flexreview/config).
+## Repository configs
+
+### Enable / Disable
+
+You can toggle FlexReview at the repository level. By enabling it at the repository level, it starts indexing Pull Requests for the reviewer suggestions.
+
+### Author Allowlist
+
+When FlexReview is enabled at the repository and owner teams enable FlexReview, it will start assigning a reviewer. You can further restrict this behavior based on the author. If this is configured, FlexReview will assign a reviewer if the PR author is in this group. This is by default `'*'`, which indicates there's no restriction on the PR author.
+
+### Reviewer Exclusion
+
+There are cases where you don't want to assign certain users. For example, managers can be in a team, but you might not want to assign them as a reviewer. You can add users and groups you do not want to assign as a reviewer.
+
+## GitHub Team configs
+
+### Enable / Disable
+
+You can toggle FlexReview at the GitHub team level. By enabling FlexReview at the team level and at the repository level, it will start assigning a reviewer based on the review assignment methods for PRs that modify the files that this team owns.
 
 ## Enable / Disable
 
-To enable FlexReview for a specific repository, select that repository from the dropdown and click the **Enable** button on the top right. This will start indexing the past pull request data but keep the repository in [<mark style="color:blue;">read-only mode</mark>](../concepts/read-only-mode.md). To disable it for a specific repository, click the **Disable** button from the FlexReview config page.
+To enable FlexReview for a specific repository, select that repository from the dropdown and click the **Enable** button on the top right. This will start indexing the past pull request data but keep the repository in [<mark style="color:blue;">read-only mode</mark>](broken-reference). To disable it for a specific repository, click the **Disable** button from the FlexReview config page.
 
 The same can also be done from the [<mark style="color:blue;">Repositories list</mark>](https://app.aviator.co/github/repos) page.
 
@@ -14,21 +32,13 @@ The same can also be done from the [<mark style="color:blue;">Repositories list<
 
 <figure><img src="../../.gitbook/assets/Screenshot 2024-02-10 at 2.52.00 PM.png" alt=""><figcaption></figcaption></figure>
 
-Sub-repo configuration allows you to activate FlexReview for some parts of your repository while keeping it in read-only mode in other parts. Both of the sub-repo configuration file path uses the [<mark style="color:blue;">gitignore file pattern format</mark>](https://git-scm.com/docs/gitignore#\_pattern\_format).
+Sub-repo configuration allows you to activate FlexReview for some parts of your repository while keeping it in read-only mode in other parts. Both of the sub-repo configuration file path uses the [<mark style="color:blue;">gitignore file pattern format</mark>](https://git-scm.com/docs/gitignore#_pattern_format).
 
 ### Reviewer Suggestion
 
-Specifies which file paths Aviator should [<mark style="color:blue;">suggest reviewers for</mark>](../concepts/reviewer-suggestion-and-assignment.md). Multiple file paths are supported, one on each line. The file paths can be specified in the [<mark style="color:blue;">gitignore file pattern format</mark>](https://git-scm.com/docs/gitignore#\_pattern\_format).
+Specifies which file paths Aviator should [<mark style="color:blue;">suggest reviewers for</mark>](../concepts/reviewer-suggestion-and-assignment.md). Multiple file paths are supported, one on each line. The file paths can be specified in the [<mark style="color:blue;">gitignore file pattern format</mark>](https://git-scm.com/docs/gitignore#_pattern_format).
 
 Aviator will publish a suggestion comment for every pull request that touches a file in these whitelisted file paths. The suggestion provided by Aviator will always cover **all** files in the PR, even if the PR only has some files that are covered under the whitelisted file path. Read more in how to [<mark style="color:blue;">get a reviewer suggestion</mark>](../how-to-guides/get-reviewer-suggestion.md).
-
-### Approval Check
-
-Specifies which file paths Aviator should report a GitHub status check for. This status check is used to report the [<mark style="color:blue;">approval requirement</mark>](../concepts/approval-requirements.md) for the PR. Multiple file path are supported, one on each line. The file paths can be specified in the [<mark style="color:blue;">gitignore file pattern format</mark>](https://git-scm.com/docs/gitignore#\_pattern\_format).
-
-Aviator will publish a GitHub status check for every pull requests that touches a file in these whitelisted file paths. The status check provided by Aviator will always cover **all** files in the PR, even if the PR only has some files that are covered under the whitelisted file paths. Read more in how to [<mark style="color:blue;">mandate an expert approval</mark>](../how-to-guides/mandate-an-expert-approval.md).
-
-You can also set the Approval check to use the same file paths as the Reviewer Suggestions. That way, if you modify the Reviewer Suggestions file paths, the Approval Checks file paths will automatically be updated.
 
 ## Reviewer Exclusion
 
