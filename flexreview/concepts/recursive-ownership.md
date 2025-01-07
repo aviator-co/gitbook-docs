@@ -1,6 +1,6 @@
-# Recursive ownership
+# Direct and indirect ownership
 
-GitHub defines `CODEOWNERS` ([https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)). However, its semantics is not expressive enough to capture the actual shape of code ownership. We define a new format to define ownership for the codebase.
+GitHub defines [`CODEOWNERS` config](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners). However, its semantics is not expressive enough to capture the actual shape of code ownership. We define a new format to define ownership for the codebase.
 
 ## GitHub CODEOWNERS file
 
@@ -20,9 +20,15 @@ The format allows you to put multiple teams on one line. By using this, you can 
 
 For this reason, we see that `CODEOWNERS` not flexible enough.
 
+When using FlexReview with just the CODEOWNERS file, Aviator reviewer assignment should still work within the CODEOWNERS bounds. If there are multiple teams assigned on a single line, Aviator will only choose reviewers from the first team.
+
 ## Aviator OWNERS file
 
-To address the inflexibility of the `CODEOWNERS`file, we introduce a new file called `.aviator/OWNERS`. This file uses the similar format as the GitHub equivalent, but with the following limit:
+{% hint style="info" %}
+Aviator OWNERS file is an optional configuration that provides more capabilities for FlexReview.&#x20;
+{% endhint %}
+
+To address the inflexibility of the `CODEOWNERS`file, we introduce an optional new file called `.aviator/OWNERS`. This file uses the similar format as the GitHub equivalent, but with the following limit:
 
 * You can put only one team per line.
 * You cannot have a negation rule.
