@@ -7,7 +7,7 @@
   * [Manually change attention](attentionset/manually-change-attention.md)
   * [AttentionSet Chrome extension](attentionset/attentionset-chrome-extension.md)
   * [Attention reasons](attentionset/attention-reasons.md)
-* [Releases (Beta)](releases-beta/README.md)
+* [Releases](releases-beta/README.md)
   * [Getting started](releases-beta/getting-started.md)
   * [Concepts](releases-beta/concepts/README.md)
     * [Terminology](releases-beta/concepts/terminology.md)
