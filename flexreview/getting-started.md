@@ -18,20 +18,30 @@ At this point, you can choose the repository you want to start with. When activa
 
 <figure><img src="../.gitbook/assets/Screenshot 2024-02-09 at 12.11.36 PM.png" alt=""><figcaption></figcaption></figure>
 
-### Step 3: Test suggestions
+### Step 3: Ensure indexing is complete
 
-FlexReview make take a few seconds to index some teams and pull request data from your repository. Once indexed, you should be able to test out the suggestions. Remember that the suggestions here are still imperfect since FlexReview has only completed initial indexing. The full indexing continues in the background.\
+FlexReview make take a few minutes to index some teams and pull request data from your repository. To review the status go to the specific repository that you activated from the "Repositories" section in the Aviator Dashboard. Select FlexReview > Configure.
 
+Once the indexing is complete, you should see the status saying that the indexing is finished.
 
-Enter the pull request number in the textbox to see the suggestions on this page, or use the Slash command in GitHub comments to get suggestions directly in your pull request view.
+<figure><img src="../.gitbook/assets/Screenshot 2025-01-07 at 4.24.45 PM.png" alt=""><figcaption><p>Indexing complete</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/flexreview-comment.png" alt=""><figcaption><p>Slash command to get suggestions in the GitHub PR details page</p></figcaption></figure>
+FlexReview processes the last 1 year of the results, but you can also start testing it out after waiting a few minutes as the scores and calculations will start working once some of the data is indexed.
 
 {% hint style="info" %}
-If it takes longer than 60 seconds to index the initial data, please try refreshing the page, or contact us at **howto@aviator.co.**
+If it takes longer than 60 minutes to index the initial data, please try refreshing the page, or contact us at **howto@aviator.co.**
 {% endhint %}
 
-### Step 4: Picking the Team
+### Step 4: Test suggestions
+
+Once indexed, you should be able to test out the suggestions. Remember that the suggestions here are still imperfect since FlexReview has only completed initial indexing. The full indexing continues in the background.\
+
+
+Use the Slash command in GitHub comments to get suggestions directly in your pull request view.
+
+<figure><img src="../.gitbook/assets/Screenshot 2025-01-06 at 3.55.49 PM.png" alt=""><figcaption></figcaption></figure>
+
+### Step 5: Picking the Team
 
 FlexReview requires a minimal configuration. Once you have tested Aviator FlexReview manually using Slash commands, you can start activating it for specific teams in your organization. Once activated, you can now go to the Team config and set up the reviewer assignment rules and optionally define the SLOs and the automated actions. All subsequent pull requests that modify the code owned by this team will start seeing reviewer suggestion comments and assign reviewers based on the configured policy.
 
