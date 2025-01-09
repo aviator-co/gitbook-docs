@@ -21,3 +21,5 @@ If the --rename/-m flag is given, the current branch is renamed to the name inst
 `-m, --rename` : Rename the current branch to the provided `<branch_name>` instead of creating a new one, only if a pull request does not exist.
 
 `--force` : Force rename the branch, even if a pull request exists.
+
+`--split` : Splits the last commit into a new branch, if no branch name is given create one based on commit message.
