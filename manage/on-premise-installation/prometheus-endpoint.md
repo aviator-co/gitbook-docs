@@ -42,5 +42,6 @@ Practically speaking, we assume that the following metrics would be used by you,
 * flask\_http\_request\_total
 * github\_api\_call\_latency
 * github\_webhook\_latency
+* graphql\_requests\_total
 * sqlalchemy\_query\_latency\_seconds
   * This is enabled when `ENABLE_DB_METRICS` environment variable is set to `true`
