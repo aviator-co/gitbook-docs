@@ -43,3 +43,9 @@ If there are certain file paths that are unowned, that is, there is no rule in t
 
 * If the pull request only contains the unowned file paths, no reviewers will be assigned.
 * If an unowned file is modified along with some owned files, the reviewers of those owned files will be responsible for reviewing the unowned files.
+
+### Fill the gap in CODEOWNERS
+
+In general, we recommend relaxing `CODEOWNERS`and moving teams to `.aviator/OWNERS` unless you need a review strictly from that specific team. However, there are cases you do need such configuration.
+
+Depending on the configured assignment method on FlexReview, it's possible that the assigned reviewer won't satisfy GitHub `CODEOWNERS`requirements. In that case, FlexReview adds extra reviewers to satisfy `CODEOWNERS`. This applies only for the teams that have FlexReview enabled. For the FlexReview disabled teams, a reviewer is not automatically assigned and you will need to assign a reviewer manually or other means.
