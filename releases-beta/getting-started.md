@@ -1,3 +1,9 @@
+---
+description: >-
+  How to get started wtih Aviator Releases Releases. This page guides you to
+  setting up Aviator Releases using GitHub actions step by step.
+---
+
 # Getting started
 
 This document guides you to the set up for setting up [<mark style="color:blue;">Aviator Releases</mark>](https://www.aviator.co/releases) using GitHub actions.

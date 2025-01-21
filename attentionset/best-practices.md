@@ -1,3 +1,9 @@
+---
+description: >-
+  Check out best practices for AttentionSet to learn its standard operating
+  principles for maximum benefits on developer productivity.
+---
+
 # Best practices
 
 AttentionSet works well when everyone agrees to some standard principles of operating:

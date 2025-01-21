@@ -1,6 +1,8 @@
 ---
-description: A dashboard to track GitHub pull requests that need your attention.
 icon: bell
+description: >-
+  Read documentation for Aviator AttentionSet, inspired by Gerritt, A dashboard
+  for developers to track pull request reviews from GitHub.
 ---
 
 # AttentionSet

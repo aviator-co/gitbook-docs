@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how to view the AttentionSet dashboard for another developer. You can
+  understand the review load for that user or help review someone else's pull
+  request.
+---
+
 # View AttentionSet for others
 
 AttentionSet dashboard also provides an option to view the AttentionSet for others. This could sometimes be helpful to understand the review load for that person, or help take over someone else’s review.

@@ -1,3 +1,9 @@
+---
+description: >-
+  Check out alerts for PR assignment with AttentionSet: code review assignment,
+  reviewer comments, PR approval, required status check is failing, and others.
+---
+
 # Attention reasons
 
 AttentionSet follows very similar rules as explained by Gerrit, and it then states the reason for attention assignment. Following reasons may be assigned for a getting attention:

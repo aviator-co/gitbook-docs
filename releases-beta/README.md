@@ -1,8 +1,11 @@
 ---
 icon: rocket-launch
+description: >-
+  Documentation for Aviator Releases, a dashboard that helps engineering teams
+  manage deployments across environments in a central dashboard.
 ---
 
-# Releases (Beta)
+# Releases
 
 ## Introduction
 
