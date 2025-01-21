@@ -1,6 +1,12 @@
+---
+description: >-
+  Learn how to use the Aviator's developer collaboration suite to manage build,
+  test, and merge deploy processes.
+---
+
 # Introduction
 
-![](.gitbook/assets/A\_Illustration.svg)
+![](.gitbook/assets/A_Illustration.svg)
 
 Aviator is a fast, customizable workflow automation tool for developers to manage their build, test, merge and deploy processes. Aviator’s scalable framework helps teams avoid broken builds and unreliable tests, and improve code review process using smart heuristics.
 
