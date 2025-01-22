@@ -49,3 +49,21 @@ If there are certain file paths that are unowned, that is, there is no rule in t
 In general, we recommend relaxing `CODEOWNERS`and moving teams to `.aviator/OWNERS` unless you need a review strictly from that specific team. However, there are cases you do need such configuration.
 
 Depending on the configured assignment method on FlexReview, it's possible that the assigned reviewer won't satisfy GitHub `CODEOWNERS`requirements. In that case, FlexReview adds extra reviewers to satisfy `CODEOWNERS`. This applies only for the teams that have FlexReview enabled. For the FlexReview disabled teams, a reviewer is not automatically assigned and you will need to assign a reviewer manually or other means.
+
+### Multiple reviewer assignment
+
+If a pull request touches multiple files that are owned by different teams, in some cases it is better to have multiple reviewers when they can collectively review the changes with the right context. FlexReview will generally choose the least amount of reviewers, but it assigns multiple reviewers in such situation.
+
+For example, let's say we have following `.aviator/OWNERS`file:
+
+```python
+# .aviator/OWNERS
+src             @acme-corp/engineering
+src/ios         @acme-corp/ios-eng
+src/ios/auth    @acme-corp/ios-auth-eng
+src/ios/net     @acme-corp/ios-net-eng
+```
+
+and, we have users named `@alice`, who is in `ios-eng`and `ios-auth-eng` teams, and `@bob`, who is in `ios-eng`and `ios-net-eng` teams. When we have a PR that modifies files under `src/ios/auth` and `src/ios/net`, FlexReview will try to find a candidate from `ios-eng` team. `@alice` would know well about the auth directory, but not about the net directory. `@bob` would be the opposite. If we pick one reviewer from them, they might not know well on the other side of the directory.
+
+FlexReview addresses this case by choosing multiple reviewers if one person would not cover the expertise well. It compares a case where one reviewer reviews all files and a case where multiple reviewers review individual files, and chooses the one that has a good score.
