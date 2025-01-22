@@ -20,9 +20,9 @@ This is the list of reviewers that would be assigned if the FlexReview Team was 
 
 The list of [Direct owners](../concepts/recursive-ownership.md) for the code paths associated with the pull request.
 
-### Common owners
+### Common owner
 
-The list of [Indirect owners](../concepts/recursive-ownership.md) for hte code paths associated with the pull request.
+The owner team that covers all modified file paths associated with the pull request.
 
 ### Expert and load balance assignment result
 
