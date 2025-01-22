@@ -23,9 +23,9 @@ On-Prem installation requires a GitHub App. This page describes how to create on
 
 Go to GitHub Developer settings and Click “New GitHub App”.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Click Developer settings on the Settings page</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Click Developer settings on the Settings page</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Click New GitHub App button</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>Click New GitHub App button</p></figcaption></figure>
 
 The developer settings can be found through your user settings or url of the format:`https://$GITHUB_URL/settings/apps`
 

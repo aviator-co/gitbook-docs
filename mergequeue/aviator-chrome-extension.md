@@ -68,4 +68,4 @@ You can open the extension option page from the extension menu.
 
 You can specify your on-prem Aviator deployment URL.
 
-<figure><img src="../.gitbook/assets/image (2).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="375"><figcaption></figcaption></figure>

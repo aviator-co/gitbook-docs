@@ -41,6 +41,7 @@
     * [Set up team rules](flexreview/how-to-guides/set-up-team-rules.md)
     * [Whitelist Teams for reviewer assignment](flexreview/how-to-guides/whitelist-teams-for-reviewer-assignment.md)
     * [Troubleshooting reviewer assignment](flexreview/how-to-guides/troubleshooting-reviewer-assignment.md)
+    * [PagerDuty assignment](flexreview/how-to-guides/pagerduty-assignment.md)
   * [Reference](flexreview/reference/README.md)
     * [Configuration](flexreview/reference/configuration.md)
     * [Slash commands](flexreview/reference/flexreview-slash-commands.md)
