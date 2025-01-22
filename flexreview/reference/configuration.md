@@ -24,7 +24,7 @@ You can toggle FlexReview at the GitHub team level. By enabling FlexReview at th
 
 ## Enable / Disable
 
-To enable FlexReview for a specific repository, select that repository from the dropdown and click the **Enable** button on the top right. This will start indexing the past pull request data but keep the repository in [<mark style="color:blue;">read-only mode</mark>](broken-reference). To disable it for a specific repository, click the **Disable** button from the FlexReview config page.
+To enable FlexReview for a specific repository, select that repository from the dropdown and click the **Enable** button on the top right. This will start indexing the past pull request data but keep the repository in [<mark style="color:blue;">read-only mode</mark>](../concepts/read-only-mode.md). To disable it for a specific repository, click the **Disable** button from the FlexReview config page.
 
 The same can also be done from the [<mark style="color:blue;">Repositories list</mark>](https://app.aviator.co/github/repos) page.
 
