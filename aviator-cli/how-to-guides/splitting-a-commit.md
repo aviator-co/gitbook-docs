@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to split a large commit with Stacked PRs CLI in our guide. Improve
+  code review quality, keep a clean Git history, and improve code velocity.
+---
+
 # Split a Commit
 
 Aviator CLI helps you splitting a large commit.

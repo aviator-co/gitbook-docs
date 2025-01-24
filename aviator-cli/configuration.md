@@ -1,3 +1,9 @@
+---
+description: >-
+  Read documentation to configure Aviator's StackedPRs CLI, also known as av
+  CLI.
+---
+
 # Configuration
 
 ## Configuration

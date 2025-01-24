@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn about expert scoring algorithms in FlexReview. Reviewer suggestions and
+  expert review requirements are based on expert scores calculated for every
+  user.
+---
+
 # Expert scoring algorithms
 
 ## Expert scores

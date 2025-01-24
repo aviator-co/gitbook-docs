@@ -1,3 +1,7 @@
+---
+description: Set up shell auto completion when using StackedPRs from Aviator.
+---
+
 # Setup Auto Completion
 
 Aviator CLI comes with shell auto completion

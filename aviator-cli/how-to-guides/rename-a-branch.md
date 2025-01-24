@@ -1,3 +1,7 @@
+---
+description: Learn how to rename a branch with av cli from Aviator.
+---
+
 # Rename a Branch
 
 Branches created using `av branch` should only be renamed with `av branch` as well. `av` needs to update internal tracking metadata that defines the order of branches within a stack.

@@ -1,3 +1,10 @@
+---
+description: >-
+  Find out when Aviator MergeQueue automatically creates branches and pull
+  requests in our guide. mq-bot-* branches and draft PRs, mq-tmp-* branches, and
+  more.
+---
+
 # MQ Created Branches
 
 In some situations, Aviator MergeQueue automatically creates branches and pull-requests. This page explains their purposes.
@@ -60,4 +67,4 @@ Buildkit supports ignoring specific branch prefixes. You can add `!mq-tmp-*` to 
 
 ### Others
 
-Similarly, for other CI systems, you can optimize the CI by blacklisting the `mq-tmp-` feature branches. The configuration may vary depending on how it is set up. If you have questions regarding a specific CI, please reach out to us: [<mark style="color:blue;">howto@aviator.co</mark>](mailto:howto@aviator.co).\
+Similarly, for other CI systems, you can optimize the CI by blacklisting the `mq-tmp-` feature branches. The configuration may vary depending on how it is set up. If you have questions regarding a specific CI, please reach out to us: [<mark style="color:blue;">howto@aviator.co</mark>](mailto:howto@aviator.co).\\

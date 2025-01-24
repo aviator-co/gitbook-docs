@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn more about teams and SLO management in FlexReview. FlexReview Service
+  Level Objective standardizes code review for teams to speed up the process.
+---
+
 # Teams and SLO Management
 
 With the objective of making code reviews faster, FlexReview SLO (Service Level Objective) standardizes the code review process for teams. With SLO:

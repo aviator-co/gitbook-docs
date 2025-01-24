@@ -1,4 +1,11 @@
-# Connecting GitHub OAuth in On-Prem
+---
+description: >-
+  Learn about using GitHub OAuth connection in Aviator and its configuration.
+  GitHub OAuth maps a GitHub username to an Aviator user within a single
+  installation.
+---
+
+# GitHub OAuth for On-Prem
 
 There are two types of GitHub connections that Aviator uses:
 

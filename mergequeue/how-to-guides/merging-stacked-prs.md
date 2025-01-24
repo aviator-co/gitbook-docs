@@ -1,3 +1,10 @@
+---
+description: >-
+  Use our how-to guide for instructions on merging stacked PRs. Learn about
+  queueing actions, core merge behaviors for stacked PRs, and separating merge
+  commits.
+---
+
 # Merging stacked PRs
 
 Aviator offers an [<mark style="color:blue;">open-source CLI</mark>](https://github.com/aviator-co/av) for managing stacked PRs within GitHub. When used alongside Aviator MergeQueue, it simplifies the process of validating and merging those stacked PRs (or subset of those stacked PRs) together.

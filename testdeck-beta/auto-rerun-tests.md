@@ -1,4 +1,11 @@
-# Auto rerun tests
+---
+description: >-
+  Configure automatic tests re-runs with our guide. Install the plugin in your
+  repository and set your account's Aviator API token as an environment
+  variable.
+---
+
+# Automatic Tests Re-Runs
 
 Currently, rerunning flaky tests is supported in the `pytest` framework - see plugin [<mark style="color:blue;">here</mark>](https://github.com/aviator-co/pytest-aviator).
 
@@ -22,4 +29,3 @@ Connect to your CI provider on the `Connections` page. We currently support Circ
 * [<mark style="color:blue;">Buildkite API Tokens</mark>](https://buildkite.com/docs/apis/managing-api-tokens)
 
 <figure><img src="../.gitbook/assets/Screen Shot 2022-09-01 at 4.42.01 PM.png" alt=""><figcaption></figcaption></figure>
-

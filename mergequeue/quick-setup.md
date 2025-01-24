@@ -1,3 +1,9 @@
+---
+description: >-
+  Get started with MergeQueue smoothly using our guide. It's the recommended
+  point to begin your journey. We will walk you through the initial setup steps.
+---
+
 # Getting Started
 
 This setup guide will walk you through the initial set up for MergeQueue. Since most capabilities of Aviator revolve around merging, we recommend you to start here.&#x20;

@@ -1,5 +1,9 @@
 ---
 icon: slack
+description: >-
+  Use the Slack integration guide to learn how to set up and customize
+  notifications to receive updates about various Aviator events directly in
+  Slack.
 ---
 
 # Slack Integration Guide

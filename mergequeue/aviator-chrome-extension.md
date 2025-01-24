@@ -1,5 +1,8 @@
 ---
 icon: puzzle-piece
+description: >-
+  Access Aviator's Chrome extension for MergeQueue and AttentionSet features.
+  Find implementation and usecase instructions in our documentation.
 ---
 
 # Chrome Extension

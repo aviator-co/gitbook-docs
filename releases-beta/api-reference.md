@@ -1,3 +1,10 @@
+---
+description: >-
+  This reference page describes the usage of REST API for Release management.
+  Get instructions on how to create a release, create and update deployment, and
+  more.
+---
+
 # API Reference
 
 This document describes the usage of REST API for Release management. You can also use [<mark style="color:blue;">GraphQL API</mark>](../api/reference/graphql.md) for composite queries.

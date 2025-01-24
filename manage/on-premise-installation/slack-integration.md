@@ -1,5 +1,8 @@
 ---
-description: Slack Notifications for On-prem Installations
+description: >-
+  Learn steps to set up Slack notifications for on-prem installations. To use
+  Aviator's Slack notifications, you will need to set up and connect a Slack
+  app.
 ---
 
 # Slack Integration

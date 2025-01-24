@@ -1,3 +1,10 @@
+---
+description: >-
+  Read about the cherry-picks feature in Releases. Aviator enables teams to
+  cherry-pick the same commit or pull request to multiple releases in one
+  action.
+---
+
 # Cherry-picks
 
 Cherry-picks are useful for hot fixes where a bug has been identified in a released version, but the mainline has moved much further along so cutting a new release may require a longer validation cycle. In such cases, a small localized fix can be “cherry-picked” on top of an existing release without cutting a new release from mainline.

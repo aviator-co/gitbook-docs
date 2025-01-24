@@ -1,3 +1,10 @@
+---
+description: >-
+  Follow our guide to configure SAML configuration. The documentation explains
+  the process of setting up the single sign-on supported across Aviator's
+  accounts.
+---
+
 # Set Up SAML Configuration
 
 All of Aviator’s cloud accounts support Google SSO based login. Self-hosted Aviator deployments support Google, Okta, Active Directory, or other SAML SSO providers.
@@ -17,7 +24,7 @@ Please replace _app.aviator.co_ with with **aviator.yourdomain.com** in the inst
 3. Click **Create New App** and choose **SAML 2.0** as the Sign on method.
 4. Enter **General Settings** for the application:
    * App name: **Aviator**
-   * **App logo** (optional). You can download the application logo for the application, you can download one from [<mark style="color:blue;">here</mark>](https://api.aviator.co/static/img/aviator\_long.png).
+   * **App logo** (optional). You can download the application logo for the application, you can download one from [<mark style="color:blue;">here</mark>](https://api.aviator.co/static/img/aviator_long.png).
 5. Log into Aviator and go to SAML configuration page: [<mark style="color:blue;">https://app.aviator.co/saml/okta/configure</mark>](https://app.aviator.co/saml/okta/configure)
 6. Copy the unique **Single Sign on url**, of format: [<mark style="color:blue;">**https://app.aviator.co/saml/sso/**</mark>](https://aviator.yourdomain.com/saml/sso/)**\<sso-key>**
 

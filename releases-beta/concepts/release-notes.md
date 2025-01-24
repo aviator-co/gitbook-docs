@@ -1,3 +1,10 @@
+---
+description: >-
+  Read the concepts behind release notes from Aviator Releases. Helpful for
+  internal teams, QA, support, for a shared understanding of recent code
+  changes.
+---
+
 # Release notes
 
 Defining Release notes or Changelog is a common practice for open-source software or a software that is typically shared as pre-built binaries to external users.

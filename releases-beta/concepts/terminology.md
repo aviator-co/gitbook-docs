@@ -1,7 +1,8 @@
 ---
 description: >-
-  Some common terms that are important to understand the Release process with
-  Aviator.
+  Read the terminology for the Releases feature. The common terms are important
+  to understand the Release process with Aviator and use the tool more
+  effectively.
 ---
 
 # Terminology

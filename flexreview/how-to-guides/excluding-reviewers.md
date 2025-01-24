@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how to exclude certain reviewers from being suggested. They will be
+  still accepted for approval check validation but are never suggested by
+  FlexReview.
+---
+
 # Excluding reviewers
 
 In a large organization, it may be desired to exclude certain reviewers from being suggested. These could be SREs, managers, product managers, designers or other inactive collaborators who may have access to the code base, and have contributed in the past but are passive collaborators now.&#x20;

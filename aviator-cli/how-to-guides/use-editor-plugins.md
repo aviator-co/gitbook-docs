@@ -1,3 +1,7 @@
+---
+description: Learn how to use editor plugins when setting up av CLI from Aviator.
+---
+
 # Use Editor Plugins
 
 ## Pull-Request Title and Description Editing

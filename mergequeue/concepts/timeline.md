@@ -1,3 +1,10 @@
+---
+description: >-
+  Read more about the Timeline tool. It allows you to look at all the current
+  and past actions by Aviator and filter activities based on event and base
+  branches.
+---
+
 # Timeline
 
 ### Overview

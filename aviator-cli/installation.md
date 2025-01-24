@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to install Stacked PRs CLI. The Aviator command line tool can
+  streamline and automate common tasks within your Git and GitHub workflows.
+---
+
 # Installation
 
 The Aviator command line tool (invoked as `av`) can be used to streamline and automate common tasks within your Git and GitHub workflows. Currently, the tool is used primarily to manage Stacked PRs<mark style="color:blue;">.</mark>
@@ -5,8 +11,6 @@ The Aviator command line tool (invoked as `av`) can be used to streamline and au
 ### macOS (Homebrew)
 
 First, if not already done, [install Homebrew](https://brew.sh).
-
-
 
 Then install using Homebrew tap.
 

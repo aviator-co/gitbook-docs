@@ -1,3 +1,10 @@
+---
+description: >-
+  Configuration guidelines for FlexReview. Core configuration properties that
+  help you modify how FlexReview behaves: Enable / Disable, Approval Check, and
+  more.
+---
+
 # Configuration
 
 FlexReview allows you to onboard teams gradually. You can try FlexReview from one team, and expand it to others. You can configure FlexReview at the repository level and at the team level.

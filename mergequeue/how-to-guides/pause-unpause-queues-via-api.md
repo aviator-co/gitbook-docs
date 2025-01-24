@@ -1,3 +1,9 @@
+---
+description: >-
+  Get guidelines on how to pause / unpause queues via API for MergeQueue.
+  Pausing allows you to control whether PRs are merged to a specific branch.
+---
+
 # Pause / Unpause Queues via API
 
 [<mark style="color:blue;">Pausing a queue</mark>](../concepts/paused-queues.md) allows you to control whether PRs should be merged to a certain branches.

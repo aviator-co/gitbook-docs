@@ -1,3 +1,9 @@
+---
+description: >-
+  Use our guide to set up Buildkite build and deploy steps to manage releases in
+  Aviator. Authentication and Buildkite Webhook configuration instructions.
+---
+
 # Buildkite workflow
 
 Use this guide to configure Buildkite build and deploy steps to manage releases in Aviator. To use Aviator Releases, we recommend having [<mark style="color:blue;">separate steps</mark>](../../concepts/two-step-delivery.md) for the build and deploy workflows. You may still use it as a single step, in which case the creation of Release (the build part) will be a no-op.

@@ -1,3 +1,10 @@
+---
+description: >-
+  Read how to set up team rules in FlexReview. Get instructions on using Team
+  Dashboard, Review Assignment, setting internal and external review SLOs, and
+  more.
+---
+
 # Set up team rules
 
 Navigate to the FlexReview Teams page to start your setup.

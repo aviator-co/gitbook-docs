@@ -1,3 +1,10 @@
+---
+description: >-
+  Follow our guide for instructions on creating a release project with examples.
+  A Release Project is a top-level entity you must build and deploy
+  simultaneously.
+---
+
 # Creating a Release Project
 
 A [<mark style="color:blue;">Release Project</mark>](../concepts/terminology.md#release-project) is a top-level entity that needs to be built an deployed simultaneously.
@@ -34,7 +41,7 @@ This is an optional field, can be left blank.
 
 ### File code path
 
-A list of glob patterns that presents the file paths associated with the Release Project. This file follows similar patterns to [gitignore](https://git-scm.com/docs/gitignore#\_pattern\_format). This is a great way to filter out the changes associated with
+A list of glob patterns that presents the file paths associated with the Release Project. This file follows similar patterns to [gitignore](https://git-scm.com/docs/gitignore#_pattern_format). This is a great way to filter out the changes associated with
 
 This is an optional field, can be left blank. When left blank, all code changes in the repository are associated with the Release Project. The field is mutable, but it does not update the Changelog associated with the past release versions.
 

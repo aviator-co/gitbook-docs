@@ -1,3 +1,9 @@
+---
+description: >-
+  Read how to configure requirements in Aviator Releases in our how-to guide.
+  Set up a separate environment for anything that can be uniquely deployed.
+---
+
 # Configuring Environments
 
 [<mark style="color:blue;">Environments</mark>](../concepts/terminology.md#environment) in Aviator Releases is tied to a Release Project, and there is no correlation of same Environments across different release projects. Set up a separate environment for anything that can be uniquely deployed. Common examples of envinroments are `production`, `staging`, or `development` but it can vary depending on how you manage your environments. For instance, even [<mark style="color:blue;">dogfood, canary or rollouts</mark>](../concepts/dogfood-canary-and-rollout.md) should be configured separately.

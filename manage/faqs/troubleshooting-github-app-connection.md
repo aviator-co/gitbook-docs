@@ -1,10 +1,17 @@
+---
+description: >-
+  Learn how to troubleshoot the GitHub app connection with step-by-step
+  instructions. Configured when setting up Aviator FlexReview, MergeQueue, or
+  Releases.
+---
+
 # Troubleshooting GitHub app connection
 
 GitHub app connection is critical to configure when setting up [<mark style="color:blue;">FlexReview</mark>](../../flexreview/), [<mark style="color:blue;">MergeQueue</mark>](../../mergequeue/) or [<mark style="color:blue;">Releases</mark>](../../releases-beta/). If your GitHub organization requires app approvals by GitHub admin, and you are not one of those admins, the connection request goes through an approval.
 
 ## Pending approval workflow
 
-GitHub app connection via request-approval workflow is not supported natively within GitHub. We [have an open ticket](https://d4kz6r04.na1.hs-sales-engage.com/Ctc/RL+23284/d4KZ6r04/Jl22-6qcW7lCdLW6lZ3lwW2F3yGt5RplFGW5Pp\_4N5Mcs-CN3Kp9-XhFLzlW5h3H2z59s6RqVzBj2d5QQ4DzW78ZFW17x43gZW8lZgdD4C2ZfXW8cRxJv4\_MjLhW2tBjpX4QtdDSW7nrJx07JGwr2W45Smtt10nY1cW8gtbYf5C0qm\_W26WT3r30C-LYW5v3jg58cnDyYW3HmG1z6QwN-2W6wtxRt8cC5WNN6Lkm2lZ4dcyW3l3PPZ8gcqx9V82THp8dHltXN5wtW0Bh4mqyW1dKXsl5lVSpyW1mWFJL6DB6n7W57ldLY8R8Cv\_W5RStxT6SfP5nf2MfCgn04) requesting GitHub to add that support.
+GitHub app connection via request-approval workflow is not supported natively within GitHub. We [have an open ticket](https://d4kz6r04.na1.hs-sales-engage.com/Ctc/RL+23284/d4KZ6r04/Jl22-6qcW7lCdLW6lZ3lwW2F3yGt5RplFGW5Pp_4N5Mcs-CN3Kp9-XhFLzlW5h3H2z59s6RqVzBj2d5QQ4DzW78ZFW17x43gZW8lZgdD4C2ZfXW8cRxJv4_MjLhW2tBjpX4QtdDSW7nrJx07JGwr2W45Smtt10nY1cW8gtbYf5C0qm_W26WT3r30C-LYW5v3jg58cnDyYW3HmG1z6QwN-2W6wtxRt8cC5WNN6Lkm2lZ4dcyW3l3PPZ8gcqx9V82THp8dHltXN5wtW0Bh4mqyW1dKXsl5lVSpyW1mWFJL6DB6n7W57ldLY8R8Cv_W5RStxT6SfP5nf2MfCgn04) requesting GitHub to add that support.
 
 Follow the following steps to handle the pending approval workflow:
 

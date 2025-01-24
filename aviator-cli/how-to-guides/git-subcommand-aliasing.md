@@ -1,3 +1,7 @@
+---
+description: How to guide for Git Subcommand Aliasing when using StackedPRs CLI.
+---
+
 # Git Subcommand Aliasing
 
 You can map Aviator CLI command as `git` subcommand. In your `.gitconfig`, you can add aliases:

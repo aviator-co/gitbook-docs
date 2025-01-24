@@ -1,3 +1,10 @@
+---
+description: >-
+  Read about instant merges, why use instant merge, and how to configure it in
+  our guide. This method merges the PR directly without waiting for the CI to
+  finish.
+---
+
 # Instant Merges
 
 Instant merge is a merge method where Aviator merges the PR directly without waiting for the CI to finish, or in a parallel mode without creating a draft PR for full CI validation. This can be configured using the Pilot workflow.

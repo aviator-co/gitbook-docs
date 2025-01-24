@@ -1,3 +1,10 @@
+---
+description: >-
+  Check out the main status codes you can come across in Aviator. If any issue
+  or failure happens, you will see a status code or its corresponding
+  description.
+---
+
 # Status Codes
 
 If Aviator runs in to any issues or failures, we will surface a status code or its corresponding description. Please refer to the table below.

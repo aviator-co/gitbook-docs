@@ -1,5 +1,7 @@
 ---
-description: Merge dependent PRs together
+description: >-
+  Read an overview of the ChangeSets feature. It allows you to create a list of
+  PRs to be merged together, which is helpful for merging a large number of PRs.
 ---
 
 # ChangeSets

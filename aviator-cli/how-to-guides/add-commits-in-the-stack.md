@@ -1,3 +1,7 @@
+---
+description: Documentation on adding commits to the stack with av CLI from Aviator.
+---
+
 # Add Commits in the Stack
 
 You can create stacked PRs with Aviator CLI and send them for review. Your reviewer might request some code changes in one of the PRs in the middle of the stack. This how-to guide explains how to add a change in such cases.

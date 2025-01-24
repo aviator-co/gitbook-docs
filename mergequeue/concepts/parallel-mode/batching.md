@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn the nuances of batching and related FAQs. Batching works alongside
+  Parallel mode to scale the throughput of PRs merged, by merging more PRs per
+  CI run.
+---
+
 # Batching
 
 Batching works alongside Parallel mode to increase the throughput of PRs merged, by merging more PRs per CI run.

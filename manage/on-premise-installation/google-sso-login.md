@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to set up Google SSO for on-premise installation. Find guidelines on
+  creating OAuth authorization credentials in the Google developer console.
+---
+
 # Google SSO Login
 
 To setup Google SSO for on-premise installation, you will need to create OAuth authorization credentials in the Google developer console to identify the application to Google's OAuth 2.0 server.

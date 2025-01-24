@@ -1,3 +1,9 @@
+---
+description: >-
+  Aviator Stacked PRs CLI is free and open-source, with no usage caps and
+  without needing an Aviator account. Set up the CLI locally.
+---
+
 # Working with Aviator
 
 The Stacked PRs CLI is free and open-source, that means you can use the CLI with no usage caps without creating an Aviator account. Simply follow the [<mark style="color:blue;">installation instructions</mark>](../installation.md) to set up the CLI locally.

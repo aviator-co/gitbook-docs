@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to set up SAML configuration with Microsoft Active Directory. We
+  provide step-by-step instructions and samples to take you through the process.
+---
+
 # Microsoft Active Directory
 
 ### Note for onprem users
@@ -10,8 +16,8 @@ Please replace _app.aviator.co_ with with **aviator.yourdomain.com** in the inst
 2. Go to Azure Active Directory > Manage > Enterprise applications. Click **New application**.
 3. Select Create your own application.
 4. For name enter **Aviator**, and select Integrate any other application you don't find in the gallery (Non-gallery). Click **Create**.
-5. (Optional): Go to properties and update the Aviator logo. Download the original from [<mark style="color:blue;">here</mark>](https://api.aviator.co/static/img/aviator\_icon.png).
-6. Log into Aviator and go to SAML configuration page: [<mark style="color:blue;"> https://app.aviator.co/saml/okta/configure</mark>](https://app.aviator.co/saml/okta/configure)
+5. (Optional): Go to properties and update the Aviator logo. Download the original from [<mark style="color:blue;">here</mark>](https://api.aviator.co/static/img/aviator_icon.png).
+6. Log into Aviator and go to SAML configuration page: [<mark style="color:blue;">https://app.aviator.co/saml/okta/configure</mark>](https://app.aviator.co/saml/okta/configure)
 7. Copy the unique Single Sign on url, of format: [<mark style="color:blue;">https://app.aviator.co/saml/sso/</mark>](https://app.aviator.co/saml/sso/)**\<sso-key>**
 8. In the Azure portal, after creating the app, go to the app overview and click Single sign-on.
 9. Select SAML.

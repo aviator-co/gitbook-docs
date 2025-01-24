@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to navigate and modify StackedPRs with av tree when using Aviator's
+  CLI.
+---
+
 # Navigating & Modifying Stacked PRs
 
 ### Visualizing a stack

@@ -1,5 +1,7 @@
 ---
-description: Permissions & explanations
+description: >-
+  View core permissions the Aviator app requests on your GitHub repositories
+  that you choose to connect with Aviator.
 ---
 
 # GitHub App Permissions

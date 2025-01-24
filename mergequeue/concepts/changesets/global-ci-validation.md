@@ -1,3 +1,10 @@
+---
+description: >-
+  Discover the Global CI Validation setting in MergeQueue ChangeSets. It enables
+  Aviator to issue webhooks you can use to trigger CI tests for pre-merge
+  checks.
+---
+
 # Global CI Validation
 
 Along with the CI on each individual change, you may have CI tests you would like to run on the ChangeSet as a whole before the PRs are merged. These tests can target integration-level functionality to test that all these PRs work together. Aviator offers this using a global CI framework. When you enable this setting, Aviator issues webhooks that you can use to trigger CI tests for these pre-merge checks on a ChangeSet.
@@ -78,8 +85,10 @@ Note: The webhook payload only includes PRs that have been added to the ChangeSe
 
 Once the global CI is triggered, your service should report the status check back using the `status_run` POST endpoint:
 
-{% swagger method="post" path="/v1/status_run" baseUrl="https://api.aviator.co/api" summary="Report CI global status check" %}
-{% swagger-description %}
+## Report CI global status check
+
+<mark style="color:green;">`POST`</mark> `https://api.aviator.co/api/v1/status_run`
+
 Example:
 
 `curl -X POST`\
@@ -87,29 +96,19 @@ Example:
 `-H "Content-Type: application/json"`\
 `https://api.aviator.co/api/v1/status_run`\
 `-d '{ "status_run_id": 8, "state": "success", "name": "full-build", "message": "Build successful", "target_url": "https://example.com/full-build/8" }'`
-{% endswagger-description %}
 
-{% swagger-parameter in="query" name="status_run_id" type="Integer" required="true" %}
-Represents a unique ID for the status run. Each time the webhook is triggered, a new Status Run ID is issued. This will be used to track the status of the CI.
-{% endswagger-parameter %}
+#### Query Parameters
 
-{% swagger-parameter in="query" name="state" type="String" required="true" %}
-Should be error, failure, pending or success.
-{% endswagger-parameter %}
+| Name                                              | Type    | Description                                                                                                                                                    |
+| ------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| status\_run\_id<mark style="color:red;">\*</mark> | Integer | Represents a unique ID for the status run. Each time the webhook is triggered, a new Status Run ID is issued. This will be used to track the status of the CI. |
+| state<mark style="color:red;">\*</mark>           | String  | Should be error, failure, pending or success.                                                                                                                  |
+| name<mark style="color:red;">\*</mark>            | String  | Name of the status check to be displayed in the Aviator dashboard.                                                                                             |
+| message                                           | String  | Message describing the status.                                                                                                                                 |
+| target\_url                                       | String  | A URL associated with the status run. This will be linked from the Aviator dashboard for users to click on for details.                                        |
 
-{% swagger-parameter in="query" name="name" type="String" required="true" %}
-Name of the status check to be displayed in the Aviator dashboard.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="query" name="message" type="String" %}
-Message describing the status.
-{% endswagger-parameter %}
-
-{% swagger-parameter in="query" name="target_url" type="String" %}
-A URL associated with the status run. This will be linked from the Aviator dashboard for users to click on for details.
-{% endswagger-parameter %}
-
-{% swagger-response status="200: OK" description="Success" %}
+{% tabs %}
+{% tab title="200: OK Success" %}
 ```javascript
 {
   "change_set_id": 2,
@@ -120,8 +119,8 @@ A URL associated with the status run. This will be linked from the Aviator dashb
   "target_url": "https://example.com/full-build/8"
 }
 ```
-{% endswagger-response %}
-{% endswagger %}
+{% endtab %}
+{% endtabs %}
 
 ### Multiple Global CI Checks
 

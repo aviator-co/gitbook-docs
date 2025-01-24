@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how to manually add or remove your own attention to a PR in
+  AttentionSet. Get detailed instructions and examples on using the Aviator
+  dashboard.
+---
+
 # Manually change attention
 
 Sometimes it’s helpful to add or remove your own attention to a PR. For instance, if the reviewer has responded back to the changes, but it’ll take a while to refactor and resubmit for review it might be useful to remove the attention from yourself as the author. Likewise, if you are not able to review the change within a reasonable time frame, you may want to let the author know and remove the attention from yourself.

@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how the read-only more works in FlexReview and get use instructions.
+  This mode allows you to test out FlexReview without interfering with any
+  workflows.
+---
+
 # Read-only mode
 
 FlexReview's read-only mode allows you to test out FlexReview without interfering with any workflows.

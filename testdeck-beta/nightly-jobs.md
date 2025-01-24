@@ -1,4 +1,11 @@
-# Nightly jobs
+---
+description: >-
+  Read about nightly jobs in Aviator and get configuration instructions in our
+  guide. These are scheduled job runs that can be triggered with Pilot
+  framework.
+---
+
+# Nightly Jobs
 
 The nightly jobs are scheduled job runs that can be triggered using the [<mark style="color:blue;">Pilot framework</mark>](https://docs.aviator.co/reference/pilot-automated-actions). These jobs can be used to identify flakes by running the same test on an existing green build. Nightly jobs are also configured using the YAML config file:
 

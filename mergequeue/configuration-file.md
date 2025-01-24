@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn what merge rules are applied in MergeQueue to use them more efficiently.
+  Rules affect how the Aviator bot reacts to the actions happening on GitHub.
+---
+
 # Merge Rules
 
 MergeQueue communicates with pull request using GitHub labels, GitHub comments and the [<mark style="color:blue;">Aviator CLI</mark>](../aviator-cli/). Merge rules are at the core of how the Aviator bot reacts to the actions taken on GitHub.
@@ -16,7 +22,7 @@ You can also create a configuration file stored in `.aviator/config.yml`. The fi
 
 ### Config Schema
 
-You can see [<mark style="color:blue;">the complete config schema</mark>](https://app.aviator.co/schema/index.html#aviator\_config\_yaml.json) as well as [<mark style="color:blue;">the JSON schema</mark>](https://app.aviator.co/schema/aviator\_config\_yaml.json) for autocompletion and validation purpose.
+You can see [<mark style="color:blue;">the complete config schema</mark>](https://app.aviator.co/schema/index.html#aviator_config_yaml.json) as well as [<mark style="color:blue;">the JSON schema</mark>](https://app.aviator.co/schema/aviator_config_yaml.json) for autocompletion and validation purpose.
 
 ## Examples
 
@@ -108,7 +114,7 @@ On failure, the PRs will automatically requeue before giving up. Only available 
 
 ### Auto update
 
-Keep your PRs up to date. Every time a new commit is added to the base branch, the PRs are automatically updated using rebase or merge commit. See `merge_rules.auto_update` in [<mark style="color:blue;">the configuration schema reference</mark>](https://app.aviator.co/schema/index.html#aviator\_config\_yaml.json).
+Keep your PRs up to date. Every time a new commit is added to the base branch, the PRs are automatically updated using rebase or merge commit. See `merge_rules.auto_update` in [<mark style="color:blue;">the configuration schema reference</mark>](https://app.aviator.co/schema/index.html#aviator_config_yaml.json).
 
 ```yaml
  merge_rules:
@@ -133,4 +139,3 @@ Customize title and body when merging the PR.
      cut_body_before: "----"
      cut_body_after: "+++"
 ```
-

@@ -1,3 +1,10 @@
+---
+description: >-
+  Find out how two-step delivery works with Releases. We recommend splitting the
+  delivery in two steps when you use trunk based development and Aviator
+  Releases.
+---
+
 # Two-step delivery
 
 In many software companies with cloud based infrastructure, releases and deployments are used interchangeably. When using [trunk based development](https://trunkbaseddevelopment.com/) and Aviator Releases, we recommend splitting the delivery in two steps.

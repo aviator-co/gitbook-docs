@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how to split and fold pull requests in our how-to guide. It's helpful
+  when you accidentally create a large pull request and must split it for code
+  review.
+---
+
 # Split and Fold Pull Requests
 
 Occasionally you might accidentally create a large pull request. In order to do an effective code review, you want to split such large PRs. Aviator CLI allows you to split them.

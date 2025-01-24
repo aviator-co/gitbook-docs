@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn the main states a pull request can be in MergeQueue. MergeQueue tracks
+  pull requests from the time they are opened until they are merged or closed.
+---
+
 # Pull Request Lifecycle
 
 MergeQueue tracks your pull request from the time it is opened until it is merged (or closed without merging). There are several different states a pull request can be in at any given time.
@@ -6,7 +12,7 @@ MergeQueue tracks your pull request from the time it is opened until it is merge
 
 A pull request is _open_ when it has not been marked as _ready-to-merge_ and is not closed on GitHub.
 
-Pull requests can be marked as _ready-to-merge_ by adding the label configured in `merge_rules.labels` in [<mark style="color:blue;">the YAML configuration</mark>](https://app.aviator.co/schema/index.html#aviator\_config\_yaml.json), adding a [<mark style="color:blue;">slash command</mark>](../reference/slash-commands.md) comment to the pull request, or using the [<mark style="color:blue;">Aviator API</mark>](../../api/).
+Pull requests can be marked as _ready-to-merge_ by adding the label configured in `merge_rules.labels` in [<mark style="color:blue;">the YAML configuration</mark>](https://app.aviator.co/schema/index.html#aviator_config_yaml.json), adding a [<mark style="color:blue;">slash command</mark>](../reference/slash-commands.md) comment to the pull request, or using the [<mark style="color:blue;">Aviator API</mark>](../../api/).
 
 ## Pending
 
@@ -35,7 +41,7 @@ Possible reasons for a pull request to be blocked include:
 * Approvals were removed from the pull request after it entered the queue.
 * The HEAD commit of the pull request was modified after it was marked as _ready-to-merge_.
 
-See the [<mark style="color:blue;">pull request status code documentation</mark>](broken-reference) for more details about the possible reasons a pull request can become blocked.
+See the [<mark style="color:blue;">pull request status code documentation</mark>](broken-reference/) for more details about the possible reasons a pull request can become blocked.
 
 ## Merged
 

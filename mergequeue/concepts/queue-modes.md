@@ -1,3 +1,10 @@
+---
+description: >-
+  Check the main queue modes MergeQueue can be configured to operate in.
+  Default, parallel, and no queue modes explained with different features and
+  performance.
+---
+
 # Queue Modes
 
 MergeQueue can be configured to operate in one of three queue modes, each with different feature and performance tradeoffs. The queue mode can be configured on a per-repository basis.

@@ -1,3 +1,10 @@
+---
+description: >-
+  Aviator allows for executing custom JS code with Pilot automated actions or
+  the MergeQueue ready hook. Learn more details about how it happens in our
+  guide.
+---
+
 # JavaScript Execution
 
 Aviator has support for executing custom JavaScript code using [Pilot automated actions](../pilot-automated-actions.md) or the [MergeQueue ready hook](../mergequeue/concepts/ready-hook.md).

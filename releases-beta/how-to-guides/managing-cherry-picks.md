@@ -1,3 +1,10 @@
+---
+description: >-
+  Visit our guide to get instructions on managing cherry-picks for smooth
+  release. In Aviator, cherry-picks selectively integrate changes into release
+  candidates.
+---
+
 # Managing Cherry-Picks
 
 Cherry-picking enables you to apply specific commits from one branch to another without merging the entire branch. In Aviator’s release management system, cherry-picks are used to selectively integrate changes into release candidates. This guide will walk you through the process of managing cherry-picks in Aviator, ensuring smooth handling of your release process.

@@ -1,5 +1,8 @@
 ---
 icon: code-merge
+description: >-
+  Learn about Aviator FlexReview, a framework that speeds up code reviews by
+  understanding the nuances of every code change and assigning reviewers.
 ---
 
 # FlexReview (Beta)

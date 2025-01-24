@@ -1,3 +1,9 @@
+---
+description: >-
+  Aviator provides monitoring metrics for Prometheus. Monitor your queue length
+  and GitHub API usage.
+---
+
 # Monitoring Metrics
 
 Aviator provides some monitoring metrics for Prometheus. You can monitor your queue length and GitHub API usage with this.

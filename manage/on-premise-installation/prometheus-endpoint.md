@@ -1,3 +1,10 @@
+---
+description: >-
+  The web app server and the background worker server can serve the Prometheus
+  endpoint. Learn how to enable scraping the metrics from endpoints in our
+  guide.
+---
+
 # Prometheus endpoint
 
 The web application server and the background worker server can serve the Prometheus endpoint. You can scrape the metrics from these endpoints. This document provides you how to enable it.

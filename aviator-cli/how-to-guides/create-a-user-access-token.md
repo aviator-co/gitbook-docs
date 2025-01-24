@@ -1,3 +1,9 @@
+---
+description: >-
+  Guide on creating an access token for interacting with GitHub for
+  authentication when using Aviator StackedPRs CLi.
+---
+
 # Create an Access Token
 
 ## GitHub Personal Access Token

@@ -1,3 +1,9 @@
+---
+description: >-
+  This guide provides steps to configure pre-queue conditions. Get detailed
+  instructions with screenshots and samples in Aviator Documentation.
+---
+
 # Set up Pre-Queue Conditions
 
 This guide describes how to setup [<mark style="color:blue;">pre-queue conditions</mark>](../concepts/pre-queue-conditions.md).

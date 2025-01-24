@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn about parallel mode in MergeQueue, how to configure it, Draft PRs
+  created in this mode by Aviator, CI behaviors, managing parallelism, and other
+  details.
+---
+
 # Parallel Mode
 
 If you think sequential merging may not work for your use case, you can try Parallel mode. We designed Parallel mode with high output teams in mind where sequential continuous integration cycles may cause long wait cycles. This feature is only available in the Pro plan.

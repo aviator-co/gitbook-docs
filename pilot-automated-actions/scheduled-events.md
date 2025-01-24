@@ -1,4 +1,10 @@
-# Scheduled events
+---
+description: >-
+  With the Aviator Pilot framework, you can configure rules to trigger actions
+  on a specific fixed schedule. Get instructions on configuring a schedule here.
+---
+
+# Scheduled Events
 
 Using the Aviator Pilot framework, you can set up rules to trigger actions on a fixed schedule. For instance, you can use schedules to set up a schedule to automatically pause / unpause the MergeQueue, or trigger a nightly job to run your builds
 
@@ -34,8 +40,6 @@ scenarios:
         branch: "master"
 
 ```
-
-
 
 {% hint style="info" %}
 Currently Pilot framework only support precision of 1 hour, so the events will only be triggered at most once an hour. If you have use cases where you may need more frequent scenarios, please email us at info@aviator.co.

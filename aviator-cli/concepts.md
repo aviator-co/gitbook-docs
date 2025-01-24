@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn more about the branches and stack in Aviator StackedPRs CLI: Trunk
+  branches that PRs are merged into and topic branches that contain proposed
+  changes.
+---
+
 # Concepts
 
 ## Branch and stack
@@ -5,7 +12,7 @@
 We have two kinds of branches in Aviator CLI:
 
 * Trunk branches: Branches that PRs are merged into. Typically, `main` or `master`.
-*   [<mark style="color:blue;">Topic branches</mark>](https://git-scm.com/book/en/v2/Git-Branching-Branching-Workflows#\_topic\_branch): Branches that contain proposed changes against trunk branches.
+*   [<mark style="color:blue;">Topic branches</mark>](https://git-scm.com/book/en/v2/Git-Branching-Branching-Workflows#_topic_branch): Branches that contain proposed changes against trunk branches.
 
     <figure><img src="../.gitbook/assets/Trunk and Topic Branch (1).png" alt=""><figcaption><p>main is the trunk branch, and feature1 and feature2 are topic branches</p></figcaption></figure>
 

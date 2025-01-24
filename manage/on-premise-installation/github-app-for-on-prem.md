@@ -1,3 +1,10 @@
+---
+description: >-
+  Find details on using a GitHub App for on-premise Aviator installation. This
+  page describes how to create and authorize a GitHub App for your on-prem
+  setup.
+---
+
 # GitHub App for On-Prem
 
 On-Prem installation requires a GitHub App. This page describes how to create one for your on-prem setup.

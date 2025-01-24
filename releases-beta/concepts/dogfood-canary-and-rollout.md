@@ -1,3 +1,10 @@
+---
+description: >-
+  Check out deployment strategies that limit the impact in case of a failure
+  during deployment. Dogfood, Canary, and Rollout explained with usage
+  guidelines.
+---
+
 # Dogfood, Canary and Rollout
 
 These deployment strategies that limit the impact in case of a failure during deployment.

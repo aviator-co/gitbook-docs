@@ -1,3 +1,9 @@
+---
+description: >-
+  Documentation on updating default branch from master to main when using
+  StackedPRs CLI.
+---
+
 # Updating default branch from master to main
 
 If you choose to switch over the default branch, for instance from master to main, a few steps must be taken to update Stacked PRs CLI to handle this change:

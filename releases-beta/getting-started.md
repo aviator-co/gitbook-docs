@@ -1,6 +1,6 @@
 ---
 description: >-
-  How to get started wtih Aviator Releases Releases. This page guides you to
+  How to get started with Aviator Releases Releases. This page guides you to
   setting up Aviator Releases using GitHub actions step by step.
 ---
 

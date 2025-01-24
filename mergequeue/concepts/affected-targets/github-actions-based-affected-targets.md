@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to configure GitHub Actions workflows to run only when certain files
+  are changed. MergeQueue can identify the affected targets for the queue.
+---
+
 # GitHub Actions based Affected Targets
 
 You can configure GitHub Actions workflows to run only when certain files are changed.

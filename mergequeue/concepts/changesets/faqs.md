@@ -1,3 +1,9 @@
+---
+description: >-
+  Find answers to common questions about the ChangeSets feature that creates a
+  list of PRs to be merged.
+---
+
 # FAQs
 
 <details>

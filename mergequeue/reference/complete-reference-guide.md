@@ -1,3 +1,10 @@
+---
+description: >-
+  This page guides you through configuration files and all the possible ways you
+  can customize your MergeQueue experience. Check the main Merge Rules you can
+  use.
+---
+
 # Configuration Reference
 
 MergeQueue communicates with pull request using GitHub labels, GitHub comments and the [<mark style="color:blue;">Aviator CLI</mark>](../../aviator-cli/). To learn about how to apply the rules, read the [<mark style="color:blue;">intro guide to Merge Rules</mark>](../configuration-file.md).

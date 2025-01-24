@@ -1,4 +1,11 @@
-# Audit Trail
+---
+description: >-
+  Learn details about how merge rules audit trail works. It allows you to know
+  when your merge rules have been changed, and who changed them for better
+  tracking.
+---
+
+# Merge Rules Audit Trail
 
 It is important to know when your merge rules have been changed, and who changed them. We store a history of your merge rules configuration so that you can see exactly that.
 

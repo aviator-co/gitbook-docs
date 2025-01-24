@@ -1,3 +1,9 @@
+---
+description: >-
+  Discover the GitHub slash commands you can use with Aviator. Merge, cancel,
+  refresh, backport, stack merge, stack cancel, sync, and other core commands.
+---
+
 # GitHub Slash Commands
 
 {% hint style="info" %}

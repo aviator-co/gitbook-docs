@@ -1,3 +1,9 @@
+---
+description: >-
+  View documentation for TestDeck dashboard using this guide. Learn about
+  historical view, build reports, and test suite history.
+---
+
 # TestDeck Dashboard
 
 ## Historical view

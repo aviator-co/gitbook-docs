@@ -1,3 +1,10 @@
+---
+description: >-
+  Check out the analytics metrics you can access on the Analytics page of
+  Aviator and what they mean. Time in Queue, Aviator bot usage, PR failure
+  reasons, etc.
+---
+
 # Analytics
 
 Analytics offers insights into the performance of Aviator and provides metrics on its usage. The following metrics are offered on the Analytics page of Aviator.

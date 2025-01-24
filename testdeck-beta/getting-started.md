@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to configure TestDeck and start working with it. TestDeck allows you
+  to detect the most unreliable test cases and take immediate action on them.
+---
+
 # Getting started
 
 Aviator fetches the test results by using a custom plugin. Currently, we support CircleCI and Buildkite integrations. For both plugins, you need to specify two things: `AVIATOR_API_TOKEN` to associate the data with your account and the files associated with the test artifacts.

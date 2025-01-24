@@ -1,3 +1,10 @@
+---
+description: >-
+  Aviator provides sticky comments to show the PR status within GitHub. Check
+  out the core comments that are generated to better understand when you can see
+  them.
+---
+
 # Sticky Comments
 
 In addition to the dashboard, Aviator provides sticky comments to give you the status of a PR within GitHub.
@@ -8,13 +15,9 @@ Aviator posts a comment when a PR is opened, and will automatically update the c
 
 Having a sticky comment makes it easy for developers to find the status of the PR in one place, and also reduces noise if you set up notifications for new GitHub comments.
 
-
-
 {% hint style="info" %}
 You can also [<mark style="color:blue;">customize these sticky comments</mark>](../how-to-guides/customize-sticky-comments.md).
 {% endhint %}
-
-
 
 The following are some of the important of comments that are generated when comments are enabled:
 

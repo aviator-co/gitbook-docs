@@ -1,4 +1,8 @@
-# Using the GraphQL API
+---
+description: Use Aviator's GraphQL API to access pull request data.
+---
+
+# GraphQL API Quickstart
 
 This tutorial will show you how to use the Aviator GraphQL API to access pull request data from your Aviator account.
 
@@ -114,4 +118,4 @@ The output should be similar to:
 ## Learn more
 
 * See the official [<mark style="color:blue;">Introduction to GraphQL</mark>](https://graphql.org/learn/) tutorial to learn more about GraphQL.
-* [<mark style="color:blue;">GraphQL API reference</mark>](/api/reference/graphql.md)
+* [<mark style="color:blue;">GraphQL API reference</mark>](reference/graphql.md)

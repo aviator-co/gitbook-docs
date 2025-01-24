@@ -1,3 +1,10 @@
+---
+description: >-
+  Quickstart guide for Stacked PRs CLI. Learn how to use Aviator CLI to drive
+  day-to-day development. Initialization guidelines, topic branch creation, and
+  more.
+---
+
 # Quickstart
 
 This page explains how to use Aviator CLI to drive day-to-day development.

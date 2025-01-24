@@ -1,3 +1,10 @@
+---
+description: >-
+  View Slash commands you can use with FlexReview to interact with software
+  tools more efficiently. Suggest and Show Status commands explained with use
+  cases.
+---
+
 # Slash commands
 
 ### Suggest

@@ -1,3 +1,9 @@
+---
+description: >-
+  View our organizational security rules. Information Security Program, related
+  roles and responsibilities, third-party audits we undergo, and other details.
+---
+
 # Security
 
 ### Organizational Security

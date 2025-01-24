@@ -1,3 +1,10 @@
+---
+description: >-
+  Read how to configure Nx-based targets in MergeQueue. Nx is a popular build
+  framework for monorepos that identifies the targets that are affected by a
+  change.
+---
+
 # nx based affected targets
 
 [<mark style="color:blue;">Nx</mark>](https://nx.dev/) is a popular build framework for monorepos that focuses in simplicity. Like many other distributed build frameworks, the core concept is around identifying the targets that are affected in a change, and using a build cache. These same concepts can also be used for optimizing MergeQueue builds.

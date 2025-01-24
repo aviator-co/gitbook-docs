@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how to invoke Slash commands using GitHub Comments. Slash commands
+  enable teams to manage pull requests directly from the GitHub pull request
+  page.
+---
+
 # Slash Commands Using GitHub Comments
 
 Slash commands enable teams to manage their pull requests with Aviator directly from the GitHub pull request page. The commands are invoked by including the line `/aviator <command>` anywhere in your pull request comment (as long as it's on a line by itself).

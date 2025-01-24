@@ -1,10 +1,16 @@
-# Directory based affected targets
+---
+description: >-
+  Get setup instructions for automated and manually specified targets. Learn how
+  to manually define targets based on your directory structure in our guide.
+---
+
+# Directory-Based Affected Targets
 
 If you don't use Bazel like systems to auto-generate the affected targets, you can instead manually define targets based on your directory structure. There are two ways to do it.
 
 ### Automated (preferred)
 
-A GitHub action can be created to automatically assign affected targets to reach PR.&#x20;
+A GitHub action can be created to automatically assign affected targets to reach PR.
 
 ```yaml
 name: Aviator Queue PR

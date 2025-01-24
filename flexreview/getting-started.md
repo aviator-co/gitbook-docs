@@ -1,3 +1,9 @@
+---
+description: >-
+  Get started with FlexReview easily using our guide. Learn how to connect the
+  Aviator GitHub app to your GitHub repository to use FlexReview and more.
+---
+
 # Getting started
 
 FlexReview is a low-config tool that uses pull request history to dynamically understand code ownership.

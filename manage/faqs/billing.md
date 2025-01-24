@@ -1,3 +1,9 @@
+---
+description: >-
+  Find answers to common questions about Aviator billing and payments. Charges,
+  differences between collaborators and users, and more.
+---
+
 # Billing
 
 <details>

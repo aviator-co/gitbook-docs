@@ -1,3 +1,9 @@
+---
+description: >-
+  Use our guide for instrutions on how to schedule a release. Set up automated
+  creation of a new version of your software at specific intervals or times.
+---
+
 # Create a scheduled release
 
 Scheduling a release means setting up an automated process that triggers the creation of a new version of your software at specific times or intervals. Instead of manually deciding when to create a new version (release), you just define a cron expression of the schedule, and Aviator handles it automatically.

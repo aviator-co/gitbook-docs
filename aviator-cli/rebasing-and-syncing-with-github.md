@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to rebase and sync with GitHub. Aviator CLI fetches the latest
+  commits from the remote, and rebases your branches on top of the new commits.
+---
+
 # Rebasing and Syncing with GitHub
 
 When you work on a stack of branches, the state of the stack can be out of sync with the remote or a parent branch. For example, if the `main` branch on the remote gets updates by merging other pull-requests, or a new commit is added or a commit is amended in one of the parent branches, or some of the parents are merged, you want to rebase your branches on top of the new commits.

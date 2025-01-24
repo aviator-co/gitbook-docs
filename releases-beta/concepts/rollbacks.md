@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn about the rollback feature in Releases. Rollbacks enable you to revert
+  to a previous stable version when a newly deployed version has issues.
+---
+
 # Rollbacks
 
 Rollback is a mechanism to revert to a previous stable version when issues are detected in a newly deployed version. Rollbacks can be categorized in 3 different buckets:

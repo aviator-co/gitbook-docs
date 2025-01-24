@@ -1,5 +1,8 @@
 ---
 icon: square-terminal
+description: >-
+  Get instructions on managing stacked PRs with Aviator's open-source CLI in the
+  Aviator documentation. Create, update, and merge a stack using Aviator.
 ---
 
 # Stacked PRs CLI

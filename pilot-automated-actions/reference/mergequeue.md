@@ -1,3 +1,10 @@
+---
+description: >-
+  View the reference to MergeQueue's actions for Pilot Automation Actions. Use
+  these actions to manage and automate workflows and streamline other
+  operations.
+---
+
 # MergeQueue
 
 ## `mergequeue.copy_pull_request`

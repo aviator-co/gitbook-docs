@@ -1,3 +1,9 @@
+---
+description: >-
+  You can use a set of Aviator APIs and webhooks to build custom workflows. Get
+  instructions on how to queue / dequeue via API in our manual guide.
+---
+
 # Queue / Dequeue via API
 
 Aviator provides a set of [<mark style="color:blue;">APIs</mark>](https://docs.aviator.co/reference/api-documentation) and [<mark style="color:blue;">webhooks</mark>](https://docs.aviator.co/reference/webhooks) that you can leverage to build custom workflows. In addition, you can use the [<mark style="color:blue;">Pilot automated workflows</mark>](https://docs.aviator.co/reference/pilot-automated-actions) to define your custom logic.

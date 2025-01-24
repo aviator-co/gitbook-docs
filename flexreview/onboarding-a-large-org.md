@@ -1,3 +1,9 @@
+---
+description: >-
+  Get instructions on onboarding a large org. Migrating from the strict controls
+  of the Codeowners concept can enhance maintenance and bring other benefits.
+---
+
 # Onboarding a large org
 
 Moving away from the strict Codeowners concept is a big cultural change. This requires carefully planning and testing the FlexReview approach. If you do not use `CODEOWNERS` requirements in your GitHub repository, you can skip this doc.

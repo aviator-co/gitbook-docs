@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn about reviewer suggestions and assignments in FlexReview. Reviewer
+  suggestions reduce code review response time and help improve the developer
+  workflow.
+---
+
 # Reviewer suggestion and assignment
 
 ## Goals

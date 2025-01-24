@@ -1,6 +1,12 @@
-# Slack notifications
+---
+description: >-
+  Learn more about activating Slack integration with Aviator. It will allow you
+  to get daily summaries on the number of flaky runs, new flaky tests, etc.
+---
 
-Aviator currently has a daily summary sent via Slack notification that runs every day at 12pm UTC.  This requires the [<mark style="color:blue;">Slack integration</mark>](https://docs.aviator.co/reference/slack-integration) to be active. Please contact **support@aviator.co** to enable this.
+# Slack Notifications
+
+Aviator currently has a daily summary sent via Slack notification that runs every day at 12pm UTC. This requires the [<mark style="color:blue;">Slack integration</mark>](https://docs.aviator.co/reference/slack-integration) to be active. Please contact **support@aviator.co** to enable this.
 
 The daily summary includes:
 

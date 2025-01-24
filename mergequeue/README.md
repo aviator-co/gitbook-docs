@@ -1,6 +1,8 @@
 ---
 icon: list-radio
-description: Automated merge workflows for GitHub repositories.
+description: >-
+  Get introduced to MergeQueue to automate merge workflows for GitHub
+  repositories. Documentation on how it works.
 ---
 
 # MergeQueue

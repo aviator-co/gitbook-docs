@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how to use Docker Compose for on-premise Aviator installation. Minimum
+  requirements for the Aviator server, variable definitions, and configuration
+  steps.
+---
+
 # Use Docker Compose
 
 ### Minimum requirements for the Aviator server

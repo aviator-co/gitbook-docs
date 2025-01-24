@@ -1,3 +1,9 @@
+---
+description: >-
+  Read answers to the common questions users may face when using Aviator
+  MergeQueue.
+---
+
 # MergeQueue
 
 <details>

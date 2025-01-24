@@ -1,4 +1,10 @@
-# How to Set Up Fast-Forwarding
+---
+description: >-
+  Learn how to enable fast-forwarding in MergeQueue. Use our guide for detailed
+  instructions, sample configuration, and additional optimization settings.
+---
+
+# Set Up Fast-Forwarding
 
 ## Enable fast-forwarding in MergeQueue
 
@@ -29,15 +35,15 @@ preconditions:
 
 * To ensure that Aviator can forward your default branch, it may require additional privileges. Aviator requires permission to be able to force push to the default branch. To do so, you should authorize the Aviator app to be able to force push to the protected branch. We don’t force push the commits, but this is required to be able to fast forward protected branches that requires PullRequests.
 
-![](</.gitbook/assets/Screen Shot 2022-07-18 at 9.55.56 AM.png>)
+![](<../../.gitbook/assets/Screen Shot 2022-07-18 at 9.55.56 AM.png>)
 
 * If you have CODEOWNERS review requirements in your branch protection rules, you should also add `aviator-app` to `Allow specific actors to bypass required pull requests`:
 
-<figure><img src="/.gitbook/assets/Screen Shot 2022-10-13 at 3.30.34 PM.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screen Shot 2022-10-13 at 3.30.34 PM.png" alt=""><figcaption></figcaption></figure>
 
 * In addition, add `aviator-app` bot in `Restrict who can push to matching branches` only if you use this setting.
 
-<figure><img src="/.gitbook/assets/Screen Shot 2022-10-13 at 3.45.53 PM.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screen Shot 2022-10-13 at 3.45.53 PM.png" alt=""><figcaption></figcaption></figure>
 
 ## Optimize CI execution rules (optional)
 
@@ -50,4 +56,4 @@ That’s it, you should be up and running at this point. Give it a go and reach 
 
 ## Learn more
 
-* [<mark style="color:blue;">Fast-Forwarding conceptual overview</mark>](/mergequeue/concepts/parallel-mode/fast-forwarding.md)
+* [<mark style="color:blue;">Fast-Forwarding conceptual overview</mark>](../concepts/parallel-mode/fast-forwarding.md)

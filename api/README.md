@@ -1,8 +1,9 @@
 ---
 icon: webhook
+description: Use JSON, GraphQL, or webhook APIs to mutate resources and access Aviator.
 ---
 
-# API and Webhooks
+# API and Integrations
 
 Aviator supports two callable APIs to query and mutate the state of resources within Aviator:
 

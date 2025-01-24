@@ -1,5 +1,8 @@
 ---
 icon: robot
+description: >-
+  Aviator offers automated actions you can configure to perform specific actions
+  depending on an event or scenario. Learn how to write custom scenarios here.
 ---
 
 # Pilot Automated Actions

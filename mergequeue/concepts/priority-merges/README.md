@@ -1,10 +1,16 @@
+---
+description: >-
+  Find out how the priority merge feature works. When this label is applied to a
+  pull request, Aviator moves it to the front of the queue to be merged first.
+---
+
 # Priority Merges
 
 At times there are high priority changes that cannot wait for all the pull requests ahead of this change in the queue. With Aviator, you can handle this by applying a `skip_line` label. When this label is applied to a pull request, Aviator will move this pull request to the front of the queue to be merged first.
 
 ## Customizing the label
 
-The default `skip_line` label is `mergequeue-priority`. This label can also be customized via `merge_rules.labels` in [<mark style="color:blue;">the YAML config</mark>](https://app.aviator.co/schema/index.html#aviator\_config\_yaml.json):
+The default `skip_line` label is `mergequeue-priority`. This label can also be customized via `merge_rules.labels` in [<mark style="color:blue;">the YAML config</mark>](https://app.aviator.co/schema/index.html#aviator_config_yaml.json):
 
 ```
 merge_rules:

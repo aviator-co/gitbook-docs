@@ -1,3 +1,9 @@
+---
+description: >-
+  Learn how to setup Prometheus Metrics collection for GCP, with Open Telemetry
+  collector running on GKE, to scrape and feed the Aviator Prometheus metrics.
+---
+
 # How to Collect Monitoring Metrics in GCP Prometheus
 
 This how-to guide explains how to setup [<mark style="color:blue;">Prometheus Metrics collection</mark>](reference/monitoring-metrics.md) for GCP. We are going to use Open Telemetry collector running on GKE to scrape and feed the Aviator Prometheus metrics.

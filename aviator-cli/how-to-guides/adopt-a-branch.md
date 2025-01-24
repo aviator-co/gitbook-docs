@@ -1,3 +1,9 @@
+---
+description: >-
+  Documentation on adopting a branch with av CLI from Aviator with the command
+  av branch.
+---
+
 # Adopt a Branch
 
 Aviator CLI needs to maintain the metadata for branches so that it can remember the parent-child relationships among them. If you create branches with `av branch`, the metadata is created upon branch creation. You can attach the metadata for branches that are created with `git branch`.

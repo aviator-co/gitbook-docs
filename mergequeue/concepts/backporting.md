@@ -1,3 +1,10 @@
+---
+description: >-
+  Read how backporting works with Aviator MergeQueue. Backport a particular PR
+  on another base branch to create a new PR that keeps and applies original
+  changes.
+---
+
 # Backporting
 
 In many development workflows,developers may create separate stable branches for release candidates that are different from the trunk or default branch. In such cases, the branches may diverge significantly if they are long lived.

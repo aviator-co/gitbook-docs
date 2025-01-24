@@ -1,3 +1,9 @@
+---
+description: >-
+  Read about the paused queues feature and how MergeQueue works when a queue is
+  paused. Pausing a queue allows you to control whether devs can merge PRs.
+---
+
 # Paused Queues
 
 There are cases where you want to pause the queue. For example, during the holiday season, you do not want to get PRs merged. Pausing a queue allows you to control whether devs can merge PRs.

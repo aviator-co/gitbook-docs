@@ -1,3 +1,10 @@
+---
+description: >-
+  When a code review takes too long, by the time the PR is ready to be merged,
+  the PR may become stale. Get troubleshooring instructions to fix this issue
+  here.
+---
+
 # Reducing queue failures due to staleness
 
 When using the MergeQueue in parallel mode, typically one would wait for CI on the original PR to finish and then queue the PR. So the workflow looks like:
@@ -12,7 +19,7 @@ So by the time the PR is approved and ready to be merged, it’s possible that t
 
 <figure><img src="../../.gitbook/assets/Screen Shot 2023-11-30 at 7.02.56 PM.png" alt=""><figcaption></figcaption></figure>
 
-To reduce such queue resets, it’s better to revalidate the PRs if they are really stale. This can now be achieved using the Ready hook in Aviator. The ready hook is defined by creating a file in your GitHub repository at `.aviator/mergequeue/ready.js` and should define a function `ready` that will be called by the [Pilot JavaScript runtime](/pilot-automated-actions/js-execution.md).
+To reduce such queue resets, it’s better to revalidate the PRs if they are really stale. This can now be achieved using the Ready hook in Aviator. The ready hook is defined by creating a file in your GitHub repository at `.aviator/mergequeue/ready.js` and should define a function `ready` that will be called by the [Pilot JavaScript runtime](../../pilot-automated-actions/js-execution.md).
 
 To detect staleness and automatically update these PRs before they enter the queue, you can create the following ready hook:
 

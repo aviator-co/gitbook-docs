@@ -1,3 +1,9 @@
+---
+description: >-
+  Find details on access management in Aviator. Learn how to manage team access,
+  available user roles, Google SSO login, and SAML-based authentication config.
+---
+
 # Access Management
 
 ## **Managing team access**

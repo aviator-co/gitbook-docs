@@ -1,3 +1,10 @@
+---
+description: >-
+  Learn how to customize required checks in our guide for MergeQueue. Discover
+  several main approaches and use the most suitable and convenient one for your
+  team.
+---
+
 # Customize Required Checks
 
 You can configure required checks in a few different ways.
@@ -59,7 +66,7 @@ With this wildcard, Aviator will validate all checks with names matching this ex
 
 You can set custom acceptable statuses in the required check to support additional check statuses other than the default success.
 
-In the below example, Aviator will only consider the check unit-test as passing if we receive a success status. But for the check named _conditional\_build_, Aviator will also consider a skipped status as passing. You can see all possible `acceptable_statuses` in the [<mark style="color:blue;">reference doc</mark>](../reference/complete-reference-guide.md#acceptable\_statuses). These map to the statuses defined by GitHub [<mark style="color:blue;">here</mark>](https://docs.github.com/en/rest/checks/runs#get-a-check-run).
+In the below example, Aviator will only consider the check unit-test as passing if we receive a success status. But for the check named _conditional\_build_, Aviator will also consider a skipped status as passing. You can see all possible `acceptable_statuses` in the [<mark style="color:blue;">reference doc</mark>](../reference/complete-reference-guide.md#acceptable_statuses). These map to the statuses defined by GitHub [<mark style="color:blue;">here</mark>](https://docs.github.com/en/rest/checks/runs#get-a-check-run).
 
 ```
 merge_rules:

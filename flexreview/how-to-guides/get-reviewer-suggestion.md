@@ -1,3 +1,10 @@
+---
+description: >-
+  Get a reviewer suggestion from FlexReview with the Aviator app installed on
+  your GitHub repository. View suggested reviewers without adding comments to a
+  PR
+---
+
 # Get a reviewer suggestion
 
 With the Aviator app installed on your GitHub repository, it is possible to request suggested reviewers from FlexReview. This is done using a GitHub comment slash command:

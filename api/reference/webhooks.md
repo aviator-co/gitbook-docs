@@ -1,3 +1,10 @@
+---
+description: >-
+  Get instructions on using webhooks with the Aviator developer collaboration
+  suite. Your app can use webhooks to subscribe to events on your Aviator
+  account.
+---
+
 # Webhooks
 
 Your application can use webhooks to subscribe to events happening on your Aviator account.
