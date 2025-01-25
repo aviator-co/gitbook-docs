@@ -10,7 +10,7 @@ Teams can configure their assignment method to use PagerDuty schedule. To use Pa
 
 You need to create a PagerDuty App for your Aviator installation. In the Integration menu, you can find App Registration link.&#x20;
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
 
 Create a new app with OAuth 2.0 functionality. In the permission settings, check Scoped OAuth and give read access to following 4 resources:
 
@@ -32,7 +32,7 @@ Restart the server to reflect the environment variable changes.
 
 Once the server setup is done, you can see the oncall assignment option in the team config page.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 Set the ID of the escalation policy. If your PagerDuty escalation policy page's URL is `https://acmecorp.pagerduty.com/escalation_policies/PCR31GJ` then `PCR31GJ` is the escalation policy ID.
 

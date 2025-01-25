@@ -31,9 +31,15 @@ You can set both internal and external review SLOs, and ensure that the SLO is o
 
 <figure><img src="../../.gitbook/assets/Screen Shot 2024-04-24 at 5.44.52 PM.png" alt="" width="563"><figcaption><p>Set up team-specific SLOs.</p></figcaption></figure>
 
-### Policies for Automated Actions
+### Team Default Slack Channel
 
-FlexReview also allows teams to set up policies for automated actions. If multiple teams are responsible for a single PR, all rules for the relevant teams will be triggered.
+You can specify the team Slack channel. This is used for notifications in the automation rules below.
+
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+### Automation Rules
+
+FlexReview allows teams to set up automations. If multiple teams are responsible for a single PR, all rules for the relevant teams will be triggered.
 
 Trigger options:
 
@@ -46,4 +52,6 @@ Action options:
 * Send a Slack message to the team channel
 * Reassign the PR to another reviewer
 
-<figure><img src="../../.gitbook/assets/Screen Shot 2024-04-24 at 5.45.44 PM.png" alt="" width="563"><figcaption><p>Set up automated actions for you team.</p></figcaption></figure>
+You can configure the rule to cascade to all decendent teams.
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
