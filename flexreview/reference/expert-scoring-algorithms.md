@@ -29,4 +29,4 @@ Expert load-balancing is an assignment method that combines expertise assignment
 
 <figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
-Based on the expert scores of the users, we make two clusters of the users; high score users and low score users. Among the high score users, it assigns a reviewer to balance out the review loads.
+Based on the expert scores, we make two clusters of the users; high score users and low score users. Among the high score users, it assigns a reviewer to balance out the review loads.
