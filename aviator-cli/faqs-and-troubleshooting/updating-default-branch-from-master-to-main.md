@@ -4,7 +4,7 @@ description: >-
   StackedPRs CLI.
 ---
 
-# Updating default branch from master to main
+# Default Branch Update Master to Main
 
 If you choose to switch over the default branch, for instance from master to main, a few steps must be taken to update Stacked PRs CLI to handle this change:
 
@@ -22,7 +22,7 @@ You can read the git man page for more details:\
 In your repository `.git` directory has a file named `.git/av/av.db`. This file is a JSON document. If you open that, you can see sections like this:\
 
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 This file is used by the `av` CLI to track each branch's parent. You can change `master` to  `main` or whatever default branch name change you are making for all existing branches. If you are unsure, please take a backup.
 

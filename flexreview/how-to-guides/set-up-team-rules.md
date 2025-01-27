@@ -5,7 +5,7 @@ description: >-
   more.
 ---
 
-# Set up team rules
+# How to Set Up Team Rules
 
 Navigate to the FlexReview Teams page to start your setup.
 
@@ -35,7 +35,7 @@ You can set both internal and external review SLOs, and ensure that the SLO is o
 
 You can specify the team Slack channel. This is used for notifications in the automation rules below.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Automation Rules
 
@@ -54,4 +54,4 @@ Action options:
 
 You can configure the rule to cascade to all decendent teams.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
