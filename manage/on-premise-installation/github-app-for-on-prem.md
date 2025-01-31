@@ -90,13 +90,17 @@ Check the following
 * Issue Comment
 * Label
 * Member
+* Membership
 * Public
 * Pull request
 * Pull request review
 * Pull request review comment
 * Pull request review thread
 * Push
+* Repository
 * Status
+* Team
+* Workflow run
 
 **Where can GitHub App be installed**: Any account
 
