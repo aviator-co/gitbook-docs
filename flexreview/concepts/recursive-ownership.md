@@ -1,4 +1,10 @@
-# Direct and indirect ownership
+---
+description: >-
+  Learn how recursive ownership enhances code review workflows by assigning
+  ownership dynamically in FlexReview.
+---
+
+# Recursive Ownership in FlexReview
 
 GitHub defines [`CODEOWNERS` config](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners). However, its semantics is not expressive enough to capture the actual shape of code ownership. We define a new format to define ownership for the codebase.
 

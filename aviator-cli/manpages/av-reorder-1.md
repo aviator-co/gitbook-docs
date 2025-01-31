@@ -1,4 +1,10 @@
-# av-reorder(1)
+---
+description: >-
+  View av-stack-reorder(1) command documentation for Stacked PRs CLI. Use the
+  command to re-arrange branches within the stack and drop or move commits.
+---
+
+# av-stack-reorder(1) in CLI
 
 ### NAME
 

@@ -1,4 +1,10 @@
-# av-branch(1)
+---
+description: >-
+  View the av-stack-branch(1) command documentation in manual pages for Stacked
+  PRs CLI. Use this command to create or rename a branch in the stack.
+---
+
+# av-stack-branch(1) in CLI
 
 ### NAME
 

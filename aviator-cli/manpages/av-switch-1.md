@@ -1,4 +1,10 @@
-# av-switch(1)
+---
+description: >-
+  Learn how to use the av-switch command for seamless branch switching in
+  Aviator CLI.
+---
+
+# av-switch Command Guide
 
 ### NAME
 

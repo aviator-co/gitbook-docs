@@ -1,4 +1,10 @@
-# av-orphan(1)
+---
+description: >-
+  Learn how to use the av-orphan command to manage orphan branches efficiently
+  in Aviator CLI.
+---
+
+# av-orphan Command Guide
 
 ### NAME
 

@@ -1,4 +1,10 @@
-# Whitelist Teams for reviewer assignment
+---
+description: >-
+  Step-by-step guide on whitelisting teams for automatic reviewer assignment in
+  FlexReview.
+---
+
+# Whitelist Teams for Review Assignment
 
 When [onboarding a large org](../onboarding-a-large-org.md), it may be preferred to test out reviewer assignment for a select number of pull requests. There are a couple of ways to do selective reviewer assignment.
 
@@ -31,4 +37,4 @@ Please note that these whitelists act as AND-gates, that means a pull request wi
 ## See also
 
 * [Onboarding a large org](../onboarding-a-large-org.md)
-* [Troubleshooting reviewer assignment](troubleshooting-reviewer-assignment.md)
+* [Troubleshooting reviewer assignment](troubleshoot-reviewer-assignment.md)

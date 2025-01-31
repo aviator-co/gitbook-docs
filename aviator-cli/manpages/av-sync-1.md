@@ -1,4 +1,10 @@
-# av-sync(1)
+---
+description: >-
+  Access manual pages for the av-stack-sync(1) command in Stacked PRs CLI. This
+  command is used to fetch and push the changes to the remote GitHub repository.
+---
+
+# av-stack-sync(1) in CLI
 
 ### NAME
 

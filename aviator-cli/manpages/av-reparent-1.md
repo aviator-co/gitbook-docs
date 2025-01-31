@@ -1,4 +1,10 @@
-# av-reparent(1)
+---
+description: >-
+  Understand the av-reparent command for restructuring Git branches in Aviator
+  CLI.
+---
+
+# av-reparent Command Guide
 
 ### NAME
 

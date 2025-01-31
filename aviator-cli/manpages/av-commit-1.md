@@ -1,4 +1,10 @@
-# av-commit(1)
+---
+description: >-
+  Find information about the av-commit-create(1) command in manual pages for
+  Stacked PRs CLI. Synopsis, description, and options in Aviator Documentation.
+---
+
+# av-commit-create(1) in CL
 
 ### NAME
 

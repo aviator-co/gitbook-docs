@@ -1,4 +1,11 @@
-# av-next(1)
+---
+description: >-
+  Access manual pages for the av-stack-next(1) command in Stacked PRs CLI
+  documentation. This command will default to checking out the next branch in
+  the stack.
+---
+
+# av-stack-next(1) in CLI
 
 ### NAME
 

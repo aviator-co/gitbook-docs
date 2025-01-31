@@ -1,4 +1,10 @@
-# av-adopt(1)
+---
+description: >-
+  Learn how to use the av-adopt command in Aviator CLI for seamless repository
+  adoption.
+---
+
+# av-adopt Command Guide
 
 NAME
 

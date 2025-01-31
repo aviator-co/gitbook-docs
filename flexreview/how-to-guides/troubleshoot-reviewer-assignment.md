@@ -1,8 +1,14 @@
-# Troubleshooting reviewer assignment
+---
+description: >-
+  Find and fix issues with automatic reviewer assignment in FlexReview using
+  this troubleshooting guide.
+---
+
+# Troubleshoot Reviewer Assignment
 
 ## A reviewer is not assigned to a PR
 
-Make sure you have read the [whitelist Teams](whitelist-teams-for-reviewer-assignment.md) for reviewer assignment. The most common reasons why a reviewer may not be assigned:
+Make sure you have read the [whitelist Teams](whitelist-teams-for-review-assignment.md) for reviewer assignment. The most common reasons why a reviewer may not be assigned:
 
 1. Do you use a CODEOWNERS file? FlexReview currently requires presence of a CODEOWNERS or an `.aviator/OWNERS`file to suggest reviewers.
 2. Is FlexReview global enabled for this repository? From the menu, go to Repositories and check the FlexReview status for the repository. Enable it if it's not already enabled. It may take a few minutes for Aviator to index the pull request data after enabling FlexReview global config.

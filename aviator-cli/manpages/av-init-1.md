@@ -1,4 +1,10 @@
-# av-init(1)
+---
+description: >-
+  View manual pages for the av-init(1) command. Aviator CLI internally stores
+  metadata in the repository. This command initializes the metadata storage.
+---
+
+# av-init(1) in CLI
 
 ### NAME
 

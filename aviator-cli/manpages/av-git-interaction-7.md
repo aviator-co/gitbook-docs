@@ -1,4 +1,10 @@
-# av-git-interaction(7)
+---
+description: >-
+  Discover how the av-git-interaction command improves Git workflows in Aviator
+  CLI.
+---
+
+# av-git-interaction Command Guide
 
 ### NAME
 

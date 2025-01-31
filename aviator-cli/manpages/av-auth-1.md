@@ -1,4 +1,10 @@
-# av-auth(1)
+---
+description: >-
+  Access key information about the av-auth-status(1) command in manual pages for
+  Stacked PRs CLI. Name, synopsis, and description in Aviator Documentation.
+---
+
+# av-auth-status(1) in CLI
 
 ### NAME
 

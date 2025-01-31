@@ -1,4 +1,11 @@
-# av-fetch(1)
+---
+description: >-
+  Learn more about the av-fetch(1) command in manual pages for Stacked PRs CLI.
+  Fetch the latest repository state from GitHub with the Aviator developer
+  suite.
+---
+
+# av-fetch(1) in CLI
 
 ### NAME
 

@@ -1,4 +1,8 @@
-# av-restack(1)
+---
+description: Optimize stacked pull requests using the av-restack command in Aviator CLI.
+---
+
+# av-restack Command Guide
 
 ### NAME
 

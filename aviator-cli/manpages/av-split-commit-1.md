@@ -1,4 +1,10 @@
-# av-split-commit(1)
+---
+description: >-
+  View key information about the av-commit-split(1) command in manual pages for
+  Stacked PRs CLI. Split the currently checked out commit into multiple commits.
+---
+
+# av-commit-split(1) in CLI
 
 ### NAME
 

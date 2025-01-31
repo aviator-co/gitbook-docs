@@ -1,4 +1,11 @@
-# av-pr(1)
+---
+description: >-
+  Manual pages for the av-pr-create(1) command in Stacked PRs CLI. Use it to
+  create a pull request for the current branch. Description, options, and
+  examples.
+---
+
+# av-pr-create(1) in CLI
 
 ### NAME
 

@@ -1,4 +1,10 @@
-# av-tidy(1)
+---
+description: >-
+  Manual pages for the av-stack-tidy(1) command in Stacked PRs CLI. This command
+  detects deleted or merged branches and re-parents children of merged branches.
+---
+
+# av-stack-tidy(1) in CLI
 
 ### NAME
 

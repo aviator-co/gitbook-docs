@@ -1,4 +1,11 @@
-# av-prev(1)
+---
+description: >-
+  Learn more about the av-stack-prev(1) command in Stacked PRs CLI
+  documentation. This command will default to checking out the previous branch
+  in the stack.
+---
+
+# av-stack-prev(1) in CLI
 
 ### NAME
 

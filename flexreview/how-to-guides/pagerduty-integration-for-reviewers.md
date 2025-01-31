@@ -1,4 +1,10 @@
-# PagerDuty assignment
+---
+description: >-
+  Set up PagerDuty for automated reviewer assignments in FlexReview with this
+  step-by-step guide.
+---
+
+# PagerDuty Integration for Reviewers
 
 {% hint style="info" %}
 This feature is currently available only for on-prem users.

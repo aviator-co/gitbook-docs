@@ -4,7 +4,7 @@ description: >-
   of the Codeowners concept can enhance maintenance and bring other benefits.
 ---
 
-# Onboarding a large org
+# How to Onboard a Large Org
 
 Moving away from the strict Codeowners concept is a big cultural change. This requires carefully planning and testing the FlexReview approach. If you do not use `CODEOWNERS` requirements in your GitHub repository, you can skip this doc.
 
@@ -52,7 +52,7 @@ This will [suggest reviewers](how-to-guides/get-reviewer-suggestion.md) and post
 
 #### Choosing the right team
 
-You can [specify one or more teams](how-to-guides/whitelist-teams-for-reviewer-assignment.md) that you would like FlexReview to find reviewers for. You would ideally want to choose a team that gets a lot of review requests from outside of that team. That’s because these might be the reviews that hits the most bottlenecks and would benefit the most.
+You can [specify one or more teams](how-to-guides/whitelist-teams-for-review-assignment.md) that you would like FlexReview to find reviewers for. You would ideally want to choose a team that gets a lot of review requests from outside of that team. That’s because these might be the reviews that hits the most bottlenecks and would benefit the most.
 
 When specified, all PRs that touch the file paths owned by these teams will get a suggested reviewers GitHub comment from FlexReview. Since these directories are managed by Codeowners, FlexReview will only suggest valid reviewers based on the Codeowners file.
 
@@ -84,8 +84,8 @@ Not all code paths are the same. As you are relaxing the requirements for code r
 
 ## See also
 
-* [Whitelist teams for reviewer assignment](how-to-guides/whitelist-teams-for-reviewer-assignment.md)
-* [Troubleshooting reviewer assignment](how-to-guides/troubleshooting-reviewer-assignment.md)
+* [Whitelist teams for reviewer assignment](how-to-guides/whitelist-teams-for-review-assignment.md)
+* [Troubleshooting reviewer assignment](how-to-guides/troubleshoot-reviewer-assignment.md)
 * [Get a reviewer suggestion](how-to-guides/get-reviewer-suggestion.md)
 * [Exclusing reviewers](how-to-guides/excluding-reviewers.md)
 

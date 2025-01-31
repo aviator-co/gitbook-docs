@@ -1,4 +1,10 @@
-# av-diff(1)
+---
+description: >-
+  View manual pages for the av-stack-diff(1)  command in Stacked PRs CLI. The
+  command generates the diff between the working tree and the parent branch.
+---
+
+# av-stack-diff(1) in CLI
 
 ### NAME
 
