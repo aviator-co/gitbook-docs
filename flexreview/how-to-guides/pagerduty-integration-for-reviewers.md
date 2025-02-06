@@ -47,3 +47,19 @@ Set the ID of the escalation policy. If your PagerDuty escalation policy page's 
 The Aviator server gets the email address of the oncall. Based on this email address, it looks up the user in the Aviator user database. In order to assign them as a reviewer, each user needs to have their GitHub username registered. To do this, see [slack-integration.md](../../mergequeue/how-to-guides/custom-integrations/slack-integration.md "mention").
 
 We can support batch creation and association of the users. Please contact us if you need this.
+
+## Escalation policies and assignment
+
+PagerDuty's escalation policy can have multiple levels. For example, once an incident happens, alert on the oncall of this schedule. Then after 15 minutes, escalate to this schedule. And so on. FlexReview will roughly follow this rule. It will assign somebody from the first level in the escalation policy. If it cannot find a user to assign, it will check the next level.
+
+&#x20;For example, with the following escalation policy:
+
+<figure><img src="../../.gitbook/assets/2025-02-05 15-26-59.png" alt=""><figcaption></figcaption></figure>
+
+FlexReview tries to assign the oncall of the schedule specified in the level one. If the oncall of that schedule doesn't have a GitHub user associated or if the PR author is that oncall person, it moves on to the next level. The second level has a single user, and it tries to assign that person as a reviewer. It keeps doing this until we find one. If it cannot find any, FlexReview will not assign anybody.
+
+If there are multiple people in the same level, FlexReview will randomly pick one.
+
+## Reviewer exclusion list
+
+PagerDuty assignment rule will ignore the reviewer exclusion list configured at the repository. This is to avoid pull request being dropped without any assignment to the oncall.
