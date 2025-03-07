@@ -19,7 +19,7 @@ This score calculation logic takes into account many factors. However, we are ta
 
 Review load for a user is basically calculated as "number of PRs interacted in the past week", but we add a modification to it.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
 
 Whenever a user interacts with a PR (e.g. leaving a review / comment), the user is considered to have 1 review load. This number decreases over time for 7 days. For example, when a user leaves a review for a PR, that adds 1 review load. After 3.5 days have passed, the review load is decreased to 0.5 for that PR. This review load counting is done per PR and user, and the review load for a user at any point is sum of those PR-User load. This way, the review load of a person will gradually change rather than abruptly going up and down.
 
@@ -27,6 +27,6 @@ Whenever a user interacts with a PR (e.g. leaving a review / comment), the user 
 
 Expert load-balancing is an assignment method that combines expertise assignment and load-balancing assignment.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Based on the expert scores, we make two clusters of the users; high score users and low score users. Among the high score users, it assigns a reviewer to balance out the review loads.

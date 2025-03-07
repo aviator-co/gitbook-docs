@@ -16,7 +16,7 @@ description: >-
 
 Install from [<mark style="color:blue;">Chrome Web Store</mark>](https://chrome.google.com/webstore/detail/aviator-chrome-extension/inoabloekooadaolcncfmpgafkgbgnif). After the installation, open your pull-request, and you can find a log-in button instead of the GitHub merge button.
 
-<figure><img src="../.gitbook/assets/image (4).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Click the login button, and you'll redirected to the Aviator login page. If you are already logged in, it should automatically get back to the original PR page.
 
@@ -67,8 +67,8 @@ If you need, there is an option to show the original GitHub merge button.
 
 You can open the extension option page from the extension menu.
 
-<figure><img src="../.gitbook/assets/image (3).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 You can specify your on-prem Aviator deployment URL.
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>

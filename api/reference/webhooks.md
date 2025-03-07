@@ -35,7 +35,8 @@ Each PullRequest webhook event payload contains the following properties.
 | **pr\_reset\_count**       | _Optional. Integer_. Number of PRs that were reset due to a reset. This property only exists in a `reset` action.                                                                                       |
 | **closed\_bot\_pr\_count** | _Optional. Integer._ Number of Bot PRs that were closed due to a reset. This property only exists in a `reset` action.                                                                                  |
 | **bot\_pull\_request**     | _Optional. BotPR._ This property only exists in a `reset` action that is caused by a test failure of a Bot PR.                                                                                          |
-| **blocking\_pr\_numbers**  | Optional. List of PR numbers that are blocking the current PR. Only available in `added_to_batch` event.                                                                                                |
+| **blocking\_pr\_numbers**  | _Optional_. List of PR numbers that are blocking the current PR. Only available in `added_to_batch` event.                                                                                              |
+| **instant\_merge**         | _Optional_. _Boolean_. Indicates if the PR was instant merged. See [Instant Merges](https://docs.aviator.co/mergequeue/concepts/priority-merges/instant-merges) for more info.                          |
 
 ### Actions
 

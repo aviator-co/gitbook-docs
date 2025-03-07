@@ -4,7 +4,7 @@ description: >-
   collector running on GKE, to scrape and feed the Aviator Prometheus metrics.
 ---
 
-# How to Collect Monitoring Metrics in GCP Prometheus
+# Prometheus Metrics Setup for GCP
 
 This how-to guide explains how to setup [<mark style="color:blue;">Prometheus Metrics collection</mark>](reference/monitoring-metrics.md) for GCP. We are going to use Open Telemetry collector running on GKE to scrape and feed the Aviator Prometheus metrics.
 
@@ -133,4 +133,4 @@ spec:
 
 The metrics should appear as a Prometheus Metric. You can setup a dashboard like this to monitor the queue length and GitHub API usage on your account.
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>

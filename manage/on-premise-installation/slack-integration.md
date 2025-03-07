@@ -5,7 +5,7 @@ description: >-
   app.
 ---
 
-# Slack Integration
+# Slack Integration for On-Premise
 
 There are extra steps for the on-prem installations in order to use [<mark style="color:blue;">Slack Integration</mark>](../../api/personal-integrations.md).
 
@@ -33,30 +33,21 @@ GITHUB_CLIENT_SECRET = "..."
 
 Feel free to set an app icon for Aviator in `Display Information`.
 
-### Add Features and Functionality
-
-Select the following:
-
-* Incoming Webhooks
-* Slash Commands
-* Bots
-* Permissions
-
-<figure><img src="../../.gitbook/assets/Screen Shot 2022-10-25 at 5.23.46 PM.png" alt=""><figcaption><p>Select these functionalities.</p></figcaption></figure>
-
 ### OAuth and Permissions
 
 #### Redirect URL
 
 Set up a redirect URL: `https://<your_domain>/internal/api/slack/oauth/finish`
 
+<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption><p>Setup your OAuth redirect URL.</p></figcaption></figure>
+
 #### Scopes
 
-Select the following **Bot Token Scopes:** `chat:write`, `chat:write.customize`, `commands`, `im:write`, `incoming-webhook`. Please make sure to set these correctly, they are required for the Slack OAuth flow.
+Select the following **Bot Token Scopes:** `chat:write`, `chat:write.public`, `commands`, `im:write`. Please make sure to set these correctly, they are required for the Slack OAuth flow.
 
-<figure><img src="../../.gitbook/assets/Screen Shot 2022-10-25 at 6.41.06 PM.png" alt=""><figcaption><p>Add bot scopes.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Add bot scopes.</p></figcaption></figure>
 
-### Add Slash commands
+### Add slash commands
 
 Create the following slash command, it will link a user’s Slack account with their Aviator activity on GitHub so individuals can receive DMs about their own PRs.
 
@@ -67,6 +58,28 @@ Create the following slash command, it will link a user’s Slack account with t
 **Short Description**: `connect your Slack account`
 
 **Usage Hint**: `connect`
+
+<figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption><p>Add the slash commands.</p></figcaption></figure>
+
+### Add in Slack Home Page
+
+In your app config navigate to `Features -> Event Subscriptions`.
+
+#### Enable Event Subscriptions
+
+Set up a request URL: `https://<your_domain>/slack/events`
+
+#### Subscribe to bot events
+
+Select the following bot events to subscribe to: `app_home_opened`
+
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Enable bot events</p></figcaption></figure>
+
+#### Enable Home Tab
+
+In `Features -> App Home`enable the App Home's Home Tab.
+
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption><p>Enable the Home Tab</p></figcaption></figure>
 
 ## Connect the App
 
