@@ -43,7 +43,7 @@
     * [Whitelist Teams for Review Assignment](flexreview/how-to-guides/whitelist-teams-for-review-assignment.md)
     * [Troubleshoot Reviewer Assignment](flexreview/how-to-guides/troubleshoot-reviewer-assignment.md)
     * [PagerDuty Integration for Reviewers](flexreview/how-to-guides/pagerduty-integration-for-reviewers.md)
-    * [How to Set Up FlexReivew Validation](flexreview/how-to-guides/how-to-set-up-flexreivew-validation.md)
+    * [How to Set Up FlexReview Validation](flexreview/how-to-guides/how-to-set-up-flexreview-validation.md)
   * [FlexReview Reference](flexreview/reference/README.md)
     * [Configuration](flexreview/reference/configuration.md)
     * [Slash commands](flexreview/reference/flexreview-slash-commands.md)

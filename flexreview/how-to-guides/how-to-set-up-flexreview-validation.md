@@ -1,4 +1,4 @@
-# How to Set Up FlexReivew Validation
+# How to Set Up FlexReview Validation
 
 ### **How to Enable FlexReview Validation**
 
