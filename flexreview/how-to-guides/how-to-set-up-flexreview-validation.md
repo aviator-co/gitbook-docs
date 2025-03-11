@@ -4,7 +4,7 @@ description: Learn how to enable FlexReview validation in both Aviator and GitHu
 
 # How to Set Up FlexReview Validation
 
-### **How to Enable FlexReview Validation**
+**How to Enable FlexReview Validation**
 
 FlexReview validation can be enabled in the FlexReview repository-level settings of a specific repo:
 
@@ -17,12 +17,17 @@ To use FlexReview Validation, add the relevant base branches to your FlexReview 
 * Validation applies only to pull request targeting these specified branches.
 * Isolated branches are excluded from Validation.
 
-You can also configure what slack channel break-glass override notifications will be sent to.
+You can also configure what slack channel break-glass override notifications will be sent to.ˇ
 
 #### GitHub changes
 
 * When configuring FlexReview Validation, you should move you GitHub Codeowners file to Aviator Owners file to avoid GitHub overriding the validation settings
 * In GitHub branch protection rules, make sure the setting “dismiss all approvals on push” is disabled.
+* Add Aviator FlexReview as a required check in your branch ruleset:
+
+<figure><img src="../../.gitbook/assets/76D8AD88-5F23-4351-A8F6-34FCCD728307_1_201_a.jpeg" alt=""><figcaption><p>The "require status checks to pass" option on GitHub's branch rulesets page.</p></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>An aviator/flexreview status check in GitHub.</p></figcaption></figure>
 
 ## **Break-Glass Functionality**
 

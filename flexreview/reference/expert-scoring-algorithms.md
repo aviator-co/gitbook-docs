@@ -27,6 +27,6 @@ Whenever a user interacts with a PR (e.g. leaving a review / comment), the user 
 
 Expert load-balancing is an assignment method that combines expertise assignment and load-balancing assignment.
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Based on the expert scores, we make two clusters of the users; high score users and low score users. Among the high score users, it assigns a reviewer to balance out the review loads.

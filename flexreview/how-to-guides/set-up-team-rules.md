@@ -35,7 +35,7 @@ You can set both internal and external review SLOs, and ensure that the SLO is o
 
 You can specify the team Slack channel. This is used for notifications in the automation rules below.
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Automation Rules
 

@@ -55,9 +55,9 @@ FlexReview requires minimal configuration. Once you have tested Aviator FlexRevi
 
 [FlexReview validation](concepts/validation-in-flexreview.md) enhances code reviews by validating the required approvals for a pull request based on file ownership and selectively dismisses reviewers based on file changes. It can be enabled through the FlexReview configuration page and will add a status check to all pull requests. This pull request can then be made a required check for merging.
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>Enabling validation on the FlexReview configuration page.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Enabling validation on the FlexReview configuration page.</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>The FlexReview validation status check on a GitHub pull request.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>The FlexReview validation status check on a GitHub pull request.</p></figcaption></figure>
 
 
 
