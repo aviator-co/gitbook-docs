@@ -84,7 +84,7 @@ Not all code paths are the same. As you are relaxing the requirements for code r
 
 ### Validation
 
-[FlexReview Validation](concepts/validation-in-flexreview.md) is a feature that allows you to leverage your configured Aviator code OWNERS data into into meaningful review approval validation. Reviewers will be responsible for approving on behalf of the files they own, and the pull request will not be mergable until all files have been approved by the appropriate owners. Reviewers will also be selectively dismissed when new code changes are pushed based on what files were changed.
+[FlexReview Validation](concepts/validation-in-flexreview.md) is a feature that allows you to leverage your configured Aviator OWNERS data into meaningful review approval validation. Reviewers will be responsible for approving on behalf of the files they own, and the pull request will not be mergable until all files have been approved by the appropriate owners. Reviewers will also be selectively dismissed when new code changes are pushed based on what files were changed.
 
 Setting up validation is simple. After following the above steps, go to your repository's FlexReview configuration page and enable validation:
 
