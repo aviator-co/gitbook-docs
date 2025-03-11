@@ -1,8 +1,8 @@
 ---
-icon: puzzle-piece
 description: >-
   Access Aviator's Chrome extension for MergeQueue and AttentionSet features.
   Find implementation and usecase instructions in our documentation.
+icon: puzzle-piece
 ---
 
 # Aviator's Chrome Extension
@@ -71,4 +71,4 @@ You can open the extension option page from the extension menu.
 
 You can specify your on-prem Aviator deployment URL.
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>

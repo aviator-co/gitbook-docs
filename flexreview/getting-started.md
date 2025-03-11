@@ -4,7 +4,7 @@ description: >-
   Aviator GitHub app to your GitHub repository to use FlexReview and more.
 ---
 
-# Getting started
+# Getting Started with FlexReview
 
 FlexReview is a low-config tool that uses pull request history to dynamically understand code ownership.
 
@@ -49,7 +49,15 @@ Use the Slash command in GitHub comments to get suggestions directly in your pul
 
 ### Step 5: Picking the Team
 
-FlexReview requires a minimal configuration. Once you have tested Aviator FlexReview manually using Slash commands, you can start activating it for specific teams in your organization. Once activated, you can now go to the Team config and set up the reviewer assignment rules and optionally define the SLOs and the automated actions. All subsequent pull requests that modify the code owned by this team will start seeing reviewer suggestion comments and assign reviewers based on the configured policy.
+FlexReview requires minimal configuration. Once you have tested Aviator FlexReview manually using Slash commands, you can start activating it for specific teams in your organization. Once activated, you can now go to the Team config and set up the reviewer assignment rules and optionally define the SLOs and the automated actions. All subsequent pull requests that modify the code owned by this team will start seeing reviewer suggestion comments and assign reviewers based on the configured policy.
+
+### Step 6: Enabling FlexReview Validation
+
+[FlexReview validation](concepts/validation-in-flexreview.md) enhances code reviews by validating the required approvals for a pull request based on file ownership and selectively dismisses reviewers based on file changes. It can be enabled through the FlexReview configuration page and will add a status check to all pull requests. This pull request can then be made a required check for merging.
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>Enabling validation on the FlexReview configuration page.</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>The FlexReview validation status check on a GitHub pull request.</p></figcaption></figure>
 
 
 

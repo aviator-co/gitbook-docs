@@ -1,8 +1,8 @@
 ---
 description: >-
   Validation enhances code reviews by validating the required approvals based on
-  the defined ownership and selectively dismissing reviewers based on code
-  changes.
+  the defined ownership of the code and selectively dismisses reviewers based on
+  code changes.
 ---
 
 # Validation in FlexReview
