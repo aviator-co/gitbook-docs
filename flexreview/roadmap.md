@@ -4,7 +4,7 @@ description: >-
   requests for future releases.
 ---
 
-# Roadmap
+# FlexReview Roadmap
 
 ## FlexReview Roadmap
 
@@ -12,7 +12,7 @@ There’s a lot to that goes into building an end-to-end code review experience 
 
 The list below is in the order of priority.
 
-## Chrome Extension
+## Chrome Extension :white\_check\_mark:
 
 * See notifications for PRs needing your attention
 * See suggested reviewers in GitHub UI
@@ -22,20 +22,22 @@ The list below is in the order of priority.
 
 Track author’s and reviewers’ timezones for accurate calculation of SLO requirements.
 
-## Multiple reviewers
+## Multiple reviewers :white\_check\_mark:
 
 Certain changes / files may need to be reviewed by multiple reviewers before these can be merged. For example, some changes may require the feature team and security team to both sign off.
 
 With multiple reviewers feature you can configure specific file(s) where two or more reviewers must approve for the changes to merge.
 
+This is already implemented, read [Multiple Reviewer Assignment concept](concepts/reviewer-suggestion-and-assignment.md#multiple-reviewer-assignment) for details.
+
 ## Coaching mode
 
 Prioritize the new members in the team for review assignment when the changes are authored by expert reviewers.
 
-## Oncall schedules
+## Oncall schedules :white\_check\_mark:
 
-Configure code review oncall schedules at the team level.
+Configure code review oncall schedules at the team level. This is currently available for onprem users. Check out [PagerDuty Integration for Reviewers](how-to-guides/pagerduty-integration-for-reviewers.md).
 
-## Distributed config
+## Distributed config :white\_check\_mark:
 
 Allow Codeowners style override configs to be applied at each directory level instead of one global config.

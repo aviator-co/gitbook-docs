@@ -1,11 +1,11 @@
 ---
-icon: code-merge
 description: >-
   Learn about Aviator FlexReview, a framework that speeds up code reviews by
   understanding the nuances of every code change and assigning reviewers.
+icon: code-merge
 ---
 
-# FlexReview (Beta)
+# FlexReview
 
 {% hint style="success" %}
 Read our launch post about why we built FlexReview: [https://www.aviator.co/blog/flexreview-a-flexible-code-review-framework/](https://www.aviator.co/blog/flexreview-a-flexible-code-review-framework/)
@@ -17,17 +17,19 @@ FlexReview is a code review platform focusing on teams. With GitHub `CODEOWNERS`
 
 FlexReview consists of following components:
 
-* Define recursive ownership
+* [Recursive ownership](concepts/recursive-ownership.md)
   * GitHub `CODEOWNERS`semantics is not expressive enough to capture the actual shape of code ownership. FlexReview provides an alternative way for defining an ownership.
-* Review assignment focusing on teams
+* [Review assignment focusing on teams](concepts/reviewer-suggestion-and-assignment.md)
   * Each team can choose an assignment strategy from code expertise, review load, or oncall rotations.
   * When a PR spans multiple teams, it finds a common parent owner and minimizes number of reviewers.
-* Notifications and automations for the code review
+* Notifications and automations
   * Slack notification can be sent to team's channel when there's new PR for your team.
   * Reviewer can be auto-reassigned when there's no reply.
-* SLO goal for code review
+* [SLO goals for code review](concepts/slo-management.md)
   * Teams can define the expected size of the PRs and review turnaround time.
   * Dashboard shows how many PRs are within the review-time SLO.
-* Team dashboard for incoming PRs
+* [Team dashboard for incoming PRs](../attentionset/)
   * Members can see the PRs that modify their owned files.
+* [Review Validation](concepts/validation-in-flexreview.md)
+  * A status check used to validate whether appropriate approvals have been granted for the PR to merge. FlexReview Validation supports Selective Dismissal, Break-glass and other customizations.
 
