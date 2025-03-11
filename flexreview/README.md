@@ -31,5 +31,8 @@ FlexReview consists of following components:
 * [Team dashboard for incoming PRs](../attentionset/)
   * Members can see the PRs that modify their owned files.
 * [Review Validation](concepts/validation-in-flexreview.md)
-  * A status check used to validate whether appropriate approvals have been granted for the PR to merge. FlexReview Validation supports Selective Dismissal, Break-glass and other customizations.
+  * A validation system to ensure that appropriate approvals have been granted before a pull request is considered mergeable.
+  * Reviewers are responsible for approving on behalf of the files they own.
+  * Reviewers are selectively dismissed when new code changes are pushed based on the changes made.
+  * Includes a breakglass override for emergency approvals.
 
