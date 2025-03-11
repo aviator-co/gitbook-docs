@@ -39,16 +39,27 @@ This approach minimizes redundant review requests while ensuring necessary appro
 
 ### **Validation Scenarios**
 
-FlexReview applies smart validation in different ways based on what changes have been made:
+FlexReview applies smart validation in different ways based on what changes have been made.
 
-1. **Merging in the base branch:** No new approvals are required if no new changes are introduced. If a merge conflict occurred, these will be detected as a code change and some approvals may be reset.
-2. **Files added or changed:** Approvals are dismissed selectively.
-3. **File deleted:** Approval from the given file owner is dismissed.
-4. **Base branch changes:**
-   * If the new base branch is also configured for FlexReview Validation, all approvals are dismissed.
-   * If the new branch is not configured for FlexReview Validation, approvals will not be dismissed.
-   * If using [aviator CLI](https://docs.aviator.co/aviator-cli) and this PR was part of a stack, new approvals will be calculated based on the target branch instead of the base branch and approvals will be selectively dismissed.
-   * If stacked PRs are created without using aviator CLI, they are considered independent changes and the validation workflow may will be applied as described above.
+**Merging in the base branch**
+
+* No new approvals are required if no new changes are introduced.
+* If a merge conflict occurred, these will be detected as a code change and some approvals may be reset.
+
+**Files added or changed**
+
+* Approvals are dismissed selectively.
+
+**File deleted**
+
+* Approval from the given file owner is dismissed.
+
+**Base branch changes:**
+
+* If the new base branch is also configured for FlexReview Validation, all approvals are dismissed.
+* If the new branch is not configured for FlexReview Validation, approvals will not be dismissed.
+* If using [aviator CLI](https://docs.aviator.co/aviator-cli) and this PR was part of a stack, new approvals will be calculated based on the target branch instead of the base branch and approvals will be selectively dismissed.
+* If stacked PRs are created without using aviator CLI, they are considered independent changes and the validation workflow may will be applied as described above.
 
 ### Breakglass Scenarios
 
@@ -59,13 +70,13 @@ FlexReview applies smart validation in different ways based on what changes have
 3. A different user approves the PR.&#x20;
 4. The PR is now eligible for merge.
 
-#### Self-Approval After Breakglass
+**Self-Approval Issued After Breakglass**
 
 1. The same user who posted the breakglass comment attempts to approve the PR.
 2. Their approval does not count toward the required approvals.
 3. The PR cannot be merged.
 
-#### New Commit After Approval
+**New Commit After Approval**
 
 1. A user approves the PR after the breakglass comment is issued.
 2. A new commit is pushed to the PR before it is merged:
@@ -76,7 +87,7 @@ FlexReview applies smart validation in different ways based on what changes have
       1. The previous approval is invalidated.
       2. The PR cannot be merged without re-approval.
 
-#### Breakglass Issued After PR Is Mergeable
+**Breakglass is Issued After PR Is Mergeable**
 
 1. The PR is already eligible to be merged before a breakglass comment is added.
 2. The breakglass comment has no impact.
