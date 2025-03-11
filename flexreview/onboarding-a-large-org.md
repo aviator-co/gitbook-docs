@@ -76,16 +76,35 @@ At this stage, FlexReview will start handling approval requirement, and introduc
 
 Once you have tested this with a few PRs, you can expand this further, and edit the `CODEOWNERS` file to all of `eng` for this sub-directory and continue testing it, while maintaining the `.aviator/OWNERS`file to define fine grain ownership.
 
-If you have chosen a good team / project to start with, it’s likely that the developers are now familiar with how FlexReview works and comfortable with the idea of flexible reviews and expert reviewers. You can continue expanding the same way for additional sub-directories or onboarding everyone together.
+If you have chosen a good team / project to start with, it’s likely that the developers are now familiar with how FlexReview works and are comfortable with the idea of flexible reviews and expert reviewers. You can continue expanding the same way for additional sub-directories or onboarding everyone together.
 
 ### Compliance
 
 Not all code paths are the same. As you are relaxing the requirements for code review, you can still require some security sensitive code paths to have strict ownership. As a rule of thumb, this should not represent more than 10% of your code base. As a cultural shift, you can internally define a process for teams to submit a request with clear reasoning that certain code paths should be gated. Based on that information, you can make a judgement call on where strict ownership is still needed.
+
+### Validation
+
+[FlexReview Validation](concepts/validation-in-flexreview.md) is a feature that allows you to leverage your configured Aviator code OWNERS data into into meaningful review approval validation. Reviewers will be responsible for approving on behalf of the files they own, and the pull request will not be mergable until all files have been approved by the appropriate owners. Reviewers will also be selectively dismissed when new code changes are pushed based on what files were changed.
+
+Setting up validation is simple. After following the above steps, go to your repository's FlexReview configuration page and enable validation:
+
+<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption><p>Configuring FlexReview.</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/B4AB223B-1CF5-4AB7-B4EF-10B142360A34.jpeg" alt=""><figcaption><p>Validation is enabled at the bottom of the configuration page.</p></figcaption></figure>
+
+Then, in GitHub, add Aviator FlexReview as a required check in your branch ruleset:
+
+<figure><img src="../.gitbook/assets/76D8AD88-5F23-4351-A8F6-34FCCD728307_1_201_a.jpeg" alt=""><figcaption><p>The "require status checks to pass" option on GitHub's branch rulesets page.</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>An aviator/flexreview status check in GitHub.</p></figcaption></figure>
+
+To enable selective reviewer dismissal, make sure the setting “dismiss all approvals on push” is disabled in GitHub's branch protection rules. More information can be found in [How to Set Up FlexReview Validation](how-to-guides/how-to-set-up-flexreview-validation.md).
 
 ## See also
 
 * [Whitelist teams for reviewer assignment](how-to-guides/whitelist-teams-for-review-assignment.md)
 * [Troubleshooting reviewer assignment](how-to-guides/troubleshoot-reviewer-assignment.md)
 * [Get a reviewer suggestion](how-to-guides/get-reviewer-suggestion.md)
-* [Exclusing reviewers](how-to-guides/excluding-reviewers.md)
+* [Excluding reviewers](how-to-guides/excluding-reviewers.md)
+* [FlexReview Validation](concepts/validation-in-flexreview.md)
 
