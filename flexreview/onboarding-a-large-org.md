@@ -96,7 +96,7 @@ Then, in GitHub, add Aviator FlexReview as a required check in your branch rules
 
 <figure><img src="../.gitbook/assets/76D8AD88-5F23-4351-A8F6-34FCCD728307_1_201_a.jpeg" alt=""><figcaption><p>The "require status checks to pass" option on GitHub's branch rulesets page.</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>An aviator/flexreview status check in GitHub.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>An aviator/flexreview status check in GitHub.</p></figcaption></figure>
 
 To enable selective reviewer dismissal, make sure the setting “dismiss all approvals on push” is disabled in GitHub's branch protection rules. More information can be found in [How to Set Up FlexReview Validation](how-to-guides/how-to-set-up-flexreview-validation.md).
 

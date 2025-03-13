@@ -7,6 +7,7 @@
   * [How to Manually Change Attention](attentionset/manually-change-attention.md)
   * [AttentionSet Chrome extension](attentionset/attentionset-chrome-extension.md)
   * [Attention reasons](attentionset/attention-reasons.md)
+  * [AttentionSet Slack Home Page](attentionset/attentionset-slack-home-page.md)
 * [Releases](releases-beta/README.md)
   * [Getting Started with Releases](releases-beta/getting-started.md)
   * [Concepts for Releases](releases-beta/concepts/README.md)
