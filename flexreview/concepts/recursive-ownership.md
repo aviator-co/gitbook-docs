@@ -31,20 +31,23 @@ When using FlexReview with just the CODEOWNERS file, Aviator reviewer assignment
 ## Aviator OWNERS file and distributed aviator-config.yaml
 
 {% hint style="info" %}
-These are optional owner configurations that provide more capabilities for FlexReview.&#x20;
+These optional owner configuration files enhance FlexReview's capabilities by providing more flexibility than the traditional CODEOWNERS file.
 {% endhint %}
 
-To address the inflexibility of the `CODEOWNERS`file, we introduce optional new files:  `.aviator/OWNERS` and `aviator-config.yaml`.
+To address the limitations of the CODEOWNERS file, we introduce two optional files:
+
+* `.aviator/OWNERS`
+* `aviator-config.yaml`
 
 #### Aviator OWNERS file
 
-This file uses the similar format as the GitHub equivalent, but you can put only one team per line. The file is interpreted differently from GitHub's. Given a file path, owners are defined as follows:
+The `.aviator/OWNERS` file follows a similar format to GitHub's `CODEOWNERS` but allows only one team per line. However, ownership interpretation differs:
 
-* **Owners**: All matching teams are considered as an owner of the file.
-* **Direct Owners:** The owner with the longest matching path is called a direct owner.
-* **Indirect Owners:** Non-direct owners are called indirect owners.
+* **Owners**: All matching teams are considered owners of a file.
+* **Direct Owners**: The team with the longest matching path.
+* **Indirect Owners**: All other matching teams except the direct owner.
 
-Take the same file as an example. Let's say we have this in `.aviator/OWNERS`file.
+**Example:**
 
 ```python
 # .aviator/OWNERS
@@ -54,49 +57,48 @@ src/ios/auth    @acme-corp/ios-auth-eng
 src/ios/net     @acme-corp/ios-net-eng
 ```
 
-For a file under `src/ios/auth`, owners are defined as follows:
+For a file under `src/ios/auth`, the ownership is:
 
 * **Owners:** `@engineering`, `@ios-eng`, `@ios-auth-eng`
 * **Direct Owners:** `@ios-auth-eng`
 * **Indirect Owners:** `@engineering`, `@ios-eng`
 
-As you can see, FlexReview recognizes the file ownerships in a recursive way.
+FlexReview recognizes ownership recursively based on directory structure.
 
 #### aviator-config.yaml
 
-`aviator-config.yaml` is another format to configure ownership. This has a following structure:
+The `aviator-config.yaml` file provides an alternative way to configure ownership with a structured format and can be placed in any directory within the repository.
+
+**Example:**
 
 ```yaml
 # src/ios/aviator-config.yaml
 owners:
-  # Each entry has a required "team" and an optional "paths".
-  # If paths is omitted, it means that all files in the directly are recursively
-  # owned by that team.
-  # The paths are interpreted as a relative path to the directory the file is
-  # contained in.
-  - team: "acme-corp/ios-eng"  # This is interpreted as $REPO_ROOT/src/ios
+  - team: "acme-corp/ios-eng"
   - team: "acme-corp/ios-auth-eng"
     paths:
-      - "auth"  # This is interpreted as $REPO_ROOT/src/ios/auth 
+      - "auth"
   - team: "acme-corp/ios-net-eng"
     paths:
-      - "net"  # This is interpreted as $REPO_ROOT/src/ios/net
+      - "net"
 
 # src/aviator-config.yaml
 owners:
   - team: "acme-corp/engineering"
 ```
 
-You can place this config at any directory. If you place the files as indicated in the example, it will have the same effect as `.aviator/OWNERS` file in the example above.
-
-Same as .aviator/OWNERS file, a file's owner is inferred based on the most specific path pattern.
+* The `paths` field is optional; if omitted, all files in the directory (recursively) belong to the specified team.
+* Paths are interpreted relative to the directory containing `aviator-config.yaml`.
+* Ownership follows the most specific path match, similar to `.aviator/OWNERS`.
 
 {% hint style="info" %}
-### Which format should I use?
+## Choosing a Format
 
-When you initially onboard to FlexReview, we recommend using `.aviator/OWNERS` file. This is because the file has a compatible format with GitHub `CODEOWNERS` and you can easily onboard without further modifications.
+For initial onboarding, we recommend starting with `.aviator/OWNERS` since it closely resembles GitHub's CODEOWNERS file, making adoption easier.
 
-Later, you can gradually move the entries to distributed `aviator-config.yaml` files. This allows each team to manage their code ownership by themselves, and when they move the code, the ownership information can be moved along with it with the config file.
+Over time, you can transition to `aviator-config.yaml` files. This approach allows teams to manage their ownership independently and ensures ownership information moves along with the code when it is relocated.
+
+By leveraging these files, FlexReview provides a scalable and flexible way to define ownership in your repository.
 {% endhint %}
 
 ## Common owners for cross-team code review
