@@ -39,7 +39,7 @@ To address the limitations of the CODEOWNERS file, we introduce two optional fil
 * `.aviator/OWNERS`
 * `aviator-config.yaml`
 
-#### Aviator OWNERS file
+### Aviator OWNERS file
 
 The `.aviator/OWNERS` file follows a similar format to GitHub's `CODEOWNERS` but allows only one team per line. However, ownership interpretation differs:
 
@@ -47,7 +47,7 @@ The `.aviator/OWNERS` file follows a similar format to GitHub's `CODEOWNERS` but
 * **Direct Owners**: The team with the longest matching path.
 * **Indirect Owners**: All other matching teams except the direct owner.
 
-**Example:**
+#### **Example:**
 
 ```python
 # .aviator/OWNERS
@@ -65,11 +65,11 @@ For a file under `src/ios/auth`, the ownership is:
 
 FlexReview recognizes ownership recursively based on directory structure.
 
-#### aviator-config.yaml
+### aviator-config.yaml
 
 The `aviator-config.yaml` file provides an alternative way to configure ownership with a structured format and can be placed in any directory within the repository.
 
-**Example:**
+#### **Example:**
 
 ```yaml
 # src/ios/aviator-config.yaml
