@@ -1,9 +1,10 @@
 ---
-icon: vial
 description: >-
   Read an overview of the TestDeck features. This tool helps teams identify
   flaky tests and take actions to reduce overhead with reporting and
   auto-rerunning.
+hidden: true
+icon: vial
 ---
 
 # TestDeck
