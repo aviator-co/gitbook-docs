@@ -23,6 +23,10 @@ When FlexReview is enabled at the repository and owner teams enable FlexReview, 
 
 There are cases where you don't want to assign certain users. For example, managers can be in a team, but you might not want to assign them as a reviewer. You can add users and groups you do not want to assign as a reviewer.
 
+### Ignore List
+
+FlexReview will ignore all bot users, but in certain cases organizations may use a normal User account for automation purposes. To avoid not only assigning reviews to these users, but to ignore any actions they take on PRs add them to the Ignore List.
+
 ## GitHub Team configs
 
 ### Enable / Disable

@@ -39,13 +39,13 @@ Feel free to set an app icon for Aviator in `Display Information`.
 
 Set up a redirect URL: `https://<your_domain>/internal/api/slack/oauth/finish`
 
-<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption><p>Setup your OAuth redirect URL.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5) (1).png" alt=""><figcaption><p>Setup your OAuth redirect URL.</p></figcaption></figure>
 
 #### Scopes
 
 Select the following **Bot Token Scopes:** `chat:write`, `chat:write.public`, `commands`, `im:write`. Please make sure to set these correctly, they are required for the Slack OAuth flow.
 
-<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Add bot scopes.</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption><p>Add bot scopes.</p></figcaption></figure>
 
 ### Add slash commands
 
@@ -73,13 +73,13 @@ Set up a request URL: `https://<your_domain>/slack/events`
 
 Select the following bot events to subscribe to: `app_home_opened`
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption><p>Enable bot events</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption><p>Enable bot events</p></figcaption></figure>
 
 #### Enable Home Tab
 
 In `Features -> App Home`enable the App Home's Home Tab.
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption><p>Enable the Home Tab</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption><p>Enable the Home Tab</p></figcaption></figure>
 
 ## Connect the App
 
