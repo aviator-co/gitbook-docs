@@ -9,9 +9,9 @@ description: >-
 
 ### Suggest
 
-The suggest command gets a reviewer suggestion as a Pull Request comment. It has additional debugging information in suggestion, such as how many candidates there were, the expert scores of the candidates, etc..
+The suggest command gets a reviewer suggestion as a Pull Request comment. It has additional debugging information in suggestion, such as how many candidates there were, the expert scores of the candidates, what files are owned by which teams, etc..
 
-```jsx
+```
 /aviator flexreview suggest
 ```
 
