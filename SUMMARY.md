@@ -181,7 +181,8 @@
 
 * [Access Management](manage/access-management.md)
 * [GitHub App Permissions](manage/github-app-permissions.md)
-* [Security](manage/security.md)
+* [Security](manage/security/README.md)
+  * [Aviator Agents Data Usage & Retention Policy](manage/security/aviator-agents-data-usage-and-retention-policy.md)
 * [On-Premise Installation](manage/on-premise-installation/README.md)
   * [GitHub App for On-Prem](manage/on-premise-installation/github-app-for-on-prem.md)
   * [GitHub OAuth for On-Prem](manage/on-premise-installation/github-oauth-for-on-prem.md)
