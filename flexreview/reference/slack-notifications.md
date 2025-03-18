@@ -10,7 +10,7 @@ FlexReview is highly configurable, allowing you to define where and how you woul
 
 Each standard notification will include the assigned reviewers to a PR, the PR author, as well as a link to the PR making it easy to access and promptly respond to a review request. Any user who has connected their Aviator account to both GitHub and Slack will receive a single direct at-mention on one of these messages directed to a team they belong to. All other users will show up as their GitHub username. Teams that have FlexReview and Auto Assignment enabled but have Review Assignment set as No Assignment will be mentioned by their team name.
 
-<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption><p>Sample notification with teams and at-mention</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption><p>Sample notification with teams and at-mention</p></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption><p>Sample notification with GitHub username instead of at-menti</p></figcaption></figure>
 
@@ -38,7 +38,7 @@ Same as the owners portion of these files:
 
 This is the default channel that notifications will be sent to, notifications can be configured to go to other channels as well, but many other settings can take advantage of this.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Default channel set to #backend-eng</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Default channel set to #backend-eng</p></figcaption></figure>
 
 ## Automation Rules
 

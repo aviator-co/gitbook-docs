@@ -14,6 +14,6 @@ To open your AttentionSet in Slack, navigate over to the Aviator app in Slack:
 
 Then select the Home tab at the top, where you'll have access to your AttentionSet.
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 For On-Premise installations, your admins may need to enable this, instructions are available [here](../manage/on-premise-installation/slack-integration.md#add-in-slack-home-page).

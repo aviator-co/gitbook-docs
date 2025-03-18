@@ -5,7 +5,7 @@ description: >-
   FlexReview.
 ---
 
-# Excluding reviewers
+# How to Exclude Reviewers
 
 In a large organization, it may be desired to exclude certain reviewers from being suggested. These could be SREs, managers, product managers, designers or other inactive collaborators who may have access to the code base, and have contributed in the past but are passive collaborators now.&#x20;
 
@@ -19,3 +19,8 @@ On this page, enter their GitHub handles on the FlexReview config page. Enter on
 
 <figure><img src="../../.gitbook/assets/Screenshot 2025-01-07 at 3.28.46 PM.png" alt=""><figcaption><p>Reviewer Exclusion configuration</p></figcaption></figure>
 
+For situations where you want reviewers not to just be excluded from automated reviewer suggestion but to be completely ignored by FlexReview, you can add them to the Ignore List. This is ideal for bot users that are set as a normal User account in GitHub.
+
+On the same page as the Reviewer Exclusion you can open up the Ignore List and add one GitHub username per line:
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Ignore List configuration</p></figcaption></figure>
