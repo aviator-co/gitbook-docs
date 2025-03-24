@@ -5,7 +5,7 @@ description: >-
   team.
 ---
 
-# Customize Required Checks
+# How to Customize Required Checks
 
 You can configure required checks in a few different ways.
 
@@ -99,7 +99,7 @@ merge_rules:
 
 ## Override checks (for parallel mode)
 
-You can customize the required checks for [<mark style="color:blue;">parallel mode</mark>](concepts/parallel-mode/) using the Merge Rules UI or via the config file. You can read more [<mark style="color:blue;">here</mark>](concepts/parallel-mode/#separate-ci-validations-for-draft-pr).
+You can customize the required checks for [<mark style="color:blue;">parallel mode</mark>](https://docs.aviator.co/mergequeue/concepts/parallel-mode) using the Merge Rules UI or via the config file. You can read more [<mark style="color:blue;">here</mark>](https://docs.aviator.co/mergequeue/concepts/parallel-mode).
 
 Here’s an example to do this in the config file:
 
