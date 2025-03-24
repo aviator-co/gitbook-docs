@@ -4,7 +4,7 @@ description: >-
   MergeQueue.
 ---
 
-# MergeQueue
+# MergeQueue FAQs
 
 <details>
 
@@ -15,7 +15,7 @@ There could be several reasons why the bot is not merging your PR.
 * Check your Dashboard to see whether the queue is active or paused. If the queue is paused it will not pick up any changes.
 * Check if all your CI statuses are completed (no required status is still pending).
 * Check if there is no other PR ahead of your PR that is pending merge.
-* Go to the [<mark style="color:blue;">GitHub app page</mark>](https://github.com/apps/mergequeue) and verify that the app is still authorized to your repository. If not, you may need to reconnect the app.
+* Go to the [<mark style="color:blue;">GitHub app page</mark>](https://github.com/settings/apps/authorizations) and verify that the app is still authorized to your repository. If not, you may need to reconnect the app.
 
 Once you have verified the above status, open your web app, and look at the Open and Blocked Queue. If your PR is in the Blocked Queue, there should be a reason listed for blocking as well. If none of these steps help, please contact us [<mark style="color:blue;">support@aviator.co</mark>](mailto:support@mergequeue.com)
 
