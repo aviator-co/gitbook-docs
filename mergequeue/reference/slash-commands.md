@@ -7,7 +7,7 @@ description: >-
 # GitHub Slash Commands
 
 {% hint style="info" %}
-Read the how-to-guide on [<mark style="color:blue;">using Slash commands</mark>](how-to-guides/slash-commands.md) from within GitHub comments.
+Read the how-to-guide on [<mark style="color:blue;">using Slash commands</mark>](https://docs.aviator.co/mergequeue/how-to-guides/slash-commands) from within GitHub comments.
 {% endhint %}
 
 ## Merge
