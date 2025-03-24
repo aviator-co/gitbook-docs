@@ -54,7 +54,7 @@ The main effort required of your team is to implement a mechanism to declare whi
 
 Since this approach needs additional information associated with each merge request, it currently works with an API endpoint (instead of the GitHub Labels that our other modes use). The information for affected targets is represented as a JSON array of strings (the strings here are not a predetermined set that needs to be drawn from, and can be dynamically generated), and has an optional custom commit message.
 
-**POST** [<mark style="color:blue;">https://api.aviator.co/api/v1/pull\_request/</mark>](https://mergequeue.com/api/v1/pull_request/queue)
+**POST** [<mark style="color:blue;">https://api.aviator.co/api/v1/pull\_request/</mark>](https://docs.aviator.co/api/reference/json-api#pullrequest)
 
 ```json
 {
