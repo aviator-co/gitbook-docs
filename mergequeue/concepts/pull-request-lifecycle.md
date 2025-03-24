@@ -41,7 +41,7 @@ Possible reasons for a pull request to be blocked include:
 * Approvals were removed from the pull request after it entered the queue.
 * The HEAD commit of the pull request was modified after it was marked as _ready-to-merge_.
 
-See the [<mark style="color:blue;">pull request status code documentation</mark>](broken-reference/) for more details about the possible reasons a pull request can become blocked.
+See the [<mark style="color:blue;">pull request status code documentation</mark>](https://docs.aviator.co/mergequeue/reference/status-codes) for more details about the possible reasons a pull request can become blocked.
 
 ## Merged
 
