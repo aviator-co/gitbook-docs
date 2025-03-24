@@ -1,8 +1,8 @@
 ---
-icon: list-radio
 description: >-
   Get introduced to MergeQueue to automate merge workflows for GitHub
   repositories. Documentation on how it works.
+icon: list-radio
 ---
 
 # MergeQueue
@@ -42,4 +42,4 @@ MergeQueue provides several [<mark style="color:blue;">queue modes</mark>](conce
 
 ![MergeQueue automatically dequeues PRs and reports build failures.](<../.gitbook/assets/Screen Shot 2022-05-23 at 5.33.58 PM.png>)
 
-Aviator automatically captures both required and non-required the status checks from your repository. By default, Aviator will validate the required status checks configured in GitHub. To learn more about status checks, checkout [<mark style="color:blue;">customizing required checks section</mark>](broken-reference/).
+Aviator automatically captures both required and non-required the status checks from your repository. By default, Aviator will validate the required status checks configured in GitHub. To learn more about status checks, checkout [<mark style="color:blue;">customizing required checks section</mark>](https://docs.aviator.co/mergequeue/how-to-guides/customize-required-checks).
