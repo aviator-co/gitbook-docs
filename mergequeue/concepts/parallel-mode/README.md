@@ -71,7 +71,7 @@ There are a few ways in which Parallel Mode can be reset. One was the stuck beha
 
 ### **Manual reset**
 
-If the queue is stuck, you may want to reset the queue. This can be done from the [<mark style="color:blue;">Queues page</mark>](https://mergequeue.com/queue/queued) by clicking "Reset Queue" button. This will close all existing draft PRs and requeue everything by creating new draft PRs.
+If the queue is stuck, you may want to reset the queue. This can be done from the [<mark style="color:blue;">Queues page</mark>](https://app.aviator.co/queue) by clicking "Reset Queue" button. This will close all existing draft PRs and requeue everything by creating new draft PRs.
 
 ### **Skip the line in parallel mode**
 
