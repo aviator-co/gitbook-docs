@@ -5,7 +5,7 @@ description: >-
   commits.
 ---
 
-# Merging stacked PRs
+# How to Merge Stacked PRs
 
 Aviator offers an [<mark style="color:blue;">open-source CLI</mark>](https://github.com/aviator-co/av) for managing stacked PRs within GitHub. When used alongside Aviator MergeQueue, it simplifies the process of validating and merging those stacked PRs (or subset of those stacked PRs) together.
 
@@ -109,3 +109,14 @@ merge_strategy:
 For details, refer to the [<mark style="color:blue;">configuration reference</mark>](https://docs.aviator.co/mergequeue/reference/complete-reference-guide#merge-strategy).
 
 If you need assistance in setting up the Rulesets, please contact [howto@aviator.co](mailto:howto@aviator.co).
+
+### Detecting stacked PRs without av CLI
+
+If you are creating stacks manually or using a thirdparty tool, you can enable auto-detection of stacked PRs using the config:
+
+```
+merge_rules:
+  auto_detect_stacks: true
+```
+
+Note that, auto-detection can have some side effects where Aviator might detect PRs in a stack even when they were not intentionally created as stacked. For instance, if you have a PR from a `release`branch to `main` to backport some changes, meanwhile have a PR from a `featureA`branch to `release`branch, the auto-detect will detect this as a stack. To avoid this, you can add `release`branch as one of the base branches in the config.
