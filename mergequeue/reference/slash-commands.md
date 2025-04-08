@@ -59,3 +59,7 @@ The `aviator stack cancel` command de-queues a stack that has been previously qu
 ## Sync
 
 The `/aviator sync` command synchronizes the PR to be up-to-date with its base branch (i.e., creates a merge commit or rebases on top of the latest commit from the base branch, depending on your repository configuration).
+
+## Blocking
+
+The `/aviator block until`command will block a PR from being merged until a certain block condition is met. Aviator current supports blocking by PR (example: `\aviator block until #382)` and blocking by timestamp (example: `\aviator block until Monday 9pm`). For more information, view the [how-to guide](https://app.gitbook.com/o/RHS3UXVvKc7g6MUrTeGU/s/OAPqUQVbLbsfI5YESl32/~/changes/367/mergequeue/how-to-guides/how-to-block-pull-request-mergeing-with-slash-commands).
