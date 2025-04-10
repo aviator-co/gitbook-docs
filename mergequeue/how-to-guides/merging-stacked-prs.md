@@ -31,6 +31,7 @@ There are a few ways to request queueing a stack of PRs.
 
 <figure><img src="../../.gitbook/assets/Screenshot 2024-06-21 at 12.25.14 PM.png" alt=""><figcaption><p>Queue pull request action for stacked PRs</p></figcaption></figure>
 
+* **GitHub Label:** You can also queue the stack the same way using GitHub label like you would a single PR. To do so, just apply the label at the top PR that would want to merge with the stack. In the example above, apply the label on `PR#3` .
 * **CLI**: Another way to queue the PR is via the `av` command line. Simply checkout the branch associated with `PR#3` and run the command:
 
 ```
@@ -42,12 +43,8 @@ Note that, using this command requires [<mark style="color:blue;">authenticating
 * **Slash command**: A stack or sub-stack can also be merged by commenting a [slash command](../../flexreview/reference/flexreview-slash-commands.md) from the GitHub interface:
 
 ```
-/aviator stack merge
+/aviator merge
 ```
-
-{% hint style="info" %}
-Note that the slash command `/aviator merge` does not work to merge stacked PRs.
-{% endhint %}
 
 ## Merge behavior
 
