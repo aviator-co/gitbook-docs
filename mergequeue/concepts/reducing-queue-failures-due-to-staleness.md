@@ -1,21 +1,20 @@
 ---
 description: >-
   When a code review takes too long, by the time the PR is ready to be merged,
-  the PR may become stale. Get troubleshooring instructions to fix this issue
-  here.
+  the PR may become stale. Get troubleshooting instructions here.
 ---
 
-# Reducing queue failures due to staleness
+# Reduce Queue Failures From Staleness
 
-When using the MergeQueue in parallel mode, typically one would wait for CI on the original PR to finish and then queue the PR. So the workflow looks like:
+When using MergeQueue in parallel mode, one would typically wait for CI on the original PR to finish and then queue the PR. So the workflow looks like:
 
 1. PR is opened with a few commits, and the author requests a review.
 2. The reviewer could provide a few comments that may require author to add a few more commits.
 3. Eventually the PR is ready to be merged, and the CI is passing, so the PR will enter the queue. In case of a parallel mode, MergeQueue would create a draft PR with the latest mainline and anything ahead of this PR in the queue. Once the CI passes, the PR will be merged.
 
-This typically works fine, but sometimes a code review process can take a long time (maybe the reviewer or the author went on a vacation or the change deprioritized), or just that there is a lot of back-and-forth.
+This typically works fine, but sometimes a code review process can take a long time (maybe the reviewer or the author went on vacation or the change was deprioritized).
 
-So by the time the PR is approved and ready to be merged, it’s possible that the mainline has moved quite far, and this PR has become “stale”. In this scenario, there is much higher likelihood for this PR to fail the CI, causing a queue reset.
+In this case, by the time the PR is approved and ready to be merged, it’s possible that the mainline has moved quite far, and this PR has become “stale”. In this scenario, there is much higher likelihood for this PR to fail its CI, causing a queue reset.
 
 <figure><img src="../../.gitbook/assets/Screen Shot 2023-11-30 at 7.02.56 PM.png" alt=""><figcaption></figcaption></figure>
 
