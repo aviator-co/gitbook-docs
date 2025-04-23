@@ -182,6 +182,9 @@ Example:
 | > merge\_commit\_message                        | Object        | CommitMessage object                                                                                                                      |
 | > > title                                       | String        | Title of merge commit message                                                                                                             |
 | > > body                                        | String        | Body of merge commit message                                                                                                              |
+| > merge\_commit\_sha                            | String        | _Optional_. Represents the SHA associated with the commit on the mainline generated after the PR was merged.                              |
+
+
 
 {% tabs %}
 {% tab title="200: OK " %}
