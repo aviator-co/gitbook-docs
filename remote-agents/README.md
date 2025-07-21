@@ -1,7 +1,3 @@
----
-hidden: true
----
-
 # Remote Agents
 
 The Remote Agentic Environment enables autonomous code changes through AI-powered agents that collaborate with development teams. This platform allows developers to create, manage, and execute Runbooks that define complex code transformations across repositories.
