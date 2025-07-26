@@ -107,3 +107,49 @@ Vendor risk is determined and the appropriate vendor reviews are performed prior
 ### Contact Us
 
 If you have any questions, comments or concerns or if you wish to report a potential security issue, or if you are looking for our SOC2 report, please contact [<mark style="color:blue;">security@aviator.co</mark>](mailto:security@aviator.co).
+
+
+
+### How to report an issue
+
+If you have discovered an issue that is not part of our out-of-scope vulnerabilities, please send an email to security@aviator.co with the following details:
+
+* A summary of the issue and its potential impact
+* A detailed breakdown of the steps to replicate the issue
+* Details of the environment you are using (e.g., operating system, browser version)
+* If available, any proof-of-concept code to demonstrate exploiting the vulnerability
+
+#### What happens next
+
+Upon receiving your report our security team will investigate the issue. We'll keep you updated on the progress and reach back out to you if we need additional information.
+
+We value the time and effort put into responsible disclosure. For valid vulnerabilities considered in-scope with a CVSS score of 4 or higher, may be eligible for a financial reward. The specific amount will be determined based on the severity and impact of the issue.
+
+#### In scope
+
+* https://aviator.co
+* https://app.aviator.com
+* https://api.aviator.com
+
+#### Out-of-scope
+
+* Automated scanning of any kind
+* Social engineering attempts, especially targeting Aviator employees
+* Denial of Service (DoS) attacks of any kind
+* Attacks requiring physical access to the victim's device
+* Theoretical attacks without proof of exploitability
+* Man-in-the-middle attacks
+* Clickjacking on pages with no sensitive actions
+* High-privilege users (admins, owners) using a bug to sabotage/deface their own workspace
+* Logic bugs which allow an attacker to bypass limits on free account or get access to features on paid plans
+* Missing best practices in Content Security Policy (CSP), email DNS records, or cookies (these may be considered informative but are unlikely to qualify for rewards)
+
+#### Additional requests
+
+To ensure a safe and responsible vulnerability research process, we kindly ask that you adhere to the following guidelines:
+
+* **Test on your own account:** Please only test vulnerabilities using your own account or with explicit permission from the account holder. This helps protect our users' privacy and data integrity.
+* **Respect privacy and data:** We ask that you make every privacy violations, unauthorized access to data, and any actions that could potentially damage or destroy data.
+* **Maintain service integrity:** Please make a good faith effort to avoid interruption or degradation of our services. interruption or degradation of our services.
+* **Limited scope:** If you manage to gain remote access to our systems, please do not attempt to expand or elevate your access to other servers.
+* **Responsible disclosure:** To prevent potential exploitation, we kindly request that you do not make the vulnerability public before reporting it to us, and give us adequate time to address the issue.
