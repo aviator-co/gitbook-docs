@@ -107,6 +107,27 @@ For details, refer to the [<mark style="color:blue;">configuration reference</ma
 
 If you need assistance in setting up the Rulesets, please contact [howto@aviator.co](mailto:howto@aviator.co).
 
+### Setting original PRs as merged \[Beta]
+
+#### Default Behavior
+
+When Aviator merges stack PRs, the following occurs:
+
+* PRs are marked as closed with the label `merged-by-mq`
+* PRs do **not** appear as "merged" in the GitHub UI
+* The commits are squashed into the main branch using a separate strategy to prevent merge conflicts
+* GitHub cannot detect that these PRs were actually merged due to the squashing strategy
+
+To workaround this behavior, Aviator has introduced a new mode. In this mode Aviator will force update each PR with the corresponding squash commit while merging the PR. That way, when mainline is forwarded to this commit SHA, GitHub recognizes the PR as merged.
+
+To enable this config, set `update_pr_commits_before_stack_merge` to true in `merge_strategy`. Note that this config also requires `use_separate_commits_for_stack` to be enabled.
+
+```
+merge_strategy:
+  use_separate_commits_for_stack: true
+  update_pr_commits_before_stack_merge: true
+```
+
 ### Detecting stacked PRs without av CLI
 
 If you are creating stacks manually or using a thirdparty tool, you can enable auto-detection of stacked PRs using the config:

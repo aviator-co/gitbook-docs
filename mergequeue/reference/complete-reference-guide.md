@@ -183,10 +183,11 @@ merge_rules:
 
 ### Merge Strategy
 
-| Name                                   | Type    | Description                                                                                                                                                                                                                                                                          |
-| -------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **name**                               | String  | Defines the merge strategy to use, the options are "squash", "merge", and "rebase". See the [GitHub docs](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github) for more info.   |
-| **use\_separate\_commits\_for\_stack** | Boolean | <p>If enabled, uses independent commits for stacked PRs. This requires setting up</p><p>Rulesets in GitHub and allow Aviator to bypass branch protection rules. Otherwise GitHub blocks commits from merging without approval and CI completion. Defaults to <code>false</code>.</p> |
+| Name                                          | Type    | Description                                                                                                                                                                                                                                                                          |
+| --------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **name**                                      | String  | Defines the merge strategy to use, the options are "squash", "merge", and "rebase". See the [GitHub docs](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github) for more info.   |
+| **use\_separate\_commits\_for\_stack**        | Boolean | <p>If enabled, uses independent commits for stacked PRs. This requires setting up</p><p>Rulesets in GitHub and allow Aviator to bypass branch protection rules. Otherwise GitHub blocks commits from merging without approval and CI completion. Defaults to <code>false</code>.</p> |
+| **update\_pr\_commits\_before\_stack\_merge** | Boolean | If enabled, force updates the commits in the branch of each stacked PR right before merging the PR, so that the PR can be marked as merged instead of closed. This requires  `use_separate_commits_for_stack` config to be enabled. Defaults to `false`.                             |
 
 #### Override Labels
 
@@ -203,6 +204,7 @@ merge_rules:
       merge: "mq-merge-commit"
       rebase: "mq-rebase"
     use_separate_commits_for_stack: true
+    update_pr_commits_before_stack_merge: true
 ```
 
 {% tabs %}
