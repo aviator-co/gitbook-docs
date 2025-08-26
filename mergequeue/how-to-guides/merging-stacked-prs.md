@@ -109,9 +109,7 @@ If you need assistance in setting up the Rulesets, please contact [howto@aviator
 
 ### Setting original PRs as merged \[Beta]
 
-#### Default Behavior
-
-When Aviator merges stack PRs, the following occurs:
+When Aviator merges stack PRs, by default the following occurs:
 
 * PRs are marked as closed with the label `merged-by-mq`
 * PRs do **not** appear as "merged" in the GitHub UI
