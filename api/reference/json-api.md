@@ -390,6 +390,7 @@ Example:
 ```
 {
   "head_commit_sha": "acffa575c02f2cf000aabe69f44e8905bc04c25d",
+  "codemix_pre_batch_sha": "08d30e0141d9f9253a228dac05173c4f383e1444",
   "pull_requests": [
     {
       "author": "author-name",
