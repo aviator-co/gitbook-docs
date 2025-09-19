@@ -413,6 +413,14 @@ Example:
 {% endtab %}
 {% endtabs %}
 
+### Response parameters
+
+| Name                         | Type   | Description                                                                                                                                                                                            |
+| ---------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **head\_commit\_sha**        | String | Represents the head SHA of the bot pull request.                                                                                                                                                       |
+| **codemix\_pre\_batch\_sha** | String | Represents the commit SHA right before the validating pull requests were added to the bot PR branch. This commit SHA includes changes from the dependent PRs, but does not include the validating PRs. |
+| **pull\_requests**           | List   | List of PRs that are validating in this bot pull request.                                                                                                                                              |
+
 ## Config
 
 ### Fetch the current YAML config associated with the given GitHub repository.
