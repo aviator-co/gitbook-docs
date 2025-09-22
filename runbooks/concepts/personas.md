@@ -32,3 +32,7 @@ These personas cannot be deleted but can be customized by admins.
 Personas can be private or shared. A private persona is created by an individual and can only be used by them. These personas exist for personal preferences, experimental configurations. The creator can view, edit and delete the persona themselves.
 
 A shared persona on the other hand can only be created by admins and maintainers. These are visible to all users in the organization. Some use cases for this include team standards, organization-wide best practices. Only admins and maintainers can created, edit or delete these personas. All the users can read the system prompts of these personas.
+
+## See also
+
+* [persona-management.md](../how-to-guides/persona-management.md "mention")

@@ -2,6 +2,8 @@
 
 ## **Using Templates**
 
+[Templates](../concepts/templates.md) are a great way to share and run Runbooks with prebuilt context.
+
 ### **Discovery and Selection**
 
 Templates can be browsed and filtered by:
