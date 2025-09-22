@@ -1,15 +1,11 @@
 # Getting started
 
-{% hint style="info" %}
-Aviator Agents is currently supported only in an on-premise environment. If you are interested in trying out our beta cloud hosted option, please email us at [howto@aviator.co](mailto:howto@aviator.co).
-{% endhint %}
-
 ## Onboarding
 
-This setup guide will walk you through the initial set up for Agents workflow. Before getting started, make sure you have installed Aviator Agents on your private cloud. The guide below assumes you have setup Aviator on the domain [https://aviator.example.com](https://aviator.example.com).
+This setup guide will walk you through the initial set up for Runbooks. If you plan to use the self-hosted option, please contact [howto@aviator.co](mailto:howto@aviator.co).
 
-1. Create an account: [https://aviator.example.com/auth/login](https://aviator.example.com/auth/login)
-2. Follow the onboarding flow to connect to the Aviator GitHub app, authorize one or more repositories that you want to use with Agents. You can always add more repositories later.
+1. Create an account: [https://app.aviator.co/auth/login](https://app.aviator.co/auth/login)
+2. Follow the onboarding flow to connect to the Aviator GitHub app, authorize one or more repositories that you want to use with Runbooks. You can always add more repositories later.
 
 {% hint style="info" %}
 If you have trouble connecting the app, please read the [troubleshooting doc](https://docs.aviator.co/manage/faqs/troubleshooting-github-app-connection).
@@ -27,7 +23,7 @@ Aviator Agents workflow is divided into 3 phases:
 
 This is the phase where you work with the agents to plan out a work.
 
-1. Once a repository is connected, go to the Agents dashboard: [https://aviator.example.com/agents/](https://aviator.example.com/agents/)dashboard
+1. Once a repository is connected, go to the Runbooks dashboard: [https://app.aviator.co/runbooks/new](https://app.aviator.co/runbooks/new)
 2. On the chat prompt, describe briefly the task that you want to collaborate with the agents on, and select the repository to start with.
 
 ![Start a new plan](<../.gitbook/assets/Screenshot 2025-07-20 at 10.09.07 PM.png>)
@@ -42,9 +38,9 @@ This is the phase where you work with the agents to plan out a work.
 
 ### Execution
 
-1. To run one or more steps in the Runbook - click on Review on the right pane, and select the step you want the agent to try and click “Run”. You can also dry run a specific step for a specific file by clicking on the menu and following the dry run prompt.
-2. As agents start running in background, they will post some verbose logs in the logs viewer. Once completed, agents will create one or more PR and share the links within the corresponding Runbook step.
-3. You can also ask agents to run the whole Runbook autonomously, where agents will run each step in-order and create relevant PRs.
+1. Runbooks are typically executed step by step. You can execute the next step by simply clicking "Execute Next" button on the steps view.
+2. This will trigger internally trigger Claude code in the background. You should be able to view all the activity logs in the chat dashboard. Once the step is completed, agents will create one or more PRs and share the links within the corresponding Runbook step.
+3. If you choose to execute all steps, you can click the dropdown and select "Execute all". This will enqueue all steps that will run sequentially creating stacked PRs.
 
 ### Review
 

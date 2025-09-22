@@ -6,6 +6,10 @@
 
 A: The system is language and framework agnostic. Agents can work with any codebase accessible via GitHub.
 
+**Q: What agents are supported?**
+
+A: Currently Runbooks supports Claude code agents, the support for Gemini and Codex is coming soon.
+
 **Q: Are there repository size limitations?**
 
 A: There are no hard limits on repository size, though larger codebases may consume more LLM tokens.
@@ -16,7 +20,7 @@ A: Agents automatically analyze build and test results, then iteratively recreat
 
 **Q: Can I use my own LLM API keys?**
 
-A: Yes, you can provide your own API keys for supported models (Claude and Gemini).
+A: Yes, you can provide your own Claude API keys. Aviator also support Bedrock.
 
 #### Common Issues
 
