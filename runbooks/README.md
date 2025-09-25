@@ -35,7 +35,7 @@ There are two common workflows to plan with Runbooks.
 * PRs are merged after review and verification by the user
 * Agents memorize the context and the Runbooks for future use.
 
-{% embed url="https://www.youtube.com/watch?v=kCKmyqXhW90" %}
+{% embed url="https://youtu.be/AHV-T6t1ulk" %}
 
 ### Runbooks at a glance
 
