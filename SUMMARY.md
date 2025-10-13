@@ -32,6 +32,7 @@
         * [Executing scripts](runbooks/how-to-guides/planning/advanced-concepts/executing-scripts.md)
         * [Context management](runbooks/how-to-guides/planning/advanced-concepts/context-management.md)
     * [Executing](runbooks/how-to-guides/executing/README.md)
+      * [Pre-Execution Scripts](runbooks/how-to-guides/executing/pre-execution-scripts.md)
       * [Single step](runbooks/how-to-guides/executing/single-step.md)
       * [All at once](runbooks/how-to-guides/executing/all-at-once.md)
       * [Stacked PRs](runbooks/how-to-guides/executing/stacked-prs.md)
