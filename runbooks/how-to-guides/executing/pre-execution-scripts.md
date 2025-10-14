@@ -353,5 +353,5 @@ A: The script's stdout is shown in the chat (first 2000 characters). For full lo
 ### Related Documentation
 
 * [Single step](single-step.md)
-* [SCloud Sandbox Configuration](../cloud-sandboxes.md)
+* [Cloud Sandbox Configuration](../cloud-sandboxes.md)
 * [Custom Personas](../persona-management.md)
