@@ -6,6 +6,8 @@
 
 #### **Via Web Interface**
 
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-14 at 11.43.10 AM.png" alt=""><figcaption></figcaption></figure>
+
 1. Navigate to the Runbooks dashboard
 2. Click "New Runbook"
 3. Select your repository
@@ -14,6 +16,8 @@
 6. Click "Create" to start execution
 
 #### **Via Slack**
+
+<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-14 at 11.54.33 AM.png" alt="one-shot mode with Slack" width="563"><figcaption></figcaption></figure>
 
 Send a message to the Aviator bot using this format:
 
