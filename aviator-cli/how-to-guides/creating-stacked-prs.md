@@ -2,7 +2,7 @@
 description: Documentation on creating Stacked PRs with av CLI from Aviator.
 ---
 
-# Creating Stacked PRs
+# How to Create Stacked PRs in CLI
 
 ### Creating a Branch
 
@@ -28,14 +28,14 @@ This will create a new branch, with an automatically generated branch name based
 
 ### Creating a Pull Request
 
-Pull requests for stacked PRs should always be created with the
+Create the stacked PR using the following command:
 
 ```
 av pr
 ```
 
-command.
-
 By default, this will create the PR title and body based on the headline and message of the first commit in the branch (see `av pr --help` for details on how to override this).
 
-To create PRs for each branch in the stack you can do `av pr --all` . Alternatively, you can run `av pr --all --current` to only create PRs up to branch you currently have checked out in the stack.&#x20;
+To create PRs for each branch in the stack you can do `av pr --all` . Alternatively, you can run `av pr --all --current` to only create PRs up to branch you currently have checked out in the stack.
+
+You can also [adopt a PR created without using the CLI](adopt-a-branch.md#adopting-an-existing-pr).&#x20;
