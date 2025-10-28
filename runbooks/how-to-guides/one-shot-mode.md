@@ -1,12 +1,12 @@
 # One-shot mode
 
-[One-shot mode](../../concepts/one-shot-mode.md) is an automated execution mode for Runbooks that streamlines the entire code modification workflow into a single, uninterrupted process.
+[One-shot mode](../concepts/one-shot-mode.md) is an automated execution mode for Runbooks that streamlines the entire code modification workflow into a single, uninterrupted process.
 
 ### Starting a One-Shot Session
 
 #### **Via Web Interface**
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-14 at 11.43.10 AM.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-10-14 at 11.43.10 AM.png" alt=""><figcaption></figcaption></figure>
 
 1. Navigate to the Runbooks dashboard
 2. Click "New Runbook"
@@ -17,7 +17,7 @@
 
 #### **Via Slack**
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-14 at 11.55.59 AM.png" alt="one-shot mode with Slack" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-10-14 at 11.55.59 AM.png" alt="one-shot mode with Slack" width="563"><figcaption></figcaption></figure>
 
 Send a message to the Aviator bot using this format:
 
@@ -153,4 +153,4 @@ If a step fails during execution:
 
 ### See also
 
-* [One-shot mode concepts](../../concepts/one-shot-mode.md)
+* [One-shot mode concepts](../concepts/one-shot-mode.md)

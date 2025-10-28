@@ -1,6 +1,6 @@
 # One shot mode
 
-[One-shot mode](../how-to-guides/executing/one-shot-mode.md) is an automated execution mode for Runbooks that streamlines the entire code modification workflow into a single, uninterrupted process. When enabled, Runbooks generates a complete execution plan and immediately begins implementing all steps without requiring manual approval or intervention between steps.
+[One-shot mode](../how-to-guides/one-shot-mode.md) is an automated execution mode for Runbooks that streamlines the entire code modification workflow into a single, uninterrupted process. When enabled, Runbooks generates a complete execution plan and immediately begins implementing all steps without requiring manual approval or intervention between steps.
 
 <figure><img src="../../.gitbook/assets/Screenshot 2025-10-14 at 11.43.10 AM.png" alt="one-shot mode"><figcaption></figcaption></figure>
 
@@ -35,4 +35,4 @@ Avoid one-shot mode for:
 
 ### See also
 
-[How to use one-shot mode](../how-to-guides/executing/one-shot-mode.md)
+[How to use one-shot mode](../how-to-guides/one-shot-mode.md)

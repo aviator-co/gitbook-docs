@@ -29,6 +29,10 @@ Runbooks consist of several interconnected components that work together to enab
 * Runbook search and management
 * Context management with MCP and documentation support
 
+**Slack integration**
+
+* Execute oneshot actions directly through a slack thread.
+
 #### Data Flow
 
 1. User submits task through dashboard

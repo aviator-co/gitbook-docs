@@ -73,6 +73,6 @@ Although Agents framework can handle most types of engineering tasks, they do we
 
 ### Learn more
 
-* [Getting started guide](getting-started.md)
-* [On-premise installation](how-to-guides/configuration/on-premise-installation.md)
-* [Understanding Runbooks](concepts/runbook-format.md)
+* [getting-started.md](getting-started.md "mention")
+* [on-premise-installation](../manage/on-premise-installation/ "mention")
+* [personal-integrations.md](../api/personal-integrations.md "mention")
