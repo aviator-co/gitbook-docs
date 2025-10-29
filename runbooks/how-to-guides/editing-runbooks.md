@@ -3,7 +3,7 @@
 Runbooks can be edited in three main ways:
 
 1. **Chat-based editing** - Use natural language prompts to modify Runbooks through the AI agent
-2. **Manual full Runbook editing** - Edit the entire [Runbook structure](../../concepts/runbook-format.md) and content directly
+2. **Manual full Runbook editing** - Edit the entire [Runbook structure](../concepts/runbook-format.md) and content directly
 3. **Individual step editing** - Modify specific steps within a Runbook
 
 Each approach has its own advantages depending on your needs and the complexity of changes you want to make.
@@ -19,7 +19,7 @@ The easiest way to modify a runbook is by providing natural language instruction
 3. Describe the changes you want to make in natural language
 4. Review the proposed changes and approve them
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-28 at 3.27.53 PM.png" alt="Chat prompt to update Runbook"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-10-28 at 3.27.53 PM.png" alt="Chat prompt to update Runbook"><figcaption></figcaption></figure>
 
 #### Example prompts for editing
 
@@ -66,13 +66,13 @@ When you need to make targeted changes to specific parts of your Runbook, indivi
 3. Click the edit icon (pencil) next to the step name
 4. The step editor will open in a focused view
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-28 at 3.31.09 PM.png" alt="Editing a step"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-10-28 at 3.31.09 PM.png" alt="Editing a step"><figcaption></figcaption></figure>
 
 #### Step editor interface
 
 Editing a step gives you the raw markdown that you can edit. Please remember the first line in the raw markdown represents the title of the step.
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-28 at 3.32.41 PM.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-10-28 at 3.32.41 PM.png" alt=""><figcaption></figcaption></figure>
 
 #### Common step modifications
 
@@ -114,9 +114,9 @@ Note that full raw markdown is not recommended as it can cause parsing errors an
 2. Click the "Markdown",  tab and click "Edit".
 3. The full editor will open, showing the complete Runbook structure as raw text.
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2025-10-28 at 3.29.19 PM.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-10-28 at 3.29.19 PM.png" alt=""><figcaption></figcaption></figure>
 
-Please familiarize yourself with [Runbooks format](../../concepts/runbook-format.md) before editing the full markdown.
+Please familiarize yourself with [Runbooks format](../concepts/runbook-format.md) before editing the full markdown.
 
 ### Versioning
 
@@ -124,5 +124,5 @@ Aviator maintains the historic versioning of all Runbooks. The versioning is seq
 
 ### See more
 
-* [runbook-format.md](../../concepts/runbook-format.md "mention")
+* [runbook-format.md](../concepts/runbook-format.md "mention")
 * [best-practices-for-planning.md](best-practices-for-planning.md "mention")

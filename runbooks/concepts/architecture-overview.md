@@ -14,7 +14,7 @@ Runbooks consist of several interconnected components that work together to enab
 
 **Orchestration Layer**
 
-* Manages agent container lifecycle
+* Manages agent sandbox lifecycle
 * Distributes tasks across available workers
 * Monitors execution progress and health
 
@@ -43,3 +43,5 @@ Runbooks consist of several interconnected components that work together to enab
 6. Agent generates execution plan (Runbook)
 7. Upon execution, agent creates incremental PRs
 8. Results and status updates flow back to dashboard
+9. PR feedback is provided by the user.
+10. Orchestration layer works on the feedback and updates the PR
