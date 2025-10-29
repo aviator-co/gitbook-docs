@@ -10,12 +10,12 @@ Runbooks are meant to solve most of the use cases that involve improving and mod
 
 Runbooks are great for most well defined or well scoped tasks. It is meant to absorb business context and get smarter over time. Some examples include:
 
-* Product backlog
-* Refactoring
+* [Product backlog](product-backlog.md)
+* [Refactoring](code-refactoring.md)
 * [Bug fixes](bug-fixes.md)
-* Improving build times
-* Flaky test resolution
-* Code migration
+* [Improving build times](improve-build-times.md)
+* [Flaky test resolution](flaky-test-resolution.md)
+* [Code migration](code-migrations.md)
 * [Improving readability](improving-readability.md)
 * [Improving code coverage](improving-code-coverage.md)
 
