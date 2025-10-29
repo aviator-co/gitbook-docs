@@ -6,7 +6,7 @@ icon: layer-group
 
 Runbooks is a multiplayer-AI coding framework that leverages spec-driven development. It breaks down any task into step-by-step execution plan that can be reviewed and executed remotely.
 
-With the remote pre-configured sandboxes, you can run Runbooks in the Aviator [cloud](how-to-guides/cloud-sandboxes.md) or [onprem](../manage/on-premise-installation/) behind your firewall. Behind the scenes, the framework uses Claude Code to plan and execute the coding tasks in these sandboxes.
+With the remote pre-configured sandboxes, you can run Runbooks in the Aviator [cloud](concepts/cloud-sandboxes.md) or [onprem](../manage/on-premise-installation/) behind your firewall. Behind the scenes, the framework uses Claude Code to plan and execute the coding tasks in these sandboxes.
 
 This framework enables developers to invite other stakeholders to plan together, and it leverage Claude Code agents to research, plan and execute assigned tasks.
 
