@@ -39,7 +39,7 @@
       * [Pre-Execution Scripts](runbooks/how-to-guides/executing/pre-execution-scripts.md)
       * [Step-by-step execution](runbooks/how-to-guides/executing/step-by-step-execution.md)
       * [All at once](runbooks/how-to-guides/executing/all-at-once.md)
-      * [Stacked PRs](runbooks/how-to-guides/executing/stacked-prs.md)
+      * [Stacked PRs execution](runbooks/how-to-guides/executing/stacked-prs-execution.md)
     * [Review](runbooks/how-to-guides/review/README.md)
       * [Providing feedback](runbooks/how-to-guides/review/providing-feedback.md)
       * [PR Lifecycle](runbooks/how-to-guides/review/pr-lifecycle.md)
