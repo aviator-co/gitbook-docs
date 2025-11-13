@@ -17,7 +17,7 @@
 
 #### **Via Slack**
 
-<figure><img src="../../.gitbook/assets/Screenshot 2025-10-14 at 11.55.59 AM.png" alt="one-shot mode with Slack" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Screenshot 2025-11-13 at 2.28.54 PM.png" alt="one-shot mode with Slack"><figcaption></figcaption></figure>
 
 Send a message to the Aviator bot using this format:
 
