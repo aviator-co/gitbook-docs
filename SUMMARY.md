@@ -38,6 +38,7 @@
     * [Persona management](runbooks/how-to-guides/persona-management.md)
     * [Context management](runbooks/how-to-guides/context-management.md)
     * [Best practices for planning](runbooks/how-to-guides/best-practices-for-planning.md)
+    * [Batch Operations with Runbook Templates](runbooks/how-to-guides/batch-operations-with-runbook-templates.md)
     * [Pre-Execution Scripts](runbooks/how-to-guides/pre-execution-scripts.md)
     * [Using Stacked PRs](runbooks/how-to-guides/using-stacked-prs.md)
     * [Providing feedback](runbooks/how-to-guides/providing-feedback.md)
