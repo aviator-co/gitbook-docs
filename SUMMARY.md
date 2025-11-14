@@ -30,7 +30,7 @@
       * [Flaky test resolution](runbooks/concepts/use-cases/flaky-test-resolution.md)
       * [Improve build times](runbooks/concepts/use-cases/improve-build-times.md)
   * [How to guides](runbooks/how-to-guides/README.md)
-    * [One-shot mode](runbooks/how-to-guides/one-shot-mode.md)
+    * [One shot mode](runbooks/how-to-guides/one-shot-mode.md)
     * [Editing Runbooks](runbooks/how-to-guides/editing-runbooks.md)
     * [PR Lifecycle management](runbooks/how-to-guides/pr-lifecycle-management.md)
     * [Step-by-step execution](runbooks/how-to-guides/step-by-step-execution.md)

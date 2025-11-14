@@ -1,8 +1,8 @@
-# One-shot mode
+# One shot mode
 
-[One-shot mode](../concepts/one-shot-mode.md) is an automated execution mode for Runbooks that streamlines the entire code modification workflow into a single, uninterrupted process.
+[One shot mode](../concepts/one-shot-mode.md) is an automated execution mode for Runbooks that streamlines the entire code modification workflow into a single, uninterrupted process.
 
-### Starting a One-Shot Session
+### Starting a One Shot Session
 
 #### **Via Web Interface**
 
@@ -11,7 +11,7 @@
 1. Navigate to the Runbooks dashboard
 2. Click "New Runbook"
 3. Select your repository
-4. Enable the **One-shot mode** toggle from the dropdown
+4. Enable the **One shot mode** toggle from the dropdown
 5. Describe your task in the input field
 6. Click "Create" to start execution
 
