@@ -1,6 +1,6 @@
-# SSH Sandboxes Configuration Guide
+# SSH Sandboxes setup for onprem
 
-[SSH Sandboxes](../concepts/ssh-sandboxes.md) allow you to run Claude Code runbooks on your own infrastructure instead of using Aviator’s managed cloud sandboxes. This gives you more control over the execution environment and allows you to work with private resources that aren’t accessible from the cloud.
+Onprem setup is very similar to the [cloud SSH sandbox setup](ssh-sandboxes-configuration-guide.md), only a few things differ.
 
 ### Overview
 
@@ -107,16 +107,29 @@ curl -X DELETE <https://api.aviator.co/api/v1/sandbox/INSTANCE_ID> \
   -H "Authorization: Bearer YOUR_API_TOKEN"
 ```
 
+### Using Sidecar container for sandboxes
+
+In a kubernetes self-hosted configuration, it's possible to use Sidecar containers within the agent-worker pod such that each agent-worker pod is running a SSH sandbox alongside the primary agent-worker container.
+
+To configure such container, specify the following environment variables on your pods:
+
+* `SSH_SANDBOX_SIDECAR_URL`: This would likely be `localhost` but it can be different depending on your setup. Also include the port if applicable, defaults to `22`, example: `localhost:5454`.
+* `SSH_SANDBOX_SIDECAR_ROOT_DIR`: This is same as `working_dir` in the API above.
+
+When using these environment variables, agent-workers will ignore all Sandboxes specified via the API. It will assume each worker has it's own sandbox.
+
+This approach could be useful to incorporate ephemeral sandboxes within your kubernetes cluster running Aviator server, and be able to scale up or scale down the instances.
+
 ### Best Practices
 
 #### Security
 
 1. **Use dedicated SSH keys**: Create a separate SSH key pair specifically for Aviator
 2. **Limit user permissions**: Use a dedicated user account with minimal required permissions
-3. **Restrict network access**: Configure firewall rules to allow connections only from Aviator’s IP ranges (`34.127.109.72`, `35.247.14.14`)
+3. **Restrict network access**: Configure firewall rules to restrict ingress connections only from the Aviator's background worker instances (the main onprem server).
 4. **Regular key rotation**: Periodically update your SSH private keys
 
-#### Server Setup
+#### Preloading instances
 
 1. **Working directory**: Ensure the working directory has sufficient disk space and proper permissions. You can also preload the repositories in this directory for faster load time. For instance, if you specific working directory as: `/home/ubuntu/dev/` then, Aviator will search or create repositories in `/home/ubuntu/dev/<repo-name>/`. If you preload the repository here, Aviator will reuse it and fetch only required branch. This can help save load time.
 2. **Dependencies**: Install any tools or dependencies your runbooks might need
@@ -130,52 +143,3 @@ curl -X DELETE <https://api.aviator.co/api/v1/sandbox/INSTANCE_ID> \
 3. **Multiple instances**: Configure multiple sandbox instances for redundancy and load distribution
 
 ### Troubleshooting
-
-#### Common Issues
-
-**SSH Connection Failed**
-
-* Verify hostname and port are correct
-* Check if SSH service is running on the target server
-* Ensure firewall allows connections from Aviator’s infrastructure
-* Verify the SSH private key format and permissions
-
-**Authentication Failed**
-
-* Confirm the SSH private key matches the public key on the server
-* Check username is correct
-* Verify the user has SSH access permissions
-
-**Working Directory Issues**
-
-* Ensure the directory exists and is accessible
-* Check that the SSH user has read/write permissions
-* Verify sufficient disk space is available
-
-**Runbook Execution Errors**
-
-* Check server logs for detailed error messages
-* Verify required dependencies are installed
-* Ensure the working directory has proper permissions
-
-#### Getting Help
-
-If you encounter issues:
-
-1. Check the server’s SSH logs (`/var/log/auth.log` or `/var/log/secure`)
-2. Verify network connectivity from your local machine to the server
-3. Test SSH connection manually with the same credentials
-4. Contact Aviator support with relevant error messages and configuration details
-
-### Security Considerations
-
-* SSH private keys are encrypted at rest using industry-standard encryption
-* Keys are never logged or exposed in plain text
-* All SSH connections use secure authentication
-* Consider using certificate-based authentication for enhanced security
-* Regularly audit SSH access logs on your servers
-
-### See also
-
-* [ssh-sandboxes.md](../concepts/ssh-sandboxes.md "mention")
-* [cloud-sandboxes.md](../concepts/cloud-sandboxes.md "mention")
