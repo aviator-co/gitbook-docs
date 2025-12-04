@@ -50,4 +50,4 @@ Log onto Aviator and then go to this this url (replace the installation\_id with
 https://app.aviator.co/api/setup/complete?setup_action=install&installation_id=<installation_id>
 ```
 
-If the app is still not connected, please email us at [howto@aviator.co](mailto:howto@aviator.co).\
+If the app is still not connected, please email us at [howto@aviator.co](mailto:howto@aviator.co).<br>

@@ -20,7 +20,7 @@ If you have trouble connecting the app, please read the [<mark style="color:blue
 
 ### Step 2: Activate
 
-At this point, you can choose the repository you want to start with. When activating FlexReview on a GitHub repository, it'll be enabled in the [<mark style="color:blue;">**read-only mode**</mark>](broken-reference). That means, FlexReview won't interact with any PRs directly, but you will be able to use the slash commands. This gives you an opportunity to fine-tune and test out FlexReview before turning on the automation.
+At this point, you can choose the repository you want to start with. When activating FlexReview on a GitHub repository, it'll be enabled in the [<mark style="color:blue;">**read-only mode**</mark>](/broken/pages/mjr3D9O6eDPqQGxiDuC8). That means, FlexReview won't interact with any PRs directly, but you will be able to use the slash commands. This gives you an opportunity to fine-tune and test out FlexReview before turning on the automation.
 
 <figure><img src="../.gitbook/assets/Screenshot 2024-02-09 at 12.11.36 PM.png" alt=""><figcaption></figcaption></figure>
 
@@ -40,8 +40,7 @@ If it takes longer than 60 minutes to index the initial data, please try refresh
 
 ### Step 4: Test suggestions
 
-Once indexed, you should be able to test out the suggestions. Remember that the suggestions here are still imperfect since FlexReview has only completed initial indexing. The full indexing continues in the background.\
-
+Once indexed, you should be able to test out the suggestions. Remember that the suggestions here are still imperfect since FlexReview has only completed initial indexing. The full indexing continues in the background.<br>
 
 Use the Slash command in GitHub comments to get suggestions directly in your pull request view.
 

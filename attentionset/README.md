@@ -1,8 +1,8 @@
 ---
-icon: bell
 description: >-
   Read documentation for Aviator AttentionSet, inspired by Gerritt, A dashboard
   for developers to track pull request reviews from GitHub.
+icon: bell
 ---
 
 # AttentionSet
@@ -29,4 +29,4 @@ Once the initial setup is complete, you will be prompted to link the GitHub acco
 
 <figure><img src="../.gitbook/assets/Screenshot 2024-03-06 at 3.45.28 PM.png" alt=""><figcaption><p>AttentionSet - Link GitHub account</p></figcaption></figure>
 
-\
+<br>

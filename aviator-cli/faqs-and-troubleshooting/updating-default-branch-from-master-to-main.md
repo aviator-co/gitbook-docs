@@ -19,8 +19,7 @@ You can read the git man page for more details:\
 
 ### 2. Modify .git/av/av.db file to replace the parent
 
-In your repository `.git` directory has a file named `.git/av/av.db`. This file is a JSON document. If you open that, you can see sections like this:\
-
+In your repository `.git` directory has a file named `.git/av/av.db`. This file is a JSON document. If you open that, you can see sections like this:<br>
 
 <figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
