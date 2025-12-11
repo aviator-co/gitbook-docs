@@ -42,6 +42,7 @@
     * [Pre-Execution Scripts](runbooks/how-to-guides/pre-execution-scripts.md)
     * [Using Stacked PRs](runbooks/how-to-guides/using-stacked-prs.md)
     * [Providing feedback](runbooks/how-to-guides/providing-feedback.md)
+    * [Handling CI failure](runbooks/how-to-guides/handling-ci-failure.md)
     * [SSH Sandboxes Configuration Guide](runbooks/how-to-guides/ssh-sandboxes-configuration-guide.md)
     * [SSH Sandboxes setup for onprem](runbooks/how-to-guides/ssh-sandboxes-setup-for-onprem.md)
   * [FAQ & Troubleshooting](runbooks/faq-and-troubleshooting.md)
