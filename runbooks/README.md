@@ -4,59 +4,61 @@ icon: layer-group
 
 # Runbooks
 
-Runbooks is a multiplayer-AI coding framework that leverages spec-driven development. It breaks down any task into step-by-step execution plan that can be reviewed and executed remotely.
+Runbooks uses Claude Code agents to plan and execute coding tasks in isolated sandboxes. Describe what you want, review the generated spec, and let agents implement it.
 
-With the remote pre-configured sandboxes, you can run Runbooks in the Aviator [cloud](concepts/cloud-sandboxes.md) or [onprem](../manage/on-premise-installation/) behind your firewall. Behind the scenes, the framework uses Claude Code to plan and execute the coding tasks in these sandboxes.
+## Why Runbooks
 
-This framework enables developers to invite other stakeholders to plan together, and it leverage Claude Code agents to research, plan and execute assigned tasks.
+Individual AI tools like Claude Code are powerful but create challenges at team scale: conversations disappear when you close the browser, each developer gets different solutions to the same problem, and implementation knowledge stays siloed.
 
-Tasks assigned to Runbooks can be executed as [step-by-step-execution.md](how-to-guides/step-by-step-execution.md "mention") or as [one-shot-mode.md](concepts/one-shot-mode.md "mention") depending on the complexity of the task.
+Runbooks solves this with three capabilities:
 
-## Planning
+**Multiplayer AI**: Multiple developers collaborate in shared sessions. Senior engineers guide juniors, teams align on approaches together, and everyone sees the AI's reasoning. No more inconsistent patterns from isolated AI conversations.
 
-There are two common workflows to plan with Runbooks.
+**Persistent knowledge**: Every solution becomes an organizational asset. Context files teach agents your codebase patterns. Successful runbooks become templates that capture proven workflows. New team members leverage accumulated knowledge immediately.
 
-### 1. Custom task
+**Spec-driven execution**: Review and approve plans before any code changes. Step-by-step execution with clear milestones replaces ad-hoc prompting. Standardized templates ensure consistent approaches across teams.
 
-Share the task requirements through an interactive chat interface. The planning agents work with Claude code to review the code, fetch the required context and prepare the plan.
+## Quick start
 
-### 2. Using a template
+1. [Create your first Runbook](getting-started.md)
+2. Review and refine the generated plan
+3. Execute steps and merge the resulting PRs
 
-Use an existing [Runbook as a template](concepts/templates.md), and build up on it by providing specific context associated with the task at hand. The planning agents modify the Runbook based on the provided context.
+## How it works
 
-## Collaboration
+**Planning**: Describe your task in the chat interface. Agents analyze your codebase, gather context, and generate a step-by-step plan.
 
-Using Runbooks' multiplayer mode you can:
+**Execution**: Run the plan [step-by-step](how-to-guides/step-by-step-execution.md) with review at each stage, or use [one-shot mode](concepts/one-shot-mode.md) for simpler tasks.
 
-* [Invite other users](concepts/collaborating-with-the-team.md) to collaborate on the Runbook
-* Execute specific step or assign it to the other users
-* Agents create pull requests, verifies the build steps
-* User provides feedback, agents iterate on the results
-* PRs are merged after review and verification by the user
-* Agents memorize the context and the Runbooks for future use.
+**Collaboration**: [Invite team members](concepts/collaborating-with-the-team.md) to review plans, provide feedback, and assign steps.
+
+## Sandboxes
+
+Agents execute in isolated environments with your codebase:
+
+- [Cloud sandboxes](concepts/cloud-sandboxes.md) - Managed by Aviator, no setup required
+- [SSH sandboxes](concepts/ssh-sandboxes.md) - Self-hosted on your infrastructure
+
+## Use cases
+
+- [Code migrations](concepts/use-cases/code-migrations.md) - Framework upgrades, API changes
+- [Bug fixes](concepts/use-cases/bug-fixes.md) - Investigate and fix issues
+- [Refactoring](concepts/use-cases/code-refactoring.md) - Improve code structure
+- [Test coverage](concepts/use-cases/improving-code-coverage.md) - Add missing tests
+- [Flaky tests](concepts/use-cases/flaky-test-resolution.md) - Fix unreliable tests
+- [Build optimization](concepts/use-cases/improve-build-times.md) - Speed up CI
+
+## Configuration
+
+- [Context files](how-to-guides/context-management.md) - Help agents understand your codebase
+- [MCP servers](how-to-guides/mcp-servers.md) - Add custom tool integrations
+- [Tool permissions](how-to-guides/claude-code-tools.md) - Control agent capabilities
+- [Personas](how-to-guides/persona-management.md) - Customize agent behavior
+- [Templates](concepts/templates.md) - Reuse runbooks across tasks
+
+## Prerequisites
+
+- GitHub account with repository access
+- Runbooks access ([cloud](https://app.aviator.co) or [on-premise](../manage/on-premise-installation/))
 
 {% embed url="https://youtu.be/AHV-T6t1ulk" %}
-
-#### Prerequisites
-
-* Access to the Runbooks dashboard (on-premise or cloud)
-* GitHub account with appropriate repository permissions
-
-### Use cases
-
-Although Agents framework can handle most types of engineering tasks, they do well specifically with:
-
-* [Product backlog](concepts/use-cases/product-backlog.md)
-* [Refactoring](concepts/use-cases/code-refactoring.md)
-* [Bug fixes](concepts/use-cases/bug-fixes.md)
-* [Improving build times](concepts/use-cases/improve-build-times.md)
-* [Flaky test resolution](concepts/use-cases/flaky-test-resolution.md)
-* [Code migration](concepts/use-cases/code-migrations.md)
-* [Improving readability](concepts/use-cases/improving-readability.md)
-* [Improving code coverage](concepts/use-cases/improving-code-coverage.md)
-
-### Learn more
-
-* [getting-started.md](getting-started.md "mention")
-* [on-premise-installation](../manage/on-premise-installation/ "mention")
-* [personal-integrations.md](../api/personal-integrations.md "mention")
