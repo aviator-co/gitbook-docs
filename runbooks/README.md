@@ -8,11 +8,11 @@ Runbooks uses Claude Code agents to plan and execute coding tasks in isolated sa
 
 ## Why Runbooks
 
-Individual AI tools like Claude Code are powerful but create challenges at team scale: conversations disappear when you close the browser, each developer gets different solutions to the same problem, and implementation knowledge stays siloed.
+Individual AI tools like Claude Code are powerful but create challenges at team scale: conversations disappear when you close the session, each developer gets different solutions to the same problem, and implementation knowledge stays siloed.
 
 Runbooks solves this with three capabilities:
 
-**Multiplayer AI**: Multiple developers collaborate in shared sessions. Senior engineers guide juniors, teams align on approaches together, and everyone sees the AI's reasoning. No more inconsistent patterns from isolated AI conversations.
+**Multiplayer AI**: Multiple developers collaborate in shared sessions. Experienced AI engineers guide others on using better prompts, teams align on approaches together, and everyone sees the AI's reasoning. No more inconsistent patterns from isolated AI conversations.
 
 **Persistent knowledge**: Every solution becomes an organizational asset. Context files teach agents your codebase patterns. Successful runbooks become templates that capture proven workflows. New team members leverage accumulated knowledge immediately.
 
