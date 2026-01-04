@@ -47,13 +47,68 @@ For quick setup, we recommend using one of our prebuilt environments:
 * **Go + Next.js** - Go, Node.js, Next.js, TypeScript
 * **FastAPI + React** - Python, FastAPI, Node.js, React, TypeScript
 
-### Custom environment
+### Custom templates
 
-{% hint style="info" %}
-Custom environments are still in beta, please reach out for early access: [howto@aviator.co](mailto:howto@aviator.co)
-{% endhint %}
+Create custom sandbox templates when prebuilt environments don't meet your requirements.
 
-You can also choose to build a custom environment. To do so, you can choose one of our prebuild base images and add additional dependencies using a bash script. We will custom build these images and save them to be used by the runners.
+#### Creating a custom template
+
+Navigate to **Runbooks Settings > Custom Templates** and click **Create Template**.
+
+Provide:
+- **Display name**: A descriptive name for your template
+- **Dockerfile content**: Instructions to build your environment
+
+#### Dockerfile requirements
+
+Custom templates use Dockerfiles with some restrictions:
+
+- `ADD` and `COPY` commands are not allowed (no local file access during build)
+- Use `RUN` commands to install dependencies via package managers
+
+**Example Dockerfile**:
+
+```dockerfile
+FROM ubuntu:22.04
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+# Install Python 3.11 with uv
+RUN apt-get update && apt-get install -y python3.11 python3.11-venv \
+    && curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install project-specific tools
+RUN npm install -g pnpm turbo
+```
+
+#### Build process
+
+After submitting your Dockerfile:
+1. The system validates the Dockerfile syntax
+2. A build job starts (typically takes 2-10 minutes)
+3. Once complete, the template appears in your sandbox configuration options
+
+#### Using custom templates
+
+Select your custom template in **Runbooks Settings > Sandbox Configuration**:
+
+1. Set **Sandbox Type** to `cloud`
+2. Choose your template from the **Sandbox Template** dropdown
+
+New Runbook sessions will use your custom template.
+
+#### Timeout configuration
+
+Cloud sandboxes have a configurable timeout (1-240 minutes). Set this in **Runbooks Settings > Sandbox Configuration** to control how long inactive sandboxes remain running before auto-pausing.
 
 ## Secrets management
 

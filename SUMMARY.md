@@ -37,6 +37,8 @@
     * [Managing Templates](runbooks/how-to-guides/managing-templates.md)
     * [Persona management](runbooks/how-to-guides/persona-management.md)
     * [Context management](runbooks/how-to-guides/context-management.md)
+    * [Claude Code tool permissions](runbooks/how-to-guides/claude-code-tools.md)
+    * [MCP servers](runbooks/how-to-guides/mcp-servers.md)
     * [Best practices for planning](runbooks/how-to-guides/best-practices-for-planning.md)
     * [Batch Operations with Runbook Templates](runbooks/how-to-guides/batch-operations-with-runbook-templates.md)
     * [Pre-Execution Scripts](runbooks/how-to-guides/pre-execution-scripts.md)
