@@ -21,7 +21,7 @@ Each Runbook Template follows the same format as a standard Runbook.
 
 We offer prebuilt templates for some common coding tasks patterns such as code migration, refactoring, maintenance work, etc.
 
-These prebuilt templates are agnostic of your code base but has some standard learnings based on the tasks. When you use these prebuilt templates, Runbooks agents will modify the Runbook template to adapt to your code base. This provides better quality results because it blends the standard process to perform an action with your code context. You ca
+These prebuilt templates are agnostic of your code base but have some standard learnings based on the tasks. When you use these prebuilt templates, Runbooks agents will modify the Runbook template to adapt to your code base. This provides better quality results because it blends the standard process to perform an action with your code context. You ca
 
 ## Custom templates
 
