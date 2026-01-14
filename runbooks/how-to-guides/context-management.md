@@ -1,24 +1,52 @@
 # Context management
 
-Context files provide persistent documentation that agents reference during planning and execution. They help agents understand your codebase structure, coding standards, and project-specific requirements.
+This guide covers how to view, create, and manage learnings and context files for your Runbooks account.
 
-## What are context files?
+For an overview of how context works, see [Context and Learnings](../concepts/context-and-learnings.md).
 
-Context files are markdown documents attached to your Runbooks account. When agents plan or execute tasks, they can access these files to understand:
+## Managing learnings
 
-- Project architecture and conventions
-- API patterns and data models
-- Testing requirements
-- Deployment procedures
-- Team-specific coding standards
+View and manage learnings from the **Context** tab in your Runbooks dashboard.
 
-## Creating a context file
+### Browsing learnings
 
-Navigate to **Runbooks Settings > Context Files** and click **Add Context File**.
+The Context tab shows all learnings captured across your account:
 
-Each context file requires:
-- **Title**: Extracted automatically from the first `# Heading` in your markdown
-- **Content**: Markdown document with your context information
+- **Search and filter** — Find learnings by keyword, framework, or file pattern
+- **Sort by relevance** — See most frequently used or most recent learnings first
+- **View details** — Click any learning to see its full pattern, solution, and usage history
+- **See source sessions** — Track which Runbook sessions contributed each learning
+
+### Creating custom learnings
+
+You can manually add learnings to share project knowledge with your team:
+
+1. Go to the **Context** tab
+2. Click **Add Learning**
+3. Fill in the learning details:
+   - **Pattern** — Describe the problem or situation (e.g., "pytest fails with import errors in monorepo")
+   - **Solution** — What works to resolve it (e.g., "Add conftest.py with sys.path configuration")
+   - **Applies to** — Optional filters for files, frameworks, or commands
+4. Click **Save**
+
+Custom learnings are treated the same as auto-captured ones — they'll surface in future Runbook sessions when relevant.
+
+### Editing and removing learnings
+
+- **Edit** — Update a learning's pattern, solution, or applicability filters
+- **Delete** — Remove learnings that are no longer relevant or were captured incorrectly
+
+---
+
+## Managing context files
+
+Context files are markdown documents that describe your project architecture and conventions.
+
+### Creating a context file
+
+1. Navigate to **Runbooks Settings > Context Files**
+2. Click **Add Context File**
+3. Write your markdown content with a `# Heading` as the title
 
 ### Structure
 
@@ -41,37 +69,51 @@ Our app uses JWT-based authentication with refresh tokens.
 - Refresh tokens are stored in HTTP-only cookies
 ```
 
-### Important files
+### Referencing important files
 
-Context files can reference important files in your codebase. The system extracts file paths from your markdown and uses them to prioritize context during agent planning.
+Reference files in your codebase using code formatting. The system extracts these paths and uses them to prioritize context during planning:
 
-Reference files using standard code formatting:
 - Inline: `` `src/auth/jwt.py` ``
-- Code blocks with file paths
+- In lists or code blocks
 
-## Using context files
-
-Context files are automatically available to agents. You don't need to explicitly attach them to each Runbook.
-
-When creating a Runbook, agents will:
-1. Search relevant context files based on the task
-2. Use file references to understand code structure
-3. Follow documented patterns and conventions
-
-## Updating context files
+### Updating context files
 
 Edit context files from **Runbooks Settings > Context Files**. Changes apply immediately to new Runbook sessions.
 
-For existing sessions, agents will pick up changes when:
+For existing sessions, agents pick up changes when:
 - You start a new planning phase
 - The agent re-reads context during execution
 
+---
+
 ## Best practices
 
-**Keep files focused**: One context file per major system or domain. Avoid monolithic documents.
+**Keep context files focused** — One file per major system or domain. Avoid monolithic documents.
 
-**Document patterns, not code**: Explain conventions and "why" rather than duplicating code.
+**Document patterns, not code** — Explain conventions and "why" rather than duplicating code.
 
-**Include file paths**: Reference actual files so agents can locate implementations.
+**Include file paths** — Reference actual files so agents can locate implementations.
 
-**Update regularly**: Keep context files in sync with your codebase. Outdated context leads to incorrect suggestions.
+**Let learnings accumulate** — The more you use Runbooks, the smarter they become.
+
+**Review learnings periodically** — Check the Context tab to remove outdated patterns or refine solutions.
+
+---
+
+## FAQ
+
+**Can I see what learnings have been captured?**
+
+Yes. Browse all learnings in the Context tab. You can also see session-specific learnings in the details section of each Runbook session.
+
+**Do learnings slow down my workflow?**
+
+No. Learning capture happens in the background and doesn't block your work.
+
+**Can I disable learning capture?**
+
+Contact support if you need to disable learning capture for your account.
+
+**Are learnings used in all Runbook sessions?**
+
+Yes, relevant learnings are automatically retrieved for all Runbook sessions in your account.
