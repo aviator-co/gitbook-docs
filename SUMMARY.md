@@ -16,6 +16,7 @@
     * [Templates](runbooks/concepts/templates.md)
     * [Personas](runbooks/concepts/personas.md)
     * [Collaborating with the team](runbooks/concepts/collaborating-with-the-team.md)
+    * [Context and learnings](runbooks/concepts/context-and-learnings.md)
     * [Working with large codebases](runbooks/concepts/working-with-large-codebases.md)
     * [One shot mode](runbooks/concepts/one-shot-mode.md)
     * [Cloud sandboxes](runbooks/concepts/cloud-sandboxes.md)
