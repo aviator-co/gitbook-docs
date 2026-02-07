@@ -263,6 +263,23 @@ merge_rules:
 {% endtab %}
 {% endtabs %}
 
+### Blocked queue sources
+
+There are multiple sources that can trigger a queue action for a pull request. These properties let you block specific sources from enqueuing a PR.
+
+```yaml
+merge_rules:
+  blocked_queue_sources:
+    - label
+    - slash_command
+    - graphql_api
+    - rest_api
+    - chrome_extension
+    - pilot
+```
+
+<table><thead><tr><th width="249.86328125">Name</th><th>Description</th></tr></thead><tbody><tr><td><strong>label</strong></td><td>Disables all the trigger label, including <code>skip_line</code></td></tr><tr><td><strong>slash_command</strong></td><td>Disables enqueuing using <code>/aviator merge</code></td></tr><tr><td><strong>graphql_api</strong></td><td>Disables enqueuing using <a href="../../api/reference/graphql.md">GraphQL</a>. Also disables enqueuing from the web app</td></tr><tr><td><strong>rest_api</strong></td><td>Disables enqueuing using the <a href="../../api/reference/json-api.md">REST (JSON) API</a></td></tr><tr><td><strong>chrome_extension</strong></td><td>Disables enqueuing from <a href="../aviator-chrome-extension.md">Chrome extension</a></td></tr><tr><td><strong>pilot</strong></td><td>Disables enqueuing using <a href="../../pilot-automated-actions.md">Pilot actions</a></td></tr></tbody></table>
+
 ### Other
 
 ```
