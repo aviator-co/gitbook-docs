@@ -1,3 +1,7 @@
+---
+icon: shield-check
+---
+
 # Verify
 
 Aviator Verify replaces traditional code review with spec-driven verification. Instead of reviewing code line-by-line, your team approves structured specs that define what the code should do. Verify then automatically checks that implementations match approved specs. These verifications also create a compliance audit trail.
