@@ -31,4 +31,4 @@ See the [<mark style="color:blue;">parallel mode documentation</mark>](parallel-
 
 No queue mode is suitable for repositories that want to use MergeQueue's merge rules and mergeability checks, but do not want to use MergeQueue's queueing functionality.
 
-In this mode, pull requests are **not** automatically updated with the latest changes from the target branch before merging. MergeQueue cannot guarantee that the target branch checks will be passing after merging in this mode.
+In this mode, pull requests maybe automatically updated with the latest changes from the **current** target branch before merging and will **not include** any in-flight (in-queue) PRs. MergeQueue cannot guarantee that the target branch checks will be passing after merging in this mode.
