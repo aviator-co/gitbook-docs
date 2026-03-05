@@ -49,6 +49,7 @@
     * [SSH Sandboxes Configuration Guide](runbooks/how-to-guides/ssh-sandboxes-configuration-guide.md)
     * [SSH Sandboxes setup for onprem](runbooks/how-to-guides/ssh-sandboxes-setup-for-onprem.md)
   * [FAQ & Troubleshooting](runbooks/faq-and-troubleshooting.md)
+  * [API Reference for Runbooks](runbooks/api-reference.md)
 * [Verify](verify/README.md)
   * [Your first spec](verify/your-first-spec.md)
   * [Setting up org invariants](verify/setting-up-org-invariants.md)
