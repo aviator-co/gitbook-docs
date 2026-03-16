@@ -117,6 +117,7 @@
       * [Microsoft Active Directory](mergequeue/how-to-guides/saml-configuration/microsoft-active-directory.md)
     * [How to Merge Stacked PRs](mergequeue/how-to-guides/merging-stacked-prs.md)
     * [How to Block Pull Request Mergeing with Slash Commands](mergequeue/how-to-guides/how-to-block-pull-request-mergeing-with-slash-commands.md)
+    * [How to Proactively Dequeue Failing PRs](mergequeue/concepts/parallel-mode/proactive-dequeue.md)
   * [Concepts for MergeQueue](mergequeue/concepts/README.md)
     * [Queue Modes](mergequeue/concepts/queue-modes.md)
     * [Pull Request Lifecycle](mergequeue/concepts/pull-request-lifecycle.md)
