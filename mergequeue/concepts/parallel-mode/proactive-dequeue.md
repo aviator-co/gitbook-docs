@@ -45,7 +45,7 @@ merge_rules:
       max_parallel_builds: 10
       batch_size: 1
       use_proactive_dequeue: true
-      proactive_dequeue_delay_seconds: 5
+      proactive_dequeue_delay_seconds: 300
 ```
 
 ## How it works
