@@ -9,6 +9,18 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-03-24" %}
+## 2026.03.24-1-rc2
+
+frontend: `sha256:6a397b57422cd757d1902cc5b34fdef9b4f27f00259d68ce59fa56551d968147`
+
+mergeit: `sha256:3e852b0d6f9995fad9a88fb4a375af6741103f0b8f287ebd0f72bb6455a066e8`
+
+**FlexReview**
+
+* Fix notification timing and assignment guard rail behavior for draft PRs
+{% endupdate %}
+
 {% update date="2026-03-23" %}
 ## 2026.03.23-1-rc1
 
