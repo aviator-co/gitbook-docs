@@ -2,6 +2,7 @@
 description: >-
   Changelog for Aviator on-premise releases. Subscribe via RSS to get notified
   of new releases.
+hidden: true
 ---
 
 # Release Notes
