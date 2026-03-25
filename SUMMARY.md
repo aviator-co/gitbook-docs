@@ -256,7 +256,7 @@
   * [Prometheus endpoint](manage/on-premise-installation/prometheus-endpoint.md)
   * [Slack Integration for On-Premise](manage/on-premise-installation/slack-integration.md)
   * [Google SSO Login for On-Prem](manage/on-premise-installation/google-sso-login.md)
-  * [Release Notes](manage/on-premise-installation/release-notes.md)
+  * [OnPrem Release Notes](manage/on-premise-installation/release-notes.md)
 * [FAQs](manage/faqs/README.md)
   * [Troubleshooting GitHub app connection](manage/faqs/troubleshooting-github-app-connection.md)
   * [MergeQueue FAQs](manage/faqs/mergequeue.md)

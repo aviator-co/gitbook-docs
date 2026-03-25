@@ -5,7 +5,7 @@ description: >-
 hidden: true
 ---
 
-# Release Notes
+# OnPrem Release Notes
 
 {% updates format="full" %}
 
