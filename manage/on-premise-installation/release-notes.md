@@ -13,6 +13,7 @@ hidden: true
 ## 2026.03.23-1-rc1
 
 frontend: `sha256:e3992f2050b931cec346fd8164d59e1f7f6910545632c154a3e9604e65d4db08`
+
 mergeit: `sha256:6728197a0a4b29963ed95d79c9fd8bcb9cbc0ef9cf3a952b564d16a445fa62cc`
 
 **MergeQueue**
@@ -32,6 +33,7 @@ mergeit: `sha256:6728197a0a4b29963ed95d79c9fd8bcb9cbc0ef9cf3a952b564d16a445fa62c
 ## 2026.03.18-4-rc1
 
 frontend: `sha256:20b9a7f478770a3bd715c02f553b20ffcf32e2ca556ed3ca5738bac1f2ae6959`
+
 mergeit: `sha256:134658cae49e3dccd47fd34ef3f5b6dbc72afdcc4e759dcf2c24b8111543aa5b`
 
 {% hint style="info" %}
@@ -70,6 +72,7 @@ There is a ~10% increase in memory footprint with this release.
 ## 2026.03.12-3-rc1
 
 frontend: `sha256:7e410899e24eb9878198162c9d6bdd1f1b6d9f3fcf278584614b663b8ad49712`
+
 mergeit: `sha256:35e953d776856190797c62e73816b8338d03f4cd9c9010d50de2a648950120fb`
 
 **MergeQueue**
@@ -90,6 +93,7 @@ mergeit: `sha256:35e953d776856190797c62e73816b8338d03f4cd9c9010d50de2a648950120f
 ## 2026.03.11-1-rc1
 
 frontend: `sha256:b0f9c06a204f3ffb5b5a91b73b385e7a64f212ae79fa3c6c3f4269615f79ef68`
+
 mergeit: `sha256:a54f10902ae4701a8ecf12de9ff6001987b2ba60e69836951e25f9c2a2b73b0e`
 
 **MergeQueue**
@@ -116,6 +120,7 @@ mergeit: `sha256:a54f10902ae4701a8ecf12de9ff6001987b2ba60e69836951e25f9c2a2b73b0
 ## 2026.03.04-2-rc2
 
 frontend: `sha256:2196fbcea46b5d2800e3fcf72da76ebd83eb86cdbe2e0c93a5df6937c58088e5`
+
 mergeit: `sha256:d2e722caf994c2ce6564bf3f18570f33aff046fc3b28bc5b566f6a37c33bad28`
 
 **MergeQueue**
@@ -133,6 +138,7 @@ mergeit: `sha256:d2e722caf994c2ce6564bf3f18570f33aff046fc3b28bc5b566f6a37c33bad2
 ## 2026.03.03-2-rc1
 
 frontend: `sha256:d50ed9988ec46f293082f53b1c638003f664cbe6074879c3a70db6401d037ecb`
+
 mergeit: `sha256:356e2acdceef32ad6376252c65f92e6999856162de72663fd580c37192ac7dce`
 
 **AttentionSet**
@@ -160,6 +166,7 @@ mergeit: `sha256:356e2acdceef32ad6376252c65f92e6999856162de72663fd580c37192ac7dc
 ## 2026.02.24-2-rc1
 
 frontend: `sha256:8bf36b0c85c71d1397273de9422b83950215448d9a6643e31287938d4039fedd`
+
 mergeit: `sha256:786bd7cd5321e7f533d0fceb3c312a73db514bc8525ab87c7e8cf67db38ca0cf`
 
 **MergeQueue**
@@ -201,6 +208,7 @@ mergeit: `sha256:786bd7cd5321e7f533d0fceb3c312a73db514bc8525ab87c7e8cf67db38ca0c
 ## 2026.02.09-1-rc2
 
 frontend: `sha256:29bd192c8905b7014d28b0ef6986f5b509f9bd1195b04eada43dc09a1b96109f`
+
 mergeit: `sha256:06ac071d624e84e080e8954152579e2d0e02db27867420b86fed47990ae88503`
 
 **MergeQueue**
@@ -212,6 +220,7 @@ mergeit: `sha256:06ac071d624e84e080e8954152579e2d0e02db27867420b86fed47990ae8850
 ## 2026.02.09-1-rc1
 
 frontend: `sha256:0da69716f0e7ae975f17d40e0b668f785dba250f19209c73d0fa564f3c03eb00`
+
 mergeit: `sha256:046d53905312d097234fa6422529a3b0ca4311336c25c0aee005164b4b8e7d16`
 
 **Misc**
@@ -233,6 +242,7 @@ mergeit: `sha256:046d53905312d097234fa6422529a3b0ca4311336c25c0aee005164b4b8e7d1
 ## 2026.02.05-2-rc1
 
 frontend: `sha256:09b70ecb1d2e59ff2dbbbaf3de768783da6ea4dba3e5929365ae221db16c0ef9`
+
 mergeit: `sha256:67d1ce3f7af1adde7e21b44a545e74b59d6b7c1c1dd5e0e974c76e11cb8ebcb8`
 
 **MergeQueue**
@@ -254,6 +264,7 @@ mergeit: `sha256:67d1ce3f7af1adde7e21b44a545e74b59d6b7c1c1dd5e0e974c76e11cb8ebcb
 ## 2026.02.03-1-rc1
 
 frontend: `sha256:3ef81ee7c82b76755a63a5f123733ad7d87630dd4bdbd94a8c6cc01836b581c6`
+
 mergeit: `sha256:470355c95ad622b1d88a8ab4c415e3bd966f12cc8ce6919f7ca68641f98e2029`
 
 **MergeQueue**
@@ -275,6 +286,7 @@ mergeit: `sha256:470355c95ad622b1d88a8ab4c415e3bd966f12cc8ce6919f7ca68641f98e202
 ## 2026.01.27-4-rc1
 
 frontend: `sha256:781da3cefbea1a8bf0fccdd04593c3affe8beed72ceae7bb263a7fd595dc313b`
+
 mergeit: `sha256:f1bda54b829dc6808eae26fed1bee00c76cc8719c3f31797e3138cc81c97fdd4`
 
 {% hint style="warning" %}
@@ -312,6 +324,7 @@ mergeit: `sha256:f1bda54b829dc6808eae26fed1bee00c76cc8719c3f31797e3138cc81c97fdd
 ## 2026.01.15-1-rc1
 
 frontend: `sha256:28e54a08fb6bd5a730531985d5dd6d4a0c23abc66c6c190cf5166704f45550e2`
+
 mergeit: `sha256:1a5de3acb3bad0aa8317a070c67d0c3fdb84f0bafe44d54f4ffcf1ea76ef7290`
 
 **Runbooks**
@@ -328,6 +341,7 @@ mergeit: `sha256:1a5de3acb3bad0aa8317a070c67d0c3fdb84f0bafe44d54f4ffcf1ea76ef729
 ## 2026.01.12-2-rc1
 
 frontend: `sha256:2df0074431f6f686a192172df2d7725616e3285e466b18400eecb21c75d646bd`
+
 mergeit: `sha256:bba2906f15fa70abae8870f3dcddd8f326a595134f3f533394d545ee4af2ab75`
 
 **Runbooks**
@@ -342,6 +356,7 @@ mergeit: `sha256:bba2906f15fa70abae8870f3dcddd8f326a595134f3f533394d545ee4af2ab7
 ## 2026.01.08-1-rc1
 
 frontend: `sha256:0c5f9dbf53d7fb555e242860ca030a95804e26e5c7ab100218df5a1fdbef54b8`
+
 mergeit: `sha256:d1174ea772b499687f04110c5d8f0651194784b49e4deabc4c27eebc7c7782fb`
 
 **General**
@@ -359,6 +374,7 @@ mergeit: `sha256:d1174ea772b499687f04110c5d8f0651194784b49e4deabc4c27eebc7c7782f
 ## 2026.01.05-3-rc1
 
 frontend: `sha256:9b3b4be74007c719dc00fa3ac3ff00758b9d7ee2ed6e42b0bbc90e43b768b3fe`
+
 mergeit: `sha256:b00ad36a4b181adec3bfa00db81fa39eb7be5ef3fefecdc29eef585354575f10`
 
 **General**
