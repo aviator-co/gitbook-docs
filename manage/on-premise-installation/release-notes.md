@@ -9,6 +9,23 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-03-26" %}
+## 2026.03.26-1-rc1
+
+frontend: `sha256:3fa73982e9c6377163b2ce113c59304cb7e1dc409e46870370d037fee65aef15`
+
+mergeit: `sha256:835b97b89a32d11f50fc5a4fc012adcaf19d0329ca39056422616758d0cff0a8`
+
+**MergeQueue**
+
+* Remove all transitive dependencies when dequeueing a PR
+
+**FlexReview**
+
+* Improved workload balancing for reviewer assignment
+* Log burnout scores for assigned reviewers
+{% endupdate %}
+
 {% update date="2026-03-24" %}
 ## 2026.03.24-1-rc2
 
