@@ -158,20 +158,41 @@ Example:
 
 ## PullRequest
 
-### Queue or Dequeue a Pull Request
+### Queue, Dequeue, Refresh, or Sync a Pull Request
 
 <mark style="color:green;">`POST`</mark> `https://api.aviator.co/api/v1/pull_request`
 
 `curl -X POST -H "Authorization: Bearer <aviator_token>"`\
 `-H "Content-Type: application/json"`\
-`-d '{"action": "queue", "pull_request": {"number": 1234, "repository": {"name": "repo_name", "org": "org_name"}, "head_commit_sha":" "`69f4404fda48aa2932abfbcb6956a9ccd473b17d`", "affected_targets": ["targetA", "targetB"], "merge_commit_message": {"title": "This is where title goes", "body": "This is where body goes"}}}'`\
+`-d '{"action": "queue", "pull_request": {"number": 1234, "repository": {"name": "repo_name", "org": "org_name"}, "head_commit_sha": "69f4404fda48aa2932abfbcb6956a9ccd473b17d", "affected_targets": ["targetA", "targetB"], "merge_commit_message": {"title": "This is where title goes", "body": "This is where body goes"}}}'`\
+`https://api.aviator.co/api/v1/pull_request/`
+
+To queue with skip-line:
+
+`curl -X POST -H "Authorization: Bearer <aviator_token>"`\
+`-H "Content-Type: application/json"`\
+`-d '{"action": "queue", "pull_request": {"number": 1234, "repository": {"name": "repo_name", "org": "org_name"}, "skip_line": true, "skip_line_reason": "hotfix for production outage"}}'`\
+`https://api.aviator.co/api/v1/pull_request/`
+
+To refresh a PR:
+
+`curl -X POST -H "Authorization: Bearer <aviator_token>"`\
+`-H "Content-Type: application/json"`\
+`-d '{"action": "refresh", "pull_request": {"number": 1234, "repository": {"name": "repo_name", "org": "org_name"}}}'`\
+`https://api.aviator.co/api/v1/pull_request/`
+
+To sync a PR with its base branch:
+
+`curl -X POST -H "Authorization: Bearer <aviator_token>"`\
+`-H "Content-Type: application/json"`\
+`-d '{"action": "sync", "pull_request": {"number": 1234, "repository": {"name": "repo_name", "org": "org_name"}}}'`\
 `https://api.aviator.co/api/v1/pull_request/`
 
 #### Request Body
 
 | Name                                            | Type          | Description                                                                                                                               |
 | ----------------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| action<mark style="color:red;">\*</mark>        | String        | Action taken. Valid options: `update`, `queue` or `dequeue`                                                                               |
+| action<mark style="color:red;">\*</mark>        | String        | Action taken. Valid options: `queue`, `update`, `dequeue`, `refresh`, or `sync`                                                           |
 | pull\_request<mark style="color:red;">\*</mark> | Object        | PullRequest object representing the PR that is queued.                                                                                    |
 | > number<mark style="color:red;">\*</mark>      | String        |                                                                                                                                           |
 | > repository<mark style="color:red;">\*</mark>  | Object        | Repository object associated with the PR                                                                                                  |
@@ -182,12 +203,15 @@ Example:
 | > merge\_commit\_message                        | Object        | CommitMessage object                                                                                                                      |
 | > > title                                       | String        | Title of merge commit message                                                                                                             |
 | > > body                                        | String        | Body of merge commit message                                                                                                              |
+| > skip\_line                                    | Boolean       | _Optional_. When `true`, the PR skips to the front of the queue. Only valid with the `queue` action. Requires skip-line authorization.    |
+| > skip\_line\_reason                            | String        | _Optional_. Reason for skipping the line. Required if the repository has `require_skip_line_reason` enabled.                              |
+| > skip\_validation                              | Boolean       | _Optional_. When `true`, skips CI validation for the PR. Only valid with the `queue` action.                                              |
 | > merge\_commit\_sha                            | String        | _Optional_. Represents the SHA associated with the commit on the mainline generated after the PR was merged.                              |
 
 
 
 {% tabs %}
-{% tab title="200: OK " %}
+{% tab title="200: OK (queue/update/dequeue)" %}
 ```javascript
 {
   "pull_request": {
@@ -203,6 +227,49 @@ Example:
       "org": "aviator-co"
     }
   }
+}
+```
+{% endtab %}
+
+{% tab title="202: Accepted (refresh/sync)" %}
+The `refresh` and `sync` actions are processed asynchronously and always return a `202` response.
+
+**refresh** — re-fetches the latest CI statuses, PR state from GitHub, and triggers FlexReview processing.
+
+**sync** — synchronizes the PR branch with its base branch. For stacked PRs, this performs a restack using niche-git.
+
+```javascript
+{
+  "pull_request": {
+    "number": 1234,
+    "status": "open",
+    ...
+  },
+  "status": "processing",
+  "message": "Refresh request accepted. Processing asynchronously."
+}
+```
+{% endtab %}
+
+{% tab title="400: Bad Request" %}
+```javascript
+// Missing skip_line_reason when required
+{
+  "error": "This repository requires a reason for skipping the line. Please provide skip_line_reason."
+}
+
+// Sync on a merged/closed PR
+{
+  "error": "Cannot sync a pull request that is already merged or closed."
+}
+```
+{% endtab %}
+
+{% tab title="403: Forbidden" %}
+```javascript
+// skip_line not authorized
+{
+  "error": "Not authorized to use skip-line on this repository."
 }
 ```
 {% endtab %}
