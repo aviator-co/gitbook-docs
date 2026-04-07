@@ -7,7 +7,7 @@ description: >-
 
 # Set Up SAML Configuration
 
-All of Aviator’s cloud accounts support Google SSO based login. Self-hosted Aviator deployments support Google, Okta, Active Directory, or other SAML SSO providers.
+Both Aviator’s cloud accounts and self-hosted deployments support Google, Okta, Active Directory, or other SAML SSO providers.
 
 ## SAML 2.0
 
