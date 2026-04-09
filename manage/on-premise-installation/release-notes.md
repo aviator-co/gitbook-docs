@@ -20,12 +20,10 @@ mergeit: `sha256:7f3be149c9f1840c2a416c98b6f993c07ec55ef5243084aaa3be296a1b3491c
 
 * Allow emergency merge while queue is paused
 * REST API: add refresh, sync, skip-line, and skip-validation endpoints
-* Speed up queue processing with DB-first CI status check
+* Speed up queue processing by splitting up GitHub fetch loop
 * Fix queued PRs getting stuck when CI retries masked earlier failures
 * Fix stale merged_at overwrite on stack ancestor PRs
-* Fix StaleDataError in dependency graph updates
 * Ignore bot user commits on tagged/queued PRs in parallel mode
-* Fix crash when GitHub repository is inaccessible during PR tagging
 
 **Runbooks**
 
