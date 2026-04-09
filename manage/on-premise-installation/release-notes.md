@@ -9,6 +9,32 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-04-08" %}
+## 2026.04.08-1-rc1
+
+frontend: `sha256:abadb355418f1b0919e7f1fa3c17796c5bed3c7c051b9624f5873e935c2ba2e9`
+
+mergeit: `sha256:7f3be149c9f1840c2a416c98b6f993c07ec55ef5243084aaa3be296a1b3491c6`
+
+**MergeQueue**
+
+* Allow emergency merge while queue is paused
+* REST API: add refresh, sync, skip-line, and skip-validation endpoints
+* Speed up queue processing by splitting up GitHub fetch loop
+* Fix queued PRs getting stuck when CI retries masked earlier failures
+* Fix stale merged_at overwrite on stack ancestor PRs
+* Ignore bot user commits on tagged/queued PRs in parallel mode
+
+**Runbooks**
+
+* Artifact pipeline for structured scope and criteria generation
+* Repo-scoped SSH sandbox support
+
+**FlexReview**
+
+* Fix race condition in reviewer assignment notifications
+{% endupdate %}
+
 {% update date="2026-03-26" %}
 ## 2026.03.26-1-rc1
 
