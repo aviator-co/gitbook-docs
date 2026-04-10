@@ -9,6 +9,42 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-04-10" %}
+## 2026.04.10-1-rc1
+
+frontend: `sha256:26370a0de37eed071dcb26f28fa259434808f3df8e9f80b98173a91ee7d9f618`
+
+mergeit: `sha256:47473db0f41b2eb9c13e15b014fd96dd14f279738d8136a8f6cce66b9476de77`
+
+**Inbox**
+
+* Launching Inbox: a unified view of PRs that need your attention, replacing the attention set
+
+**MergeQueue**
+
+* Respect `enable_comments: false` in repo config
+* Fix circular dependency handling in affected targets mode on dequeue/failure
+* Fix dangling stacked PRs bug
+* REST API: fix unhandled error when posting bot PRs
+* Refreshed queue page design
+
+**Runbooks**
+
+* Skip CI Rework for PRs created from external Runbook executions
+* Improved runbook artifact generation prompts for spec-driven workflows
+* Fix oneshot flag parsing in Slack slash command
+
+**FlexReview**
+
+* Support overriding the team used for reviewer assignment
+* Fix GitHub team syncing
+
+**Releases**
+
+* Fix semver version generation in release cuts
+* Refreshed release page design
+{% endupdate %}
+
 {% update date="2026-04-08" %}
 ## 2026.04.08-1-rc1
 
