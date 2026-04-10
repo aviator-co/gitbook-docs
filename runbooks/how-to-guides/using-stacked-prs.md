@@ -69,6 +69,6 @@ Each PR in the stack includes metadata linking it back to the specific runbook e
 
 <figure><img src="../../../.gitbook/assets/Screenshot 2025-10-29 at 8.44.59 AM.png" alt=""><figcaption></figcaption></figure>
 
-### AttentionSet
+### Inbox
 
 The system also provides notifications and alerts when stacked PRs require attention, such as when reviews are needed or when merge conflicts need manual resolution.
