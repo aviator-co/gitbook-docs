@@ -10,6 +10,19 @@ hidden: true
 {% updates format="full" %}
 
 {% update date="2026-04-10" %}
+
+## 2026.04.10-2-rc2
+
+frontend: `sha256:53e324de980504221b77c0fcf88da5f690a31a9ab250714c1e5fa6ca82bb0706`
+
+mergeit: `sha256:7d2e87d69461180daa088712cebea8c791370e648d9ee61c4353eb3cfbe911b0`
+
+**MergeQueue**
+
+* Reject stale stacks at queue entry to prevent un-merging already-merged ancestor PRs
+{% endupdate %}
+
+{% update date="2026-04-10" %}
 ## 2026.04.10-1-rc1
 
 frontend: `sha256:26370a0de37eed071dcb26f28fa259434808f3df8e9f80b98173a91ee7d9f618`
