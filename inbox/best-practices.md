@@ -8,9 +8,8 @@ description: >-
 
 Inbox works best when everyone agrees to some standard principles of operating:
 
-* Defining a rough response time helps the author manage the right expectations without getting to the point of constant reminders, or escalations. You can also define a team-wide SLO separately for an internal and an external code review using Aviator's [SLO management](../flexreview/concepts/slo-management.md).
-* We recommend an SLO of 1 business day for all PRs that have < 200 lines of change. Google also [recommends a fast code review iteration time](https://google.github.io/eng-practices/review/reviewer/speed.html) for improved developer productivity.
-* If you think that you will not get to the review within the suggested response time window, it's recommended to remove attention from yourself and inform the author.
+* Defining a rough response time helps the author manage the right expectations without getting to the point of constant reminders, or escalations.
+* If you think that you will not get to the review within a reasonable time frame, it's recommended to remove attention from yourself and inform the author.
 * As an author who has the attention, if your change requires a bit of rework before it can be sent back for review, it's recommended to move the PR to a draft or remove the attention from the reviewers.
 * As an author, if you assign an optional reviewer just as an FYI and you don't expect a proper review from the reviewer, you should remove attention from that reviewer.
 * Likewise, as a reviewer, if you are assigned an optional review that you do not intend to get to, you should remove attention from yourself.
