@@ -10,7 +10,7 @@ description: >-
 There are two types of GitHub connections that Aviator uses:
 
 * GitHub app - this ensures that Aviator can connect with the GitHub repos and take action on the pull requests. This is typically done as part of initial setup, and there is one shared connection across the entire GitHub organization.
-* GitHub OAuth - this is used to map a GitHub username to an Aviator user within a single installation. Every engineer in the team is expected to make this OAuth connection to enable certain features in Aviator. For instance, with this a user can then access their [<mark style="color:blue;">AttentionSet</mark>](https://docs.aviator.co/attentionset), or get [<mark style="color:blue;">personal Slack DMs</mark>](https://docs.aviator.co/mergequeue/how-to-guides/custom-integrations/personal-integrations#personal-slack-notifications).
+* GitHub OAuth - this is used to map a GitHub username to an Aviator user within a single installation. Every engineer in the team is expected to make this OAuth connection to enable certain features in Aviator. For instance, with this a user can then access their [<mark style="color:blue;">Inbox</mark>](https://docs.aviator.co/inbox), or get [<mark style="color:blue;">personal Slack DMs</mark>](https://docs.aviator.co/mergequeue/how-to-guides/custom-integrations/personal-integrations#personal-slack-notifications).
 
 ## On-premise setup
 
@@ -33,4 +33,4 @@ Set the env variables for `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` for the 
 
 Restart the server.
 
-Now if you navigate to `/attentionset` you should be able to complete a GitHub OAuth workflow.
+Now if you navigate to `/inbox` you should be able to complete a GitHub OAuth workflow.
