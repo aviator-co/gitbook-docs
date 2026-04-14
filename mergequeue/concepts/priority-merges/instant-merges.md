@@ -42,7 +42,7 @@ scenarios:
     pull_request:
       labeled:
         label: "av-instant-merge"
-        labeled_by: “@aviator-co/leads”
+        labeled_by: "@aviator-co/leads"
   actions:
   - mergequeue:
       instant_merge: {}
