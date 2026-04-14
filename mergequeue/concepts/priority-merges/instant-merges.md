@@ -67,7 +67,3 @@ Once migrated to Ruleset, you can add Aviator app in the bypass list.
 If you cannot migrate your branch protection rules to Ruleset, you can also use a Personal Access Token associated with a user who has GitHub admin permissions. Remember to give repo: read-write permissions when generating a token. In this case, when using instant merge, Aviator will use this personal access token.
 
 If you need assistance in setting up the personal access token, please contact [<mark style="color:blue;">howto@aviator.co</mark>](mailto:howto@aviator.co).
-
-\
-\
-\\
