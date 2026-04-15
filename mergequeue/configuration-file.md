@@ -20,6 +20,8 @@ You can directly apply the config on the _YAML configuration_ tab on the [<mark 
 
 You can also create a configuration file stored in `.aviator/config.yml`. The file will only be read once it is merged into the repository's default branch. It will also override any properties set in the Dashboard UI.
 
+To validate your configuration before merging, use the `/aviator validate-config` [slash command](reference/slash-commands.md#validate-config) on your pull request. Aviator will post a comment indicating whether the config is valid or listing any errors.
+
 ### Config Schema
 
 You can see [<mark style="color:blue;">the complete config schema</mark>](https://app.aviator.co/schema/index.html#aviator_config_yaml.json) as well as [<mark style="color:blue;">the JSON schema</mark>](https://app.aviator.co/schema/aviator_config_yaml.json) for autocompletion and validation purpose.
