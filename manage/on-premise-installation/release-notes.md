@@ -9,6 +9,34 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-04-16" %}
+
+## 2026.04.16-3-rc1
+
+frontend: `sha256:1bf458a6c89322db3e3b38d48eba8efab4056e06883302d349ee6cd300dbc8e6`
+
+mergeit: `sha256:b4280e27aa5c0dc86785e98c7c8c6df83e93da76bda1ef723e7f300cc44f4a5a`
+
+**MergeQueue**
+
+* Preserve Co-authored-by trailers in squash commits
+* Expanded PR activity timeline: blocked reasons, merge method, and draft PR closure events
+* Added `/aviator validate-config` slash command to check config file validity on a PR
+* Fix circular dependencies in affected targets mode on skip-line reset
+* Correctly trigger queue actions for PRs with large affected targets
+
+**Runbooks**
+
+* Refreshed session page with unified topbar, two-mode chat/sidebar layout, and tab-specific actions
+* Runbook config settings moved into a modal
+* Spec uploads now generally available
+* Faster Slack oneshot acknowledgement so users see confirmation before the worker picks up the task
+
+**FlexReview**
+
+* Remove CODEOWNERS warning block from the sticky comment (info already shown in team assignment details)
+{% endupdate %}
+
 {% update date="2026-04-10" %}
 
 ## 2026.04.10-2-rc2
