@@ -344,17 +344,36 @@ Example:
     "number": 89,
     "queued": true,
     "queued_at": "2022-11-16T17:21:41.350499",
+    "merged_at": null,
+    "created_at": "2022-11-16T17:20:00.000000",
     "repository": {
         "name": "repo-name",
         "org": "org-name"
     },
     "skip_line": false,
     "status": "queued",
-    "title": "mq-qa-8440-1"
+    "title": "mq-qa-8440-1",
+    "bot_pull_request": {
+        "number": 201,
+        "github_url": "https://github.com/org-name/repo-name/pull/201",
+        "target_branch": "master",
+        "head_commit_sha": "acffa575c02f2cf000aabe69f44e8905bc04c25d",
+        "head_branch_oid": "acffa575c02f2cf000aabe69f44e8905bc04c25d",
+        "codemix_pre_batch_sha": "08d30e0141d9f9253a228dac05173c4f383e1444"
+    }
 }
 ```
 {% endtab %}
 {% endtabs %}
+
+#### Response parameters
+
+| Name                    | Type              | Description                                                                                                                                                                                                                  |
+| ----------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **queued\_at**          | String            | ISO 8601 timestamp for when the PR most recently entered the queue. Only populated when the PR's status is `queued`, `tagged`, `merged`, or `blocked`; `null` otherwise (e.g. `pending`, `open`, `closed`).                   |
+| **merged\_at**          | String            | ISO 8601 timestamp for when the PR was merged, or `null` if it has not been merged.                                                                                                                                          |
+| **created\_at**         | String            | ISO 8601 timestamp for when Aviator first observed the PR.                                                                                                                                                                   |
+| **bot\_pull\_request**  | Object \| null    | The latest Bot PR associated with this PR (parallel mode), or `null` if no Bot PR has been created. See the [BotPullRequest schema](#botpullrequest) for the fields returned.                                                |
 
 ### Fetch information of PRs that are in the queued state
 
@@ -386,6 +405,8 @@ Example:
             "number": 89,
             "queued": true,
             "queued_at": "2022-11-16T17:21:41.350499",
+            "merged_at": null,
+            "created_at": "2022-11-16T17:20:00.000000",
             "repository": {
                 "name": "kevin-test",
                 "org": "ohcnivek"
@@ -401,6 +422,8 @@ Example:
             "number": 90,
             "queued": true,
             "queued_at": "2022-11-16T17:21:50.001884",
+            "merged_at": null,
+            "created_at": "2022-11-16T17:20:10.000000",
             "repository": {
                 "name": "kevin-test",
                 "org": "ohcnivek"
@@ -416,6 +439,8 @@ Example:
             "number": 91,
             "queued": true,
             "queued_at": "2022-11-16T17:22:00.185823",
+            "merged_at": null,
+            "created_at": "2022-11-16T17:20:20.000000",
             "repository": {
                 "name": "kevin-test",
                 "org": "ohcnivek"
@@ -456,7 +481,11 @@ Example:
 {% tab title="200: OK Success" %}
 ```
 {
+  "number": 201,
+  "github_url": "https://github.com/org-name/repo-name/pull/201",
+  "target_branch": "master",
   "head_commit_sha": "acffa575c02f2cf000aabe69f44e8905bc04c25d",
+  "head_branch_oid": "acffa575c02f2cf000aabe69f44e8905bc04c25d",
   "codemix_pre_batch_sha": "08d30e0141d9f9253a228dac05173c4f383e1444",
   "pull_requests": [
     {
@@ -466,6 +495,8 @@ Example:
       "number": 89,
       "queued": true,
       "queued_at": "2022-11-16T17:21:41.350499",
+      "merged_at": null,
+      "created_at": "2022-11-16T17:20:00.000000",
       "repository": {
           "name": "repo-name",
           "org": "org-name"
@@ -482,11 +513,15 @@ Example:
 
 ### Response parameters
 
-| Name                         | Type   | Description                                                                                                                                                                                            |
-| ---------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **head\_commit\_sha**        | String | Represents the head SHA of the bot pull request.                                                                                                                                                       |
-| **codemix\_pre\_batch\_sha** | String | Represents the commit SHA right before the validating pull requests were added to the bot PR branch. This commit SHA includes changes from the dependent PRs, but does not include the validating PRs. |
-| **pull\_requests**           | List   | List of PRs that are validating in this bot pull request.                                                                                                                                              |
+| Name                         | Type    | Description                                                                                                                                                                                            |
+| ---------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **number**                   | Integer | PR number of the Bot PR.                                                                                                                                                                               |
+| **github\_url**              | String  | GitHub URL of the Bot PR.                                                                                                                                                                              |
+| **target\_branch**           | String  | The branch the Bot PR targets.                                                                                                                                                                         |
+| **head\_commit\_sha**        | String  | Represents the head SHA of the bot pull request.                                                                                                                                                       |
+| **head\_branch\_oid**        | String  | Legacy alias for `head_commit_sha`. Retained for existing consumers; new integrations should prefer `head_commit_sha`.                                                                                 |
+| **codemix\_pre\_batch\_sha** | String  | Represents the commit SHA right before the validating pull requests were added to the bot PR branch. This commit SHA includes changes from the dependent PRs, but does not include the validating PRs. |
+| **pull\_requests**           | List    | List of PRs that are validating in this bot pull request.                                                                                                                                              |
 
 ## Config
 

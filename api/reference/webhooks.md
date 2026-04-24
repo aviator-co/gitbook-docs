@@ -59,11 +59,14 @@ Below is the list of actions that can be configured in the MQ UI to receive webh
 
 Below is the BotPR schema embedded in the payload.
 
-| Key                   | Description                              |
-| --------------------- | ---------------------------------------- |
-| **github\_url**       | _String._ The GitHub URL to the Bot PR.  |
-| **number**            | _Integer_. PR Number of the Bot PR.      |
-| **head\_branch\_oid** | _String._ The commit hash of the Bot PR. |
+| Key                          | Description                                                                                                                                                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **github\_url**              | _String._ The GitHub URL to the Bot PR.                                                                                                                                                                 |
+| **number**                   | _Integer_. PR Number of the Bot PR.                                                                                                                                                                     |
+| **target\_branch**           | _String._ The branch the Bot PR targets.                                                                                                                                                                |
+| **head\_commit\_sha**        | _String._ The commit hash of the Bot PR.                                                                                                                                                                |
+| **head\_branch\_oid**        | _String._ Legacy alias for `head_commit_sha`. Retained for existing consumers; new integrations should prefer `head_commit_sha`.                                                                        |
+| **codemix\_pre\_batch\_sha** | _String._ The commit SHA right before the validating pull requests were added to the bot PR branch. This commit SHA includes changes from the dependent PRs, but does not include the validating PRs. |
 
 ## Batch events
 
