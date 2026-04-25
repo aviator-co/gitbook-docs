@@ -18,10 +18,11 @@ You will need the extension ID when configuring policies below.
 
 ## Configurable Properties
 
-| Property          | Description                                                                                                                                                                              |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aviatorAppBaseURL` | Base URL of the Aviator web app (e.g. `https://aviator.example.com`). Users can still override this from the extension options page. Defaults to `https://app.aviator.co`.              |
-| `aviatorLoginURL`   | URL to direct users to when they need to log in (e.g. a custom SSO page). Only configurable via enterprise policy, not from the options page. When unset, defaults to `{aviatorAppBaseURL}/auth/login`. |
+| Property          | Type    | Description                                                                                                                                                                              |
+| ----------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aviatorAppBaseURL` | string  | Base URL of the Aviator web app (e.g. `https://aviator.example.com`). Users can still override this from the extension options page. Defaults to `https://app.aviator.co`.              |
+| `aviatorLoginURL`   | string  | URL to direct users to when they need to log in (e.g. a custom SSO page). Only configurable via enterprise policy, not from the options page. When unset, defaults to `{aviatorAppBaseURL}/auth/login`. |
+| `aviatorDisableAutoOpenLoginOnInstall` | boolean | If `true`, the extension will not automatically open the Aviator login page in a new tab the first time it is installed. Users can still log in manually via the extension popup or options page. Useful for silent enterprise deployments. Defaults to `false`. |
 
 ## Deploying via Google Admin Console
 
@@ -38,6 +39,9 @@ If your organization uses Google Workspace:
   },
   "aviatorLoginURL": {
     "Value": "https://aviator.example.com/sso/login"
+  },
+  "aviatorDisableAutoOpenLoginOnInstall": {
+    "Value": true
   }
 }
 ```
@@ -71,6 +75,8 @@ For macOS deployments using MDM solutions (Jamf, Kandji, Mosyle, etc.), create a
       <string>https://aviator.example.com</string>
       <key>aviatorLoginURL</key>
       <string>https://aviator.example.com/sso/login</string>
+      <key>aviatorDisableAutoOpenLoginOnInstall</key>
+      <true/>
     </dict>
   </array>
   <key>PayloadDisplayName</key>
@@ -99,9 +105,10 @@ For Windows deployments using Group Policy or registry:
 HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\3rdparty\extensions\inoabloekooadaolcncfmpgafkgbgnif\policy
 ```
 
-2. Create string values:
-   * `aviatorAppBaseURL` = `https://aviator.example.com`
-   * `aviatorLoginURL` = `https://aviator.example.com/sso/login`
+2. Create the following values:
+   * `aviatorAppBaseURL` (REG\_SZ) = `https://aviator.example.com`
+   * `aviatorLoginURL` (REG\_SZ) = `https://aviator.example.com/sso/login`
+   * `aviatorDisableAutoOpenLoginOnInstall` (REG\_DWORD) = `1` (set to `0` or omit to keep the default behavior)
 
 Or deploy via Group Policy ADMX templates using Chrome's enterprise bundle.
 
