@@ -9,6 +9,25 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-05-01" %}
+
+## 2026.05.01-1-rc1
+
+frontend: `sha256:2cc77260aa8723914194bfcde8c36dc8d9b0365b356570852e5149686136856a`
+
+mergeit: `sha256:ab0efea4199d2fd5eea66b7ecdd4ec0e2c8ae7c0b2b77baadf01978b5a18aea9`
+
+**MergeQueue**
+
+* When `reuse_draft_pr_on_failure` is `false`, close dependent draft PRs on failure and re-queue the underlying PRs from scratch instead of recreating draft PRs. [Read the docs](https://docs.aviator.co/mergequeue/reference/complete-reference-guide#parallel-mode).
+* Queue page now handles API timeouts gracefully
+
+**Runbooks**
+
+* Pause auto CI rework when a non-Aviator user pushes to a runbook PR, so manual edits aren't overwritten on the next CI run
+
+{% endupdate %}
+
 {% update date="2026-04-29" %}
 
 ## 2026.04.29-3-rc1
