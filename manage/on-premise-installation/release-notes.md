@@ -9,6 +9,53 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-04-29" %}
+
+## 2026.04.29-3-rc1
+
+frontend: `sha256:fdbea206c55d89aedd2cba86de4d3ef545ecea1845b9351e7242ea6fa1b15386`
+
+mergeit: `sha256:3e1eba6356ed95a50748c9bfe19cf8e0925bdb13307475f6c75f279e5051d648`
+
+**MergeQueue**
+
+* Stop booting queued PRs on transient REVIEW_REQUIRED after bot push
+* Reject stack queue when an ancestor was already queued individually
+* Fix parallel-mode stack-close bug and stale cancel-flow comment
+* Fire merged webhook for stacked PR ancestors
+* Fix race that mislabels emergency merges as merged manually
+* Strip queue label when adding blocked label
+* Stricter detection of invalid queue state
+* Reverse stack comment order and append target branch for readability
+* Comment on reset draft PRs explaining the upstream eject
+* New `av-ignore-stack` label to exclude PRs from stacks
+* Add `applies_to` to `apply_title_regexes`; deprecates `RegexConfig`
+* Dequeue button added to queue page and pulls page
+* Preserve bot PR tab on pulls page after merge
+* Lazy-load affected targets on queue page, scoped to the active batch
+* Significant queue-processing performance improvements
+* REST API: include bot_pull_request in pull_request payload; add timestamps
+
+**Runbooks**
+
+* Replies on runbook annotations
+* Dedupe session owner from runbook collaborators
+* Improved chat reliability and UX: unread indicators on chat tabs, channel-correct subscriptions and graphql-ws hardening, ephemeral status split per channel
+
+**FlexReview**
+
+* Serialize `/aviator flexreview assign` with the FR teams lock to avoid concurrent assignment races
+
+**Releases**
+
+* Skip deployment and release-cut lookups on accounts that don't use Releases
+
+**Admin**
+
+* SCIM user provisioning: core infrastructure, REST API endpoints, management UI, and GraphQL/frontend integration
+* Allow inviting existing users on SSO-only accounts
+{% endupdate %}
+
 {% update date="2026-04-16" %}
 
 ## 2026.04.16-3-rc1
