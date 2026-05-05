@@ -9,6 +9,20 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-05-05" %}
+
+## 2026.05.01-1-rc2
+
+frontend: `sha256:b215f0e76e54da5b956c74757f9c26ed86204d7467c3f3f65d8569964df5b313`
+
+mergeit: `sha256:c042e58c7d1b4d9476d90caa0421c66cd05e50d6c5dd4574aa1dcd5316a49273`
+
+**Infra**
+
+* nginx upload limit is now configurable via the `NGINX_CLIENT_MAX_BODY_SIZE` env var (default `10M`), so operators can raise it without a code change
+
+{% endupdate %}
+
 {% update date="2026-05-01" %}
 
 ## 2026.05.01-1-rc1
