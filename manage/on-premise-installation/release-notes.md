@@ -9,6 +9,39 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-05-11" %}
+
+## 2026.05.11-1-rc1
+
+frontend: `sha256:7d2e55b7608bdcc752dc2f23a0b32767da23e47262612f0274de1b468ec52153`
+
+mergeit: `sha256:0928eb8faba43183cae7a72b0829b796445be99bf2163f558da1227d2e58c2fd`
+
+**MergeQueue**
+
+* Significant queue page performance improvements
+* Preserve base branches still in use by other PRs when a PR's base changes
+* Fix incorrect blocked label state during stacked PR merges
+* Fix bot branch creation failing when GitHub returns incomplete commit author info
+* Include commit SHA in the merge commit message
+* Better slash command timeout handling
+
+**Runbooks**
+
+* All account users now have full edit access to runbooks
+* Strip backticks from revise commit messages
+* Improve ephemeral message display
+* More reliable cancel-and-rerun on runbook steps
+
+**FlexReview**
+
+* Reviewer selection now uses weighted randomness across similar candidates, avoiding streaks where one reviewer kept getting picked across PRs
+
+**Releases**
+
+* Faster sync for non-released PRs
+  {% endupdate %}
+
 {% update date="2026-05-05" %}
 
 ## 2026.05.01-1-rc2
