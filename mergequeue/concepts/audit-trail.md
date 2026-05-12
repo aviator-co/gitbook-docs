@@ -9,7 +9,7 @@ description: >-
 
 It is important to know when your merge rules have been changed, and who changed them. We store a history of your merge rules configuration so that you can see exactly that.
 
-Audit trail information can be found on the [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/github/rules) page under the `Configuration History` tab.
+Audit trail information can be found on the [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/queue/config) page under the `Configuration History` tab.
 
 ## What Gets Stored?
 
@@ -17,7 +17,7 @@ For each of the ways that you may set up your merge rules, we store different re
 
 ### Dashboard UI
 
-When changes are made from the [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/github/rules) dashboard, we store the logged in `aviator_user` that made them, the time the change was made at, and a `diff` of the new configuration to the previous one.
+When changes are made from the [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/queue/config) dashboard, we store the logged in `aviator_user` that made them, the time the change was made at, and a `diff` of the new configuration to the previous one.
 
 <figure><img src="../../.gitbook/assets/Screen Shot 2022-09-19 at 6.01.12 PM.png" alt=""><figcaption><p>A configuration history record of a change made via Dashboard UI</p></figcaption></figure>
 
@@ -25,7 +25,7 @@ As can be seen above, the `aviator_user` is displayed as the email associated wi
 
 ### Dashboard YAML
 
-Similarly to the above, when changes are made to [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/github/rules) YAML under the `Yaml Configuration` tab, we store the `aviator_user` that logged in to make the change, the time, and the `diff` of the current and previous YAML.
+Similarly to the above, when changes are made to [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/queue/config) YAML under the `Yaml Configuration` tab, we store the `aviator_user` that logged in to make the change, the time, and the `diff` of the current and previous YAML.
 
 Since changes here are made directly to the YAML shown on the `Yaml Configuration` tab, it should be more obvious how the text difference is generated in this case.
 

@@ -8,11 +8,11 @@ description: >-
 
 MergeQueue communicates with pull request using GitHub labels, GitHub comments and the [<mark style="color:blue;">Aviator CLI</mark>](../aviator-cli/). Merge rules are at the core of how the Aviator bot reacts to the actions taken on GitHub.
 
-Some of the Basic Configuration can be modified using the [<mark style="color:blue;">Merge Rules dashboard</mark>](https://app.aviator.co/github/rules). For more advanced configuration, Aviator supports a YAML based configuration file. This file can either be applied directly from the Aviator dashboard or configured in the GitHub repository.
+Some of the Basic Configuration can be modified using the [<mark style="color:blue;">Merge Rules dashboard</mark>](https://app.aviator.co/queue/config). For more advanced configuration, Aviator supports a YAML based configuration file. This file can either be applied directly from the Aviator dashboard or configured in the GitHub repository.
 
 ### Managing YAML from the dashboard
 
-You can directly apply the config on the _YAML configuration_ tab on the [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/github/validate-config) page. We also recommend validating this configuration before applying any changes.
+You can edit the YAML config directly on the [<mark style="color:blue;">Merge Rules</mark>](https://app.aviator.co/queue/config) page. Use the **Validate** button to check the config, then click **Save & Apply** to apply your changes. We recommend validating the configuration before saving.
 
 <figure><img src="../.gitbook/assets/Screen Shot 2023-10-12 at 3.22.07 PM.png" alt=""><figcaption></figcaption></figure>
 
