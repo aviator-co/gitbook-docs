@@ -282,6 +282,17 @@ merge_rules:
 
 <table><thead><tr><th width="249.86328125">Name</th><th>Description</th></tr></thead><tbody><tr><td><strong>label</strong></td><td>Disables all the trigger label, including <code>skip_line</code></td></tr><tr><td><strong>slash_command</strong></td><td>Disables enqueuing using <code>/aviator merge</code></td></tr><tr><td><strong>graphql_api</strong></td><td>Disables enqueuing using <a href="../../api/reference/graphql.md">GraphQL</a>. Also disables enqueuing from the web app</td></tr><tr><td><strong>rest_api</strong></td><td>Disables enqueuing using the <a href="../../api/reference/json-api.md">REST (JSON) API</a></td></tr><tr><td><strong>chrome_extension</strong></td><td>Disables enqueuing from <a href="../aviator-chrome-extension.md">Chrome extension</a></td></tr><tr><td><strong>pilot</strong></td><td>Disables enqueuing using <a href="../../pilot-automated-actions.md">Pilot actions</a></td></tr></tbody></table>
 
+### Skip blocked label
+
+By default, when a pull request fails to merge, Aviator applies the `blocked` label (configured via `labels.merge_failed`) to the PR. To re-queue the PR, the author must remove the `blocked` label and then re-trigger the queue. Enable `skip_blocked_label` if you prefer to keep the PR in the open state on a merge failure and skip the `blocked` label workflow entirely.
+
+```yaml
+merge_rules:
+  skip_blocked_label: true
+```
+
+<table><thead><tr><th width="249.86328125">Name</th><th width="120">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>skip_blocked_label</strong></td><td>Boolean</td><td>When enabled, Aviator will not add the <code>blocked</code> label to a PR when it fails to merge. The PR is left in the open state (with queue and ready labels removed) and the author is instructed to re-queue the PR to retry. Aviator will still post a GitHub comment describing the reason for the failure, and the PR's status is still recorded as <code>blocked</code> in the Aviator audit trail. Defaults to <code>false</code>.</td></tr></tbody></table>
+
 ### Other
 
 ```
