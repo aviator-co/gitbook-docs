@@ -1,39 +1,38 @@
 # Configuring branch protection
 
-## How to
-
-Require Aviator Verify to pass before PRs can merge by adding it to your GitHub branch protection rules.
+Make Aviator Verify a required GitHub status check so PRs cannot merge until verification passes. This is a standard GitHub branch-protection configuration; the gate is enforced by GitHub, not by Aviator.
 
 ### Prerequisites
 
 * Admin access to the GitHub repository
 * Aviator Verify enabled for the repository
+* At least one verification run has completed on the repo (so GitHub recognizes the check name)
 
 ### Steps
 
 #### 1. Open branch protection settings
 
-In GitHub, go to your repository’s **Settings → Branches**.
+In GitHub, go to your repository's **Settings → Branches**.
 
 Click **Add rule** or edit an existing rule for your protected branch (usually `main`).
 
 #### 2. Require status checks
 
-Under “Protect matching branches,” enable:
+Under "Protect matching branches," enable:
 
 ```
 ☑ Require status checks to pass before merging
 ```
 
-#### 3. Add Aviator Verify as required check
+#### 3. Add Aviator Verify as a required check
 
-In the search box, type “Aviator” and select:
+In the search box, type "aviator" and select:
 
 ```
-☑ Aviator Verify
+☑ aviator/verify
 ```
 
-This makes verification a required check. PRs cannot merge until verification passes.
+This makes verification a required check. GitHub will not allow merge until verification passes.
 
 #### 4. Optional: Require branches to be up to date
 
@@ -53,21 +52,13 @@ Click **Save changes** at the bottom of the page.
 
 Create a PR with a linked spec. You should see:
 
-1. Aviator Verify check appears
-2. Merge button is disabled until verification passes
-3. If verification fails, the PR cannot be merged (without admin override)
+1. The `aviator/verify` check appears
+2. The merge button is disabled until verification passes
+3. If verification fails, the PR cannot be merged (unless an admin overrides)
 
-### Bypassing verification
+### Bypass and override
 
-Admins can bypass branch protection for emergencies. This is logged in both GitHub and Aviator audit trails.
-
-To allow admin bypass:
-
-```
-☑ Allow specified actors to bypass required pull requests
-```
-
-Add users or teams who should have bypass ability.
+GitHub's standard branch-protection bypass mechanisms apply. Aviator does not currently track or record bypass events — if you need that, GitHub's audit log is the source of truth.
 
 ### Multiple required checks
 
@@ -77,12 +68,12 @@ You likely have other required checks (CI, tests, linting). Aviator Verify works
 Required checks:
 ☑ ci/build
 ☑ ci/test
-☑ Aviator Verify
+☑ aviator/verify
 ```
 
 All checks must pass for the PR to merge.
 
 ### See also
 
-* How to connect a repository
-* Reference: GitHub integration
+* [How to connect a repository](connect-a-repository.md)
+* [Reference: GitHub integration](../reference/github-integration.md)

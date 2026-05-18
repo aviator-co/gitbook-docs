@@ -4,63 +4,24 @@ When verification fails, you need to either fix your code or update your spec. T
 
 ### Understanding the failure
 
-First, read the failure details carefully. Click **Details** on the GitHub check to see:
+First, read the failure details carefully. Click **Details** on the GitHub check, or open the runbook's verify page in the dashboard, to see:
 
-* Which check failed (scope, criteria, or invariant)
-* The specific reason
-* The file and line number
-* A suggested fix
-
-### Scope violations
-
-#### File not in declared scope
-
-```
-❌ Scope: FAILED
-   Modified file not in declared scope: src/auth/middleware.go
-```
-
-**Cause:** You changed a file that isn’t listed in your spec’s `modify` section.
-
-**Options:**
-
-1.  **Remove the changes** if they shouldn’t be part of this change:
-
-    ```bash
-    git checkout origin/main -- src/auth/middleware.go
-    git commit --amend
-    git push -f
-    ```
-2. **Update the spec** if the file change is intentional:
-   * Create a new spec revision that includes this file
-   * Get it approved
-   * Verification will re-run
-
-#### Forbidden file modified
-
-```
-❌ Scope: FAILED
-   Modified file matches forbidden pattern: src/auth/*
-```
-
-**Cause:** You changed a file explicitly forbidden in the spec.
-
-**Options:**
-
-1. Remove the changes to the forbidden file
-2. Reconsider whether this file really needs to change—if so, create a new spec
+* Which criterion failed
+* The verifier's reason
+* The file and line number (where the verifier could identify them)
+* A short evidence snippet
 
 ### Criteria failures
 
 #### Criterion not satisfied
 
 ```
-❌ Response excludes: internal_id, billing_provider_id
+✗ Response excludes: internal_id, billing_provider_id
    Found: Response includes billing_provider_id
    Location: src/models/subscription.go:24
 ```
 
-**Cause:** Your implementation doesn’t satisfy a requirement.
+**Cause:** Your implementation doesn't satisfy a requirement.
 
 **Fix:** Change your code to satisfy the criterion. In this case, remove the field from the response:
 
@@ -79,30 +40,31 @@ type SubscriptionStatus struct {
 }
 ```
 
-Push the fix. Verification runs automatically.
+Push the fix. Verification re-runs automatically.
 
-#### Criterion ambiguous (false positive)
+#### Criterion ambiguous (verifier disagrees with you)
 
-If you believe your code satisfies the criterion but verification disagrees:
+If you believe your code satisfies the criterion but the verifier disagrees:
 
-1. **Check the criterion wording.** Is it specific enough? “Requires authentication” might be interpreted differently than “Handler calls AuthMiddleware.”
-2. **Add context to the Intent.** Help verification understand how your implementation works.
-3. **Make the criterion more specific.** Replace vague criteria with concrete ones.
-4. **Report the issue.** Click the feedback button in the verification report if you believe it’s a bug.
+1. **Check the criterion wording.** Is it specific enough? "Requires authentication" might be interpreted differently than "Handler calls AuthMiddleware."
+2. **Edit the criterion.** Acceptance criteria can be updated in the runbook chat. Re-run verification after editing.
+3. **Add context to the spec's Intent.** Help the verifier understand how your implementation works.
+4. **Make the criterion more specific.** Replace vague criteria with concrete ones.
 
-### Invariant violations
+Because the verifier is LLM-driven, edge-case judgements can vary. Sharpening the criterion text usually resolves repeated false positives.
 
-#### Security invariant failed
+### Invariant failures
+
+When a baseline invariant fails, the GitHub check shows the same kind of result as any other criterion — the invariant's rule text is included in the criteria set for the run.
 
 ```
-❌ Org Invariants: FAILED
-   security-baseline: No hardcoded credentials
+✗ No hardcoded credentials, API keys, or tokens
    Found: Possible API key at src/client.go:23
 ```
 
-**Cause:** Your code violates an organization-wide rule.
+**Cause:** Your code violates a repo-wide rule.
 
-**Fix:** Address the security issue:
+**Fix:** Address the issue:
 
 ```go
 // Before
@@ -114,44 +76,38 @@ var apiKey = os.Getenv("API_KEY")
 
 #### Legitimate exception
 
-If your code legitimately doesn’t need to follow an invariant:
+If your code legitimately doesn't follow an invariant:
 
-1. Check if there’s an exception path configured for your case
-2. Talk to whoever manages org invariants about adding an exception
-3. Document in your spec’s Intent why this exception is valid
+1. Document the exception in the spec's Intent so the verifier sees the rationale
+2. If the exception is recurring, edit the invariant's conditions so it doesn't apply to this case
+3. If the verifier still flags it, sharpen the invariant rule text
 
 ### Re-running verification
 
-After fixing issues, verification re-runs automatically when you push.
+After fixing issues, verification re-runs automatically when you push a new commit.
 
-You can also trigger it manually:
+You can also trigger it manually from the runbook's verify page in the dashboard.
 
-* Comment `/aviator verify` on the PR
-* Click **Re-run** in the verification details page
-
-### When to update the spec vs. fix the code
+### Editing the spec vs. fixing the code
 
 | Situation                              | Action                                      |
 | -------------------------------------- | ------------------------------------------- |
-| Code doesn’t do what spec says         | Fix the code                                |
-| Spec is wrong about requirements       | Create new spec revision, get approval      |
-| Forgot to include a file in scope      | Create new spec revision, get approval      |
-| Verification is wrong (false positive) | Make criterion more specific, or report bug |
+| Code doesn't do what the spec says     | Fix the code                                |
+| Spec is wrong about requirements       | Edit the criteria in the runbook chat       |
+| Verifier is wrong about a verdict      | Make the criterion more specific            |
 
-Remember: approved specs are locked. You can’t edit them—you create a new revision.
+Criteria can be edited at any time — there is no formal "approved and locked" state today.
 
 ### Getting help
 
-If you can’t resolve a failure:
+If you can't resolve a failure:
 
-1. Check common issues
-2. Ask on Discord: [discord.gg/aviator](https://discord.gg/MmQWrY9xrA)
-3. Email support: [support@aviator.co](mailto:support@aviator.co)
+1. Ask on Discord: [discord.gg/aviator](https://discord.gg/MmQWrY9xrA)
+2. Email support: [support@aviator.co](mailto:support@aviator.co)
 
-Include the verification ID when asking for help.
+Include the verification run ID when asking for help.
 
 ### See also
 
-* Reference: Verification results
-* Reference: Troubleshooting
-* How to write effective criteria
+* [Reference: Verification results](../reference/understanding-verification-results.md)
+* [How to write effective criteria](writing-effective-acceptance-criteria.md)

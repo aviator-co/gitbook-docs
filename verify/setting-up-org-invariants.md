@@ -1,164 +1,114 @@
-# Setting up org invariants
+# Setting up baseline invariants
 
-Org invariants are rules that apply to every change in your organization. Instead of adding “requires authentication” to every spec, you define it once as an invariant and it’s checked automatically.
+Baseline invariants are repo-wide rules that apply to many changes — "all HTTP handlers require auth," "no hardcoded secrets," "all GraphQL mutations log to the audit table." Rather than restating them in every spec, you define them once on the repository and Verify composes them into the criteria for any PR they apply to.
 
-In this tutorial, you’ll create a security invariant that enforces authentication on HTTP handlers.
+This tutorial walks through the onboarding flow that creates your initial set of invariants and shows how they appear in verification results.
 
-**Time:** 10 minutes
+**Time:** ~10–20 minutes (depending on questionnaire time)
 
 **Prerequisites:**
 
 * Admin access to your Aviator organization
-* Completed the Your first spec tutorial (recommended)
+* A repository connected for Verify (see [Connect a repository](how-to-guides/connect-a-repository.md))
 
-### What you’ll do
+### How invariants are created
 
-1. Create an org invariant for authentication
-2. Test it against an existing change
-3. See how invariants appear in verification results
+Invariants are seeded from a guided onboarding session, not authored from scratch in a settings page. The session:
 
-### Step 1: Navigate to invariants
+1. Analyzes your repository
+2. Asks you a few questions about team practices and priorities
+3. Drafts invariants based on the analysis, your answers, and signals in your repo (CLAUDE.md, CONTRIBUTING.md, etc.)
+4. Asks you to review each draft
 
-Go to **Verify → Settings → Org Invariants**.
+You can edit invariants after onboarding, but the LLM-drafted starting set is the on-ramp.
 
-You’ll see a list of existing invariants (possibly empty) and a button to create new ones.
+### Step 1: Start the onboarding session
 
-### Step 2: Create a new invariant
+Go to **Verify → Invariants** for your repository and click **Start setup**.
 
-Click **New Invariant**.
+If onboarding has already been completed for this repo, you'll see your existing invariants instead. You can still add or edit invariants from this page.
 
-Give it a name: `security-baseline`
+### Step 2: Analyze the repository
 
-Add a description: `Core security requirements for all code changes`
+The first stage scans your repo's structure and conventions. This is automatic; no input needed. While it runs, you can read about what's being analyzed.
 
-### Step 3: Define the rules
+When the analysis completes, you'll see a summary: languages detected, key directories, conventions found.
 
-In the invariant editor, add your security rules:
+### Step 3: Answer the questionnaire
 
-```markdown
-# Security Baseline
+You'll be asked a short series of questions about your team's practices:
 
-## Rules
+* What kinds of issues most often slip through code review?
+* Which areas of the codebase carry the most risk?
+* What rules are universal vs. domain-specific?
 
-### Authentication
--All HTTP handlers must use AuthMiddleware
--No endpoint may bypass authentication without explicit exception
+Your answers shape the drafts.
 
-### Secrets
--No hardcoded credentials, API keys, or tokens
--Secrets must come from environment variables or secret manager
--No secrets in log output
+### Step 4: Review the drafted invariants
 
-### Input Validation
--All external input must be validated before use
--SQL queries must use parameterized statements
-```
+The session presents a set of drafted invariants. Each one has:
 
-These rules are written in natural language. Verify understands them semantically.
+* **Name** — a short identifier
+* **Rule text** — what the verifier will check
+* **Conditions** — file paths, languages, or change types that determine when the invariant applies
 
-### Step 4: Configure scope
+For each draft, you can:
 
-Invariants can apply to all files or specific paths. For this security baseline:
+* **Approve** — the invariant becomes `ACTIVE` and starts applying to matching PRs
+* **Edit** — refine the wording or conditions before approving
+* **Reject** — discard the draft
 
-**Applies to:** `All files` (default)
+You don't have to approve everything at once. You can come back and finish later.
 
-Some invariants might only apply to certain areas:
+### Step 5: See invariants in verification
 
-* API rules might apply only to `src/handlers/**`
-* Database rules might apply only to `src/db/**`
-
-For security, we want it everywhere. Leave it as “All files.”
-
-### Step 5: Save and enable
-
-Click **Save Invariant**.
-
-The invariant is now active. Toggle the **Enabled** switch if it isn’t already on.
-
-### Step 6: Test with a verification
-
-Let’s see the invariant in action. Go back to one of your PRs that has verification results, or create a new spec and implement it.
-
-When verification runs, you’ll see the invariant checks in the results:
+When verification runs against a PR, applicable invariants are composed into the criteria set. They appear in the verification result alongside spec-specific criteria, with no special separation:
 
 ```
-✓ Org Invariants: PASSED (5/5)
+Verification run #142
 
-  security-baseline:
-    ✓ All HTTP handlers must use AuthMiddleware
-    ✓ No hardcoded credentials, API keys, or tokens
-    ✓ Secrets must come from environment variables
-    ✓ No secrets in log output
-    ✓ SQL queries must use parameterized statements
+✓ Endpoint: GET /api/v1/users      ← from spec
+✓ Returns 200 with profile data    ← from spec
+✓ All HTTP handlers use AuthMiddleware  ← from invariant
+✓ No hardcoded credentials         ← from invariant
+✓ SQL queries use parameterized statements  ← from invariant
 ```
 
-### Step 7: See a violation
-
-Create a spec and implementation that violates an invariant. For example, add a hardcoded API key:
-
-```go
-const apiKey = "sk_live_abc123..."
-```
-
-When verification runs:
+If an invariant fails, the result includes the verifier's reason and a location:
 
 ```
-✗ Org Invariants: FAILED (4/5)
-
-  security-baseline:
-    ✓ All HTTP handlers must use AuthMiddleware
-    ✗ No hardcoded credentials, API keys, or tokens
-    ✓ Secrets must come from environment variables
-    ✓ No secrets in log output
-    ✓ SQL queries must use parameterized statements
-
-  Failure: Possible hardcoded API key detected
-  Location: src/client.go:12
-
-  Suggested fix: Move this credential to an environment variable
+✗ No hardcoded credentials
+  Possible API key at src/client.go:23
 ```
 
-The invariant caught the violation even though the spec didn’t mention credentials.
+### Editing invariants later
 
-### Step 8: Add an exception path
+Go to **Verify → Invariants** to:
 
-Some code legitimately doesn’t need certain checks. For example, your health check endpoint from the previous tutorial shouldn’t require authentication.
+* Edit an existing invariant's rule text or conditions
+* Archive an invariant that's no longer relevant
+* Add a new invariant manually
 
-Edit the `security-baseline` invariant and add an exceptions section:
+A change to an invariant takes effect on the next verification run.
 
-```markdown
-## Exceptions
+### Handling legitimate exceptions
 
-### Authentication exceptions
--Health check endpoints (`/health`, `/ready`, `/live`)
--Public documentation endpoints
-```
+Sometimes a change legitimately departs from an invariant — a public health-check endpoint may not need authentication, even though the auth invariant otherwise applies.
 
-Save the invariant. Now the authentication rule won’t fail for health check handlers.
+You have two options:
 
-### How invariants work with specs
-
-Invariants and spec criteria work together:
-
-| Source             | What it checks                            |
-| ------------------ | ----------------------------------------- |
-| **Spec criteria**  | Requirements specific to this change      |
-| **Org invariants** | Organization-wide rules that always apply |
-
-You don’t need to repeat invariant rules in your specs. If authentication is an invariant, you don’t need to add “requires authentication” to every spec—it’s checked automatically.
-
-But you can override invariants in a spec. If your spec explicitly says “does not require authentication” and has a valid reason in the intent, verification understands the exception.
+1. **Sharpen the invariant's conditions** so it doesn't apply to that file path. Best when the exception is recurring.
+2. **Document the exception in the spec's Intent.** The verifier reads the full spec for context and can recognize an intentional override when the rationale is documented.
 
 ### What you learned
 
-* Org invariants define rules that apply to all changes
-* Rules are written in natural language
-* Invariants are checked alongside spec criteria
-* Exceptions can be defined for legitimate edge cases
-* You don’t need to repeat invariant rules in individual specs
+* Invariants are seeded by a guided onboarding session, not authored from scratch
+* Each invariant has a rule, a description, and conditions for when it applies
+* Invariants compose with per-spec criteria into a single criteria set per verification run
+* You don't repeat invariant rules in individual specs
+* Exceptions are handled either by sharpening conditions or by documenting the override in the spec
 
 ### Next steps
 
-* [How-to: Add more invariants](setting-up-org-invariants.md) - Common invariant patterns
-* [Configuration options](reference/configuration-reference.md) - All invariant settings
-* [Verification layers](concepts/verification-layers.md) - How invariants, domain contracts, and specs work together
+* [Verification layers](concepts/verification-layers.md) — How invariants and specs compose
+* [Configuration reference](reference/configuration-reference.md) — Invariant fields and settings

@@ -1,164 +1,56 @@
-# Audit trails and compliance
+# Records of what was checked
 
-This document explains how Verify creates audit records and how they support compliance requirements.
+This document explains what Verify records when it runs and how those records are surfaced today.
+
+Verify is in active development. Compliance-grade audit export (SOC 2, ISO 27001, HIPAA) is on the roadmap but not yet implemented. The records described here are useful for reviewing what happened on a given PR; they are not yet structured for auditor consumption.
 
 ### What gets recorded
 
-Every significant action in Verify creates an audit record:
+Each verification run records:
 
-| Event               | What’s recorded                          |
-| ------------------- | ---------------------------------------- |
-| Spec created        | Author, timestamp, initial content       |
-| Spec submitted      | Author, timestamp, reviewers requested   |
-| Spec approved       | Approver, timestamp, final content       |
-| Spec rejected       | Reviewer, timestamp, feedback            |
-| Verification run    | Spec version, commit, timestamp, results |
-| Verification passed | Full results, criteria checked           |
-| Verification failed | Full results, failure details            |
+| Field                | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| Spec applied         | Reference to the spec used                                   |
+| Acceptance criteria  | The criteria evaluated, including any from invariants        |
+| Verdict per criterion | Pass, fail, or error                                         |
+| Reason / evidence    | Verifier's text reason, file/line where applicable           |
+| Commit SHA           | The commit verified                                          |
+| PR reference         | Linked pull request                                          |
+| Started / completed  | Timestamps                                                   |
 
-Records are immutable. Once created, they cannot be modified or deleted.
+These records are stored as `VerificationRun` and `VerificationResult` rows. They are visible:
 
-### The audit chain
+* In the dashboard, on the runbook's verify page
+* In the GitHub check summary
 
-Each production change has a complete chain:
+### What is not recorded today
 
-```
-Intent Approved → Implementation Created → Verification Passed → Merged
-     ↓                    ↓                       ↓               ↓
- Spec record         Commit SHA            Results record    Merge record
- (who, when,         (what code)           (what passed)    (final state)
-  what intent)
-```
+The following are commonly expected of compliance-grade systems and are not yet implemented:
 
-This chain answers compliance questions:
+* **Immutable, signed audit chain.** Records are stored in the application database. They are not yet content-addressed or cryptographically sealed.
+* **Segregation-of-duties enforcement.** The system does not enforce that author ≠ approver. Authors today can approve their own criteria.
+* **Exportable reports.** There is no built-in export to JSON, CSV, or PDF, and no scheduled report generation.
+* **Compliance framework mappings.** Verify does not currently produce evidence formatted for SOC 2, ISO 27001, or HIPAA audits.
 
-* **What was intended?** → Spec record
-* **Who approved it?** → Approval record
-* **What was built?** → Commit reference
-* **Was it verified?** → Verification record
-* **What was checked?** → Results detail
+These are roadmap items. If audit-grade output is required for your team, this is a feature area where design-partner input shapes our priorities.
 
-### Segregation of duties
+### What you can do today
 
-Compliance frameworks often require segregation of duties—the person who writes code shouldn’t be the only one who approves it.
+For each verification run, the dashboard and GitHub check show:
 
-Verify enforces this naturally:
+* Which criteria applied
+* What the verdict for each was
+* The verifier's reason and any cited location
 
-| Role          | Actor             | Recorded |
-| ------------- | ----------------- | -------- |
-| Spec author   | Developer         | Yes      |
-| Spec approver | Reviewer          | Yes      |
-| Implementer   | Developer (or AI) | Yes      |
-| Verifier      | Automated system  | Yes      |
+For a given PR, this gives reviewers and authors a clearer record than a comment thread — the criteria are explicit, the verdicts are recorded, and the evidence is cited.
 
-The author and approver are tracked separately. If `allow_self_approval` is disabled (default), authors cannot approve their own specs.
-
-This is stronger than traditional code review, where a reviewer might “approve” a PR they also committed to.
-
-### Traceability
-
-Every production change links back to:
-
-* An approved spec (the intent)
-* A verification result (the proof)
-* External references (tickets, requirements)
-
-If an auditor asks “why was this change made?”, you can show:
-
-1. The spec that described the intent
-2. Who approved that intent
-3. Verification proving the implementation matches
-4. The ticket or requirement that motivated it
-
-### Compliance framework mapping
-
-#### SOC 2
-
-| Trust Service Criteria          | How Verify helps                            |
-| ------------------------------- | ------------------------------------------- |
-| CC6.1 - Logical access controls | Spec approval tracks who authorized changes |
-| CC6.6 - Changes are authorized  | Every change requires approved spec         |
-| CC6.7 - Changes are tested      | Verification checks every criterion         |
-| CC8.1 - Change management       | Complete audit trail for all changes        |
-
-#### ISO 27001
-
-| Control                          | How Verify helps                           |
-| -------------------------------- | ------------------------------------------ |
-| A.12.1.2 - Change management     | Formal approval and verification process   |
-| A.12.1.4 - Segregation of duties | Author ≠ approver, tracked separately      |
-| A.14.2.2 - System change control | Audit trail links intent to implementation |
-
-#### HIPAA
-
-| Requirement        | How Verify helps                         |
-| ------------------ | ---------------------------------------- |
-| Access controls    | Only authorized users can approve specs  |
-| Audit controls     | Immutable records of all changes         |
-| Integrity controls | Verification ensures code matches intent |
-
-### Generating compliance reports
-
-#### On-demand export
-
-1. Go to **Verify → Audit**
-2. Filter by date range, repository, or author
-3. Click **Export**
-4. Choose format: JSON, CSV, or PDF
-
-PDF reports are formatted for auditor review.
-
-#### Scheduled reports
-
-Configure automatic exports in **Verify → Settings → Scheduled Reports**:
-
-* Weekly or monthly frequency
-* Filtered by criteria
-* Delivered via email or webhook
-
-#### What’s included
-
-Reports include:
-
-* All spec approvals in the period
-* All verification runs and results
-* Actor information (who did what)
-* Timestamps
-* Result details
+For repo-wide review, the dashboard at `/r/...` shows the runbook history including verification runs. There is no aggregated cross-repo or date-range view today.
 
 ### Retention
 
-Audit records are retained indefinitely by default.
-
-For specific retention requirements, contact support to configure:
-
-* Retention period
-* Archival policies
-* Data export before deletion
-
-### Immutability
-
-Audit records cannot be:
-
-* Modified after creation
-* Deleted by users
-* Backdated
-
-This ensures audit trails are trustworthy. What you see is what happened.
-
-### What Verify doesn’t do
-
-Verify provides audit trails for code changes. It doesn’t:
-
-* Replace your ticketing system
-* Provide runtime audit logs
-* Track infrastructure changes
-* Monitor production access
-
-Integrate Verify with your other compliance tools for complete coverage.
+Verification records are retained as long as the underlying database retains them. Retention policies, archival, and selective deletion are not currently configurable.
 
 ### See also
 
-* [How to export audit logs](../how-to-guides/export-audit-logs.md)
-* [Reference: Configuration options](../reference/configuration-reference.md)
-* [Why intent-driven verification](why-intent-driven-verification.md)
+* [How verification works](how-verification-works.md)
+* [Understanding verification results](../reference/understanding-verification-results.md)

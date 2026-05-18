@@ -14,7 +14,7 @@ This guide explains how to connect a GitHub repository to Aviator Verify.
 
 Go to **Settings → Integrations → GitHub** in your Aviator dashboard.
 
-If you see “Not connected,” click **Connect GitHub** and follow the OAuth flow to install the Aviator GitHub App on your organization.
+If you see "Not connected," click **Connect GitHub** and follow the OAuth flow to install the Aviator GitHub App on your organization.
 
 Select which repositories the app can access:
 
@@ -33,16 +33,15 @@ Click **Enable**.
 
 #### 3. Configure repository settings
 
-After enabling, you can configure:
+After enabling, two per-repo toggles are available:
 
-| Setting              | Description                             | Default |
-| -------------------- | --------------------------------------- | ------- |
-| **Require specs**    | PRs must have a linked spec             | Off     |
-| **Exempt paths**     | File patterns that don’t need specs     | Empty   |
-| **Auto-link specs**  | Link specs to PRs based on branch names | On      |
-| **Block on failure** | Failed verification blocks merge        | On      |
+| Setting                       | Description                                                | Default |
+| ----------------------------- | ---------------------------------------------------------- | ------- |
+| **Enable Verify**             | Run verification on PRs in this repo                       | On      |
+| **Enable baseline invariants** | Compose matching invariants into each verification run    | On      |
+| **Auto-create runbook on PR** | Automatically create a Verify runbook when a PR is opened | Off     |
 
-Adjust these based on your workflow. For a trial, you might leave “Require specs” off to start.
+Additional repo settings (require-specs gating, exempt paths, merge-blocking enforcement) are on the roadmap.
 
 #### 4. Verify the connection
 
@@ -51,15 +50,15 @@ To confirm everything works:
 1. Create a test spec in Verify
 2. Push a branch to the repository
 3. Link the spec to a PR
-4. Check that the Aviator Verify check appears
+4. Check that the `aviator/verify` check appears
 
-If the check doesn’t appear, see Troubleshooting: Check not appearing.
+If the check doesn't appear, the most common cause is that the Aviator GitHub App doesn't have access to the repository. Confirm in **GitHub → Organization Settings → Installed GitHub Apps → Aviator → Configure**.
 
 ### Adding more repositories
 
 Repeat steps 2-3 for each repository you want to enable.
 
-If a repository doesn’t appear in the dropdown, check that:
+If a repository doesn't appear in the dropdown, check that:
 
 * The Aviator GitHub App has access to it
 * You have admin access to the repository
@@ -72,6 +71,5 @@ This disables Verify for that repository. Existing specs and verification histor
 
 ### See also
 
-* How to configure branch protection
-* Reference: GitHub integration
-* Reference: Configuration options
+* [Reference: GitHub integration](../reference/github-integration.md)
+* [Reference: Configuration](../reference/configuration-reference.md)

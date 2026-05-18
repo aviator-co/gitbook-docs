@@ -1,16 +1,21 @@
 # Spec format
 
-Complete reference for Verify spec syntax.
+Reference for Verify spec syntax.
 
 ### Structure
 
-Every spec has a title and three required sections:
+A spec is a markdown document. The Verify parser recognizes two structured sections by heading:
+
+* `## Scope`
+* `## Acceptance Criteria`
+
+Other sections — Intent, Execution Steps, Design Notes, etc. — are not parsed but are useful for human reviewers and AI implementation tools. A common, recommended layout is:
 
 ```markdown
 # Title
 
 ## Intent
-[description]
+[plain-language description of what and why]
 
 ## Scope
 [scope declarations]
@@ -18,21 +23,21 @@ Every spec has a title and three required sections:
 ## Acceptance Criteria
 [list of criteria]
 
-## Execution steps
-[steps to execute]
+## Execution Steps
+[implementation breakdown]
 ```
 
 ### Title
 
-Short description of the change. Appears in dashboard, PR checks, and audit trail.
+Short description of the change. Appears in the dashboard and PR check.
 
 ```markdown
 # Add user profile endpoint
 ```
 
-### Intent
+### Intent (not parsed)
 
-Plain-language description of what and why. Provides context for verification.
+Plain-language description of what and why. The verifier reads the full spec for context, so this is useful to include even though it's not a parsed section.
 
 ```markdown
 ## Intent
@@ -40,15 +45,13 @@ Public endpoint for retrieving basic user profile information.
 Returns display name and avatar, but not email or internal IDs.
 ```
 
-### Scope
+### Scope (parsed)
 
-Declares what the change may touch using three keywords.
-
-#### Keywords
+Declares what the change may touch using three keywords:
 
 | Keyword  | Purpose                     | Required |
 | -------- | --------------------------- | -------- |
-| `modify` | Files to create or edit     | Yes      |
+| `modify` | Files to create or edit     | No       |
 | `call`   | External services to access | No       |
 | `forbid` | Prohibited files or actions | No       |
 
@@ -56,10 +59,12 @@ Declares what the change may touch using three keywords.
 
 ```markdown
 ## Scope
--**modify:** `src/handlers/profile.go`, `src/models/user.go`
--**call:** `user-service`
--**forbid:** `src/auth/*`, database migrations
+- **modify:** `src/handlers/profile.go`, `src/models/user.go`
+- **call:** `user-service`
+- **forbid:** `src/auth/*`, database migrations
 ```
+
+Scope is currently used by the verifier as context for its judgement, but is not enforced as a separate hard gate. If the implementation modifies a file outside `modify`, the verifier may flag this in its reasoning; it will not block verification before the LLM stage.
 
 #### Glob patterns
 
@@ -67,22 +72,22 @@ Declares what the change may touch using three keywords.
 | ---------------------- | -------------------------------------------- |
 | `src/handlers/*.go`    | .go files in src/handlers                    |
 | `src/handlers/**/*.go` | .go files in src/handlers and subdirectories |
-| `tests/*_test.go`      | Files ending in \_test.go in tests           |
+| `tests/*_test.go`      | Files ending in `_test.go` in tests          |
 
-### Acceptance Criteria
+### Acceptance Criteria (parsed)
 
-Checklist of requirements using markdown checkbox syntax.
+A checklist of requirements using markdown checkbox syntax:
 
 ```markdown
 ## Acceptance Criteria
--[ ] Endpoint: `GET /api/v1/users/{id}/profile`
--[ ] Returns 200 with profile data
--[ ] Response includes: display_name, avatar_url
--[ ] Response excludes: email, internal_id
--[ ] Returns 404 if user not found
+- [ ] Endpoint: `GET /api/v1/users/{id}/profile`
+- [ ] Returns 200 with profile data
+- [ ] Response includes: display_name, avatar_url
+- [ ] Response excludes: email, internal_id
+- [ ] Returns 404 if user not found
 ```
 
-Each criterion is checked independently during verification.
+Each criterion is evaluated independently during verification. At runtime, any matching baseline invariants are added to this set automatically.
 
 ### Complete example
 
@@ -94,52 +99,22 @@ Public endpoint for retrieving basic user profile information.
 Returns display name and avatar, but not email or internal IDs.
 
 ## Scope
--**modify:** `src/handlers/profile.go`, `src/models/user.go`
--**call:** `user-service`
--**forbid:** `src/auth/*`, database migrations
+- **modify:** `src/handlers/profile.go`, `src/models/user.go`
+- **call:** `user-service`
+- **forbid:** `src/auth/*`, database migrations
 
 ## Acceptance Criteria
--[ ] Endpoint: `GET /api/v1/users/{id}/profile`
--[ ] Returns 200 with profile data
--[ ] Response includes: display_name, avatar_url
--[ ] Response excludes: email, internal_id
--[ ] Returns 404 if user not found
+- [ ] Endpoint: `GET /api/v1/users/{id}/profile`
+- [ ] Returns 200 with profile data
+- [ ] Response includes: display_name, avatar_url
+- [ ] Response excludes: email, internal_id
+- [ ] Returns 404 if user not found
 
 ## Execution Steps
 
 ### Step 1: Define the response model
 Create a model that only includes the allowed fields.
 
-#### 1.1: Create UserProfile struct
-Add a new struct in the models package that excludes sensitive fields.
-
-- Create `UserProfile` struct in `src/models/user.go`
-- Include only `display_name` and `avatar_url` fields
-- Add JSON tags for serialization
-
 ### Step 2: Implement the handler
 Create the HTTP handler that fetches and returns profile data.
-
-#### 2.1: Create GetProfile handler
-Add a handler function that retrieves user data and returns the public profile.
-
-- Create `GetProfile` function in `src/handlers/profile.go`
-- Parse user ID from URL path
-- Call `user-service` to fetch user data
-
-#### 2.2: Map to response model
-Convert the internal user object to the public profile response.
-
-- Map user fields to `UserProfile` struct
-- Ensure `email` and `internal_id` are not included
-
 ```
-
-### Validation errors
-
-| Error                     | Fix                                       |
-| ------------------------- | ----------------------------------------- |
-| Missing required section  | Add Intent, Scope, or Acceptance Criteria |
-| Empty acceptance criteria | Add at least one criterion                |
-| Invalid scope keyword     | Use `modify`, `call`, or `forbid`         |
-| Invalid glob pattern      | Check pattern syntax                      |

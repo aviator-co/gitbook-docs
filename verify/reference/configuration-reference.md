@@ -1,162 +1,85 @@
 ---
-description: All configuration options for Verify.
+description: Configuration options for Verify.
 ---
 
 # Configuration reference
 
+This is a reference for currently-available configuration. Verify is in active development; many configuration knobs commonly expected (require-specs gating, exempt paths, merge-blocking enforcement, scheduled exports, REST API) are on the roadmap but not yet implemented.
+
 ### Repository settings
 
-Configure in **Verify → Repositories → \[repo] → Settings** or via `.aviator/verify.yaml`.
+Configured in **Verify → Repositories → \[repo] → Settings**.
 
-| Setting                 | Type      | Default | Description                         |
-| ----------------------- | --------- | ------- | ----------------------------------- |
-| `require_specs`         | boolean   | `false` | PRs must have a linked spec         |
-| `exempt_paths`          | string\[] | `[]`    | File patterns that don’t need specs |
-| `auto_link_specs`       | boolean   | `true`  | Auto-link specs based on branch/PR  |
-| `block_on_failure`      | boolean   | `true`  | Failed verification blocks merge    |
-| `draft_pr_verification` | boolean   | `false` | Run verification on draft PRs       |
+| Setting                          | Type    | Default | Description                                                  |
+| -------------------------------- | ------- | ------- | ------------------------------------------------------------ |
+| `enable_verify`                  | boolean | `true`  | Run verification on PRs in this repo                         |
+| `enable_baseline_invariants`     | boolean | `true`  | Compose matching invariants into each verification run       |
+| `auto_create_runbook_on_pr_open` | boolean | `false` | Automatically create a Verify runbook when a PR is opened    |
 
-#### Configuration file
+Per-repo file-based configuration (`.aviator/verify.yaml`) is not currently read. All settings live in the dashboard.
 
-Create `.aviator/verify.yaml` in your repository’s default branch:
+### Baseline invariants
 
-```yaml
-require_specs:true
-exempt_paths:
--"docs/**"
--"*.md"
--".github/**"
--"**/*.test.ts"
-auto_link_specs:true
-block_on_failure:true
-draft_pr_verification:false
-```
+Configured in **Verify → Invariants**.
 
-Dashboard settings override the config file.
+Each invariant has:
 
-#### Exempt paths
+| Field          | Description                                              |
+| -------------- | -------------------------------------------------------- |
+| `name`         | Short identifier                                         |
+| `description`  | Plain-language description                               |
+| `rule_text`    | The rule the verifier evaluates                          |
+| `conditions`   | When the invariant applies (file paths, languages, change types) |
+| `status`       | `PENDING` (proposed), `ACTIVE` (enforced), `ARCHIVED`    |
 
-Patterns use glob syntax:
+Invariants in `ACTIVE` status are composed into the criteria set for any verification run whose changed files match the invariant's conditions.
 
-| Pattern      | Matches                    |
-| ------------ | -------------------------- |
-| `docs/**`    | Anything in docs directory |
-| `*.md`       | Markdown files in root     |
-| `**/*.md`    | Markdown files anywhere    |
-| `.github/**` | GitHub config files        |
+### GitHub check
 
-PRs that only modify exempt paths don’t require specs.
+Verify creates a single GitHub check per PR:
 
-### Organization settings
+| Property      | Value                              |
+| ------------- | ---------------------------------- |
+| Check name    | `aviator/verify`                   |
+| Statuses      | `queued`, `in_progress`, `success`, `failure` |
+| Output        | Markdown table of criteria + verdicts |
+| Details URL   | Link to the runbook's verify page  |
 
-Configure in **Verify → Settings**.
+To require this check before merge, configure GitHub branch protection in the repo settings. Aviator itself does not enforce merge-blocking.
 
-#### General
+### Onboarding
 
-| Setting                 | Type    | Default | Description                         |
-| ----------------------- | ------- | ------- | ----------------------------------- |
-| `default_require_specs` | boolean | `false` | Default for new repositories        |
-| `allow_self_approval`   | boolean | `false` | Authors can approve their own specs |
-| `approval_count`        | integer | `1`     | Required approvals per spec         |
+When a repo is first connected for Verify, an onboarding session walks through:
 
-#### Notifications
+1. Repo analysis — scan languages, structure, conventions
+2. Questionnaire — admin input on team practices and priorities
+3. Drafted baseline invariants — LLM-proposed from analysis + questionnaire + docs (CLAUDE.md, CONTRIBUTING.md, etc.)
+4. Review — admin approves, edits, or rejects each draft
+5. Done — approved invariants become `ACTIVE`
 
-| Setting            | Type    | Default | Description                             |
-| ------------------ | ------- | ------- | --------------------------------------- |
-| `slack_channel`    | string  | none    | Default Slack channel for notifications |
-| `email_on_failure` | boolean | `true`  | Email authors on verification failure   |
-| `post_pr_comment`  | boolean | `true`  | Post failure details as PR comment      |
+Onboarding state is persisted, so it can be paused and resumed.
 
-#### Timeouts
+### Feature flag
 
-| Setting                 | Type    | Default | Description                           |
-| ----------------------- | ------- | ------- | ------------------------------------- |
-| `verification_timeout`  | integer | `300`   | Max seconds for verification          |
-| `spec_approval_timeout` | integer | `0`     | Hours before spec expires (0 = never) |
+Verify is gated by an account-level feature flag. Contact [support@aviator.co](mailto:support@aviator.co) to enable it for your account.
 
-### Org invariants
+### Not yet configurable
 
-Configure in **Verify → Settings → Org Invariants**.
+The following are commonly expected and are tracked as roadmap items:
 
-#### Invariant structure
+* Per-repo `require_specs` gating
+* `exempt_paths` (skip verification on certain file patterns)
+* Merge-blocking enforcement at the Aviator layer
+* Self-approval policy (`allow_self_approval`)
+* Required-approver count
+* Verification timeout overrides
+* `.aviator/verify.yaml` file-based configuration
+* Scheduled audit exports
+* Public REST API for verify operations
 
-```yaml
-name: security-baseline
-description: Core security requirements
-enabled:true
-applies_to:"**/*"  # or specific paths
-rules:|
-  # Security Baseline
-
-  ## Rules
-  - All HTTP handlers must use AuthMiddleware
-  - No hardcoded credentials
-  - SQL queries must use parameterized statements
-
-  ## Exceptions
-  - Health check endpoints (/health, /ready)
-```
-
-#### Invariant options
-
-| Field         | Type    | Required | Description                       |
-| ------------- | ------- | -------- | --------------------------------- |
-| `name`        | string  | Yes      | Unique identifier                 |
-| `description` | string  | No       | Human-readable description        |
-| `enabled`     | boolean | Yes      | Whether invariant is active       |
-| `applies_to`  | string  | No       | Glob pattern (default: all files) |
-| `rules`       | string  | Yes      | Markdown-formatted rules          |
-
-### Spec settings
-
-#### Spec lifecycle
-
-| State             | Editable | Can verify |
-| ----------------- | -------- | ---------- |
-| Draft             | Yes      | No         |
-| In Review         | No       | No         |
-| Changes Requested | Yes      | No         |
-| Approved          | No       | Yes        |
-
-#### Spec expiration
-
-If `spec_approval_timeout` is set, approved specs expire after that many hours without verification. Expired specs must be re-approved.
-
-### API configuration
-
-#### Authentication
-
-```bash
-export AVIATOR_API_KEY="av_live_..."
-```
-
-Generate keys in **Settings → API Keys**.
-
-#### Base URL
-
-```
-<https://api.aviator.co/v1/verify>
-```
-
-#### Rate limits
-
-| Tier       | Requests/hour |
-| ---------- | ------------- |
-| Free       | 100           |
-| Team       | 1000          |
-| Enterprise | 10000         |
-
-### Environment variables
-
-For CI/CD integration:
-
-| Variable                 | Description                              |
-| ------------------------ | ---------------------------------------- |
-| `AVIATOR_API_KEY`        | API authentication                       |
-| `AVIATOR_ORG`            | Organization slug                        |
-| `AVIATOR_VERIFY_ENABLED` | Enable/disable verification (true/false) |
+If any of these matter to your team, this is design-partner-shaped work — input directly affects which we prioritize.
 
 ### See also
 
 * [How to connect a repository](../how-to-guides/connect-a-repository.md)
-* [Tutorial: Setting up org invariants](configuration-reference.md#org-invariants)
+* [Setting up baseline invariants](../setting-up-org-invariants.md)

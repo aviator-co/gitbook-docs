@@ -1,30 +1,25 @@
 # Verification layers
 
-Verify checks code against multiple layers of requirements. This document explains how those layers work together.
-
-### The three layers
+Verify composes two sources of requirements when it checks a PR:
 
 ```
 ┌─────────────────────────────────────┐
-│         Org Invariants              │  ← Always apply
+│      Baseline invariants            │  ← repo-wide standing rules
 ├─────────────────────────────────────┤
-│        Domain Contracts             │  ← Apply to specific areas
-├─────────────────────────────────────┤
-│      Acceptance Criteria            │  ← Specific to this change
+│      Acceptance criteria            │  ← specific to this spec
 └─────────────────────────────────────┘
 ```
 
 Each layer serves a different purpose:
 
-| Layer               | Scope              | Changes      | Purpose                         |
-| ------------------- | ------------------ | ------------ | ------------------------------- |
-| Org Invariants      | Organization-wide  | Rarely       | Security, standards, compliance |
-| Domain Contracts    | Per module/service | Occasionally | Module-specific rules           |
-| Acceptance Criteria | Per spec           | Every change | Task-specific requirements      |
+| Layer               | Scope              | Changes      | Purpose                            |
+| ------------------- | ------------------ | ------------ | ---------------------------------- |
+| Baseline invariants | Repository-wide    | Rarely       | Standing rules across all changes  |
+| Acceptance criteria | Per spec           | Every change | Task-specific requirements         |
 
-### Org invariants
+### Baseline invariants
 
-Org invariants are rules that apply to every change in your organization.
+Baseline invariants are rules that apply to many changes in a repository.
 
 **Examples:**
 
@@ -33,99 +28,72 @@ Org invariants are rules that apply to every change in your organization.
 * All external input must be validated
 * SQL queries must use parameterized statements
 * Errors must include correlation IDs
+* All GraphQL mutations must log to the audit table
 
-These rules are defined once and checked automatically. Developers don’t need to include them in specs—they’re always enforced.
+Invariants are defined once on the repository. When you write a spec, you don't repeat them — they apply automatically to any PR whose files match the invariant's conditions.
 
-#### Why org invariants matter
+#### How invariants are seeded
 
-Some requirements are universal. Every endpoint should require authentication (except explicit exceptions). No code should contain hardcoded secrets. These aren’t negotiable per-feature.
+When you onboard a repository, Verify analyzes existing signals and proposes an initial set of invariants:
 
-Without org invariants, you’d need to add “requires authentication” to every spec. People would forget. Invariants make these checks automatic.
+* CLAUDE.md and similar AI-instruction files
+* CONTRIBUTING.md and project conventions
+* Architectural patterns discoverable from the code
 
-#### Configuring org invariants
+You review the proposed invariants and approve or edit them before they go live. The set grows over time as your team identifies new things worth checking.
 
-Invariants are configured by admins in **Verify → Settings → Org Invariants**.
+#### Invariant conditions
 
-They’re written in natural language:
+Each invariant has conditions that determine which PRs it applies to:
 
-```markdown
-## Security Baseline
+* File-path globs (e.g., `src/handlers/**`)
+* Languages (e.g., Python, TypeScript)
+* Change types (e.g., new files, modifications)
 
-### Authentication
--All HTTP handlers must use AuthMiddleware
--No endpoint may bypass authentication without exception
+When a PR is pushed, Verify composes the set of invariants whose conditions match the changed files and merges them into the acceptance criteria for that run.
 
-### Secrets
--No hardcoded credentials, API keys, or tokens
--Secrets must come from environment variables
+#### Configuring invariants
 
-### Exceptions
--Health check endpoints (/health, /ready, /live)
-```
+Invariants are managed through the dashboard at **Verify → Invariants**.
 
-Invariants can have exceptions for legitimate edge cases.
+Each invariant has:
 
-### Domain contracts
+| Field                 | Description                                  |
+| --------------------- | -------------------------------------------- |
+| **Name**              | Short identifier                             |
+| **Description**       | Plain-language description of the rule       |
+| **Conditions**        | File paths, languages, or change types       |
+| **Rule text**         | The rule as evaluated by the verifier        |
 
-Domain contracts are rules that apply to specific parts of your codebase.
-
-**Examples:**
-
-* Billing module: Never modifies user records directly
-* Payments domain: All amounts use the Money type
-* User data: All reads go through the UserRepository
-
-Domain contracts are more specific than org invariants but more general than per-spec criteria.
-
-#### Why domain contracts matter
-
-Different parts of your codebase have different rules. The billing module shouldn’t directly modify user records—it should emit events that the user service handles. The payments domain should always use a Money type to avoid floating-point errors.
-
-These rules apply to any change in that domain, regardless of what the specific spec says.
-
-#### Configuring domain contracts
-
-Domain contracts are associated with file paths:
-
-```yaml
-name: billing-domain
-applies_to:"src/billing/**"
-rules:|
-  ## Billing Domain Rules
-  - Never modify user records directly
-  - All amounts use Money type
-  - Emit events for all state changes
-  - All external calls go through BillingClient
-```
-
-When a change touches files in `src/billing/**`, these rules are checked.
+Rules are written in natural language and interpreted by the verifier.
 
 ### Acceptance criteria
 
-Acceptance criteria are requirements specific to a single change. They’re defined in the spec and apply only to that spec.
+Acceptance criteria are requirements specific to a single change. They are defined in the spec and apply only to that spec.
 
 **Examples:**
 
 * Endpoint: `GET /api/v1/subscription/status`
-* Response includes: status, renewal\_date, plan\_name
-* Response excludes: internal\_id
+* Response includes: status, renewal_date, plan_name
+* Response excludes: internal_id
 * Returns 404 if subscription not found
 
 #### Why acceptance criteria matter
 
-Org invariants and domain contracts capture recurring rules. But each change has unique requirements. The subscription endpoint needs to return specific fields. A refactoring needs to preserve existing behavior.
+Baseline invariants capture recurring rules. But each change has unique requirements. The subscription endpoint needs to return specific fields. A refactoring needs to preserve existing behavior.
 
-Acceptance criteria capture what’s unique to this change.
+Acceptance criteria capture what's unique to this change.
 
-### How layers combine
+### How the layers combine
 
-When verification runs, all applicable layers are checked:
+When verification runs, the engine:
 
-1. **Spec criteria** — Always checked (defined in spec)
-2. **Domain contracts** — Checked if change touches relevant files
-3. **Org invariants** — Checked if change touches relevant patterns
+1. Loads the spec's current acceptance criteria
+2. Composes baseline invariants whose conditions match the changed files
+3. Merges both into a single set of items for the verifier
+4. Reports a unified per-item verdict
 
-All layers must pass for verification to pass.
+From the verifier's perspective there are no separate "layers" — the verifier sees one list of criteria. The layering exists at the authoring level: criteria are written once per spec, invariants are written once per repo.
 
 #### Example
 
@@ -135,66 +103,42 @@ Spec:
 # Add subscription status endpoint
 
 ## Acceptance Criteria
--[ ] Endpoint: GET /api/v1/subscription/status
--[ ] Response includes: status, renewal_date
+- [ ] Endpoint: GET /api/v1/subscription/status
+- [ ] Response includes: status, renewal_date
 ```
 
-Domain contract (billing-domain):
+Repo baseline invariant whose conditions match `src/handlers/**`:
 
 ```
-- All amounts use Money type
+All HTTP handlers must use AuthMiddleware
 ```
 
-Org invariant (security-baseline):
+The verifier runs against three items:
 
-```
-- All HTTP handlers must use AuthMiddleware
-```
+* Endpoint exists at correct path (from spec)
+* Response includes status, renewal_date (from spec)
+* Handler uses AuthMiddleware (from invariant)
 
-Verification checks:
+All three must pass for verification to pass overall.
 
-* ✓ Endpoint exists at correct path (spec)
-* ✓ Response includes status, renewal\_date (spec)
-* ✓ Any amounts use Money type (domain)
-* ✓ Handler uses AuthMiddleware (org)
+### When invariants would conflict with a spec
 
-All four must pass.
+Sometimes a spec describes a change that legitimately departs from an invariant. A public health-check endpoint may not need authentication, even though the auth invariant otherwise applies.
 
-### Inheritance and override
+The verifier reads the spec's Intent and acceptance criteria as the source of truth for the specific change. If the spec explicitly says "Does not require authentication," the verifier can recognize the exception in context.
 
-Higher layers can be overridden by lower layers with explicit justification.
-
-If your spec says:
-
-```markdown
-## Intent
-Public health check endpoint. Must be accessible without authentication
-for load balancer integration.
-
-## Acceptance Criteria
--[ ] Does not require authentication
-```
-
-The spec explicitly overrides the org invariant requiring authentication. Verification understands the exception is intentional and documented.
-
-But this only works when:
-
-* The spec Intent explains why
-* The override is explicit
-* There’s no `forbid` on auth bypass in invariants
+If the override is intentional, document it in the spec's Intent so the verifier — and future reviewers — understand why.
 
 ### When to use each layer
 
 | Use case                              | Layer               |
 | ------------------------------------- | ------------------- |
-| Rules that always apply everywhere    | Org invariants      |
-| Rules specific to a module or service | Domain contracts    |
-| Requirements for a specific change    | Acceptance criteria |
+| Rules that apply across many changes  | Baseline invariants |
+| Requirements specific to one change   | Acceptance criteria |
 
-Don’t over-specify at higher layers. If a rule only matters sometimes, it’s not an invariant—it’s a criterion for specs that need it.
+Don't over-specify at the invariant layer. If a rule only matters sometimes, it's not an invariant — it's a criterion that belongs in the specs that need it.
 
 ### See also
 
-* [Setting up org invariants](verification-layers.md#org-invariants)
+* [Tutorial: Setting up baseline invariants](../setting-up-org-invariants.md)
 * [How verification works](how-verification-works.md)
-* [Configuration options](../reference/configuration-reference.md)

@@ -1,31 +1,29 @@
 # Your first spec
 
-In this tutorial, you’ll create a spec, get it approved, implement code against it, and see verification in action. By the end, you’ll understand the complete Verify workflow.
+In this tutorial, you'll create a spec for a small change, implement code against it, and see verification run. By the end, you'll understand the complete Verify workflow.
 
-**Time:** 15 minutes
+**Time:** ~15 minutes
 
 **Prerequisites:**
 
-* An Aviator account with a connected GitHub repository
+* An Aviator account with Verify enabled
+* A connected GitHub repository (see [Connect a repository](how-to-guides/connect-a-repository.md))
 * Write access to the repository
 
-### What you’ll do
+### What you'll do
 
-1. Create a spec for a simple code change
-2. Submit it for review and approve it
-3. Implement the change
-4. See verification pass (or fail)
+1. Create a runbook with a spec
+2. Push a branch and open a PR
+3. Watch verification run against the criteria
+4. See pass and fail cases
 
-### Step 1: Open the spec editor
+### Step 1: Create a runbook
 
-Go to **Verify → Specs** in your Aviator dashboard and click **New Spec**.
-
-You’ll see a split view:
-
-* Left: The spec editor
-* Right: AI assistant chat
+Go to **Verify → Runbooks** in your Aviator dashboard and click **New Runbook**.
 
 Select your repository from the dropdown if you have multiple connected.
+
+The runbook is where the spec, the verification, and the criteria conversation all live for this change.
 
 ### Step 2: Describe what you want to build
 
@@ -36,11 +34,11 @@ Add a health check endpoint at /health that returns {"status": "ok"}
 with a 200 response. It should not require authentication.
 ```
 
-Click **Generate Spec**. The AI analyzes your description and generates a structured spec.
+The AI assistant analyzes your description and proposes a structured spec.
 
-### Step 3: Review the generated spec
+### Step 3: Review the proposed spec
 
-You should see something like this in the editor:
+You should see something like this:
 
 ```markdown
 # Add health check endpoint
@@ -50,105 +48,49 @@ Public health check endpoint for load balancer and monitoring
 integration. Returns service status without requiring authentication.
 
 ## Scope
--**modify:** `src/handlers/health.go`, `src/routes.go`
--**forbid:** authentication logic, database queries
+- **modify:** `src/handlers/health.go`, `src/router.go`
+- **forbid:** authentication logic, database queries
 
 ## Acceptance Criteria
--[ ] Endpoint: `GET /health`
--[ ] Returns HTTP 200
--[ ] Response body: `{"status": "ok"}`
--[ ] Does not require authentication
--[ ] Response time under 50ms
+- [ ] Endpoint: `GET /health`
+- [ ] Returns HTTP 200
+- [ ] Response body: `{"status": "ok"}`
+- [ ] Does not require authentication
+- [ ] Response time under 50ms
 
-# Execution Steps
-
-### Step 1: Define the response model
-Create a model that only includes the allowed fields.
-
-#### 1.1: Create UserProfile struct
-Add a new struct in the models package that excludes sensitive fields.
-
-- Create `UserProfile` struct in `src/models/user.go`
-- Include only `display_name` and `avatar_url` fields
-- Add JSON tags for serialization
-
-### Step 2: Implement the handler
-Create the HTTP handler that fetches and returns profile data.
-
-#### 2.1: Create GetProfile handler
-Add a handler function that retrieves user data and returns the public profile.
-
-- Create `GetProfile` function in `src/handlers/profile.go`
-- Parse user ID from URL path
-- Call `user-service` to fetch user data
-
-#### 2.2: Map to response model
-Convert the internal user object to the public profile response.
-
-- Map user fields to `UserProfile` struct
-- Ensure `email` and `internal_id` are not included
+## Execution Steps
+...
 ```
 
 Review each section:
 
-**Intent** — Does this capture what you’re trying to do?
+* **Intent** — Does this capture what you're trying to do?
+* **Scope** — Are the file paths right for your codebase?
+* **Acceptance Criteria** — Are these the right requirements?
 
-**Scope** — Are the files correct for your codebase? You might need to adjust the paths.
-
-**Acceptance Criteria** — Are these the right requirements?
+Only **Scope** and **Acceptance Criteria** are parsed by Verify. Intent and Execution Steps are useful for human reviewers and for AI implementation tools, but Verify doesn't check them as separate sections.
 
 ### Step 4: Adjust the spec
 
-Let’s say your routes file is actually named `router.go`. Tell the assistant:
+If anything looks wrong, ask the assistant to update it. For example:
 
 ```
 The routes file is src/router.go, not src/routes.go
 ```
 
-The spec updates. You can also edit the markdown directly in the left panel.
+The spec updates. You can also edit the markdown directly.
 
-### Step 5: Submit for review
+You can keep iterating on the criteria at any point — including after code has been written. Verification re-runs against the current set of criteria each time.
 
-When the spec looks right, click **Submit for Review**.
+### Step 5: Implement the code
 
-Select yourself as the reviewer (for this tutorial). In a real workflow, you’d select a teammate.
+When the spec looks right, implement the change. You can:
 
-Add an optional note: “Tutorial spec - please approve”
-
-Click **Submit**.
-
-### Step 6: Approve the spec
-
-Go to **Verify → Reviews**. You’ll see your pending spec.
-
-Click to open it. As a reviewer, you’re checking:
-
-* Does the intent make sense?
-* Is the scope appropriate?
-* Are the acceptance criteria complete and verifiable?
-
-For this tutorial, everything looks good. Click **Approve**.
-
-The spec status changes to **Approved**. It’s now locked and ready for implementation.
-
-### Step 7: View the approved spec
-
-Go back to **Verify → Specs** and open your spec. You’ll see:
-
-* Status: Approved
-* Who approved it and when
-* **Copy Spec** and **Download Spec** buttons
-
-Click **Copy Spec** to copy the markdown to your clipboard.
-
-### Step 8: Implement the code
-
-Now implement the endpoint. You can:
-
-* Paste the spec into an AI coding tool (Cursor, Copilot, etc.)
+* Paste the spec into an AI coding tool (Cursor, Copilot, Claude, etc.)
 * Implement it manually
+* Use any combination
 
-Here’s a simple Go implementation:
+Here's a simple Go implementation:
 
 ```go
 // src/handlers/health.go
@@ -171,7 +113,7 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 router.HandleFunc("/health", handlers.HealthCheck).Methods("GET")
 ```
 
-Commit your changes and push to a branch:
+Commit and push:
 
 ```bash
 git checkout -b add-health-endpoint
@@ -180,89 +122,75 @@ git commit -m "Add health check endpoint"
 git push origin add-health-endpoint
 ```
 
-### Step 9: Create a pull request
+### Step 6: Open a PR and link it
 
 Open a PR for your branch on GitHub.
 
-If you haven’t linked the spec to this PR, comment on the PR:
+If `auto_create_runbook_on_pr_open` is enabled on your repository, the runbook may already be linked. Otherwise, link the runbook to the PR from the runbook's page in the dashboard.
+
+### Step 7: Watch verification run
+
+After the PR is linked, verification starts automatically.
+
+You'll see a GitHub check:
 
 ```
-/aviator link <spec-id>
+◐ aviator/verify — Running...
 ```
 
-(You can find the spec ID in the URL when viewing the spec)
+Verification typically completes in 30–90 seconds.
 
-### Step 10: Watch verification run
+### Step 8: Check the results
 
-After linking (or if auto-link is configured), verification starts automatically.
-
-You’ll see a GitHub check:
+If everything is correct, you'll see:
 
 ```
-◐ Aviator Verify — Running...
-```
-
-Wait for it to complete (usually under a minute for small changes).
-
-### Step 11: Check the results
-
-If everything is correct, you’ll see:
-
-```
-✓ Aviator Verify — All checks passed
+✓ aviator/verify — All criteria passed
   5/5 criteria passed
 ```
 
 Click **Details** to see the full report:
 
 ```
-✓ Scope: PASSED
-  Modified files match declared scope
-
-✓ Acceptance Criteria: PASSED (5/5)
-  ✓ Endpoint: GET /health
-  ✓ Returns HTTP 200
-  ✓ Response body: {"status": "ok"}
-  ✓ Does not require authentication
-  ✓ Response time under 50ms
-
-Audit ID: aud_abc123
+✓ Endpoint: GET /health
+✓ Returns HTTP 200
+✓ Response body: {"status": "ok"}
+✓ Does not require authentication
+✓ Response time under 50ms
 ```
 
-Your PR is now clear to merge.
+The dashboard's runbook page has the full per-criterion detail with reasons and evidence.
 
 ### What if verification fails?
 
-Let’s say you accidentally included an auth check. Verification might show:
+If you accidentally left in an auth check, you might see:
 
 ```
-✗ Acceptance Criteria: FAILED (4/5)
-  ✓ Endpoint: GET /health
-  ✓ Returns HTTP 200
-  ✓ Response body: {"status": "ok"}
-  ✗ Does not require authentication
-  ✓ Response time under 50ms
+✗ aviator/verify — 1 criterion failed
+  4/5 criteria passed
 
-  Failure: Handler calls AuthMiddleware
-  Location: src/router.go:15
+✗ Does not require authentication
+  Handler is wrapped by AuthMiddleware in src/router.go
 ```
 
 To fix it:
 
 1. Remove the auth middleware from this route
 2. Push the fix
-3. Verification runs again automatically
+3. Verification re-runs automatically
+
+If the verifier disagrees with you about whether a criterion is satisfied, you can also sharpen the criterion text in the runbook chat. Verification re-runs against the updated criteria.
 
 ### What you learned
 
-* Specs have three sections: Intent, Scope, and Acceptance Criteria
-* The AI assistant helps generate and refine specs
-* Specs must be approved before implementation
-* Verification checks code against the approved spec
-* Results show exactly what passed or failed
+* A runbook holds the spec, the conversation, and the verification for a change
+* The parser uses `## Scope` and `## Acceptance Criteria` sections
+* Criteria can be edited at any time
+* Verification checks each criterion and reports pass/fail with evidence
+* The result appears as a GitHub PR check
 
 ### Next steps
 
-* [Setting up org invariants](setting-up-org-invariants.md) - Add organization-wide rules
-* [How-to write effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md) - Improve your specs
-* [How verification works](concepts/how-verification-works.md) - Understand what happens during verification
+* [Setting up baseline invariants](setting-up-org-invariants.md) — Add repo-wide rules
+* [Writing effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md) — Improve your specs
+* [How verification works](concepts/how-verification-works.md) — Understand what happens during verification

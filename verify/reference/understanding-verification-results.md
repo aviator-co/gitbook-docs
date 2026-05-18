@@ -1,205 +1,89 @@
 # Understanding verification results
 
-Reference for understanding verification output.
+Reference for the output produced by a verification run.
 
-### Result locations
+### Where results appear
 
-Verification results appear in:
+* **GitHub PR check** — `aviator/verify`, with a markdown summary
+* **Aviator dashboard** — the runbook's verify page, with full per-criterion detail
 
-* GitHub PR check (summary)
-* Aviator dashboard (full details)
-* Slack/email notifications (if configured)
+### Run status
 
-### Overall status
+Each verification run has one of these statuses:
 
-| Status    | Meaning                           |
-| --------- | --------------------------------- |
-| `passed`  | All checks passed                 |
-| `failed`  | One or more checks failed         |
-| `running` | Verification in progress          |
-| `error`   | Verification encountered an error |
-| `pending` | Verification queued               |
+| Status        | Meaning                                                            |
+| ------------- | ------------------------------------------------------------------ |
+| `PENDING`     | Run created, not yet started                                       |
+| `IN_PROGRESS` | Run is executing                                                   |
+| `PASSED`      | All criteria passed                                                |
+| `FAILED`      | At least one criterion failed                                      |
+| `ERROR`       | The run could not complete (e.g., agent error, missing prerequisite) |
+| `DEFERRED`    | Waiting on baseline-invariant selection to complete                |
 
-### Result structure
+### Per-criterion result
 
-```json
-{
-  "verification_id": "ver_abc123",
-  "status": "failed",
-  "spec": {
-    "id": "spec_xyz789",
-    "title": "Add subscription status endpoint",
-    "version": 1
-  },
-  "repository": "your-org/your-repo",
-  "pr_number": 234,
-  "commit_sha": "a1b2c3d4",
-  "results": {
-    "scope": { ... },
-    "acceptance_criteria": { ... },
-    "org_invariants": { ... }
-  },
-  "audit_trail_id": "aud_def456",
-  "started_at": "2024-01-28T16:00:00Z",
-  "completed_at": "2024-01-28T16:01:23Z"
-}
-```
+Each criterion in the run produces one result:
 
-### Scope results
+| Status   | Meaning                                              |
+| -------- | ---------------------------------------------------- |
+| `PASS`   | Verifier judged the implementation satisfies it      |
+| `FAIL`   | Verifier judged the implementation does not satisfy it |
+| `ERROR`  | The verifier could not produce a verdict             |
 
-```json
-{
-  "scope": {
-    "status": "passed",
-    "modified_files": [
-      "src/handlers/subscription.go",
-      "src/models/subscription.go"
-    ],
-    "declared_files": [
-      "src/handlers/subscription.go",
-      "src/models/subscription.go"
-    ],
-    "violations": []
-  }
-}
-```
+A `FAIL` includes:
 
-When failed:
-
-```json
-{
-  "scope": {
-    "status": "failed",
-    "modified_files": [
-      "src/handlers/subscription.go",
-      "src/auth/middleware.go"
-    ],
-    "declared_files": [
-      "src/handlers/subscription.go"
-    ],
-    "violations": [
-      {
-        "type": "undeclared_modification",
-        "file": "src/auth/middleware.go",
-        "message": "Modified file not in declared scope"
-      }
-    ]
-  }
-}
-```
-
-#### Violation types
-
-| Type                      | Description                              |
-| ------------------------- | ---------------------------------------- |
-| `undeclared_modification` | Changed a file not in modify list        |
-| `forbidden_modification`  | Changed a file matching a forbid pattern |
-| `undeclared_service_call` | Called a service not in call list        |
-
-### Acceptance criteria results
-
-```json
-{
-  "acceptance_criteria": {
-    "status": "failed",
-    "total": 7,
-    "passed": 5,
-    "failed": 2,
-    "criteria": [
-      {
-        "criterion": "Endpoint: GET /api/v1/subscription/status",
-        "status": "passed"
-      },
-      {
-        "criterion": "Response excludes: internal_id, billing_provider_id",
-        "status": "failed",
-        "reason": "Response includes billing_provider_id",
-        "location": {
-          "file": "src/models/subscription.go",
-          "line": 24
-        },
-        "code_snippet": "BillingID string `json:\\"billing_provider_id\\"`",
-        "suggested_fix": "Remove billing_provider_id from response struct"
-      }
-    ]
-  }
-}
-```
-
-#### Criterion statuses
-
-| Status         | Meaning                            |
-| -------------- | ---------------------------------- |
-| `passed`       | Implementation satisfies criterion |
-| `failed`       | Implementation violates criterion  |
-| `inconclusive` | Could not determine (rare)         |
-
-### Org invariants results
-
-```json
-{
-  "org_invariants": {
-    "status": "passed",
-    "total": 12,
-    "passed": 12,
-    "failed": 0,
-    "invariants": [
-      {
-        "name": "security-baseline",
-        "status": "passed",
-        "rules": [
-          {
-            "rule": "All HTTP handlers must use AuthMiddleware",
-            "status": "passed"
-          },
-          {
-            "rule": "No hardcoded credentials",
-            "status": "passed"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+* A reason — the verifier's explanation
+* A location — file and line (when the verifier could identify them)
+* A short evidence snippet — the relevant code or context
 
 ### GitHub check output
 
-Summary shown on PR:
+Passing run:
 
 ```
-✓ Aviator Verify — All checks passed
-  7/7 criteria passed · 12 org invariants passed
+✓ aviator/verify — All criteria passed
+  7/7 criteria passed
 ```
 
-Or when failed:
+Failing run:
 
 ```
-✗ Aviator Verify — 2 checks failed
-  5/7 criteria passed · 1 scope violation
+✗ aviator/verify — 2 criteria failed
+  5/7 criteria passed
 ```
+
+The full check body is a markdown table with one row per criterion: status, criterion text, reason for failure. The check links back to the runbook's verify page.
+
+### Dashboard view
+
+The runbook's verify page shows:
+
+* Overall run status and timing
+* The full criteria set (spec criteria + applicable invariants)
+* Per-criterion verdict, reason, evidence, and location
+* Links to the commit and PR
+
+### What is not currently exposed
+
+Several output fields that compliance-leaning customers may expect are not yet implemented:
+
+* Content-addressed evidence — verifier output is text, not anchored to specific captured artifacts
+* Re-runnable verdicts — there is no replay endpoint that re-evaluates a past run against new criteria
+* Structured export — JSON/CSV/PDF export is on the roadmap
+
+These are tracked as part of the audit-and-replay workstream.
 
 ### Error states
 
-When verification fails to run (not a code failure):
+When a run cannot complete:
 
-```json
-{
-  "status": "error",
-  "error": {
-    "type": "timeout",
-    "message": "Verification timed out after 300 seconds"
-  }
-}
-```
-
-| Error type       | Cause                        |
-| ---------------- | ---------------------------- |
-| `timeout`        | Verification took too long   |
-| `parse_error`    | Could not parse spec or code |
-| `internal_error` | Aviator system error         |
+| Cause                 | Run status | Notes                                                |
+| --------------------- | ---------- | ---------------------------------------------------- |
+| Agent error           | `ERROR`    | LLM call failed or returned unparseable output       |
+| Missing prerequisite  | `DEFERRED` | Baseline-invariant selector still running for the SHA |
+| Stale commit          | `ERROR`    | A newer commit superseded this one mid-run           |
 
 ### See also
 
-* [How to fix failures](../how-to-guides/fixing-verification-failures.md)
 * [How verification works](../concepts/how-verification-works.md)
+* [How to fix failures](../how-to-guides/fixing-verification-failures.md)
