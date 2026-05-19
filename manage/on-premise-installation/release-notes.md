@@ -9,6 +9,27 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-05-18" %}
+## 2026.05.18-1-rc1
+
+frontend: `sha256:e6923ec7e63002c69cb3ceb7937806b3996e824a6cce5016ae115bcaadbe4bb8`
+
+mergeit: `sha256:a466aa5587aba53aa93a844070a5fb00fa55a145cbff3dd930600352f774bb5a`
+
+**MergeQueue**
+
+* Serialize `merge_pr` with a per-repo+branch lock to prevent concurrent-merge races
+* Hide trailing merged/closed PRs from stack views
+* New `skip_blocked_label` config to suppress the blocked label
+
+**Runbooks**
+
+* Update endpoint on the Runbooks REST API, with PR-overrides supported on create and update
+* Runbooks model is now operator-configurable via `RUNBOOK_CLAUDE_CODE_DEFAULT_MODEL` (defaults to `sonnet`)
+* Handle rich content (attachments, mentions, formatting) in Slack oneshot thread context
+* Wrap long tool-call rows in the Claude Code activity log so they stay readable
+{% endupdate %}
+
 {% update date="2026-05-11" %}
 
 ## 2026.05.11-1-rc1
