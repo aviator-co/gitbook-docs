@@ -25,7 +25,7 @@ mergeit: `sha256:a466aa5587aba53aa93a844070a5fb00fa55a145cbff3dd930600352f774bb5
 **Runbooks**
 
 * Update endpoint on the Runbooks REST API, with PR-overrides supported on create and update
-* Runbooks model is now operator-configurable via `RUNBOOK_CLAUDE_CODE_DEFAULT_MODEL` (defaults to `sonnet`)
+* Runbooks model is now operator-configurable via `CLAUDE_CODE_DEFAULT_MODEL` (defaults to `sonnet`)
 * Handle rich content (attachments, mentions, formatting) in Slack oneshot thread context
 * Wrap long tool-call rows in the Claude Code activity log so they stay readable
 {% endupdate %}
