@@ -32,6 +32,8 @@ This creates a new Runbook and triggers its execution asynchronously. The runboo
 | `draft`         | Boolean. _Optional_ | Whether to create pull requests as drafts. If not provided, defaults to the project configuration.                                                         |
 | `pr_mode`       | String. _Optional_  | PR creation mode. Possible values: `manual`, `single_pr`, `stacked_pr`. If not provided, defaults to the project configuration.                            |
 | `target_branch` | String. _Optional_  | Base branch for the runbook. If not provided, defaults to the repository's default branch.                                                                 |
+| `description`   | String. _Optional_  | Text to prepend to the body of the first pull request opened by the runbook. Persisted on the runbook so subsequent body refreshes keep the prefix.        |
+| `labels`        | Array of strings. _Optional_ | Labels applied to every pull request opened by the runbook. Persisted on the runbook (de-duplicated, order preserved) and re-applied on each PR.   |
 
 **Request body example**
 
@@ -46,7 +48,9 @@ This creates a new Runbook and triggers its execution asynchronously. The runboo
   "oneshot": true,
   "draft": true,
   "pr_mode": "single_pr",
-  "target_branch": "develop"
+  "target_branch": "develop",
+  "description": "Tracks the org-wide React v19 migration. See RFC-123 for context.",
+  "labels": ["migration", "react-v19"]
 }
 ```
 
@@ -97,6 +101,94 @@ If successful, HTTP 202 response is returned back since the runbook runs asynchr
 {
   "error": "not-found",
   "message": "Repository not found."
+}
+```
+{% endtab %}
+{% endtabs %}
+
+## Update a Runbook
+
+<mark style="color:blue;">`PATCH`</mark> `/api/v1/runbook/<runbook_number>`
+
+Append a new prompt to an existing Runbook and optionally update the PR description and labels. The new prompt is delivered as a follow-up chat message to the runbook's agent loop, which resumes execution and pushes additional commits to the same pull request branch.
+
+Description and label updates are persisted on the runbook and applied to its pull request after the agent's next commit. If the runbook has not opened a PR yet at the time of the call, the overrides still apply to the first PR it opens.
+
+**Headers**
+
+| Name          | Value              |
+| ------------- | ------------------ |
+| Content-Type  | `application/json` |
+| Authorization | `Bearer <token>`   |
+
+**Parameters**
+
+| Name              | Description                         |
+| ----------------- | ----------------------------------- |
+| `runbook_number`  | The number identifying the runbook. |
+
+**Body**
+
+| Name          | Type                         | Description                                                                                                                                                       |
+| ------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prompt`      | String                       | Follow-up prompt for the runbook. Delivered to the agent as a new user chat message; the agent resumes and pushes additional commits to the existing PR branch.   |
+| `description` | String. _Optional_           | Replaces the previously stored PR body prefix. If omitted, the existing prefix is preserved.                                                                      |
+| `labels`      | Array of strings. _Optional_ | Labels to add to the runbook's pull request. Merged with previously stored labels (de-duplicated, order preserved); existing labels are not removed.              |
+
+**Request body example**
+
+```json
+{
+  "prompt": "Also migrate the test files to use the new React v19 testing utilities.",
+  "description": "Tracks the org-wide React v19 migration, including tests. See RFC-123.",
+  "labels": ["tests"]
+}
+```
+
+**Response**
+
+If successful, HTTP 202 response is returned back since the additional work runs asynchronously. The response uses the same schema as the [Get Runbook Status](api-reference.md#get-runbook-status) endpoint and reflects the runbook's current state at the moment of the call (step counts and pull requests from work that's already been done).
+
+{% tabs %}
+{% tab title="202" %}
+```json
+{
+  "runbook_number": 42,
+  "url": "https://app.aviator.co/r/42",
+  "status": "in_progress",
+  "steps": {
+    "total": 5,
+    "not_started": 0,
+    "in_progress": 1,
+    "completed": 4,
+    "failed": 0,
+    "queued": 0
+  },
+  "pull_requests": [
+    {
+      "number": 1234,
+      "url": "https://github.com/acme-corp/backend/pull/1234",
+      "step_numbers": ["1.1", "1.2", "2.1"]
+    }
+  ]
+}
+```
+{% endtab %}
+
+{% tab title="400" %}
+```json
+{
+  "error": "bad-request",
+  "message": "Invalid request body"
+}
+```
+{% endtab %}
+
+{% tab title="404" %}
+```json
+{
+  "error": "not-found",
+  "message": "Runbook not found."
 }
 ```
 {% endtab %}
@@ -167,7 +259,7 @@ If successful, HTTP 200 response is returned back.
 
 ### Response schema
 
-Both the Create and Get endpoints return the same response schema.
+The Create, Update, and Get endpoints all return the same response schema.
 
 | Name                          | Type   | Description                                                                                |
 | ----------------------------- | ------ | ------------------------------------------------------------------------------------------ |
