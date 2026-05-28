@@ -9,6 +9,28 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-05-26" %}
+## 2026.05.26-1-rc1
+
+frontend: `sha256:99859cf0be6ef993ea317f58c3a32f0aebd7a433d5e84607b9dd1621bac89c99`
+
+mergeit: `sha256:a105e4f9753f220ffd40d8d4b2da9b6124b9ef3374385173784b26250bd8360f`
+
+**Runbooks**
+
+* Fetch Buildkite logs for the specific failing step instead of the whole build
+* Fix ephemeral Slack status updates
+
+**FlexReview**
+
+* Handle null commit when a review has been dismissed
+
+**Releases**
+
+* Fix release cuts ending up with an empty PR list when the GitHub Actions build trigger fails or hangs
+* PR numbers in the Releases sidebar are now clickable
+{% endupdate %}
+
 {% update date="2026-05-18" %}
 ## 2026.05.18-1-rc1
 
