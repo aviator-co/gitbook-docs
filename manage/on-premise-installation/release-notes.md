@@ -9,6 +9,28 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-05-27" %}
+## 2026.05.27-1-rc1
+
+frontend: `sha256:c183f34b04cd273b32cb42fd0e8c0bf9c02560ca8623bebec563930b30266bf4`
+
+mergeit: `sha256:8056adfbea85fc1ee161bdc943c948e30e0524215e56721029ce801ddaf456cc`
+
+**MergeQueue**
+
+* After a bot rebase, defer queue admission until the new HEAD actually lands on GitHub so mergeability checks don't read pre-rebase CI status
+
+**Runbooks**
+
+* Auto-archive a runbook when its PR is merged
+* Sanitize null bytes from Claude SDK output and MCP tool args so persistence to Postgres doesn't fail
+* Remove the "Shared With Me" tab from the runbook list
+
+**Inbox**
+
+* Inline the Snoozed section into the main Inbox dashboard instead of a separate `/inbox/snoozed` page
+{% endupdate %}
+
 {% update date="2026-05-26" %}
 ## 2026.05.26-1-rc1
 
