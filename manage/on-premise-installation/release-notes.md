@@ -9,6 +9,20 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-06-01" %}
+## 2026.06.01-2-rc1
+
+frontend: `sha256:e6b01d98317c50e9a1d0632e7af536030fa42b2b71b3784d6f01def449b24a9d`
+
+mergeit: `sha256:f7264a9543ad8fc8c9387b8f5ee64584fbe6c84c529236cc5bd3444d8abb71ea`
+
+**MergeQueue**
+
+* `skip-validation` now works independently of `skip-line` in slash commands and the REST API; both remain restricted to the allowlist
+* Cancelling a blocked stacked PR now clears the entire stack instead of leaving PRs above the blocked one stuck
+* `labeled_by` and `authored_by` qualifiers in automation rules now accept a list of users/teams
+{% endupdate %}
+
 {% update date="2026-05-27" %}
 ## 2026.05.27-1-rc1
 
