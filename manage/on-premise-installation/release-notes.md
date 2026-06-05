@@ -9,6 +9,29 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-06-03" %}
+## 2026.06.03-3-rc1
+
+frontend: `sha256:d0a20115a1d3d035ef8d26c64fdd6587b4eb560e541ae5e0b0c8f4ae0bac11d0`
+
+mergeit: `sha256:e0994e16d322dc2f1afdf40df20fa087c9ed25c14d5e8f73146118ecb8546ee8`
+
+**MergeQueue**
+
+* Clearer merge-conflict messaging for stacked PRs
+* `skip-line` / `skip-validation` API requests can now be authorized on behalf of a `requested_by` user
+* Dequeuing a PR via the API now clears its pending ready/skip options
+* Redesigned pulls page with Queue, Open, Closed, and Merged tabs and faster loading
+
+**Runbooks**
+
+* Override the runbook author via `author_email` on the REST API
+
+**Releases**
+
+* Release dashboard is now two-pane so the detail panel stays in view
+{% endupdate %}
+
 {% update date="2026-06-01" %}
 ## 2026.06.01-2-rc1
 
