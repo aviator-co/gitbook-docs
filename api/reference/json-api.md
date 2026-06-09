@@ -205,10 +205,13 @@ To sync a PR with its base branch:
 | > > body                                        | String        | Body of merge commit message                                                                                                              |
 | > skip\_line                                    | Boolean       | _Optional_. When `true`, the PR skips to the front of the queue. Only valid with the `queue` action. Requires skip-line authorization.    |
 | > skip\_line\_reason                            | String        | _Optional_. Reason for skipping the line. Required if the repository has `require_skip_line_reason` enabled.                              |
-| > skip\_validation                              | Boolean       | _Optional_. When `true`, skips CI validation for the PR. Only valid with the `queue` action.                                              |
+| > skip\_validation                              | Boolean       | _Optional_. When `true`, skips CI validation for the PR. Only valid with the `queue` action. Independent of `skip_line`; requires skip-validation authorization.    |
+| > requested\_by                                 | String        | _Optional_. GitHub username (e.g. `@octocat`) on whose behalf `skip_line` / `skip_validation` is requested. When set, both the API token's user and this user must be authorized to run the command. |
 | > merge\_commit\_sha                            | String        | _Optional_. Represents the SHA associated with the commit on the mainline generated after the PR was merged.                              |
 
-
+{% hint style="info" %}
+The `dequeue` action also clears any pending ready / skip-line / skip-validation options previously set on the PR, so re-queuing starts from a clean state.
+{% endhint %}
 
 {% tabs %}
 {% tab title="200: OK (queue/update/dequeue)" %}

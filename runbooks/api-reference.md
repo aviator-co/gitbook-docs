@@ -34,6 +34,7 @@ This creates a new Runbook and triggers its execution asynchronously. The runboo
 | `target_branch` | String. _Optional_  | Base branch for the runbook. If not provided, defaults to the repository's default branch.                                                                 |
 | `description`   | String. _Optional_  | Text to prepend to the body of the first pull request opened by the runbook. Persisted on the runbook so subsequent body refreshes keep the prefix.        |
 | `labels`        | Array of strings. _Optional_ | Labels applied to every pull request opened by the runbook. Persisted on the runbook (de-duplicated, order preserved) and re-applied on each PR.   |
+| `author_email`  | String. _Optional_  | Email of the user to attribute the runbook to. Must resolve to a user in this account; otherwise the request returns `400`. Defaults to the user associated with the API token. |
 
 **Request body example**
 
@@ -50,7 +51,8 @@ This creates a new Runbook and triggers its execution asynchronously. The runboo
   "pr_mode": "single_pr",
   "target_branch": "develop",
   "description": "Tracks the org-wide React v19 migration. See RFC-123 for context.",
-  "labels": ["migration", "react-v19"]
+  "labels": ["migration", "react-v19"],
+  "author_email": "engineer@acme-corp.com"
 }
 ```
 
