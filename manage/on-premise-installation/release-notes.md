@@ -9,6 +9,29 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-06-08" %}
+## 2026.06.08-2-rc1
+
+frontend: `sha256:e9c86e8c632748a92e612d3b2b029f2f4d16db23fbeb7e7102ea1d649328b3e5`
+
+mergeit: `sha256:c7654d5615c08467cc288f43b5fe09b9379097408d6bc92d8020fa26ee7835aa`
+
+**MergeQueue**
+
+* New `command_restrictions` config to control who can run privileged slash commands, replacing `skip_line_allowed_users`
+* Stacked PRs configured with `skip_blocked_label` now recover correctly instead of leaving the stack stuck
+* Fix an authorization bug where the wrong privileges were applied for a workspace token
+
+**FlexReview**
+
+* Refresh modified-file metadata on every PR sync so reviewer assignment no longer uses stale data for PRs queued without a review or force-pushed after one
+
+**Runbooks**
+
+* Surface agent API errors as step failures and retry CI rework
+* Deduplicate Buildkite rework across aggregate and step statuses
+{% endupdate %}
+
 {% update date="2026-06-03" %}
 ## 2026.06.03-3-rc1
 
