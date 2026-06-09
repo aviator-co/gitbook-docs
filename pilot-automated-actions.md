@@ -57,7 +57,7 @@ trigger:
     labeled: "av-instant-merge"
 ```
 
-You can also specify who labeled the PR or who the author is. Here a GitHub username can be provided. If you want to instead represent a team, you can use `@org/team`. Exactly one of `github_login` and `github_team` must be specified.
+You can also specify who labeled the PR or who the author is. A GitHub username can be provided, and to represent a team you can use `@org/team`. Both `labeled_by` and `authored_by` also accept a list of usernames and/or teams — the qualifier matches if any entry matches.
 
 ```yaml
 trigger:
@@ -72,7 +72,9 @@ trigger:
   pull_request:
     labeled:
       label "av-instant-merge"
-      authored_by: “@aviator-co/engineering”
+      authored_by:
+        - ghusername
+        - “@aviator-co/engineering”
 ```
 
 * **synchronize**: The PR was synchronized. This means that the pull request either had new commits pushed to it, was force-pushed, or had its base branch changed.

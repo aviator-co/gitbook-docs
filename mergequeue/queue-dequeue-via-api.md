@@ -28,4 +28,4 @@ curl -X POST \
 https://api.aviator.co/api/v1/pull_request/
 ```
 
-Likewise, you can dequeue a PR by using `"action": "dequeue"` in the same API request.
+Likewise, you can dequeue a PR by using `"action": "dequeue"` in the same API request. Dequeuing also clears any pending ready / skip-line / skip-validation options previously set on the PR, so re-queuing starts from a clean state.
