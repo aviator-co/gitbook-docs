@@ -18,7 +18,7 @@ mergeit: `sha256:9f7325c2c60160db6d7b1edaf050c0455205f4e30f9bd297a2a81bd5c337bb6
 
 **MergeQueue**
 
-* Performance improvements for affected-targets dependency calculation, including an optimized queue-page query and a config to disable it on large monorepos
+* Performance improvements for affected-targets dependency calculation, including an optimized queue-page query and a `QUEUE_PAGE_AFFECTED_TARGETS_ENABLED` env var (set to `false`) to disable it entirely on large monorepos
 * Populate `failed_ci_list` in the `blocked` webhook for parallel-mode queues (previously always empty)
 * Clear approval status when a review is dismissed
 * Skip, rather than block, a PR that is dequeued mid-tag
