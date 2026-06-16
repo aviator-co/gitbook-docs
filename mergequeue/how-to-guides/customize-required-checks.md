@@ -97,9 +97,13 @@ merge_rules:
           - missing
 ```
 
+Note the difference between `pending` and `missing`: a check is `pending` when it has been reported but has not finished yet, whereas a check is `missing` when it has not been reported at all (for example, a conditional check that did not run on this PR). Accepting `missing` lets a required check that never runs be treated as passing.
+
 ## Override checks (for parallel mode)
 
-You can customize the required checks for [<mark style="color:blue;">parallel mode</mark>](https://docs.aviator.co/mergequeue/concepts/parallel-mode) using the Merge Rules UI or via the config file. You can read more [<mark style="color:blue;">here</mark>](https://docs.aviator.co/mergequeue/concepts/parallel-mode).
+In parallel mode, Aviator validates a **draft PR** before merging the queued PRs it batches. `override_required_checks` lets you give the draft PR a different set of required checks than the original PR. You can configure it from the Merge Rules UI or via the config file. You can read more about parallel mode [<mark style="color:blue;">here</mark>](https://docs.aviator.co/mergequeue/concepts/parallel-mode).
+
+If `override_required_checks` is not specified, the draft PR inherits `preconditions.required_checks`. If `preconditions.required_checks` is also not specified, the required checks are read from GitHub's branch protection rules and applied to both the original and draft PRs.
 
 Here’s an example to do this in the config file:
 
