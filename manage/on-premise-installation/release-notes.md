@@ -9,6 +9,31 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-06-15" %}
+## 2026.06.15-1-rc1
+
+frontend: `sha256:b771126805170a8438c14ca84fe3e75e471d1d3558f0cd8d32adfb2e48d9bd20`
+
+mergeit: `sha256:9f7325c2c60160db6d7b1edaf050c0455205f4e30f9bd297a2a81bd5c337bb6e`
+
+**MergeQueue**
+
+* Performance improvements for affected-targets dependency calculation, including an optimized queue-page query and a config to disable it on large monorepos
+* Populate `failed_ci_list` in the `blocked` webhook for parallel-mode queues (previously always empty)
+* Clear approval status when a review is dismissed
+* Skip, rather than block, a PR that is dequeued mid-tag
+* Use the GitHub event timestamp when checking webhook payload staleness
+
+**FlexReview**
+
+* Missed reviewer-assignment webhooks are now enabled for all accounts
+
+**Runbooks**
+
+* Fix sandbox boot failures when adopting a repo pre-baked into a template image
+* Release the sandbox lock when sandbox startup fails
+{% endupdate %}
+
 {% update date="2026-06-08" %}
 ## 2026.06.08-2-rc1
 
