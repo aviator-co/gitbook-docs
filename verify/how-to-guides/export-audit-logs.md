@@ -1,101 +1,73 @@
 # Export audit logs
 
-Export verification and approval records for compliance reporting.
+Export verification and reviewer-decision records from the Aviator UI for compliance reporting.
+
+For the underlying concept and what each record contains, see [Concepts: Audit trails and compliance](../concepts/audit-trails-and-compliance.md).
 
 ### Prerequisites
 
-* Admin access to your Aviator organization
-* Completed verifications you want to export
+* Admin access to your Aviator organization.
+* At least one verification run in the period you want to export.
 
 ### Exporting from the dashboard
 
-#### 1. Navigate to audit logs
+#### 1. Open the audit view
 
 Go to **Verify → Audit**.
 
-You’ll see a chronological list of all verification events: spec creations, approvals, verification runs, and results.
+You'll see a chronological list of events: intent submissions, verification runs, verdicts, reviewer decisions, and waivers.
 
 #### 2. Filter the data
 
-Use filters to narrow down what you need:
+Use the filters at the top to narrow:
 
-| Filter         | Options                                                               |
-| -------------- | --------------------------------------------------------------------- |
-| **Date range** | Last 7 days, 30 days, 90 days, custom                                 |
-| **Repository** | All or specific repository                                            |
-| **Event type** | Spec created, Spec approved, Verification passed, Verification failed |
-| **Author**     | All or specific user                                                  |
+| Filter        | Options                                              |
+| ------------- | ---------------------------------------------------- |
+| Date range    | Last 7 days, 30 days, 90 days, or custom range.      |
+| Repository    | All repos, or a specific repo.                       |
+| Event type    | Submission, verdict, decision, waiver.               |
+| Actor         | All users, or a specific submitter or reviewer.      |
+| Outcome       | Passed, failed, waived.                              |
 
 #### 3. Export
 
 Click **Export** and choose a format:
 
-* **JSON** — Machine-readable, good for processing
-* **CSV** — Spreadsheet-compatible
-* **PDF** — Formatted report, good for auditors
+* **JSON** — machine-readable, good for downstream processing.
+* **CSV** — spreadsheet-compatible.
+* **PDF** — formatted report, good for handing to auditors directly.
 
-The export includes all events matching your filters.
+The export contains every event matching your filters.
 
-### What’s included in exports
+### What an exported record looks like
 
-Each audit record contains:
+Each record carries the same shape:
 
-| Field             | Description                                                               |
-| ----------------- | ------------------------------------------------------------------------- |
-| `timestamp`       | When the event occurred                                                   |
-| `event_type`      | Type of event (spec\_created, spec\_approved, verification\_passed, etc.) |
-| `actor`           | Who performed the action                                                  |
-| `spec_id`         | The spec involved                                                         |
-| `spec_title`      | Human-readable spec title                                                 |
-| `repository`      | Repository name                                                           |
-| `pr_number`       | Associated pull request (if applicable)                                   |
-| `commit_sha`      | Commit that was verified (if applicable)                                  |
-| `verification_id` | Unique ID for verification runs                                           |
-| `result`          | Pass/fail details                                                         |
+| Field             | Description                                                              |
+| ----------------- | ------------------------------------------------------------------------ |
+| `timestamp`       | When the event occurred (ISO 8601).                                       |
+| `event_type`      | `intent_submitted`, `verdict_produced`, `reviewer_decision`, `waiver`, `preview_event`. |
+| `actor`           | Who performed the action — submitter, reviewer, or `system` for automated events. |
+| `repo`, `branch`  | Git context.                                                             |
+| `commit_sha`      | The commit the event references.                                          |
+| `run_id`          | The verification run the event belongs to.                                |
+| `payload`         | Event-specific fields (the verdict, the criterion text, the waiver reason, etc.). |
 
-### Generating SOC 2 evidence
+### Generating compliance evidence
 
-For SOC 2 audits, export:
+For an audit period, the most useful exports:
 
-1. **Spec approvals** — Shows segregation of duties (author ≠ approver)
-2. **Verification results** — Shows systematic verification of all changes
-3. **Failure logs** — Shows failures were addressed before merge
+* **Submissions + decisions.** Demonstrates that every change had an explicit intent and a reviewer sign-off.
+* **Verdicts.** Demonstrates that every change was systematically verified against its criteria and against the team's invariants.
+* **Waivers.** Demonstrates that exceptions were explicit, attributed, and reasoned.
 
-Filter by date range matching your audit period, export as PDF for easy sharing.
-
-### Scheduled exports
-
-To schedule automatic exports:
-
-1. Go to **Verify → Settings → Scheduled Reports**
-2. Click **Add Schedule**
-3. Configure:
-   * Frequency (weekly, monthly)
-   * Filters (repository, event types)
-   * Format (JSON, CSV, PDF)
-   * Delivery (email, webhook)
-
-Reports are generated and delivered automatically.
-
-### API export
-
-For programmatic access, use the Audit API:
-
-```bash
-curl -X GET "<https://api.aviator.co/v1/verify/audit>" \\
-  -H "Authorization: Bearer$AVIATOR_API_KEY" \\
-  -d "start_date=2024-01-01" \\
-  -d "end_date=2024-01-31" \\
-  -d "repository=your-org/your-repo"
-```
-
-See API Reference: Audit for full documentation.
+Filter to your audit period and export as PDF for sharing. See [Concepts: Audit trails and compliance — Compliance framework mapping](../concepts/audit-trails-and-compliance.md#compliance-framework-mapping) for SOC 2 / ISO 27001 / HIPAA references.
 
 ### Retention
 
-Audit logs are retained indefinitely by default. Contact support if you need a specific retention policy.
+Audit records are retained indefinitely by default. If you need a specific retention or archival policy, contact support.
 
 ### See also
 
-* Explanation: Audit trails and compliance
-* Reference: Configuration options
+* [Audit trails and compliance](../concepts/audit-trails-and-compliance.md)
+* [Configuration reference](../reference/configuration-reference.md)
