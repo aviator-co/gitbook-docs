@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 460" role="img" aria-labelledby="title desc">
+  <title id="title">Verify pipeline: each criterion is classified and routed to a verifier</title>
+  <desc id="desc">A criterion enters a classifier, which routes it to one of four verifier paths (code-scan, scenario, invariant, LLM fallback). Each produces a verdict plus evidence.</desc>
+  <defs>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.07"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .lbl   { font: 600 12px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.08em; }
+      .ttl   { font: 600 16px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #0f172a; }
+      .sub   { font: 400 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #475569; }
+      .mono  { font: 400 12px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #334155; }
+      .head  { font: 700 11px -apple-system, "Segoe UI", system-ui, sans-serif; letter-spacing: 0.15em; fill: #64748b; }
+      .card  { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .input { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1; }
+      .accent{ fill: #fffbeb; stroke: #fcd34d; stroke-width: 1; }
+      .em    { fill: #ecfdf5; stroke: #6ee7b7; stroke-width: 1; }
+      .neut  { fill: #f1f5f9; stroke: #cbd5e1; stroke-width: 1; }
+      .rail  { stroke: #94a3b8; stroke-width: 1.5; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Column headers -->
+  <text class="head" x="40"  y="28">INPUT</text>
+  <text class="head" x="300" y="28">CLASSIFY</text>
+  <text class="head" x="540" y="28">VERIFY</text>
+  <text class="head" x="900" y="28">OUTPUT</text>
+
+  <!-- Input card -->
+  <g filter="url(#card-shadow)">
+    <rect class="input" x="40" y="190" width="230" height="90" rx="10"/>
+  </g>
+  <text class="lbl" x="60" y="216" fill="#64748b">CRITERION</text>
+  <text class="mono" x="60" y="246">Returns 429 when</text>
+  <text class="mono" x="60" y="263">rate exceeded</text>
+
+  <!-- Classifier -->
+  <g filter="url(#card-shadow)">
+    <rect class="card" x="300" y="200" width="180" height="70" rx="10"/>
+  </g>
+  <text class="ttl" x="318" y="230">Classifier</text>
+  <text class="sub" x="318" y="252">Picks the best verifier</text>
+
+  <!-- Connector input → classifier -->
+  <line class="rail" x1="275" y1="235" x2="295" y2="235" marker-end="url(#arrow)"/>
+
+  <!-- Four verifier rows -->
+  <g filter="url(#card-shadow)">
+    <rect class="neut" x="540" y="70" width="280" height="64" rx="10"/>
+  </g>
+  <text class="ttl" x="558" y="98">Code-scan</text>
+  <text class="sub" x="558" y="118">AST/diff checks against the repo</text>
+
+  <g filter="url(#card-shadow)">
+    <rect class="accent" x="540" y="155" width="280" height="64" rx="10"/>
+  </g>
+  <text class="ttl" x="558" y="183">Scenario</text>
+  <text class="sub" x="558" y="203">Runs in a preview, captures evidence</text>
+
+  <g filter="url(#card-shadow)">
+    <rect class="em" x="540" y="240" width="280" height="64" rx="10"/>
+  </g>
+  <text class="ttl" x="558" y="268">Invariant</text>
+  <text class="sub" x="558" y="288">Matches a team-defined rule</text>
+
+  <g filter="url(#card-shadow)">
+    <rect class="card" x="540" y="325" width="280" height="64" rx="10"/>
+  </g>
+  <text class="ttl" x="558" y="353">LLM fallback</text>
+  <text class="sub" x="558" y="373">For criteria no other method fits</text>
+
+  <!-- Connectors classifier → verifiers (Bezier curves) -->
+  <path class="rail" d="M 485 235 C 510 235, 510 102, 535 102" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 485 235 C 510 235, 510 187, 535 187" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 485 235 C 510 235, 510 272, 535 272" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 485 235 C 510 235, 510 357, 535 357" marker-end="url(#arrow)"/>
+
+  <!-- Output card -->
+  <g filter="url(#card-shadow)">
+    <rect class="input" x="900" y="190" width="200" height="90" rx="10"/>
+  </g>
+  <text class="lbl" x="918" y="216" fill="#64748b">RESULT</text>
+  <text class="ttl" x="918" y="244">Verdict</text>
+  <text class="sub" x="918" y="266">+ linked evidence</text>
+
+  <!-- Connectors verifiers → output (Bezier curves) -->
+  <path class="rail" d="M 825 102 C 870 102, 870 235, 895 235" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 825 187 C 870 187, 870 235, 895 235" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 825 272 C 870 272, 870 235, 895 235" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 825 357 C 870 357, 870 235, 895 235" marker-end="url(#arrow)"/>
+
+  <!-- Bottom note -->
+  <text class="sub" x="40" y="430" fill="#64748b">A criterion runs through exactly one verifier path. The classifier picks based on the criterion text and the file scope.</text>
+</svg>

@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 420" role="img" aria-labelledby="title desc">
+  <title id="title">SKILL files load into the scenario runner per preview</title>
+  <desc id="desc">A preview definition points to a skills directory. Every SKILL file under it is loaded as context for the agent that runs scenarios against that preview.</desc>
+  <defs>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.07"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .ttl   { font: 600 16px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #0f172a; }
+      .sub   { font: 400 13px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #475569; }
+      .head  { font: 700 11px -apple-system, "Segoe UI", system-ui, sans-serif; letter-spacing: 0.15em; fill: #64748b; }
+      .mono  { font: 400 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #334155; }
+      .key   { font: 400 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #d97706; }
+      .val   { font: 400 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #059669; }
+      .file  { font: 500 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #0f172a; }
+      .card  { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .accent{ fill: #fffbeb; stroke: #fcd34d; stroke-width: 1; }
+      .chip-em { fill: #ecfdf5; stroke: #6ee7b7; stroke-width: 1; }
+      .rail  { stroke: #94a3b8; stroke-width: 1.5; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Column headers -->
+  <text class="head" x="40"  y="28">PREVIEW DEFINITION</text>
+  <text class="head" x="440" y="28">SKILLS DIRECTORY</text>
+  <text class="head" x="820" y="28">SCENARIO RUNNER</text>
+
+  <!-- Left card: preview yaml -->
+  <g filter="url(#card-shadow)">
+    <rect class="card" x="40" y="60" width="360" height="280" rx="10"/>
+  </g>
+  <text class="head" x="60" y="86" fill="#94a3b8">aviator/verify.yaml</text>
+  <line x1="60" y1="98" x2="380" y2="98" stroke="#e2e8f0"/>
+
+  <text class="mono" x="60" y="128">preview:</text>
+  <text class="mono" x="60" y="148">  - name: default</text>
+  <text class="mono" x="60" y="168">    image: registry.io/api:edge</text>
+  <text class="mono" x="60" y="188">    port: 8000</text>
+  <text class="key"  x="60" y="208">    skills_dir:</text>
+  <text class="val"  x="190" y="208">.aviator/skills</text>
+  <text class="mono" x="60" y="228">    secrets:</text>
+  <text class="mono" x="60" y="248">      - DB_PASSWORD</text>
+  <text class="mono" x="60" y="268">      - STRIPE_KEY</text>
+
+  <text class="sub" x="60" y="310">Each preview can declare its own</text>
+  <text class="sub" x="60" y="328">skills directory.</text>
+
+  <!-- Arrow left → center -->
+  <line class="rail" x1="408" y1="200" x2="438" y2="200" marker-end="url(#arrow)"/>
+
+  <!-- Center card: file tree -->
+  <g filter="url(#card-shadow)">
+    <rect class="accent" x="450" y="60" width="320" height="280" rx="10"/>
+  </g>
+  <text class="head" x="470" y="86" fill="#94a3b8">.aviator/skills/</text>
+  <line x1="470" y1="98" x2="750" y2="98" stroke="#fcd34d"/>
+
+  <text class="file" x="470" y="130">SKILL.md</text>
+  <text class="sub"  x="470" y="148">Auth helpers, base URL, test users</text>
+
+  <text class="file" x="470" y="180">PAYMENTS.md</text>
+  <text class="sub"  x="470" y="198">Stripe sandbox keys, idempotency</text>
+
+  <text class="file" x="470" y="230">FIXTURES.md</text>
+  <text class="sub"  x="470" y="248">Seed data, named org IDs, reset</text>
+
+  <text class="sub" x="470" y="295" fill="#64748b">All .md files under skills_dir</text>
+  <text class="sub" x="470" y="313" fill="#64748b">are loaded for this preview.</text>
+
+  <!-- Arrow center → right -->
+  <line class="rail" x1="778" y1="200" x2="808" y2="200" marker-end="url(#arrow)"/>
+
+  <!-- Right card: scenario runner agent -->
+  <g filter="url(#card-shadow)">
+    <rect class="card" x="820" y="60" width="280" height="280" rx="10"/>
+  </g>
+  <text class="ttl" x="840" y="92">Scenario runner</text>
+  <text class="sub" x="840" y="113">Loads all skills as context</text>
+  <line x1="840" y1="125" x2="1080" y2="125" stroke="#e2e8f0"/>
+
+  <rect class="chip-em" x="840" y="145" width="240" height="32" rx="6"/>
+  <text class="mono" x="852" y="166" fill="#065f46">+ SKILL.md</text>
+
+  <rect class="chip-em" x="840" y="185" width="240" height="32" rx="6"/>
+  <text class="mono" x="852" y="206" fill="#065f46">+ PAYMENTS.md</text>
+
+  <rect class="chip-em" x="840" y="225" width="240" height="32" rx="6"/>
+  <text class="mono" x="852" y="246" fill="#065f46">+ FIXTURES.md</text>
+
+  <text class="sub" x="840" y="285">Then runs the scenario against</text>
+  <text class="sub" x="840" y="303">the preview using that context.</text>
+
+  <!-- Footer -->
+  <text class="sub" x="40" y="390" fill="#64748b">Skills are per-preview. If you define multiple previews — staging, sandbox, prod-mirror — each carries its own skill set.</text>
+</svg>

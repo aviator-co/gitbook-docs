@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400" role="img" aria-labelledby="title desc">
+  <title id="title">Invariant scope: org, repo, and path layers combine for each file</title>
+  <desc id="desc">Three layers of invariants — organization-wide, repository-scoped, and path-scoped — are unioned to produce the effective ruleset applied to any given file change.</desc>
+  <defs>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.07"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .ttl   { font: 600 16px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #0f172a; }
+      .sub   { font: 400 13px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #475569; }
+      .head  { font: 700 11px -apple-system, "Segoe UI", system-ui, sans-serif; letter-spacing: 0.15em; fill: #64748b; }
+      .mono  { font: 400 12px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #334155; }
+      .pill  { font: 500 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #475569; }
+      .rail  { stroke: #94a3b8; stroke-width: 1.5; fill: none; }
+      .row-a { fill: #fffbeb; stroke: #fcd34d; stroke-width: 1; }
+      .row-b { fill: #ecfdf5; stroke: #6ee7b7; stroke-width: 1; }
+      .row-c { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1; }
+      .effect{ fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .chip  { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Column heads -->
+  <text class="head" x="40"  y="28">DEFINED AT</text>
+  <text class="head" x="720" y="28">APPLIED TO A FILE</text>
+
+  <!-- Org row -->
+  <g filter="url(#card-shadow)">
+    <rect class="row-a" x="40" y="50" width="640" height="80" rx="10"/>
+  </g>
+  <text class="ttl" x="60" y="80">Org-level</text>
+  <text class="sub" x="60" y="103">Apply to every change across every repo</text>
+  <rect class="chip" x="380" y="65" width="170" height="22" rx="11"/>
+  <text class="pill" x="395" y="80">Requires authentication</text>
+  <rect class="chip" x="560" y="65" width="100" height="22" rx="11"/>
+  <text class="pill" x="575" y="80">No secrets</text>
+  <rect class="chip" x="380" y="97" width="160" height="22" rx="11"/>
+  <text class="pill" x="395" y="112">Structured logging</text>
+
+  <!-- Repo row -->
+  <g filter="url(#card-shadow)">
+    <rect class="row-b" x="40" y="150" width="640" height="80" rx="10"/>
+  </g>
+  <text class="ttl" x="60" y="180">Repo-level</text>
+  <text class="sub" x="60" y="203">Apply to every change in this repo</text>
+  <rect class="chip" x="380" y="165" width="180" height="22" rx="11"/>
+  <text class="pill" x="395" y="180">Money type for amounts</text>
+  <rect class="chip" x="380" y="197" width="200" height="22" rx="11"/>
+  <text class="pill" x="395" y="212">Errors emit metrics counter</text>
+
+  <!-- Path row -->
+  <g filter="url(#card-shadow)">
+    <rect class="row-c" x="40" y="250" width="640" height="80" rx="10"/>
+  </g>
+  <text class="ttl" x="60" y="280">Path-scoped</text>
+  <text class="sub" x="60" y="303">Apply only to files matching a glob</text>
+  <rect class="chip" x="380" y="265" width="240" height="22" rx="11"/>
+  <text class="pill" x="395" y="280">src/billing/** — no user-table writes</text>
+  <text class="mono" x="380" y="312" fill="#64748b">applies_to: src/billing/**</text>
+
+  <!-- Arrow rail to effective -->
+  <path class="rail" d="M 685 90  C 715 90,  715 195, 735 195" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 685 190 C 715 190, 715 195, 735 195" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 685 290 C 715 290, 715 195, 735 195" marker-end="url(#arrow)"/>
+
+  <!-- Effective ruleset card -->
+  <g filter="url(#card-shadow)">
+    <rect class="effect" x="740" y="50" width="320" height="280" rx="12"/>
+  </g>
+  <text class="head" x="760" y="80">EFFECTIVE FOR src/billing/charge.go</text>
+  <line x1="760" y1="92" x2="1040" y2="92" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text class="ttl" x="760" y="118">6 invariants apply</text>
+
+  <circle cx="772" cy="148" r="4" fill="#d97706"/>
+  <text class="sub" x="788" y="153">3 from org-level</text>
+
+  <circle cx="772" cy="178" r="4" fill="#059669"/>
+  <text class="sub" x="788" y="183">2 from repo-level</text>
+
+  <circle cx="772" cy="208" r="4" fill="#475569"/>
+  <text class="sub" x="788" y="213">1 from path-scoped (src/billing/**)</text>
+
+  <text class="sub" x="760" y="252" fill="#64748b">All matching rules apply. Lower layers</text>
+  <text class="sub" x="760" y="270" fill="#64748b">don't override higher layers — they add on.</text>
+  <text class="sub" x="760" y="288" fill="#64748b">Exceptions are declared explicitly per</text>
+  <text class="sub" x="760" y="306" fill="#64748b">invariant, not inferred.</text>
+</svg>
