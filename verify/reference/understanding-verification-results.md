@@ -1,205 +1,112 @@
 # Understanding verification results
 
-Reference for understanding verification output.
+This page is a reference for the shape of a verification run's output — the run, the per-criterion results, the waivers — and how to read them.
 
-### Result locations
+For the pipeline that produces these, see [How verification works](../concepts/how-verification-works.md). For where they appear visually, see the runbook review document in the Aviator UI.
 
-Verification results appear in:
+### Where results appear
 
-* GitHub PR check (summary)
-* Aviator dashboard (full details)
-* Slack/email notifications (if configured)
+* **The runbook's review document.** Streamed live as the run progresses. The primary surface for reviewers.
+* **The GitHub PR check.** A single check named `aviator/verify` mirrors the run's overall status.
+* **`getRunbook` over the MCP.** Returns the latest verification record plus failing results in structured form.
 
-### Overall status
+The shapes below are what `getRunbook` returns; the UI and PR check are rendered presentations of the same data.
 
-| Status    | Meaning                           |
-| --------- | --------------------------------- |
-| `passed`  | All checks passed                 |
-| `failed`  | One or more checks failed         |
-| `running` | Verification in progress          |
-| `error`   | Verification encountered an error |
-| `pending` | Verification queued               |
+### Run-level status
 
-### Result structure
+| Status         | Meaning                                                                |
+| -------------- | ---------------------------------------------------------------------- |
+| `pending`      | Queued, hasn't started yet.                                            |
+| `in_progress`  | Currently executing.                                                   |
+| `passed`       | Every criterion passed (or was waived).                                |
+| `failed`       | At least one criterion failed without a waiver.                        |
+| `error`        | The run itself errored — pipeline issue, not a code verdict.            |
+| `deferred`     | Waiting for baseline-invariant selection to finish before it can start. |
 
-```json
-{
-  "verification_id": "ver_abc123",
-  "status": "failed",
-  "spec": {
-    "id": "spec_xyz789",
-    "title": "Add subscription status endpoint",
-    "version": 1
-  },
-  "repository": "your-org/your-repo",
-  "pr_number": 234,
-  "commit_sha": "a1b2c3d4",
-  "results": {
-    "scope": { ... },
-    "acceptance_criteria": { ... },
-    "org_invariants": { ... }
-  },
-  "audit_trail_id": "aud_def456",
-  "started_at": "2024-01-28T16:00:00Z",
-  "completed_at": "2024-01-28T16:01:23Z"
-}
-```
+### Run record shape
 
-### Scope results
+A run's record carries trigger context plus aggregate counts:
 
-```json
-{
-  "scope": {
-    "status": "passed",
-    "modified_files": [
-      "src/handlers/subscription.go",
-      "src/models/subscription.go"
-    ],
-    "declared_files": [
-      "src/handlers/subscription.go",
-      "src/models/subscription.go"
-    ],
-    "violations": []
-  }
-}
-```
+| Field            | Description                                                                            |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| `status`         | One of the values above.                                                               |
+| `trigger_source` | What kicked the run off: `manual`, `commit_push`, `step_complete`, `criteria_edit`.    |
+| `runbook_version`| Version of the runbook that was verified (matches what `getRunbook` returned at submission time). |
+| `commit_sha`     | The commit verified.                                                                   |
+| `criteria_total` | Total criteria evaluated in this run.                                                   |
+| `criteria_passed` | Passed.                                                                                |
+| `criteria_failed` | Failed (excluding waived).                                                             |
+| `criteria_skipped` | Could not be evaluated (e.g. preview boot failed).                                    |
+| `criteria_waived` | Failed but explicitly waived by a reviewer.                                            |
+| `error_message`  | Only set when `status = error`.                                                         |
 
-When failed:
+### Per-criterion result shape
 
-```json
-{
-  "scope": {
-    "status": "failed",
-    "modified_files": [
-      "src/handlers/subscription.go",
-      "src/auth/middleware.go"
-    ],
-    "declared_files": [
-      "src/handlers/subscription.go"
-    ],
-    "violations": [
-      {
-        "type": "undeclared_modification",
-        "file": "src/auth/middleware.go",
-        "message": "Modified file not in declared scope"
-      }
-    ]
-  }
-}
-```
+Each criterion produces one result:
 
-#### Violation types
+| Field         | Description                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------- |
+| `criterion`   | The criterion text.                                                                          |
+| `is_invariant` | True if the criterion was materialized from an [invariant](../concepts/invariants.md) (source: `baseline_invariant`). |
+| `is_waived`   | True if a reviewer has waived this verdict.                                                  |
+| `status`      | `pass`, `fail`, `warn`, or `error` (see below).                                              |
+| `evidence`    | Structured reference to the captured artifact backing the verdict.                           |
+| `reason`      | Verifier-produced explanation when present.                                                  |
+| `location`    | File + line range when the verifier could attribute one.                                     |
 
-| Type                      | Description                              |
-| ------------------------- | ---------------------------------------- |
-| `undeclared_modification` | Changed a file not in modify list        |
-| `forbidden_modification`  | Changed a file matching a forbid pattern |
-| `undeclared_service_call` | Called a service not in call list        |
+### Criterion-level status
 
-### Acceptance criteria results
+| Status    | Meaning                                                                                                |
+| --------- | ------------------------------------------------------------------------------------------------------ |
+| `pass`    | Implementation satisfies the criterion.                                                                |
+| `fail`    | Implementation violates the criterion (or the verifier couldn't confirm it should pass).               |
+| `warn`    | Concerning but not failing — the verifier flagged something the reviewer should look at without blocking the merge gate. |
+| `error`   | The verifier itself threw an exception or returned an inconclusive result. Treat as needing human review. |
 
-```json
-{
-  "acceptance_criteria": {
-    "status": "failed",
-    "total": 7,
-    "passed": 5,
-    "failed": 2,
-    "criteria": [
-      {
-        "criterion": "Endpoint: GET /api/v1/subscription/status",
-        "status": "passed"
-      },
-      {
-        "criterion": "Response excludes: internal_id, billing_provider_id",
-        "status": "failed",
-        "reason": "Response includes billing_provider_id",
-        "location": {
-          "file": "src/models/subscription.go",
-          "line": 24
-        },
-        "code_snippet": "BillingID string `json:\\"billing_provider_id\\"`",
-        "suggested_fix": "Remove billing_provider_id from response struct"
-      }
-    ]
-  }
-}
-```
+### Evidence by verifier path
 
-#### Criterion statuses
+The shape of `evidence` depends on which verifier produced the verdict:
 
-| Status         | Meaning                            |
-| -------------- | ---------------------------------- |
-| `passed`       | Implementation satisfies criterion |
-| `failed`       | Implementation violates criterion  |
-| `inconclusive` | Could not determine (rare)         |
+| Verifier path | Evidence shape                                                            |
+| ------------- | ------------------------------------------------------------------------- |
+| Code-scan     | File + line range plus the relevant code snippet (diff or AST excerpt).   |
+| Runtime       | One or more of: `screenshot`, `console_log`, `dom_snapshot`, `api_response`, plus a `trace` (full agent transcript for the scenario run). |
 
-### Org invariants results
+The trace is captured for every runtime scenario regardless of success — it's how you debug a verdict you disagree with.
 
-```json
-{
-  "org_invariants": {
-    "status": "passed",
-    "total": 12,
-    "passed": 12,
-    "failed": 0,
-    "invariants": [
-      {
-        "name": "security-baseline",
-        "status": "passed",
-        "rules": [
-          {
-            "rule": "All HTTP handlers must use AuthMiddleware",
-            "status": "passed"
-          },
-          {
-            "rule": "No hardcoded credentials",
-            "status": "passed"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+### Reading invariant verdicts
 
-### GitHub check output
+Invariant-sourced criteria look identical to user criteria on the result record. The only signal is `is_invariant: true`. They run through the same pipeline and produce the same verdict + evidence shapes.
 
-Summary shown on PR:
+When an invariant verdict is wrong (or doesn't apply to this PR), the reviewer waives it from the review document with a category:
 
-```
-✓ Aviator Verify — All checks passed
-  7/7 criteria passed · 12 org invariants passed
-```
+| Waiver category    | When to use it                                                                 |
+| ------------------ | ------------------------------------------------------------------------------ |
+| `false_positive`   | The invariant fired but the rule misjudged this case.                          |
+| `doesnt_apply`     | The rule is valid in general but isn't relevant to this PR.                    |
+| `accepted_risk`    | The failure is real but the PR author accepts the trade-off.                   |
+| `fix_in_followup`  | The failure is real and will be addressed in a separate follow-up PR.          |
 
-Or when failed:
+Every waiver is recorded with the reviewer, the category, and a free-text reason. See [Audit trails and compliance](../concepts/audit-trails-and-compliance.md).
 
-```
-✗ Aviator Verify — 2 checks failed
-  5/7 criteria passed · 1 scope violation
-```
+### Reading the PR check
 
-### Error states
+The PR check named `aviator/verify` mirrors the run's overall status:
 
-When verification fails to run (not a code failure):
+| Run status    | GitHub check state                              |
+| ------------- | ----------------------------------------------- |
+| `pending`     | `queued`                                        |
+| `in_progress` | `in_progress`                                   |
+| `passed`      | `success`                                       |
+| `failed`      | `failure`                                       |
+| `error`       | `failure`                                       |
+| `deferred`    | `in_progress` until the run actually starts.    |
 
-```json
-{
-  "status": "error",
-  "error": {
-    "type": "timeout",
-    "message": "Verification timed out after 300 seconds"
-  }
-}
-```
-
-| Error type       | Cause                        |
-| ---------------- | ---------------------------- |
-| `timeout`        | Verification took too long   |
-| `parse_error`    | Could not parse spec or code |
-| `internal_error` | Aviator system error         |
+The check summary surfaces the aggregate counts (`X/Y criteria passed`) and links back to the runbook for the full evidence.
 
 ### See also
 
-* [How to fix failures](../how-to-guides/fixing-verification-failures.md)
 * [How verification works](../concepts/how-verification-works.md)
+* [Fixing verification failures](../how-to-guides/fixing-verification-failures.md)
+* [MCP tools — `getRunbook`](mcp-tools.md#getrunbook)
+* [Audit trails and compliance](../concepts/audit-trails-and-compliance.md)

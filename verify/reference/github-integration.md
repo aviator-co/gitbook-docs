@@ -1,199 +1,66 @@
 # GitHub integration
 
-Technical reference for Verify’s GitHub integration.
+Reference for how Verify integrates with GitHub.
 
 ### GitHub App
 
-Verify uses the Aviator GitHub App for repository access.
+Verify uses the Aviator GitHub App for repository access. Install it from the Aviator UI under **Settings → Integrations → GitHub**, or directly from the GitHub Marketplace.
 
 #### Permissions
 
-| Permission           | Access     | Purpose                             |
-| -------------------- | ---------- | ----------------------------------- |
-| Repository contents  | Read       | Analyze code during verification    |
-| Pull requests        | Read/Write | Post verification results, comments |
-| Checks               | Read/Write | Create PR status checks             |
-| Organization members | Read       | Suggest reviewers                   |
-| Metadata             | Read       | Basic repository info               |
+The app requests the permissions needed to read code, post checks, and surface verification results on PRs:
 
-#### Installation
+| Permission           | Access     | Why                                      |
+| -------------------- | ---------- | ---------------------------------------- |
+| Repository contents  | Read       | Read the diff and source for verification |
+| Pull requests        | Read/Write | Surface verification context on PRs       |
+| Checks               | Read/Write | Create and update the `aviator/verify` PR check |
+| Metadata             | Read       | Basic repository info                     |
 
-The app can be installed with:
+If you don't see Verify behaving as expected, the most common cause is that the GitHub App doesn't have access to the repo. Change access in GitHub under **Organization Settings → Installed GitHub Apps → Aviator → Configure**.
 
-* **All repositories** — Access to every repo in the org
-* **Selected repositories** — Access only to chosen repos
+### The PR check
 
-Change access in GitHub: **Organization Settings → Installed GitHub Apps → Aviator → Configure**
+Every verification run is mirrored to GitHub as a single PR check.
 
-### PR checks
+* **Check name:** `aviator/verify`
+* **Where it shows up:** the PR's "Checks" tab and the merge-readiness summary.
 
-#### Check name
+#### Check states
 
-```
-Aviator Verify
-```
+The check state tracks the verification run's status:
 
-#### Check statuses
+| Verification run status | GitHub check state | Notes                                                |
+| ----------------------- | ------------------ | ---------------------------------------------------- |
+| `pending`               | `queued`           | Run is enqueued but hasn't started.                  |
+| `in_progress`           | `in_progress`      | Run is executing.                                    |
+| `passed`                | `success`          | All criteria passed or were waived.                  |
+| `failed`                | `failure`          | At least one criterion failed without a waiver.      |
+| `error`                 | `failure`          | The run itself errored — surfaced as a check failure.|
+| `deferred`              | `in_progress`      | Waiting for invariant selection before the run starts.|
 
-| Status          | GitHub state      | Description                           |
-| --------------- | ----------------- | ------------------------------------- |
-| Pending         | `queued`          | Verification not started              |
-| Running         | `in_progress`     | Verification running                  |
-| Passed          | `success`         | All checks passed                     |
-| Failed          | `failure`         | One or more checks failed             |
-| Error           | `failure`         | Verification error (not code failure) |
-| Action required | `action_required` | Needs attention (e.g., no spec)       |
-
-#### Check output
-
-Title format:
-
-```
-All checks passed
-```
-
-or
-
-```
-2 checks failed
-```
-
-Summary format:
-
-```
-7/7 criteria passed · 12 org invariants passed
-```
-
-### Slash commands
-
-Commands are triggered by PR comments.
-
-| Command                   | Action                   |
-| ------------------------- | ------------------------ |
-| `/aviator verify`         | Trigger verification     |
-| `/aviator link <spec-id>` | Link spec to PR          |
-| `/aviator status`         | Show verification status |
-
-Commands are case-insensitive. The bot responds with a confirmation comment.
-
-### PR comments
-
-#### Failure comment
-
-When verification fails, Aviator posts a summary comment:
-
-```markdown
-## Aviator Verify — Failed
-
-❌ 2 checks failed
-
-### Failures
-
-**Response excludes: internal_id, billing_provider_id**
-Found billing_provider_id in response struct.
-📍 src/models/subscription.go:24
-
-**Returns 404 if subscription not found**
-Handler returns 500 instead of 404 when subscription is nil.
-📍 src/handlers/subscription.go:47
-
-[View full report →](<https://app.aviator.co/verify/>...)
-```
-
-Configure comments in **Verify → Settings → Notifications**.
-
-#### Comment options
-
-| Option          | Description                      | Default |
-| --------------- | -------------------------------- | ------- |
-| Post on failure | Comment when verification fails  | On      |
-| Post on pass    | Comment when verification passes | Off     |
-| Update existing | Update previous comment vs new   | On      |
-
-### Webhooks
-
-Aviator sends webhooks for verification events.
-
-#### Events
-
-| Event                    | Trigger               |
-| ------------------------ | --------------------- |
-| `verification.started`   | Verification begins   |
-| `verification.completed` | Verification finishes |
-| `spec.approved`          | Spec is approved      |
-
-#### Payload
-
-```json
-{
-  "event": "verification.completed",
-  "verification_id": "ver_abc123",
-  "status": "passed",
-  "repository": "your-org/your-repo",
-  "pr_number": 234,
-  "timestamp": "2024-01-28T16:01:23Z"
-}
-```
-
-Configure webhooks in **Verify → Settings → Webhooks**.
+The check summary links back to the runbook in the Aviator UI for the full review document.
 
 ### Branch protection
 
-To require Verify:
+To require verification before merge, add `aviator/verify` to your repo's branch protection:
 
-1. Repository Settings → Branches → Add rule
-2. Enable “Require status checks to pass”
-3. Search and select “Aviator Verify”
+1. Repository **Settings → Branches → Add rule** (or edit an existing rule for your protected branch).
+2. Enable **Require status checks to pass before merging**.
+3. Search for and select **aviator/verify**.
 
-#### Recommended settings
+Recommended settings:
 
 ```
 ☑ Require status checks to pass before merging
-  ☑ Aviator Verify
+   ☑ aviator/verify
 ☑ Require branches to be up to date before merging (optional)
-☐ Require conversation resolution before merging
 ```
 
-### Auto-linking
-
-Verify can automatically link specs to PRs.
-
-#### Methods
-
-| Method         | How it works                     |
-| -------------- | -------------------------------- |
-| Branch name    | Spec ID or title in branch name  |
-| PR description | Spec ID mentioned in description |
-| Manual link    | `/aviator link` command          |
-
-#### Branch name patterns
-
-```
-spec/add-subscription-endpoint
-feature/spec_abc123-add-endpoint
-```
-
-#### PR description pattern
-
-```markdown
-Spec: spec_abc123
-```
-
-or
-
-```markdown
-Spec: verify/spec_abc123
-```
-
-### Rate limits
-
-| Operation          | Limit                      |
-| ------------------ | -------------------------- |
-| Verification runs  | 100/hour per repository    |
-| API requests       | 1000/hour per organization |
-| Webhook deliveries | No limit                   |
+See [Configuring branch protection](../how-to-guides/configuring-branch-protection.md) for the step-by-step.
 
 ### See also
 
-* [How to configure branch protection](../how-to-guides/configuring-branch-protection.md)
-* [How to connect a repository](../how-to-guides/connect-a-repository.md)
+* [Configuring branch protection](../how-to-guides/configuring-branch-protection.md)
+* [Connect a repository](../how-to-guides/connect-a-repository.md)
+* [Understanding verification results](understanding-verification-results.md)

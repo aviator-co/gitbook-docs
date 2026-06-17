@@ -25,12 +25,12 @@ Under “Protect matching branches,” enable:
 ☑ Require status checks to pass before merging
 ```
 
-#### 3. Add Aviator Verify as required check
+#### 3. Add the Verify check as required
 
-In the search box, type “Aviator” and select:
+In the search box, type "aviator" and select:
 
 ```
-☑ Aviator Verify
+☑ aviator/verify
 ```
 
 This makes verification a required check. PRs cannot merge until verification passes.
@@ -53,7 +53,7 @@ Click **Save changes** at the bottom of the page.
 
 Open a PR for a branch where you've submitted an intent through the MCP. You should see:
 
-1. Aviator Verify check appears.
+1. The `aviator/verify` check appears.
 2. Merge button is disabled until verification passes.
 3. If verification fails, the PR cannot be merged (without admin override).
 
@@ -71,13 +71,13 @@ Add users or teams who should have bypass ability.
 
 ### Multiple required checks
 
-You likely have other required checks (CI, tests, linting). Aviator Verify works alongside them:
+You likely have other required checks (CI, tests, linting). The `aviator/verify` check works alongside them:
 
 ```
 Required checks:
 ☑ ci/build
 ☑ ci/test
-☑ Aviator Verify
+☑ aviator/verify
 ```
 
 All checks must pass for the PR to merge.
