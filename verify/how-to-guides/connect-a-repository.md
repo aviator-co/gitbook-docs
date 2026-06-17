@@ -40,6 +40,8 @@ After enabling, you can configure:
 | **Exempt paths**    | Glob patterns. PRs touching only these skip verification | Empty   |
 | **Preview block**   | Per-repo preview configuration in `aviator/verify.yaml`  | None    |
 
+A preview is **not required** to get started — Verify runs code-scan only without one and produces verdicts on structural criteria from the first PR. Add a preview later when behavioral verification matters.
+
 See [Configuration reference](../reference/configuration-reference.md) for the full surface, and [Preview YAML](../reference/preview-yaml.md) for the preview block.
 
 #### 4. Verify the connection

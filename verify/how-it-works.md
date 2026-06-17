@@ -8,7 +8,7 @@ The full loop:
 
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot, or anything else you use today. No new tooling, no behavior change.
 2. **Submit intent via the Aviator MCP.** When you're done, the agent calls one MCP tool. It captures the intent you and the agent agreed on and the acceptance criteria from what was built.
-3. **Aviator verifies end to end.** Every criterion runs through the verification pipeline — code-scan for structural checks, runtime against your preview for behavioral checks. Matching invariants apply automatically.
+3. **Aviator verifies end to end.** Every criterion runs through the verification pipeline. Code-scan handles structural checks against the diff — this works out of the box. Runtime checks run against a preview environment if you've configured one (optional; see [Concepts: Previews](concepts/previews.md)). Matching invariants apply automatically.
 4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence behind each verdict. They can approve, waive with reason, or ask for another scenario on the spot.
 
 ### What gets submitted
@@ -35,11 +35,13 @@ Invariants — your team-defined rules — flow through the same pipeline. When 
 
 → [Concepts: Invariants](concepts/invariants.md)
 
-### Why previews matter
+### Why previews matter (and why they're optional)
 
-Behavioral criteria need the code to actually run. Aviator builds an ephemeral preview environment per run: it pulls your image, injects secrets, runs a setup script, and exposes the port the scenarios hit. The reviewer can also open the preview from the review document to explore it manually.
+Previews are optional. Verify works on day one with code-scan alone — the classifier routes every criterion to code-scan when no preview is configured, and you get verdicts on structural assertions from the start.
 
-A repo can declare multiple previews — staging, sandbox, prod-mirror — and tag scenarios to the one they need.
+A preview unlocks **runtime verification**: behavioral criteria — endpoint contracts, UI flows, error shapes — need the code to actually run. Aviator builds an ephemeral preview environment per run: it loads your image, injects secrets, runs a setup script, and exposes the port the scenarios hit. The reviewer can also open the preview from the review document to explore it manually.
+
+Most teams start without a preview and add one when behavioral criteria start mattering. A repo can declare multiple previews — staging, sandbox, prod-mirror — and tag scenarios to the one they need.
 
 ### The review document
 

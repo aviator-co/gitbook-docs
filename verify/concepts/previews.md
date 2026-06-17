@@ -4,6 +4,12 @@ A **preview** is an ephemeral environment Verify builds on demand and runs scena
 
 A preview is short-lived: built per run, used by the scenario runner (and optionally a human reviewer), then torn down. No state persists between runs.
 
+### Optional, not required
+
+Previews are optional. Verify works on day one with code-scan alone — without a preview, every criterion is routed to code-scan (static analysis of the diff) and you get verdicts on structural criteria from the first PR.
+
+A preview unlocks **runtime verification**: behavioral criteria like "the endpoint returns 429" or "the modal closes on submit" need the code to actually run, and that requires a preview. Most teams get going with code-scan and add a preview when their criterion list starts asking about behavior the diff alone can't answer.
+
 ### Lifecycle
 
 <figure><img src="../../.gitbook/assets/verify-preview-lifecycle.svg" alt="Preview lifecycle: define, build, boot, use, teardown"><figcaption><p>A preview moves through five phases per verification run</p></figcaption></figure>

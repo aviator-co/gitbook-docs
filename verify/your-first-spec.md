@@ -11,7 +11,8 @@ By the end, you'll have a working loop and a sense of where each piece fits.
 * An Aviator org with a connected GitHub repo — see [Connect a repository](how-to-guides/connect-a-repository.md)
 * A coding agent that supports MCP — Claude Code, Cursor, or another MCP-compatible client
 * Write access to the repo
-* A preview configured for the repo — see [Creating a preview](how-to-guides/creating-a-preview.md). For a first run, a minimal one is fine.
+
+You **don't need a preview** to do this tutorial. Without one, Verify runs code-scan only — every criterion is checked against the diff. You'll see a fully working loop end to end. Add a preview later when you want behavioral (runtime) verdicts; see [Creating a preview](how-to-guides/creating-a-preview.md).
 
 ### Step 1: Install the Aviator MCP in your agent
 
@@ -63,8 +64,8 @@ Open the URL in your browser. You'll see the runbook with the generated plan, th
 The runbook page updates as the verification pipeline progresses. The phases:
 
 1. **Runbook generation.** Aviator turns the submission into a structured plan + acceptance criteria. Any matching invariants from your account catalog are materialized as additional criteria.
-2. **Preview is built and booted.** Your image is loaded, secrets injected, setup script runs.
-3. **Criteria run.** Each criterion is routed to one of two verifier paths — code-scan (static analysis of the diff) or runtime (executed against the preview).
+2. **Preview is built and booted** (only if you've configured a preview). Your image is loaded, secrets injected, setup script runs.
+3. **Criteria run.** Each criterion is routed to one of two verifier paths — code-scan (static analysis of the diff) or runtime (executed against the preview). Without a preview, every criterion routes to code-scan.
 
 For a small change, the whole run completes in 30–90 seconds.
 
@@ -76,18 +77,18 @@ When the run finishes, each criterion shows:
 * **Verifier** — which path ran it (Code-scan or Runtime).
 * **Evidence** — the diff snippet (code-scan) or runtime output (request/response, screenshot, log line) that backs the verdict.
 
-For the health endpoint, you should see something like:
+For the health endpoint without a preview, you should see something like:
 
 | Criterion                            | Verifier  | Verdict |
 | ------------------------------------ | --------- | ------- |
 | Endpoint `GET /health` exists        | Code-scan | ✓ Pass  |
-| Returns 200                          | Runtime   | ✓ Pass  |
-| Response body is `{"status": "ok"}`  | Runtime   | ✓ Pass  |
-| Does not require authentication      | Runtime   | ✓ Pass  |
+| Returns 200                          | Code-scan | ✓ Pass  |
+| Response body is `{"status": "ok"}`  | Code-scan | ✓ Pass  |
+| Does not require authentication      | Code-scan | ✓ Pass  |
 
-Click any verdict to see the evidence. For runtime verdicts, the evidence is the actual request + response (or screenshot, log line) from the preview.
+With a preview configured, the behavioral criteria would route to Runtime instead — and you'd see the actual request + response as evidence.
 
-If something failed, the verdict is annotated with the file and line that caused it. Push a fix and Verify will re-run automatically — no new submission needed.
+Click any verdict to see the evidence. If something failed, the verdict is annotated with the file and line that caused it. Push a fix and Verify will re-run automatically — no new submission needed.
 
 ### Step 7: Approve (or send back)
 
@@ -96,7 +97,7 @@ From the review document you can:
 * **Approve** — sign off and continue your normal merge flow.
 * **Waive a failed verdict with a category** — `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`. Recorded in the audit trail.
 * **Edit the acceptance criteria** — ask the agent to call `editRunbook` with the corrected criteria, then re-verify.
-* **Open the preview** — poke at the running code yourself before approving.
+* **Open the preview** — if you have one configured, poke at the running code yourself before approving.
 
 Approve to close the loop. The audit trail now has a complete record: runbook submission, verdicts per criterion with evidence, your decision.
 
@@ -110,8 +111,8 @@ Approve to close the loop. The audit trail now has a complete record: runbook su
 
 ### Next steps
 
+* [Creating a preview](how-to-guides/creating-a-preview.md) — unlock runtime verdicts. This is usually the next step once you have a feel for the loop.
 * [How Verify works](how-it-works.md) — the full picture
-* [Concepts: Previews](concepts/previews.md) — what scenarios actually run against
 * [Concepts: Invariants](concepts/invariants.md) — encode team rules so they apply automatically
 * [Writing a SKILL.md](how-to-guides/writing-a-skill-md.md) — give the scenario runner the context it needs
 * [Fixing verification failures](how-to-guides/fixing-verification-failures.md) — what to do when a verdict goes red

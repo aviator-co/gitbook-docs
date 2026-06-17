@@ -8,6 +8,8 @@ Aviator Verify replaces line-by-line code review with verification of *what the 
 
 The reviewer judges behavior — not the diff.
 
+You can start using Verify with code-scan alone — no preview, no infrastructure setup. A preview is what unlocks **runtime verification**: scenarios driven against your running code. Most teams get value from day one with code-scan, then add a preview when behavioral criteria start mattering.
+
 ### The flow
 
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot — anything you use today. No new tooling, no behavior change.
@@ -44,10 +46,10 @@ Three things follow:
 
 ### Getting started
 
-1. [Your first verification](your-first-spec.md) — a 15-minute hands-on. Install the MCP, ship a small change, watch verification run.
-2. [Connect a repository](how-to-guides/connect-a-repository.md) — wire up GitHub.
-3. [Creating a preview](how-to-guides/creating-a-preview.md) — give scenarios something to run against.
-4. [Setting up org invariants](setting-up-org-invariants.md) — codify the rules every change must respect.
+1. [Connect a repository](how-to-guides/connect-a-repository.md) — wire up GitHub.
+2. [Your first verification](your-first-spec.md) — a 15-minute hands-on. Install the MCP, ship a small change, watch verification run. No preview needed.
+3. [Setting up org invariants](setting-up-org-invariants.md) — codify the rules every change must respect.
+4. [Creating a preview](how-to-guides/creating-a-preview.md) — *optional.* Unlocks runtime verification when your criteria start asking about behavior the diff alone can't answer.
 
 ### Quick links
 
