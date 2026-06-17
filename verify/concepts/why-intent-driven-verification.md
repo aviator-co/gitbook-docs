@@ -1,10 +1,10 @@
 # Why intent-driven verification
 
-This document explains the reasoning behind Verify’s approach to code changes.
+This document explains the reasoning behind Verify's approach to code changes.
 
-### The code review problem
+### Code review was designed for human-written code
 
-Code review was designed when humans wrote code. A developer would spend hours or days writing a feature, then submit it for review. A reviewer could read the diff, understand the changes, and catch issues.
+A developer would spend hours or days writing a feature, then submit it for review. A reviewer could read the diff, understand the changes, and catch issues.
 
 This worked because:
 
@@ -12,126 +12,115 @@ This worked because:
 * Diffs were human-sized
 * Reviewers had time to think deeply
 
-AI-generated code changes this equation.
+AI-generated code breaks all three.
 
 ### AI changes the math
 
-AI tools can generate code in minutes. A developer describes what they want, and the AI produces an implementation. The code is often correct, but it’s also:
+AI tools can generate code in minutes. A developer describes what they want; the AI produces an implementation. The code is often correct, but it's also:
 
-* Produced faster than it can be reviewed
-* Harder to evaluate (is this what I actually asked for?)
+* Produced faster than it can be reviewed line by line
+* Harder to evaluate — *is this what I actually asked for?*
 * Easy to accumulate without careful inspection
 
-Teams face a choice:
+Teams face a bad set of choices:
 
-1. Review everything carefully → become a bottleneck
-2. Review quickly → miss issues
-3. Skip review for AI code → lose oversight entirely
+1. Review everything carefully → reviewers become a bottleneck.
+2. Review quickly → catch fewer issues.
+3. Skip review for AI code → lose oversight.
 
-None of these are good options.
+None of these are good. They're all symptoms of the same problem: the *thing being reviewed* is wrong.
 
 ### The wrong question
 
-Traditional code review asks: **“Does this code look okay?”**
+Traditional review asks: **"Does this code look okay?"**
 
-A reviewer reads the diff, applies their experience, and makes a judgment. But this question has problems:
+A reviewer reads the diff and makes a judgment. Problems with this:
 
-* “Okay” is subjective
-* Different reviewers have different standards
-* The reviewer might not know what the code was _supposed_ to do
-* Fatigue leads to rubber-stamping
+* "Okay" is subjective.
+* Reviewers have different standards.
+* The reviewer often doesn't know what the code was *supposed* to do.
+* Fatigue produces rubber-stamping.
 
-For AI-generated code, the question is even harder. The code is often clean and idiomatic—the AI is good at that. But is it _correct_? Does it do what was intended?
+For AI-generated code, the question gets harder, not easier. The code is often clean and idiomatic — AI is good at that. But is it *correct*? Does it match what was intended?
 
-### A better question
+### The right question
 
-Verify asks a different question: **“Does this code do what we agreed it should do?”**
+Verify asks: **"Does this code do what we agreed it should do?"**
 
-This question requires:
+Answering that requires two things:
 
-1. Agreeing on what the code should do (the spec)
-2. Checking whether the implementation matches (verification)
+1. **A clear statement of what the change is for** — captured as the intent and the acceptance criteria the change must satisfy.
+2. **Systematic checking that the running code matches** — verdicts and evidence for every criterion.
 
-The spec is the contract. Verification is the enforcement.
+The intent is the contract. Verification is the enforcement. The reviewer judges *both* — was this the right intent, and did verification actually demonstrate it.
 
-### Why specs work
+### Where reviewers actually spend their time
 
-Specs work because they shift the review earlier:
+In the Verify flow, the agent implements the change, then submits the intent and acceptance criteria through the MCP. Verification runs. The reviewer opens a review document that contains:
 
-**Traditional flow:**
+* The intent.
+* Every criterion with a verdict.
+* The evidence behind each verdict — scenario output, matched invariants, code-scan diffs.
 
-1. Developer writes code
-2. Reviewer evaluates code
-3. Arguments about whether it’s right
+That's what the reviewer reads. They don't trawl the diff. They check that the intent reflects what was actually needed, and that the evidence convinces them the criteria were really met.
 
-**Spec-driven flow:**
+This is faster than diff review because:
 
-1. Developer writes spec
-2. Reviewer approves spec
-3. Developer (or AI) implements
-4. Verification checks against spec
+* The intent is short.
+* The evidence is concrete, not interpreted.
+* The reviewer isn't second-guessing implementation choices the agent already made and the verifier already approved.
+* There's a clear checklist — the criteria themselves.
 
-The hard conversation—“what should this do?”—happens before code is written. Once agreed, verification is mechanical.
-
-### Reviewers approve intent, not implementation
-
-Reviewing a spec is faster than reviewing code because:
-
-* Specs are shorter
-* Specs describe _what_, not _how_
-* The reviewer isn’t evaluating implementation choices
-* There’s a clear checklist of requirements
-
-A reviewer can approve a spec in minutes. They’re answering: “If code satisfies these criteria, should it merge?”
-
-They’re not answering: “Is this the best way to implement this? Are there bugs I’m missing? Did the developer forget something?”
-
-Those questions are answered by verification against the agreed spec.
+A reviewer answers: *"If this evidence is convincing, should this merge?"* They don't answer: *"Is this the best way to implement this? Did the developer forget a case?"* The first verifiers caught what they could; the reviewer focuses on the residue — intent fit and judgment calls the verifier can't make.
 
 ### Verification is systematic
 
-Human review is sampling. A reviewer looks at code and uses judgment. They might catch issues, they might not. Different reviewers catch different things.
+Human review is sampling. A reviewer reads the diff and uses judgment. They might catch issues, they might not. Different reviewers catch different things.
 
-Verification is systematic. Every criterion in the spec is checked, every time. If the spec says “no hardcoded credentials,” verification checks for hardcoded credentials. Not “probably checks” or “might notice”—checks.
+Verification is systematic. Every criterion runs. Every invariant that matches the change runs. If an invariant says "no hardcoded credentials," it checks — not "probably checks," *checks*. Same code + same intent → same verdicts.
 
-This doesn’t mean verification is perfect. If a criterion is missing from the spec, verification won’t check it. But for what’s in the spec, verification is thorough.
+This doesn't mean verification is perfect. If the agent missed a criterion in the intent, the verifier won't check it. But for what's submitted, verification is thorough — and the missed criterion is itself a reviewable surface: did the agent capture the right set of assertions?
 
 ### Audit trails come free
 
-Because specs are explicit and verification is recorded, you get audit trails automatically:
+Because intent is explicit and verification is recorded, you get audit trails automatically:
 
-* What was the approved intent?
-* Who approved it?
-* Did the implementation match?
-* What was checked?
+* What was the submitted intent?
+* Which criteria did the agent generate?
+* Which verifier handled each, and what evidence did it produce?
+* Who reviewed it, and what did they approve, waive, or send back?
 
-This matters for compliance. Traditional code review produces a comment thread. Spec-driven verification produces a proof chain.
+Traditional code review produces a comment thread. Intent-driven verification produces a structured trail — the same record reviewers see is what auditors export.
 
-### When specs don’t make sense
+→ [Audit trails and compliance](audit-trails-and-compliance.md)
 
-Specs add overhead. For some changes, that overhead isn’t worth it:
+### When verification doesn't make sense
+
+Verification adds overhead. For some changes, that overhead isn't worth it:
 
 * Typo fixes
 * Documentation updates
 * Trivial config changes
 
-Verify lets you exempt paths from requiring specs. Not everything needs this level of rigor.
+Verify lets you exempt paths from requiring verification. Not everything needs this level of rigor — and forcing it everywhere produces noise that erodes trust in the verdicts.
 
 ### The mental model
 
-Think of specs like building permits:
+Think of verification like a building inspection.
 
-* Before construction, you submit plans
-* Plans are reviewed and approved
-* Construction proceeds according to plans
-* Inspection verifies the building matches plans
+A building isn't approved by an architect watching every nail. It's approved by an inspector evaluating the finished structure against the blueprints — with measurements, load tests, and photographic evidence to back the verdict. The architect signs off based on the inspector's report.
 
-You don’t approve construction by watching workers hammer nails. You approve plans, then verify the result matches.
+Intent-driven verification follows the same shape:
 
-Code works the same way. Approve the intent, verify the implementation.
+* **Blueprint:** the submitted intent and acceptance criteria.
+* **Construction:** the agent's implementation.
+* **Inspection:** the verifier pipeline, producing verdicts + evidence per criterion.
+* **Sign-off:** the reviewer approves based on intent fit and evidence quality.
+
+Reviewers don't watch every line of code get written. They evaluate what was built against what was agreed, with proof in the room.
 
 ### See also
 
-* [Tutorial: Your first spec](../your-first-spec.md)
-* [How verification works ](how-verification-works.md)
+* [How verification works](how-verification-works.md) — the inspection pipeline
+* [How Verify works](../how-it-works.md) — the end-to-end loop
 * [Audit trails and compliance](audit-trails-and-compliance.md)

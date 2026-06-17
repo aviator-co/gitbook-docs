@@ -1,177 +1,104 @@
 # How verification works
 
-This document explains what happens when Verify checks code against a spec.
+This document goes deeper than the [How it works](../how-it-works.md) narrative. It covers what actually happens inside a verification run — how criteria are classified, how each verifier produces evidence, and why the same code always yields the same verdict.
 
-### The verification pipeline
+### A verification run, end to end
 
-When you push code to a branch with a linked spec, verification runs through several stages:
+A run starts when the agent submits an intent through the MCP. Aviator does three things in order:
 
-```
-Spec Resolution → Scope Check → Org Invariants → Acceptance Criteria → Results
-```
+1. **Constructs the run.** Pulls the change set (the diff against the target branch), the submitted criteria, and the invariants that match the change. Allocates a preview if any criterion will need one.
+2. **Routes each check through the pipeline.** Every criterion and matching invariant runs through the verifier pipeline. They're independent — verdicts are produced in parallel where possible.
+3. **Compiles the results.** Verdicts, evidence, and links to the preview are assembled into the review document.
 
-Each stage can pass or fail independently.
+The whole run is observable in real time — the review document streams updates as verdicts land.
 
-### Stage 1: Spec resolution
+### The criterion pipeline
 
-Verify identifies which approved spec applies to this branch.
+<figure><img src="../../.gitbook/assets/verify-pipeline.svg" alt="Each criterion is classified and routed to a single verifier"><figcaption><p>One criterion → one verifier → one verdict with evidence</p></figcaption></figure>
 
-It looks for:
+Each criterion goes through exactly one verifier. A classifier picks the verifier based on the criterion text and the files the change touched.
 
-1. A spec explicitly linked to this PR
-2. A spec ID in the PR description
-3. A spec matching the branch name pattern
+| Verifier         | Picked when…                                                                          | Produces                                  |
+| ---------------- | ------------------------------------------------------------------------------------- | ----------------------------------------- |
+| **Code-scan**    | The criterion is a structural assertion — file scope, dependency surface, function signature, type. | The diff or AST snippet that proves the claim. |
+| **Scenario**     | The criterion is behavioral — endpoint contract, error shape, side effect, latency.   | The actual request/response (or trace) from a preview run. |
+| **Invariant**    | The check matches a team-defined rule — security, data access, conventions.           | The matched rule and the offending snippet (if violated). |
+| **LLM fallback** | The criterion is too custom for the other verifiers — judgment calls, multi-step reasoning. | A reasoning trace with cited code spans. |
 
-If no approved spec is found, verification fails with “No approved spec found.”
+The classifier favors Code-scan and Scenario over LLM fallback. Determinism is highest for code-scan, lowest for LLM — so the pipeline minimizes the cases that route to the fallback.
 
-Specs must be approved to trigger verification. Draft or in-review specs don’t count.
+If you read a verdict and disagree with the verifier that handled it, that's signal — usually the criterion was written ambiguously enough to land in the wrong path. Tightening the criterion text usually moves it back.
 
-### Stage 2: Scope check
+### How a scenario actually runs
 
-Before analyzing code semantically, Verify checks that the implementation stays within declared scope.
+Scenarios are the most expensive verifier path. They need:
 
-It compares files in the PR against the spec:
+1. A **preview** to run against (see [Concepts: Previews](previews.md)).
+2. A **skill set** that tells the agent how to operate the preview — base URL, test users, fixtures (see [Writing a SKILL.md](../how-to-guides/writing-a-skill-md.md)).
+3. The **criterion text** — the specific claim being verified.
 
-* Files in `modify` list → allowed
-* Files matching `forbid` patterns → violation
-* Files not in either → violation
+The runner constructs a small program tailored to the criterion: set up the preconditions, exercise the endpoint or function, capture the response, compare to the expected shape. It records what it did and what came back as the evidence.
 
-Scope checking is fast and happens first because there’s no point doing deeper analysis if the change touched things it shouldn’t.
+This is the part most teams underinvest in early — a thin SKILL.md and stale seed data produce scenario verdicts you can't trust. The pipeline runs fast, but the verdict is only as good as the preview it ran against.
 
-#### Why scope matters
+### How invariants compose with criteria
 
-Scope prevents drift. Without it, a “small fix” could touch files across the codebase. Explicit scope keeps changes contained.
+Invariants run alongside criteria. They're not part of the criterion list — they're applied automatically based on the change set.
 
-Scope also catches accidental changes—files modified by IDE refactoring, merge conflicts, or copy-paste errors.
+The composition rule: a run passes only if every criterion passes *and* every matching invariant passes. Failures stack — one failed criterion plus two failed invariants produces three verdicts on the same review document, not one merged failure.
 
-### Stage 3: Org invariants
+See [Verification layers](verification-layers.md) for how criteria and invariants combine in practice, and [Invariants](invariants.md) for the deeper concept.
 
-Verify loads organization-wide rules that apply based on the files touched.
+### Evidence, not output
 
-Invariants are configured separately from specs. They represent rules that always apply:
+Every verdict carries evidence. The shape depends on the verifier:
 
-* Security requirements
-* Coding standards
-* Architecture constraints
+| Verifier      | Evidence shape                                                                |
+| ------------- | ----------------------------------------------------------------------------- |
+| Code-scan     | File + line range, plus the snippet. Optionally a parsed view (AST node).     |
+| Scenario      | Request, response, and timing. For multi-step scenarios, the full transcript. |
+| Invariant     | The rule that matched, the file + line that violates it, suggested direction. |
+| LLM fallback  | Reasoning trace with code citations. Lower confidence — flag for human review.|
 
-The verifier determines which invariants are relevant. If your change modifies HTTP handlers, authentication invariants apply. If your change only touches tests, they might not.
-
-Each invariant rule is checked against the implementation.
-
-### Stage 4: Acceptance criteria
-
-Each criterion from the spec is verified against the implementation.
-
-This is the core of verification. The verifier analyzes the code semantically to determine whether each requirement is satisfied.
-
-#### Semantic analysis
-
-Verification doesn’t use pattern matching or static analysis alone. It uses AI to understand what the code actually does.
-
-For example, if a criterion says “Response excludes internal\_id”:
-
-1. Find what the endpoint returns
-2. Trace data flow through transformations
-3. Check whether `internal_id` could appear in the response
-
-This catches issues that simple text search would miss:
-
-* Fields added through object spread
-* Data flowing through helper functions
-* Conditional logic that might include forbidden fields
-
-#### Criterion results
-
-Each criterion gets a result:
-
-* **Pass** — Implementation satisfies the requirement
-* **Fail** — Implementation violates the requirement (with explanation)
-* **Inconclusive** — Could not determine (rare edge case)
-
-Failed criteria include:
-
-* The reason for failure
-* File and line number
-* Code snippet
-* Suggested fix (when possible)
-
-### Results compilation
-
-After all stages complete, results are compiled:
-
-```json
-{
-  "status": "failed",
-  "scope": { "status": "passed" },
-  "org_invariants": { "status": "passed", "checked": 12 },
-  "acceptance_criteria": { "status": "failed", "passed": 5, "failed": 2 }
-}
-```
-
-Results are:
-
-* Posted to GitHub as a PR check
-* Stored in the Aviator dashboard
-* Recorded in the audit trail
-* Sent via notifications (if configured)
+Evidence is the reviewer's primary surface. A verdict without evidence isn't useful — "trust me, it passed" defeats the point. If a verdict ever appears without evidence, file it as a bug.
 
 ### Determinism
 
-Verification is deterministic. Running it twice on the same code and spec produces the same result.
+Verification is deterministic for code-scan, scenario, and invariant verdicts. Run the same change against the same intent twice — same verdicts, same evidence.
 
-This matters because:
+LLM fallback verdicts are not strictly deterministic. They're cached on the criterion + change set so re-runs of the same content produce stable results, but a meaningfully different rephrasing of a criterion may route differently or arrive at a different verdict. Treat fallback verdicts as advisory and review them by hand.
 
-* You can reproduce failures
-* Re-running after no changes doesn’t flip results
-* Audit records are reliable
+Why determinism matters:
+
+* You can reproduce failures.
+* Re-runs after no changes don't flip results.
+* Audit records are reliable across time.
 
 ### Performance
 
-Verification typically completes in under 2 minutes. Factors that affect speed:
+A typical run completes in 30–120 seconds:
 
-| Factor                 | Impact                                                         |
-| ---------------------- | -------------------------------------------------------------- |
-| Diff size              | Larger diffs take longer                                       |
-| Number of criteria     | More criteria = more checks                                    |
-| Complexity of criteria | “Requires auth” is faster than “All queries are parameterized” |
-| Org invariant count    | More invariants = more checks                                  |
+| Factor                  | Effect                                                                  |
+| ----------------------- | ----------------------------------------------------------------------- |
+| Diff size               | Larger diffs → more code-scan + invariant checks. Sub-linear.           |
+| Number of criteria      | One verifier per criterion. Linear; parallelized where possible.        |
+| Scenarios per run       | Each scenario boots in the preview. Dominates total time once present.  |
+| Preview cold-start      | Most of the variance. Bake heavy work into the image — see [Managing previews](../how-to-guides/managing-previews.md). |
+| Matching invariant count| Linear; usually cheap. Most invariants resolve from the diff.           |
 
-If verification times out, consider:
-
-* Breaking large changes into smaller specs
-* Simplifying overly broad criteria
-* Checking for unusual code patterns
+If a run is slow, look at the scenario count and the preview boot time. Those two dominate.
 
 ### Comparison with other approaches
 
-#### vs. Static analysis
+**vs. static analysis.** Static analysis tools (linters, type checkers) verify syntax and patterns. Verify checks semantic intent against running behavior. Static analysis says "this variable is unused." Verify says "this endpoint doesn't return what the intent said it should." Use both — they catch different things.
 
-Static analysis tools (linters, type checkers) verify syntax and patterns. Verification checks semantic intent.
+**vs. tests.** Tests assert that specific inputs produce specific outputs, written by the developer. Verify runs scenarios generated from the submitted intent against an ephemeral preview. Tests check what you remembered to write a test for. Verify checks what you said the change was supposed to do. Tests catch regressions; verification catches intent drift.
 
-Static analysis: “This variable is unused.” Verification: “This endpoint doesn’t return what the spec says it should.”
-
-Both are useful. They serve different purposes.
-
-#### vs. Tests
-
-Tests verify that code behaves correctly under specific inputs. Verification checks that code matches a spec.
-
-Tests: “When I call getUser(123), it returns the right user.” Verification: “The getUser endpoint satisfies all the requirements in the spec.”
-
-Tests and verification complement each other. Tests catch bugs; verification catches spec violations.
-
-#### vs. AI code review
-
-AI code review tools generate comments on diffs. They’re faster than human review but have similar limitations:
-
-* They don’t know the intended behavior
-* Comments don’t create audit trails
-* It’s still sampling, not systematic checking
-
-Verification starts from declared intent (the spec) and checks systematically.
+**vs. AI code review.** AI code review tools leave comments on diffs. They're faster than human review but inherit the same limitations: no record of intent, no systematic coverage, sampling-based, no audit trail. Verify starts from declared intent and produces structured verdicts with evidence.
 
 ### See also
 
-* [Reference: Verification results](../reference/understanding-verification-results.md)
-* [How to fix failures](../how-to-guides/fixing-verification-failures.md)
+* [How Verify works](../how-it-works.md) — the end-to-end narrative
+* [Invariants](invariants.md)
+* [Previews](previews.md)
 * [Verification layers](verification-layers.md)
