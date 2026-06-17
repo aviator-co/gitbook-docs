@@ -4,6 +4,8 @@ A **SKILL.md** is a short context file the scenario runner reads before executin
 
 You write SKILL files per preview, not per repo. Different previews (staging, sandbox, prod-mirror) often need different context — and they should carry their own.
 
+> **Planned:** Per-preview skill directories are in development. The `skills_dir` field shown here isn't yet available in `aviator/verify.yaml`; field name and shape may change before release.
+
 ### Where SKILL files live
 
 Each preview definition in `aviator/verify.yaml` can declare a `skills_dir`. Every `.md` file under that directory is loaded as context for scenarios that run against that preview.

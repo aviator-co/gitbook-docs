@@ -4,34 +4,35 @@ Every Verify run produces an immutable record of what was submitted, what ran, w
 
 ### What gets recorded
 
-| Event                | What's recorded                                                          |
-| -------------------- | ------------------------------------------------------------------------ |
-| Intent submitted     | Submitter, timestamp, intent text, acceptance criteria, repo + commit    |
-| Verification started | Run ID, preview reference, set of matching invariants                    |
-| Verdict produced     | Criterion or invariant, verifier method, verdict, evidence reference     |
-| Reviewer decision    | Approver, timestamp, action (approve, send back, waive), reason if waived |
-| Preview event        | Boot, ready, scenario run, teardown — each with timestamp and exit state |
+For every runbook:
 
-Records are immutable. Once an event is written, it can't be modified or deleted by users.
+| Record                | What it contains                                                                                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------ |
+| Runbook submission    | Submitter, timestamp, message, spec files, target branch, working branch, repo + commit                |
+| Runbook version       | Each iteration of the runbook (steps + acceptance criteria), with version number                       |
+| Verification run      | Trigger source (manual / commit-push / step-complete / criteria-edit), commit SHA, run status, counts (passed / failed / skipped / waived) |
+| Verification result   | One per criterion: verifier path, verdict, evidence reference, reason, location                        |
+| Reviewer waiver       | Reviewer, timestamp, criterion, category (false-positive / doesn't-apply / accepted-risk / fix-in-followup), free-text reason |
+
+Records are immutable. Once written, they can't be modified or deleted by users.
 
 ### The audit chain
 
 Every merged change has a complete chain:
 
 ```
-Implementation → Intent submitted → Verification run → Reviewer decision → Merged
-       ↓                ↓                  ↓                   ↓             ↓
-   Commit SHA      Submission         Verdict +            Approval      Merge
-                    record            evidence per         record       reference
-                                      criterion
+Implementation → Runbook submission → Verification run(s) → Reviewer decisions → Merged
+       ↓                ↓                    ↓                       ↓               ↓
+   Commit SHA      Submission           One result per           Waivers +       Merge
+                    record              criterion + evidence     approval        reference
 ```
 
 This chain answers the questions an auditor asks:
 
-* **What was the change supposed to do?** → Intent + criteria from the submission record.
-* **Did the running code actually do it?** → Verdicts with evidence from the verification record.
-* **Who decided this could merge?** → Reviewer decision record.
-* **What was overridden, and why?** → Waiver records with reasons.
+* **What was the change supposed to do?** → The runbook's message + spec files + acceptance criteria.
+* **Did the running code actually do it?** → Each verification result, with evidence per criterion.
+* **Who decided this could merge?** → The reviewer's recorded actions on the runbook.
+* **What was overridden, and why?** → Waivers, each with a category and reason.
 
 ### Segregation of duties
 
@@ -39,13 +40,13 @@ Compliance frameworks often require segregation — the person making a change s
 
 Verify supports this naturally:
 
-| Role           | Actor               | Tracked separately |
-| -------------- | ------------------- | ------------------ |
-| Submitter      | The developer (or remote agent caller) calling the MCP | yes |
-| Reviewer       | The person approving from the review document           | yes |
-| Verifier       | Automated — the Verify pipeline itself                  | yes |
+| Role           | Actor                                                                  | Tracked separately |
+| -------------- | ---------------------------------------------------------------------- | ------------------ |
+| Submitter      | The user whose MCP token created the runbook                            | yes                |
+| Reviewer       | The person approving (or waiving verdicts) from the review document    | yes                |
+| Verifier       | Automated — the Verify pipeline itself                                  | yes                |
 
-Org policy can require that the reviewer differ from the submitter. The audit chain makes the separation explicit: a single change can't merge without two distinct actors appearing on it.
+Account policy can require the reviewer differ from the submitter. The audit chain makes the separation explicit: a single change can't merge without two distinct actors appearing on it.
 
 This is stronger than diff review, where the same person can leave a comment and merge their own PR.
 
@@ -53,9 +54,9 @@ This is stronger than diff review, where the same person can leave a comment and
 
 Every production change links back to:
 
-* The submitted intent (the *what was supposed to happen*).
-* The verifier verdicts and evidence (the *what actually happened*).
-* The reviewer decision (the *who said yes*).
+* The runbook submission (the *what was supposed to happen*).
+* The verification results (the *what actually happened*).
+* The reviewer's recorded decisions (the *who said yes*, including waivers).
 * The commit SHA (the *what shipped*).
 
 If an auditor asks "why was this change made and how do you know it was safe," you can show all four in one query.
@@ -68,16 +69,16 @@ If an auditor asks "why was this change made and how do you know it was safe," y
 | ------------------------------- | ---------------------------------------------------------------------- |
 | CC6.1 — Logical access controls | Reviewer decisions track who authorized each change.                   |
 | CC6.6 — Authorized changes      | Every merged change has a reviewer record.                             |
-| CC6.7 — Changes are tested      | Verification produces a verdict for every criterion and invariant.     |
-| CC8.1 — Change management       | Complete chain: intent → verification → review → merge, immutable.     |
+| CC6.7 — Changes are tested      | Verification produces a result for every criterion (user and invariant). |
+| CC8.1 — Change management       | Complete chain: submission → verification → review → merge, immutable. |
 
 #### ISO 27001
 
 | Control                          | How Verify helps                                                       |
 | -------------------------------- | ---------------------------------------------------------------------- |
 | A.12.1.2 — Change management     | Structured submission + review process for every code change.          |
-| A.12.1.4 — Segregation of duties | Submitter ≠ reviewer, enforceable via org policy.                      |
-| A.14.2.2 — System change control | Audit chain links intent to implementation to verdict.                 |
+| A.12.1.4 — Segregation of duties | Submitter ≠ reviewer, enforceable via account policy.                  |
+| A.14.2.2 — System change control | Audit chain links submission to implementation to verdict.             |
 
 #### HIPAA
 
@@ -89,7 +90,7 @@ If an auditor asks "why was this change made and how do you know it was safe," y
 
 ### Exporting reports
 
-The audit trail is queryable and exportable from the Aviator UI. See [How to export audit logs](../how-to-guides/export-audit-logs.md) for the current export surface.
+The audit data is queryable and exportable from the Aviator UI. See [How to export audit logs](../how-to-guides/export-audit-logs.md) for the current export surface.
 
 ### Retention
 

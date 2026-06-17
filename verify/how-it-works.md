@@ -8,7 +8,7 @@ The full loop:
 
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot, or anything else you use today. No new tooling, no behavior change.
 2. **Submit intent via the Aviator MCP.** When you're done, the agent calls one MCP tool. It captures the intent you and the agent agreed on and the acceptance criteria from what was built.
-3. **Aviator verifies end to end.** Every criterion runs through the verification pipeline — scenarios execute in your preview, invariants match against the change, code-scan handles structural checks, an LLM fallback catches the rest.
+3. **Aviator verifies end to end.** Every criterion runs through the verification pipeline — code-scan for structural checks, runtime against your preview for behavioral checks. Matching invariants apply automatically.
 4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence behind each verdict. They can approve, waive with reason, or ask for another scenario on the spot.
 
 ### What gets submitted
@@ -22,18 +22,16 @@ The agent generates both from what was actually built. You submit *after* implem
 
 ### The verification pipeline
 
-Every criterion runs through exactly one verifier. The classifier picks the verifier based on the criterion text and the files the change touched.
+Every criterion runs through exactly one verifier. A classifier picks the verifier based on the criterion text and the files the change touched.
 
-<figure><img src="../.gitbook/assets/verify-pipeline.svg" alt="Verification pipeline: criterion is classified and routed to one of four verifiers"><figcaption><p>Each criterion is classified and routed to a single verifier</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/verify-pipeline.svg" alt="Verification pipeline: criterion is classified and routed to one of two verifier paths"><figcaption><p>Each criterion is classified and routed to a single verifier path</p></figcaption></figure>
 
-| Verifier         | Used for                                                                              | Evidence captured                          |
-| ---------------- | ------------------------------------------------------------------------------------- | ------------------------------------------ |
-| **Code-scan**    | Structural assertions: file scope, dependency surface, function signatures            | The diff snippet that proves the assertion |
-| **Scenario**     | Behavioral assertions: endpoint contracts, error shapes, side effects                 | The scenario run output from a preview     |
-| **Invariant**    | Team-defined rules: security, perf budgets, data access patterns                      | The matched rule and the offending snippet |
-| **LLM fallback** | Criteria that don't fit cleanly anywhere                                              | Reasoning trace with cited code            |
+| Verifier      | Used for                                                                          | Evidence captured                                                       |
+| ------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **Code-scan** | Structural assertions — file scope, dependency surface, function signatures       | Diff or AST snippets that demonstrate the assertion                     |
+| **Runtime**   | Behavioral assertions — endpoint contracts, error shapes, side effects, UI behavior | Screenshots, console logs, DOM snapshots, API responses, full traces |
 
-Most criteria resolve through Code-scan and Scenario. Invariants run alongside — they apply automatically based on what the change touches.
+Invariants — your team-defined rules — flow through the same pipeline. When an invariant matches a change, it's materialized as an acceptance criterion on the runbook and verified by whichever path fits.
 
 → [Concepts: Invariants](concepts/invariants.md)
 

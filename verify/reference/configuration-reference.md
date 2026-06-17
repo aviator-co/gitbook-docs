@@ -68,7 +68,7 @@ When the TTL expires, the preview is torn down. Reviewers can extend a preview m
 
 Invariants have their own configuration surface in **Settings → Invariants**. Field-level reference and writing guidance are on the concept and tutorial pages:
 
-* [Concepts: Invariants](../concepts/invariants.md) — scope precedence, categories, anti-patterns
+* [Concepts: Invariants](../concepts/invariants.md) — sources, categories, selection
 * [Setting up org invariants](../setting-up-org-invariants.md) — step-by-step setup
 
 ### MCP

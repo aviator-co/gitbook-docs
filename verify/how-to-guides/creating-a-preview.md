@@ -1,6 +1,6 @@
 # Creating a preview
 
-This guide walks through adding a preview to a repo end-to-end: uploading an image to Aviator, injecting runtime secrets, declaring the preview in `aviator/verify.yaml`, and confirming it boots.
+This guide walks through adding a preview to a repo end-to-end: registering an image with Aviator, declaring runtime secrets, configuring the preview block in `aviator/verify.yaml`, and confirming it boots.
 
 By the end, you'll have a working `default` preview that scenarios can run against.
 
@@ -8,37 +8,35 @@ By the end, you'll have a working `default` preview that scenarios can run again
 
 **Prerequisites:**
 
-* Admin access to your Aviator org (for managing secrets and images)
-* A container image of your service
+* Admin access to your Aviator account (to manage images and secrets)
 * The repo connected to Aviator — see [Connect a repository](connect-a-repository.md)
 
 For the concept overview, see [Concepts: Previews](../concepts/previews.md). For the full field list, see [Preview YAML reference](../reference/preview-yaml.md).
 
-### Step 1: Upload the image to Aviator
+### Step 1: Register a preview image
 
-Today, previews boot from images uploaded directly to Aviator (registry-URL support is planned — see [Preview YAML reference — Image source](../reference/preview-yaml.md#image-source)).
+Aviator caches preview images locally and boots a container from the cached copy per run.
 
-1. Open **Settings → Images** in the Aviator UI.
-2. Upload your image. Give it a short, stable name — e.g. `api-preview`. You'll reference this name from `verify.yaml`.
-3. Grant the image to the repo that will use it.
+1. Open **Settings → Sandboxes** in the Aviator UI.
+2. Register the image you want previews to boot from. Give it a short, stable name — e.g. `api-preview`. You'll reference this name from `verify.yaml`.
 
-If you build images on every merge, automate this step from your CI so the image stays fresh without manual reupload.
+If you don't have a service image yet, the simplest path is to start with a base image that has your runtime (e.g. `node:20`) and let the setup script install dependencies. As your previews mature, bake more into the image.
 
-### Step 2: Store runtime secrets
+### Step 2: Declare runtime secrets
 
 Anything your service reads from the environment at runtime — DB password, third-party API keys — needs to be a secret.
 
 For each runtime secret:
 
 1. Open **Settings → Secrets**.
-2. Add the secret using the *exact name* your service expects in `process.env` (or its language equivalent). Example: `DB_PASSWORD`, not `PG_PASSWORD`.
+2. Add the secret using the *exact name* your service expects (e.g. `DB_PASSWORD`, not `PG_PASSWORD`).
 3. Grant it to the repo.
 
 Naming matters: each secret is injected into the preview as an environment variable of the same name.
 
 ### Step 3: Declare the preview in verify.yaml
 
-Add a `preview` block to `aviator/verify.yaml` at the root of your repo:
+Add a `preview` block to `aviator/verify.yaml`:
 
 ```yaml
 preview:
@@ -53,7 +51,7 @@ preview:
 
 Three things to get right:
 
-* **`image`** — the name you used when uploading. Aviator resolves this to the latest version you've uploaded under that name.
+* **`image`** — the name you registered in Step 1.
 * **`port`** — the port your service listens on inside the container. This is what the scenario runner connects to.
 * **`secrets`** — every name listed here must exist in the secret store and be granted to this repo, or the boot will fail with a clear error.
 
@@ -89,20 +87,20 @@ Two rules of thumb:
 
 ### Step 5: Commit and trigger a verification
 
-Commit the `verify.yaml` change and the setup script. Open a PR.
+Commit the `verify.yaml` change and the setup script. Submit through the MCP (or open a PR if you've already submitted).
 
-When the next Verify run starts, watch the **Run** tab in the review document:
+When the next verification run starts, watch the run timeline in the review document:
 
-* You'll see a "Building preview" line while the image is pulled.
+* You'll see a "Building preview" line while the container is prepared.
 * Then "Booting preview" while the setup script runs.
 * Then "Preview ready" once the port accepts connections.
 * Scenarios start executing.
 
-If the preview fails to boot, the failure shows up here with the exit code and the last 50 lines of container output.
+If the preview fails to boot, the failure shows up here with the exit code and the last lines of container output.
 
 ### Step 6: Verify the open-preview link
 
-Once a run produces a verdict, open the review document. The "Active run" panel includes an **Open preview** link. Click it — it should land you at the preview's port, accessible from your browser.
+Once a run produces a verdict, open the review document. The run panel includes an **Open preview** link. Click it — it should land you at the preview's port, accessible from your browser.
 
 If the link works, the preview is fully wired. Reviewers can now open it for ad-hoc exploration during review.
 
@@ -110,8 +108,8 @@ If the link works, the preview is fully wired. Reviewers can now open it for ad-
 
 | Symptom                                         | Likely cause                                                                          |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `image not found`                               | The image name in `verify.yaml` doesn't match what's uploaded, or the image isn't granted to this repo. |
-| `MissingSecret: DB_PASSWORD`                    | The secret isn't created or isn't granted to this repo.                               |
+| `image not found`                               | The image name in `verify.yaml` doesn't match what's registered in **Sandboxes**, or the image isn't granted to this repo. |
+| Missing secret error                            | A name in `secrets` isn't defined or isn't granted to this repo.                       |
 | Container exits 0 immediately                   | The container's CMD ran a one-off command and exited. Add a long-running process.     |
 | Port never opens                                | Your service binds to `localhost` only. Bind to `0.0.0.0` inside the container.       |
 | Setup script exits non-zero                     | Migration failure or fixture path wrong. The container output shows the exact line.   |

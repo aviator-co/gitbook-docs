@@ -1,12 +1,12 @@
 # Spec format
 
-This page documents the shape of what the Aviator MCP submits when your agent calls `submit-spec`. The agent generates this content — you don't author it by hand — but the format is documented here so you can read submissions, debug, or build tools against the stored form.
+This page documents the spec format used when the Aviator MCP submits a runbook via `specSubmit`. The agent typically generates this from your conversation; documented here so you can read submissions, hand-edit when needed, or build tools against the structure.
 
 For the conceptual flow, see [How Verify works](../how-it-works.md). For the MCP tool itself, see [MCP tools](mcp-tools.md).
 
 ### Structure
 
-Every submission has a title and three sections:
+A spec is markdown. Three sections are parsed; one is optional:
 
 ```markdown
 # Title
@@ -15,17 +15,20 @@ Every submission has a title and three sections:
 [plain-language description]
 
 ## Scope
-[files the change touches]
+[scope declarations using modify/call/forbid]
+
+## Execution Steps
+[optional — implementation plan]
 
 ## Acceptance Criteria
-[checklist of verifiable assertions]
+[bullet list of verifiable assertions]
 ```
 
-There is no separate "execution steps" or "implementation plan" section. The agent has already implemented the change by the time it submits — there's nothing to plan.
+Section headings must be level-2 (`##`). The parser is case-insensitive on the heading text.
 
 ### Title
 
-A short description of the change. Appears in the dashboard, PR check name, and audit trail.
+A short description of the change. Appears in the dashboard, runbook UI, and audit trail.
 
 ```markdown
 # Add per-user rate limiting to public API
@@ -48,39 +51,62 @@ The intent is the contract reviewers approve against. It doesn't describe implem
 
 ### Scope
 
-The files the change touched, as observed by the agent at submission time.
+Declares what the change is allowed and not allowed to touch. Uses three keywords; the parser picks them up case-insensitively:
+
+| Keyword  | Purpose                                  |
+| -------- | ---------------------------------------- |
+| `modify` | Files the change is allowed to edit.     |
+| `call`   | External services or modules invoked.    |
+| `forbid` | Files or patterns explicitly off-limits. |
 
 ```markdown
 ## Scope
-- src/handlers/rate_limit.go
-- src/middleware/chain.go
-- tests/middleware/rate_limit_test.go
+modify: src/handlers/rate_limit.go, src/middleware/chain.go, tests/middleware/rate_limit_test.go
+call: redis
+forbid: src/auth/*, src/db/migrations/*
 ```
 
-Scope is used for two things during verification:
+Comma-separated lists. Glob patterns are allowed (`src/foo/**/*.go`). Multiple lines with the same keyword accumulate.
 
-* **Code-scan and invariant matching** — only invariants whose path scope intersects with these files run.
-* **Drift detection** — if the PR ends up modifying additional files after submission, the verifier flags it as scope drift.
+### Execution Steps (optional)
 
-The agent populates scope from the actual diff, not from a forecast.
+If the spec includes an implementation plan, write it as a level-2 `## Execution Steps` section. The agent will use this to structure the runbook. Omit when the agent should plan from the intent alone.
+
+```markdown
+## Execution Steps
+
+### Step 1: Add the rate-limit middleware
+#### 1.1: Implement per-user counter
+- Use a sliding-window counter keyed by user ID
+- Backed by Redis
+
+### Step 2: Wire it into the public routes
+#### 2.1: Update the middleware chain
+- Insert the rate-limit middleware before the handler chain
+- Scope to /api/v1/public/*
+```
+
+Step headers are `### Step N: <Title>` (level-3) and `#### N.N: <Title>` (level-4). The same structure is reproduced in the runbook plan.
 
 ### Acceptance Criteria
 
-A checklist of verifiable assertions. Each criterion is checked independently during verification.
+A bullet list of verifiable assertions. Each criterion is checked independently during verification.
 
 ```markdown
 ## Acceptance Criteria
-- [ ] /api/v1/public/* endpoints enforce per-user rate limit
-- [ ] Returns 429 when the per-user limit is exceeded
-- [ ] Response includes Retry-After header on 429
-- [ ] Rate-limit events log through the structured logger
-- [ ] Internal endpoints (/api/v1/internal/*) are unaffected
+- /api/v1/public/* endpoints enforce per-user rate limit
+- Returns 429 when the per-user limit is exceeded
+- Response includes Retry-After header on 429
+- Rate-limit events log through the structured logger
+- Internal endpoints (/api/v1/internal/*) are unaffected
 ```
+
+Bullet markers are `-` or `*`. Checkbox syntax (`- [ ]`) is accepted but not required — the checkbox is dropped during parsing.
 
 Each criterion should:
 
-* **State one claim.** "Returns 429 when exceeded" — not "Returns 429 when exceeded and logs the event." Split compound claims into separate criteria.
-* **Be verifiable on its own.** A criterion the verifier can only check by reading the rest of the codebase will route to LLM fallback (less deterministic).
+* **State one claim.** "Returns 429 when exceeded" — not "Returns 429 when exceeded and logs the event." Split compound claims.
+* **Be verifiable on its own.** A criterion that requires reading the rest of the codebase to evaluate will route to a less-deterministic verifier path.
 * **Avoid implementation language.** "Uses the new `RateLimiter` struct" is brittle. "Per-user limit is enforced before business logic runs" is durable.
 
 See [Writing effective acceptance criteria](../how-to-guides/writing-effective-acceptance-criteria.md) for more guidance.
@@ -96,37 +122,24 @@ return 429 with a Retry-After header so well-behaved clients can back
 off. Existing internal endpoints are unaffected.
 
 ## Scope
-- src/handlers/rate_limit.go
-- src/middleware/chain.go
-- tests/middleware/rate_limit_test.go
+modify: src/handlers/rate_limit.go, src/middleware/chain.go, tests/middleware/rate_limit_test.go
+call: redis
+forbid: src/auth/*, src/db/migrations/*
 
 ## Acceptance Criteria
-- [ ] /api/v1/public/* endpoints enforce per-user rate limit
-- [ ] Returns 429 when the per-user limit is exceeded
-- [ ] Response includes Retry-After header on 429
-- [ ] Rate-limit events log through the structured logger
-- [ ] Internal endpoints (/api/v1/internal/*) are unaffected
+- /api/v1/public/* endpoints enforce per-user rate limit
+- Returns 429 when the per-user limit is exceeded
+- Response includes Retry-After header on 429
+- Rate-limit events log through the structured logger
+- Internal endpoints (/api/v1/internal/*) are unaffected
 ```
 
-### Reading a stored submission
+### Multiple spec files
 
-Every submission is stored against the review URL and exported as part of the audit trail. The on-disk shape matches the markdown above plus metadata:
-
-| Field            | Description                                                |
-| ---------------- | ---------------------------------------------------------- |
-| `title`          | The `#` heading                                            |
-| `intent`         | The Intent section body                                    |
-| `scope`          | The Scope file list, normalized to relative paths          |
-| `criteria[]`     | The Acceptance Criteria list, one entry per checkbox        |
-| `submitted_by`   | The user the MCP token belongs to                           |
-| `submitted_at`   | ISO 8601 timestamp                                          |
-| `repo`, `branch` | Git context the agent submitted from                        |
-| `commit_sha`     | The HEAD commit at submission time                          |
-
-The exported form is what auditors consume. The markdown is what reviewers read.
+`specSubmit` accepts a list of spec files (`spec_files` parameter). For most changes one file is enough. Split into multiple files only when the change spans clearly separable concerns and each file is itself coherent. Preserve original filenames when the spec came from an existing file.
 
 ### See also
 
-* [MCP tools](mcp-tools.md) — the submit-spec tool that produces this
+* [MCP tools](mcp-tools.md) — the `specSubmit` tool that submits this
 * [Writing effective acceptance criteria](../how-to-guides/writing-effective-acceptance-criteria.md)
 * [Concepts: Invariants](../concepts/invariants.md) — for assertions that should hold across changes

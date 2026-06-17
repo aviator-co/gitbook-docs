@@ -21,12 +21,12 @@ A preview that takes 90 seconds to boot is a preview people stop trusting. If yo
 
 ### Keeping the image fresh
 
-`image` references an image you've uploaded to Aviator. The freshness of the preview tracks whenever you upload a new version — there's no automatic pull.
+`image` references a preview image registered with Aviator. Aviator caches the image locally and boots from the cached copy per run. The freshness of the preview depends on when you push a new version of the image to Aviator.
 
 Two patterns work well:
 
-* **Re-upload on every merge.** Wire your CI to push a new image to Aviator under the same name (e.g. `api-preview`) after every merge to `main`. Verify uses the latest upload. Simple, recommended for most teams.
-* **Upload a versioned name per release.** For changes that need to be reproducible months later for compliance, push `api-preview-v1.42.0` on release and reference that name from `verify.yaml` on the long-lived branch. The exact image used at verification time stays available.
+* **Re-register on every merge.** Wire your CI to push a new version of the image to Aviator under the same name (e.g. `api-preview`) after every merge to `main`. Verify uses the latest version. Simple, recommended for most teams.
+* **Register a versioned name per release.** For changes that need to be reproducible months later for compliance, push `api-preview-v1.42.0` on release and reference that name from `verify.yaml` on the long-lived branch. The exact image used at verification time stays available.
 
 ### Multi-preview repos
 

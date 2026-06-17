@@ -1,61 +1,64 @@
 # Invariants
 
-An **invariant** is a team-defined rule that Verify applies to every change it matches. Where acceptance criteria describe what *this* change should do, invariants describe what *every* change should respect. They live in your Aviator org and update once for everyone.
+An **invariant** is a team-defined rule that Verify applies to every matching change. Where user-supplied acceptance criteria describe what *this* change should do, invariants describe what *every* change should respect. They live in your Aviator account and update once for everyone.
 
 A good invariant captures something your team learned the hard way — usually as a recurring review comment — so reviewers don't have to flag it again.
 
-### Scope: org, repo, path
+### Where invariants come from
 
-Invariants are defined at three layers of scope. All matching layers are unioned at verification time for any file the change touches.
+Invariants live in a per-account catalog. Each invariant has a source:
 
-<figure><img src="../../.gitbook/assets/verify-invariant-scope.svg" alt="Org-level, repo-level, and path-scoped invariants combine for each file"><figcaption><p>The effective ruleset for a file is the union of every layer that matches it</p></figcaption></figure>
+| Source                  | What it is                                                                                    |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| **Manual**              | Authored by an admin in **Settings → Invariants**.                                           |
+| **Template**            | Instantiated from Aviator's starter library — common patterns you can adopt as-is or tweak. |
+| **AI-generated**        | AI-drafted from signals about the repo, awaiting admin approval.                             |
+| **AI from docs**        | Extracted from your repo's `CONTRIBUTING.md`, `LLM.md`, or similar files by the docs pipeline. |
+| **AI from PR comments** | Mined from your team's recurring PR-review comments. Often the highest-yield source — it captures real-world feedback your team has already given. |
 
-| Layer           | Configured by    | Typical use                                                                            |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------- |
-| **Org-level**   | Org admins       | Security baseline, audit logging, secrets handling                                     |
-| **Repo-level**  | Repo maintainers | Code-style rules, type conventions, error patterns specific to a service               |
-| **Path-scoped** | Repo maintainers | Module rules — billing, auth, data access — gated by a glob                            |
+Sources that aren't `manual` produce drafts. Admins promote drafts to active in the UI; that's when they start producing verdicts.
 
-Lower layers don't override higher layers. They add on. A change in `src/billing/charge.go` is checked against every org-level invariant, every repo-level invariant for this repo, *and* every path-scoped invariant whose glob matches `src/billing/charge.go`.
+### Conditions
 
-If you find yourself wanting to write "do X *except* when Y," that's an exception — declare it explicitly on the invariant rather than splitting the rule across scopes.
+Each invariant has zero or more **conditions** that gate when it's eligible to apply:
 
-### When invariants fire
+| Condition type   | What it matches                                                |
+| ---------------- | -------------------------------------------------------------- |
+| `file_path_glob` | Files changed in the runbook match a glob like `src/**/*.py`. |
+| `language`       | The detected language of changed files matches.                |
 
-An invariant matches a change when:
+An invariant with no conditions is eligible for every runbook. With conditions, it's only eligible when at least one matches the change.
 
-1. **Its scope matches a modified file.** Org-level always matches. Repo-level matches if the change is in that repo. Path-scoped matches if any modified file matches its glob.
-2. **Its trigger condition matches the change.** Most invariants have an implicit "if a file under scope is modified" trigger. Some are explicit — e.g. "fire only when a new HTTP handler is added," not on every edit under `src/handlers/`.
+Eligibility doesn't mean the invariant *applies* — it just means the next step (selection) will consider it.
 
-If multiple invariants match the same criterion shape, they all run. Each produces an independent verdict.
+### Categories
 
-### What invariants cover
+Every invariant belongs to a category. Default categories:
 
-Invariants are good for rules you'd otherwise have to repeat. The categories that recur across teams:
+| Category                    | What it covers                                                                |
+| --------------------------- | ----------------------------------------------------------------------------- |
+| `functional_correctness`    | The change behaves correctly for expected and edge-case inputs.               |
+| `test_coverage`             | New and changed code is covered by meaningful tests.                          |
+| `security`                  | The change avoids common vulnerabilities and enforces required controls.     |
+| `performance`               | The change doesn't introduce avoidable latency, memory, or query regressions. |
+| `accessibility`             | UI changes meet accessibility standards.                                      |
+| `observability`             | Errors emit metrics; logging uses structured fields.                          |
+| `backwards_compatibility`   | Public surfaces don't break existing consumers.                               |
+| `documentation`             | Public APIs and behavior changes are documented.                              |
+| `code_style`                | Code follows team conventions (type usage, naming, layering).                |
 
-| Category               | Examples                                                                                  |
-| ---------------------- | ----------------------------------------------------------------------------------------- |
-| **Security**           | All HTTP handlers require auth; SQL uses parameterized queries; no hard-coded secrets     |
-| **Data access**        | User-record writes go through `UserRepository`; no direct `users` table mutation elsewhere |
-| **Performance**        | New endpoints must declare a P99 budget; no N+1 patterns in `*Repository.list*` methods   |
-| **Observability**      | Errors emit a metrics counter; log lines use the structured logger, not `fmt.Print`       |
-| **Dependency hygiene** | No new direct deps without an architecture review; banned packages stay banned            |
-| **Style/conventions**  | All amounts use the `Money` type; UUIDs serialized as strings, not bytes                  |
+Categories drive grouping in the UI and reporting in the audit trail.
 
-Avoid using invariants for things that change per task. "This endpoint returns these fields" is acceptance criteria — specific to the change. "Every endpoint requires auth" is an invariant — same across every change.
+### How invariants apply to a runbook
 
-### Invariants vs. acceptance criteria
+When a runbook is created, a **selector** picks which eligible invariants actually apply. The selector reads the runbook's spec, the generated plan, and the scope and uses an LLM to pick the catalog entries that defensibly fit the change.
 
-Both produce per-criterion verdicts in the same review document. The difference is where they come from:
+Selected invariants are materialized as acceptance criteria on the runbook, tagged with `source: baseline_invariant`. From that point on, they flow through the [verification pipeline](how-verification-works.md) like any other criterion — same verdict shape, same evidence, same review-document treatment.
 
-|              | Acceptance criteria          | Invariants                  |
-| ------------ | ---------------------------- | --------------------------- |
-| Defined by   | The agent, from the intent   | Your team, ahead of time    |
-| Scope        | This change only             | Every matching change       |
-| Stored in    | The submitted spec           | Your Aviator org            |
-| Updated      | Every new intent             | Rarely                      |
+Two consequences:
 
-A typical change has 3–7 acceptance criteria and a handful of invariants that happened to match. Both are verified the same way and appear together in the review document.
+* **You don't need to think about invariants when writing a spec.** The selector handles eligibility. Your spec's criteria stay focused on what's specific to this change.
+* **Invariant verdicts and user-criterion verdicts look identical in the review document.** The only visible difference is the source tag, and the fact that invariant criteria can't be edited per-runbook (they can be waived).
 
 ### Writing a good invariant
 
@@ -68,60 +71,58 @@ Three rules of thumb:
 
 **Make the rule verifiable in isolation.**
 
-A rule that requires running the whole system is hard to verify. Prefer rules that can be checked from the diff or from a single scenario.
+A rule that requires running the whole system is hard to verify. Prefer rules that can be checked from the diff or from a single runtime probe.
 
 * ✓ "All migrations must declare a `down` block."
 * ✗ "All migrations must be reversible." (Can't be checked without running them backwards.)
 
-**Declare exceptions on the invariant, not in every spec.**
+**Use conditions sparingly.**
 
-* ✓ Invariant: "All HTTP handlers require auth. Exceptions: `/health`, `/ready`, `/live`, `/metrics`."
-* ✗ Adding "this endpoint does not require auth" to every health-check spec.
+The selector reads the runbook context and picks what fits. Don't over-restrict with conditions — let the selector pass on inapplicable cases. Conditions are useful for hard exclusions (e.g. language-specific rules), not for fine-grained scoping.
 
 ### Turning a review comment into an invariant
 
-Most invariants worth writing start as a review comment that's been left more than twice.
+Most invariants worth writing start as a review comment that's been left more than twice. The mining pipeline — `ai_generated_pr_comments` — does this automatically by reading your PR history, but you can also do it by hand:
 
-1. **Find the recurring comment.** Scan PRs over the last quarter. If you've written "use the structured logger" four times, that's an invariant.
-2. **Write the assertion.** State the rule in one sentence. Leave out the *fix* — the verifier will explain what's wrong; you only need to say what's required.
-3. **Set scope.** Org-wide, repo, or path? Default to the narrowest scope that still captures the pattern. You can broaden later.
-4. **List the exceptions.** Every real rule has them. Write them down now or you'll get noise on every verification.
-5. **Ship it as draft, watch a week of verifications.** Draft invariants produce verdicts but don't block. Use that to confirm the rule fires only where you want.
+1. **Find the recurring comment.** Scan PRs over the last quarter.
+2. **Write the assertion.** State the rule in one sentence. Don't write the *fix* — the verifier will explain what's wrong.
+3. **Pick a category.** Helps with grouping and reporting.
+4. **Add conditions if needed.** Most invariants don't need them.
+5. **Save as draft, watch a week of verifications.** Draft invariants don't get materialized into runbooks. Use that to confirm the rule reads cleanly before promoting to active.
 
-Example — turning a real review comment into an invariant:
+Example, turning a real review comment into an invariant:
 
 > Comment on PR #4173: "Please don't write to `users` directly — go through `UserRepository.UpdateProfile`. We had a partial-write bug last quarter from a similar pattern."
 
-Invariant:
+Invariant body:
 
-```yaml
-name: user-writes-through-repository
-applies_to: src/**/*.go
-exclude:
-  - src/users/repository/**
-  - src/db/migrations/**
-rule: |
-  Writes to the users table must go through UserRepository.
-  Direct INSERT, UPDATE, or DELETE statements against the users
-  table are not allowed outside the repository package.
-exceptions:
-  - Test fixtures under tests/**
+```
+Writes to the users table must go through UserRepository. Direct INSERT,
+UPDATE, or DELETE statements against the users table are not allowed
+outside the repository package. Schema migrations under src/db/migrations
+are exempt.
 ```
 
-This invariant fires on every Go change, ignores the repository implementation and migrations, and explains the *what* (no direct writes) without prescribing the *how* (which repository method to call — that's not the invariant's job).
+Conditions: `file_path_glob: src/**/*.go` (skip non-Go files).
 
-### Exceptions
+Category: `functional_correctness`.
 
-Every rule has exceptions. Two ways to declare them:
+### Waivers
 
-* **On the invariant itself.** Use `exclude` for path patterns and `exceptions` for specific behavioral carve-outs. This is the right place 95% of the time.
-* **In the intent.** If a particular change legitimately needs to break an invariant, the agent can call it out in the intent. The reviewer sees the invariant verdict as `Waived — see intent` rather than passing silently. The exception is recorded in the audit trail.
+Invariant verdicts can be waived from the review document with a categorized reason:
 
-Avoid the third path — turning off the invariant globally. If an invariant produces enough noise that you want to disable it, the rule is probably wrong. Tighten the scope or rewrite the assertion.
+| Waiver category    | When to use it                                                                 |
+| ------------------ | ------------------------------------------------------------------------------ |
+| `false_positive`   | The invariant fired but the rule misjudged this case.                          |
+| `doesnt_apply`     | The rule is valid in general but isn't relevant to this PR.                    |
+| `accepted_risk`    | The failure is real but the PR author accepts the trade-off.                   |
+| `fix_in_followup`  | The failure is real and will be addressed in a separate follow-up PR.          |
+
+Every waiver is recorded in the audit trail with the reviewer, the category, and the free-text reason. If you find yourself waiving the same invariant repeatedly, the rule is wrong — tighten its conditions, rephrase the body, or rebuild the rule from real review comments.
 
 ### See also
 
 * [Setting up org invariants](../setting-up-org-invariants.md) — step-by-step setup
-* [Verification layers](verification-layers.md) — how invariants stack with criteria
+* [Verification layers](verification-layers.md) — how invariants compose with criteria in a run
 * [How verification works](how-verification-works.md) — the verifier pipeline
-* [How to: Writing a SKILL.md](../how-to-guides/writing-a-skill-md.md) — for scenario context, not rules
+* [How to: Writing a SKILL.md](../how-to-guides/writing-a-skill-md.md) — for runtime context, not for rules

@@ -8,27 +8,27 @@ A preview is short-lived: built per run, used by the scenario runner (and option
 
 <figure><img src="../../.gitbook/assets/verify-preview-lifecycle.svg" alt="Preview lifecycle: define, build, boot, use, teardown"><figcaption><p>A preview moves through five phases per verification run</p></figcaption></figure>
 
-| Phase         | What happens                                                                       |
-| ------------- | ---------------------------------------------------------------------------------- |
-| **Define**    | The repo declares the preview in `aviator/verify.yaml`.                            |
-| **Build**     | Aviator pulls the image, injects secrets, and stages files from the repo.          |
-| **Boot**     | The container starts. The setup script runs. The declared port becomes reachable.  |
-| **Use**       | Scenarios execute against the preview. Reviewers can also open it from the UI.     |
-| **Teardown**  | The container is destroyed. No state survives.                                     |
+| Phase        | What happens                                                                                |
+| ------------ | ------------------------------------------------------------------------------------------- |
+| **Define**   | The repo declares the preview in `aviator/verify.yaml`.                                     |
+| **Build**    | Aviator boots a container from the cached image and prepares the environment.                |
+| **Boot**     | The setup script runs. The declared port becomes reachable.                                  |
+| **Use**      | Scenarios execute against the preview. Reviewers can also open it from the UI.               |
+| **Teardown** | The optional teardown script runs. The container is destroyed. No state survives.            |
 
-Every verification run starts fresh. That's deliberate — a preview that carries state from a previous run produces non-reproducible verdicts, which defeats the point of verification.
+Every verification run starts fresh. That's deliberate — a preview that carries state from a previous run produces non-reproducible verdicts.
 
 ### Composition
 
-A preview is composed of inputs from three places: an image uploaded to Aviator, your secret store, and your repo.
+A preview is composed of inputs from three places: a preview image, your secret store, and your repo.
 
 <figure><img src="../../.gitbook/assets/verify-preview-anatomy.svg" alt="Preview anatomy: inputs, the preview container, and what consumes it"><figcaption><p>Where each piece of a preview comes from, and what uses it</p></figcaption></figure>
 
-* **Image** — an image you've uploaded to Aviator. Pulling from your own container registry is planned; see [Preview YAML reference — Image source](../reference/preview-yaml.md#image-source).
-* **Secrets** — runtime secrets (DB passwords, API keys) are referenced by name from the secret store and injected as environment variables when the container boots.
+* **Image** — a preview image registered with Aviator for your account. Aviator caches the image locally and boots containers from it. Register images through **Settings → Sandboxes** in the Aviator UI.
+* **Secrets** — runtime secrets (DB passwords, API keys) referenced by name from the account secret store and injected as environment variables when the container boots.
 * **Setup script** — optional. Runs after the container starts and before the port is marked ready. Used for migrations, seeding, warm-up.
-* **Skills directory** — optional. Tells the scenario runner about the preview — base URL, test users, fixture references. See [Writing a SKILL.md](../how-to-guides/writing-a-skill-md.md).
-* **Port** — the port the runner connects to. The container is considered ready when this port accepts connections (plus an optional health check).
+* **Teardown script** — optional. Runs before destruction to release external resources.
+* **Port** — the port the runner connects to. The container is considered ready when this port accepts connections.
 
 Aviator stitches these together into a single ephemeral container. The repo's `verify.yaml` is the contract — see [Preview YAML reference](../reference/preview-yaml.md) for every field.
 
@@ -47,15 +47,15 @@ Scenarios target a preview by name. If no name is set, scenarios run against `de
 
 ### When previews are used
 
-Previews only spin up when the verification run includes at least one **scenario** criterion. If every criterion is handled by [code-scan or invariants](how-verification-works.md), no preview is built and the run finishes faster.
+Previews only spin up when the verification run has at least one **runtime** criterion — a criterion the classifier decides needs to be checked against the running code (see [How verification works](how-verification-works.md)). If every criterion can be verified by code-scan alone, no preview is built and the run finishes faster.
 
-This matters for cost: previews are the expensive part of verification. The classifier minimizes their use by routing structural assertions away from scenario verifiers when possible.
+This matters for cost: previews are the expensive part of verification. The classifier minimizes their use by routing structural assertions away from the runtime path when possible.
 
 ### Reviewer access
 
 The review document exposes a per-run "Open preview" link. Clicking it gives the reviewer access to the same ephemeral container the scenarios ran against — same data, same configuration, same code under test.
 
-The link expires when the preview is torn down (default: shortly after the run completes; configurable). If you need a long-running review session, ask Aviator to extend the preview from the UI.
+The link expires when the preview is torn down (default: shortly after the run completes). If you need a long-running review session, ask Aviator to extend the preview from the UI.
 
 ### Previews vs. CI environments
 
@@ -68,14 +68,6 @@ Previews look like CI environments but they're not the same thing:
 | Configured in      | `aviator/verify.yaml`                | CI provider config (GH Actions, etc.) |
 | Used by            | Scenario runner + reviewer           | Test runners, build pipeline          |
 | Purpose            | Make behavioral verification real    | Run the test suite, ship artifacts    |
-
-If your CI already builds and pushes a container image, that's the image to point your preview at. Verify doesn't replace CI — it consumes its output.
-
-### Skills and previews
-
-Skills are per-preview, not per-repo. A repo with `default` and `mirror` previews can carry different `SKILL.md` files for each. The scenario runner loads the skills tied to the preview it's running against.
-
-→ [Writing a SKILL.md](../how-to-guides/writing-a-skill-md.md)
 
 ### See also
 

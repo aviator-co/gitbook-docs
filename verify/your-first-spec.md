@@ -18,13 +18,10 @@ By the end, you'll have a working loop and a sense of where each piece fits.
 The MCP is how the agent talks to Aviator. Install it once per agent.
 
 1. In the Aviator UI, go to **Settings → Integrations → MCP** and copy your install snippet (it includes a scoped token).
-2. Paste it into your agent's MCP config:
-   * **Claude Code:** `~/.claude/mcp_servers.json`
-   * **Cursor:** Cursor → Settings → MCP → Add server
-   * Other clients: see your client's MCP documentation.
-3. Restart the agent. You should see `aviator` listed in the available MCP tools.
+2. Add the snippet to your agent's MCP server configuration. See your client's MCP documentation for where this lives.
+3. Restart the agent. You should see the Aviator tools listed in the agent's available tools.
 
-A successful install gives your agent access to one tool: `submit-spec`. That's the only one you need today.
+A successful install gives your agent access to three Aviator tools: `specSubmit`, `getRunbook`, and `editRunbook`. You only need `specSubmit` for this tutorial. See [MCP tools](reference/mcp-tools.md) for the full surface.
 
 ### Step 2: Pick a small change
 
@@ -52,22 +49,23 @@ Tell the agent to submit the intent:
 
 > Submit this to Aviator Verify.
 
-The agent calls `submit-spec` through the MCP. The tool captures:
+The agent calls `specSubmit` through the MCP. The tool creates a runbook carrying:
 
-* **Intent** — what the change is for, in plain language.
+* **Intent** — what the change is for, captured from your conversation.
 * **Acceptance criteria** — the verifiable assertions, generated from what was built.
+* **Scope** — the files the change touched.
 
-The MCP returns a review URL like `https://app.aviator.co/r/218/review`. The agent will print it.
+The MCP returns a runbook URL like `https://app.aviator.co/r/218`. The agent will print it.
 
-Open the URL in your browser. You'll land on the review document — three regions: intent at the top, evidence in the middle, decisions at the bottom. Right now it shows "Verifying…" while the run executes.
+Open the URL in your browser. You'll see the runbook with the generated plan, the acceptance criteria, and (once verification starts) a streaming verdict per criterion.
 
 ### Step 5: Watch verification run
 
-The review document updates as the verification pipeline progresses. The phases:
+The runbook page updates as the verification pipeline progresses. The phases:
 
-1. **Preview is built and booted.** Your image is pulled, secrets injected, setup script runs. Logged inline.
-2. **Criteria run in parallel.** Each acceptance criterion is routed to a verifier (code-scan, scenario, invariant, or LLM fallback) and produces a verdict + evidence.
-3. **Invariants are checked.** Any org or repo invariants matching the change run alongside.
+1. **Runbook generation.** Aviator turns the submission into a structured plan + acceptance criteria. Any matching invariants from your account catalog are materialized as additional criteria.
+2. **Preview is built and booted.** Your image is loaded, secrets injected, setup script runs.
+3. **Criteria run.** Each criterion is routed to one of two verifier paths — code-scan (static analysis of the diff) or runtime (executed against the preview).
 
 For a small change, the whole run completes in 30–90 seconds.
 
@@ -75,20 +73,20 @@ For a small change, the whole run completes in 30–90 seconds.
 
 When the run finishes, each criterion shows:
 
-* **Verdict** — pass, fail, or waived.
-* **Verifier** — which method ran it (Scenario, Code-scan, Invariant, LLM).
-* **Evidence** — the diff snippet, scenario output, or matched rule that backs the verdict.
+* **Verdict** — `pass`, `fail`, `warn`, or `error`.
+* **Verifier** — which path ran it (Code-scan or Runtime).
+* **Evidence** — the diff snippet (code-scan) or runtime output (request/response, screenshot, log line) that backs the verdict.
 
 For the health endpoint, you should see something like:
 
 | Criterion                            | Verifier  | Verdict |
 | ------------------------------------ | --------- | ------- |
 | Endpoint `GET /health` exists        | Code-scan | ✓ Pass  |
-| Returns 200                          | Scenario  | ✓ Pass  |
-| Response body is `{"status": "ok"}`  | Scenario  | ✓ Pass  |
-| Does not require authentication      | Scenario  | ✓ Pass  |
+| Returns 200                          | Runtime   | ✓ Pass  |
+| Response body is `{"status": "ok"}`  | Runtime   | ✓ Pass  |
+| Does not require authentication      | Runtime   | ✓ Pass  |
 
-Click any verdict to see the evidence. For scenarios, the evidence is the actual request + response from the preview.
+Click any verdict to see the evidence. For runtime verdicts, the evidence is the actual request + response (or screenshot, log line) from the preview.
 
 If something failed, the verdict is annotated with the file and line that caused it. Push a fix and Verify will re-run automatically — no new submission needed.
 
@@ -97,11 +95,11 @@ If something failed, the verdict is annotated with the file and line that caused
 From the review document you can:
 
 * **Approve** — sign off and continue your normal merge flow.
-* **Waive with reason** — accept a failed criterion explicitly (recorded in the audit trail).
-* **Request another scenario** — ask the agent to test a specific case before you decide.
+* **Waive a failed verdict with a category** — `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`. Recorded in the audit trail.
+* **Edit the acceptance criteria** — ask the agent to call `editRunbook` with the corrected criteria, then re-verify.
 * **Open the preview** — poke at the running code yourself before approving.
 
-Approve to close the loop. The audit trail now has a complete record: intent submitted, verdicts per criterion with evidence, your decision.
+Approve to close the loop. The audit trail now has a complete record: runbook submission, verdicts per criterion with evidence, your decision.
 
 ### What you just learned
 

@@ -38,24 +38,11 @@ The MCP is preconfigured for Aviator-hosted agents — you don't install it sepa
 
 ### Writing a runbook for Verify
 
-A runbook that ends in a Verify submission looks like a normal runbook with two additions: a task description specific enough for the agent to act on, and a hand-off step.
+For runbook authoring conventions — task description, scope, personas, sandboxes — see [Runbooks: Getting started](../../runbooks/getting-started.md) and [Runbooks: Runbook Format](../../runbooks/concepts/runbook-format.md).
 
-```yaml
-# .aviator/runbooks/add-rate-limiting.yaml
-name: Add per-user rate limiting to public API
-description: |
-  Add a per-user rate limit to all endpoints under /api/v1/public/*.
-  On overflow, return 429 with a Retry-After header. Log rate-limit
-  events through the existing structured logger.
-persona: backend-engineer
-steps:
-  - implement
-  - submit-to-verify
-```
+The Verify-specific addition: write a task description specific enough that the remote agent can implement against it without follow-up clarification. Vague descriptions produce runbooks that drift from the intent — and intent drift is exactly what verification is supposed to catch, so this gets noisy fast.
 
-The `submit-to-verify` step is what triggers the MCP call. When the agent reaches it, it captures the intent and criteria from what was implemented and submits the same way a local agent would.
-
-The runbook completes once verification finishes and the review document is ready.
+When the runbook completes, verification runs against the resulting branch the same way it does for any other submission. The review document is identical.
 
 ### What you trade off
 

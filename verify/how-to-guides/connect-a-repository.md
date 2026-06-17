@@ -48,7 +48,7 @@ To confirm everything works:
 
 1. Install the [Aviator MCP](../reference/mcp-tools.md) in your coding agent.
 2. Make a small change in this repo with the agent.
-3. Have the agent call `submit-spec` through the MCP.
+3. Have the agent call `specSubmit` through the MCP.
 4. Open the review URL returned by the tool — you should land on the review document for this repo.
 5. Verify the Aviator Verify check appears on the PR (assuming you've opened one).
 
