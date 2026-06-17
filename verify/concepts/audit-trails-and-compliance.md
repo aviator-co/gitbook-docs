@@ -8,7 +8,7 @@ For every runbook:
 
 | Record                | What it contains                                                                                       |
 | --------------------- | ------------------------------------------------------------------------------------------------------ |
-| Runbook submission    | Submitter, timestamp, message, spec files, target branch, working branch, repo + commit                |
+| Runbook submission    | Submitter, timestamp, intent, acceptance criteria, target branch, working branch, repo + commit         |
 | Runbook version       | Each iteration of the runbook (steps + acceptance criteria), with version number                       |
 | Verification run      | Trigger source (manual / commit-push / step-complete / criteria-edit), commit SHA, run status, counts (passed / failed / skipped / waived) |
 | Verification result   | One per criterion: verifier path, verdict, evidence reference, reason, location                        |
@@ -29,7 +29,7 @@ Implementation → Runbook submission → Verification run(s) → Reviewer decis
 
 This chain answers the questions an auditor asks:
 
-* **What was the change supposed to do?** → The runbook's message + spec files + acceptance criteria.
+* **What was the change supposed to do?** → The runbook's intent + acceptance criteria.
 * **Did the running code actually do it?** → Each verification result, with evidence per criterion.
 * **Who decided this could merge?** → The reviewer's recorded actions on the runbook.
 * **What was overridden, and why?** → Waivers, each with a category and reason.

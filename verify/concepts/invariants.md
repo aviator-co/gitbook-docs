@@ -51,13 +51,13 @@ Categories drive grouping in the UI and reporting in the audit trail.
 
 ### How invariants apply to a runbook
 
-When a runbook is created, a **selector** picks which eligible invariants actually apply. The selector reads the runbook's spec, the generated plan, and the scope and uses an LLM to pick the catalog entries that defensibly fit the change.
+When a runbook is created, a **selector** picks which eligible invariants actually apply. The selector reads the runbook's intent, the user-supplied acceptance criteria, and the change set, and uses an LLM to pick the catalog entries that defensibly fit the change.
 
 Selected invariants are materialized as acceptance criteria on the runbook, tagged with `source: baseline_invariant`. From that point on, they flow through the [verification pipeline](how-verification-works.md) like any other criterion — same verdict shape, same evidence, same review-document treatment.
 
 Two consequences:
 
-* **You don't need to think about invariants when writing a spec.** The selector handles eligibility. Your spec's criteria stay focused on what's specific to this change.
+* **You don't need to think about invariants when writing the intent.** The selector handles eligibility. Your acceptance criteria stay focused on what's specific to this change.
 * **Invariant verdicts and user-criterion verdicts look identical in the review document.** The only visible difference is the source tag, and the fact that invariant criteria can't be edited per-runbook (they can be waived).
 
 ### Writing a good invariant

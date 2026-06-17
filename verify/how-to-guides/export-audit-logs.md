@@ -53,8 +53,8 @@ Each record carries fields specific to its type. Common shapes:
 | `submitted_at`  | ISO 8601 timestamp.                                                |
 | `repo`, `branch`| Git context — target branch and working branch.                    |
 | `commit_sha`    | The HEAD commit at submission time.                                |
-| `message`       | The submission message.                                            |
-| `spec_files`    | If submitted with spec files: each filename + content.             |
+| `intent`        | The submitted intent (plain-language description).                 |
+| `acceptance_criteria` | The acceptance criteria submitted with the runbook.          |
 
 **Verification run:**
 

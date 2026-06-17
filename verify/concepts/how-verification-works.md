@@ -49,7 +49,7 @@ This is the part most teams underinvest in early — a thin SKILL.md and stale s
 
 ### How invariants compose with criteria
 
-Invariants are your team's standing rules. When the runbook is created, the invariant selector picks which active invariants apply to this change based on the spec, the plan, and the scope — and materializes each pick as an acceptance criterion (tagged with `source: baseline_invariant`).
+Invariants are your team's standing rules. When the runbook is created, the invariant selector picks which active invariants apply to this change based on the intent, the criteria, and the change set — and materializes each pick as an acceptance criterion (tagged with `source: baseline_invariant`).
 
 The composition rule: a run passes only if every criterion — user-authored or invariant-materialized — passes. Failures stack: one failed user criterion plus two failed invariants produces three verdicts on the same review document, not one merged failure.
 

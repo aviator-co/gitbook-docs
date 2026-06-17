@@ -14,24 +14,23 @@ Restart the agent after configuring. The Aviator tools should appear in the agen
 
 | Tool          | Use it for                                                              |
 | ------------- | ----------------------------------------------------------------------- |
-| `specSubmit`  | Create a new runbook from a description and (optionally) spec files.    |
+| `specSubmit`  | Submit a new runbook capturing the intent and acceptance criteria.      |
 | `getRunbook`  | Read the current state of a runbook — plan, criteria, latest verdict.   |
 | `editRunbook` | Replace acceptance criteria on an existing runbook in a versioned edit. |
 
 ### `specSubmit`
 
-Creates a runbook in Aviator. The runbook carries the work the agent is about to do (or has already done on `working_branch`), and is what subsequent verification runs against.
+Submits a runbook to Aviator. It captures two things: the **intent** for the change (what it's for, in plain language), and the **acceptance criteria** the change must satisfy. From this point on, verification runs against this runbook.
 
-**When to call it:** when the user explicitly asks to submit to Aviator or create a runbook. Never call it proactively.
+**When to call it:** when the user explicitly asks to submit to Aviator. Never call it proactively.
 
 **Parameters:**
 
 | Parameter       | Required | Description                                                                                            |
 | --------------- | -------- | ------------------------------------------------------------------------------------------------------ |
 | `repo_name`     | yes      | GitHub repo name. Accepts `owner/repo` or just `repo` if unambiguous within the account.               |
-| `message`       | yes      | Short, human-friendly description — like a ticket. A few sentences, no markdown, no code details.      |
-| `spec_files`    | no       | JSON array of `{"filename": "...", "content": "..."}` entries. The spec carrying intent, scope, steps, and acceptance criteria. Omit for simple changes. |
-| `working_branch`| no       | An existing branch where work already lives. Setting this lets the runbook read what's already pushed and auto-connect a future PR. Omit to have the runbook author the work from scratch. |
+| `message`       | yes      | The intent — a short, plain-language description of what this change is for and why.                   |
+| `working_branch`| no       | An existing branch where the work already lives. Setting this lets the runbook read what's already pushed and auto-connect a future PR. Omit to have the runbook author the work from scratch. |
 | `target_branch` | no       | The branch the work targets. Omit for the repo default (trunk); pass the parent branch when this work stacks on another in-flight branch. |
 
 **Returns:**
@@ -55,7 +54,7 @@ Reads the current state of a runbook. Use it before editing — every edit takes
 | Parameter | Required | Description                                                                  |
 | --------- | -------- | ---------------------------------------------------------------------------- |
 | `url`     | yes      | The runbook URL. Accepts `https://app.aviator.co/r/{number}`, `runbooks/{id}`, or plain `r/{number}`. |
-| `fields`  | no       | List of fields to return. Defaults to all. Selectable: `steps_markdown`, `spec_files`, `runbook_state`, `acceptance_criteria`. `runbook_version` is always returned. |
+| `fields`  | no       | List of fields to return. Defaults to all. Selectable: `steps_markdown`, `runbook_state`, `acceptance_criteria`. `runbook_version` is always returned. |
 
 **Returns (per field):**
 
@@ -63,7 +62,6 @@ Reads the current state of a runbook. Use it before editing — every edit takes
 | ----------------------- | -------------------------------------------------------------------------------------- |
 | `runbook_version`       | int — always present. Pass back as `expected_version` on edits.                        |
 | `steps_markdown`        | The runbook plan as markdown.                                                          |
-| `spec_files`            | The spec files the runbook was generated from, if any.                                 |
 | `runbook_state`         | `target_branch`, `working_branch`, per-step status.                                    |
 | `acceptance_criteria`   | List of `{ordinal, raw_text, source}`. Baseline-invariant criteria are excluded — they're auto-managed. |
 | `latest_verification`   | Returned alongside `acceptance_criteria`. Null if no runs. Includes status, criteria counts, and a list of non-passing results (each tagged with `is_invariant` and `is_waived`). |

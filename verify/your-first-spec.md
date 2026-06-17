@@ -53,7 +53,6 @@ The agent calls `specSubmit` through the MCP. The tool creates a runbook carryin
 
 * **Intent** — what the change is for, captured from your conversation.
 * **Acceptance criteria** — the verifiable assertions, generated from what was built.
-* **Scope** — the files the change touched.
 
 The MCP returns a runbook URL like `https://app.aviator.co/r/218`. The agent will print it.
 
