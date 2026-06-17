@@ -51,11 +51,11 @@ Click **Save changes** at the bottom of the page.
 
 ### Testing the configuration
 
-Create a PR with a linked spec. You should see:
+Open a PR for a branch where you've submitted an intent through the MCP. You should see:
 
-1. Aviator Verify check appears
-2. Merge button is disabled until verification passes
-3. If verification fails, the PR cannot be merged (without admin override)
+1. Aviator Verify check appears.
+2. Merge button is disabled until verification passes.
+3. If verification fails, the PR cannot be merged (without admin override).
 
 ### Bypassing verification
 
@@ -84,5 +84,5 @@ All checks must pass for the PR to merge.
 
 ### See also
 
-* How to connect a repository
-* Reference: GitHub integration
+* [Connect a repository](connect-a-repository.md)
+* [GitHub integration](../reference/github-integration.md)
