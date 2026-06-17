@@ -2,27 +2,25 @@
   <title id="title">Preview lifecycle: define, build, boot, use, teardown</title>
   <desc id="desc">A preview moves through five phases. It is defined in verify.yaml, built by loading the image with injected secrets, booted with a setup script, used by scenarios and reviewers, and then torn down.</desc>
   <defs>
-    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.07"/>
-    </filter>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a3a3a3"/>
     </marker>
     <style>
-      .num   { font: 700 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #d97706; letter-spacing: 0.1em; }
-      .ttl   { font: 600 16px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #0f172a; }
-      .sub   { font: 400 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #475569; }
-      .cap   { font: 500 11px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #94a3b8; }
-      .card  { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
-      .accent{ fill: #fffbeb; stroke: #fcd34d; stroke-width: 1; }
-      .rail  { stroke: #94a3b8; stroke-width: 1.5; fill: none; }
+      .surface { fill: #0f0f15; }
+      .card    { fill: #16161c; stroke: #2c2c35; stroke-width: 1; }
+      .num     { font: 700 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #ffd000; letter-spacing: 0.1em; }
+      .ttl     { font: 600 16px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #fafafa; }
+      .sub     { font: 400 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #a3a3a3; }
+      .cap     { font: 500 11px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #75757f; }
+      .rail    { stroke: #6a6a76; stroke-width: 1.5; fill: none; }
     </style>
   </defs>
 
+  <!-- Outer surface -->
+  <rect class="surface" x="0" y="0" width="1140" height="300" rx="16"/>
+
   <!-- Card 01 Define -->
-  <g filter="url(#card-shadow)">
-    <rect class="card" x="30" y="50" width="180" height="180" rx="12"/>
-  </g>
+  <rect class="card" x="30" y="50" width="180" height="180" rx="12"/>
   <text class="num" x="50" y="80">01</text>
   <text class="ttl" x="50" y="113">Define</text>
   <text class="sub" x="50" y="148">A preview block in</text>
@@ -31,9 +29,7 @@
   <line class="rail" x1="215" y1="140" x2="245" y2="140" marker-end="url(#arrow)"/>
 
   <!-- Card 02 Build -->
-  <g filter="url(#card-shadow)">
-    <rect class="card" x="250" y="50" width="180" height="180" rx="12"/>
-  </g>
+  <rect class="card" x="250" y="50" width="180" height="180" rx="12"/>
   <text class="num" x="270" y="80">02</text>
   <text class="ttl" x="270" y="113">Build</text>
   <text class="sub" x="270" y="148">Load the image,</text>
@@ -42,9 +38,7 @@
   <line class="rail" x1="435" y1="140" x2="465" y2="140" marker-end="url(#arrow)"/>
 
   <!-- Card 03 Boot -->
-  <g filter="url(#card-shadow)">
-    <rect class="card" x="470" y="50" width="180" height="180" rx="12"/>
-  </g>
+  <rect class="card" x="470" y="50" width="180" height="180" rx="12"/>
   <text class="num" x="490" y="80">03</text>
   <text class="ttl" x="490" y="113">Boot</text>
   <text class="sub" x="490" y="148">Run setup script,</text>
@@ -53,9 +47,7 @@
   <line class="rail" x1="655" y1="140" x2="685" y2="140" marker-end="url(#arrow)"/>
 
   <!-- Card 04 Use (accent) -->
-  <g filter="url(#card-shadow)">
-    <rect class="accent" x="690" y="50" width="180" height="180" rx="12"/>
-  </g>
+  <rect x="690" y="50" width="180" height="180" rx="12" fill="#ffd000" fill-opacity="0.07" stroke="#ffd000" stroke-opacity="0.32" stroke-width="1"/>
   <text class="num" x="710" y="80">04</text>
   <text class="ttl" x="710" y="113">Use</text>
   <text class="sub" x="710" y="148">Scenarios run, reviewer</text>
@@ -64,9 +56,7 @@
   <line class="rail" x1="875" y1="140" x2="905" y2="140" marker-end="url(#arrow)"/>
 
   <!-- Card 05 Teardown -->
-  <g filter="url(#card-shadow)">
-    <rect class="card" x="910" y="50" width="180" height="180" rx="12"/>
-  </g>
+  <rect class="card" x="910" y="50" width="180" height="180" rx="12"/>
   <text class="num" x="930" y="80">05</text>
   <text class="ttl" x="930" y="113">Teardown</text>
   <text class="sub" x="930" y="148">Container destroyed</text>

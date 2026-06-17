@@ -19,6 +19,23 @@ You can start using Verify with code-scan alone — no preview, no infrastructur
 
 → [How it works](how-it-works.md) — the full narrative, with diagrams.
 
+### Invariants — the standing rules
+
+Every code review has a long tail of repeated comments. *Use the structured logger. No direct user-table writes. Errors emit a metrics counter. Cap external dependencies. Stripe amounts use the Money type.* Reviewers say the same thing on PR after PR, and any one of them missed in any one review becomes a future bug or migration.
+
+Verify turns those into **invariants** — team-defined rules in an account-level catalog that apply to every matching change automatically. When a runbook is created, an LLM selector picks which invariants legitimately apply to this change, and they're materialized as acceptance criteria alongside the user-supplied ones. From there they flow through the same verifier pipeline — code-scan or runtime — and produce verdicts on the same review surface.
+
+How invariants get into your catalog:
+
+* **Mine your PR history.** Aviator's AI reads your team's actual PR review comments and proposes invariants from the patterns it sees. The highest-leverage onboarding path — your team is already enforcing these rules in review, just not encoding anywhere.
+* **Extract from your docs.** `CONTRIBUTING.md`, `LLM.md`, and similar files become drafts.
+* **Adopt from templates.** Aviator's starter library covers the common categories: security baseline, observability, data access, backwards compatibility.
+* **Author manually.** Admins write the rule directly.
+
+All AI-drafted invariants land in draft status. An admin reviews each before it goes active. Failed invariant verdicts can be waived by the reviewer with a category (`false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`) — every waiver is recorded in the audit trail.
+
+→ [Concepts: Invariants](concepts/invariants.md)
+
 ### Why this approach
 
 Code review was designed when humans wrote code slowly. AI changes that. Code generates in minutes; reviewing it line by line still takes the same hour as before. The shift:

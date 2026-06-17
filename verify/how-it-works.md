@@ -31,7 +31,35 @@ Every criterion runs through exactly one verifier. A classifier picks the verifi
 | **Code-scan** | Structural assertions — file scope, dependency surface, function signatures       | Diff or AST snippets that demonstrate the assertion                     |
 | **Runtime**   | Behavioral assertions — endpoint contracts, error shapes, side effects, UI behavior | Screenshots, console logs, DOM snapshots, API responses, full traces |
 
-Invariants — your team-defined rules — flow through the same pipeline. When an invariant matches a change, it's materialized as an acceptance criterion on the runbook and verified by whichever path fits.
+### Invariants in the loop
+
+Acceptance criteria are what *this* change should do. **Invariants** are what *every* change should respect — your team's standing rules. They're a major part of the flow once you start using Verify seriously.
+
+Four phases:
+
+1. **Catalog.** Invariants live in an account-level catalog. Admins can author them manually, adopt from templates, or accept AI-drafted ones. Three of the AI sources worth knowing about:
+   - **PR-comment mining.** AI reads your team's actual PR review comments and proposes invariants from the patterns. The highest-leverage source — you're already enforcing these in review, this just encodes them.
+   - **Docs extraction.** Your `CONTRIBUTING.md`, `LLM.md`, or similar guidance files are read and proposed as invariants.
+   - **Repo-signal synthesis.** AI looks at the shape of the codebase and proposes rules that fit.
+
+   All AI drafts wait in pending status. An admin promotes drafts to active before they start producing verdicts.
+
+2. **Selection.** When a runbook is submitted, an LLM **selector** reads the intent, the acceptance criteria, and the change set, and picks which eligible invariants legitimately apply to this change. Eligibility is gated by optional conditions on the invariant (e.g. `file_path_glob: src/**/*.py`); among the eligible, the selector decides what actually fits.
+
+3. **Materialization.** Selected invariants are materialized as acceptance criteria on the runbook, tagged with `source: baseline_invariant`. From here they flow through the same verifier pipeline as user criteria — code-scan or runtime — and produce verdicts on the same review surface.
+
+4. **Review and waivers.** Reviewers see invariant verdicts alongside user criteria. Invariant-sourced criteria can't be edited per-runbook (they're catalog-managed), but they can be **waived** with a category:
+
+   | Waiver category    | When to use it                                                      |
+   | ------------------ | ------------------------------------------------------------------- |
+   | `false_positive`   | The invariant fired but misjudged this case.                        |
+   | `doesnt_apply`     | The rule is valid but isn't relevant to this PR.                    |
+   | `accepted_risk`    | The failure is real but the author accepts the trade-off.           |
+   | `fix_in_followup`  | The failure is real and will be addressed in a separate PR.          |
+
+   Every waiver is attributed and reasoned, and shows up in the audit trail.
+
+The first invariant you add changes the value of every future change going through Verify — because that rule now applies automatically, forever, without anyone having to remember it.
 
 → [Concepts: Invariants](concepts/invariants.md)
 
