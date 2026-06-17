@@ -4,156 +4,54 @@ icon: shield-check
 
 # Verify
 
-Aviator Verify replaces traditional code review with spec-driven verification. Instead of reviewing code line-by-line, your team approves structured specs that define what the code should do. Verify then automatically checks that implementations match approved specs. These verifications also create a compliance audit trail.
+Aviator Verify replaces line-by-line code review with verification of *what the change is supposed to do*. You work with your agent locally. Aviator captures your intent through a single MCP call, runs every acceptance criterion against the running code, and produces a review document with verdicts and evidence.
 
-### How it works
+The reviewer judges behavior — not the diff.
 
-1. **Write a spec.** Describe what you want to build. The AI assistant helps generate a structured spec with intent, scope, and acceptance criteria.
-2. **Get it approved.** Submit the spec for review, similar to a code review. A reviewer approves the intent and requirements, not the code.
-3. **Implement.** Write the code using any tool: Cursor, Copilot, Claude, or manually. The approved spec is your contract.
-4. **Verify.** Push your code. Verify automatically checks that the implementation satisfies every criterion in the approved spec.
-5. **Merge.** If verification passes, merge with confidence. You have a complete audit trail linking intent → approval → implementation → proof.
+### The flow
+
+1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot — anything you use today. No new tooling, no behavior change.
+2. **Submit intent via MCP.** The agent calls one tool when you're done. It captures the intent and the acceptance criteria from what was built.
+3. **Aviator verifies end to end.** Scenarios run in your preview, invariants apply automatically, code-scan handles structural checks.
+4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence. They approve, waive with reason, or ask for another scenario on the spot.
+
+→ [How it works](how-it-works.md) — the full narrative, with diagrams.
 
 ### Why this approach
 
-Code review was designed when humans wrote code slowly. AI changes that equation. Code can be generated in minutes, but reviewing it still takes just as long.
+Code review was designed when humans wrote code slowly. AI changes that. Code generates in minutes; reviewing it line by line still takes the same hour as before. The shift:
 
-Traditional review asks: "Does this code look okay?"
+* **Traditional review asks:** *Does this code look okay?*
+* **Verify asks:** *Does this code do what we agreed it should do?*
 
-Verify asks: **"Does this code do what we agreed it should do?"**
+Three things follow:
 
-This shift has several advantages:
+* **Faster reviews.** A reviewer judges intent and evidence, not 800 lines of diff.
+* **Systematic checking.** Every criterion is verified, every time — no sampling, no fatigue.
+* **Complete audit trail.** Every change links intent → verifier verdict → evidence → reviewer decision.
 
-* **Faster reviews.** Approving a spec takes minutes. You're agreeing on _what_, not auditing _how_.
-* **Systematic checking.** Every criterion is verified, every time. No sampling, no fatigue.
-* **Complete audit trails.** Every change links to approved intent, verification results, and who approved what.
-
-→ Why spec-driven verification
+→ [Why intent-driven verification](concepts/why-intent-driven-verification.md)
 
 ### Core concepts
 
-#### Specs
-
-A spec defines what a change should accomplish. It has three sections:
-
-| Section                 | Purpose                                    |
-| ----------------------- | ------------------------------------------ |
-| **Intent**              | Plain-language description of what and why |
-| **Scope**               | Files and services the change may touch    |
-| **Acceptance Criteria** | Specific, verifiable requirements          |
-| **Execution steps**     | The implementation details                 |
-
-```markdown
-# Add subscription status endpoint
-
-## Intent
-Authenticated endpoint for retrieving user subscription status
-without exposing internal billing identifiers.
-
-## Scope
-- **modify:** `src/handlers/subscription.go`, `src/models/subscription.go`
-- **call:** `subscription-service`
-- **forbid:** `src/auth/*`, database migrations`
-
-## Acceptance Criteria
-- [ ] Endpoint: `GET /api/v1/subscription/status`
-- [ ] Requires authentication
-- [ ] Response includes: status, renewal_date, plan_name
-- [ ] Response excludes: internal_id, billing_provider_id
-- [ ] Returns 404 if subscription not found`
-
-# Execution Steps
-
-### Step 1: Define the response model
-Create a model that only includes the allowed fields.
-
-#### 1.1: Create UserProfile struct
-Add a new struct in the models package that excludes sensitive fields.
-
-- Create `UserProfile` struct in `src/models/user.go`
-- Include only `display_name` and `avatar_url` fields
-- Add JSON tags for serialization
-
-### Step 2: Implement the handler
-Create the HTTP handler that fetches and returns profile data.
-
-#### 2.1: Create GetProfile handler
-Add a handler function that retrieves user data and returns the public profile.
-
-- Create `GetProfile` function in `src/handlers/profile.go`
-- Parse user ID from URL path
-- Call `user-service` to fetch user data
-
-#### 2.2: Map to response model
-Convert the internal user object to the public profile response.
-
-- Map user fields to `UserProfile` struct
-- Ensure `email` and `internal_id` are not included
-
-```
-
-Specs are created with AI assistance, reviewed by humans, and locked once approved. Any changes to the spec require a re-review.
-
-→ Tutorial: Your first spec
-
-→ Reference: Spec format
-
-#### Verification
-
-When you push code, Verify checks it against the approved spec:
-
-1. **Scope check** — Did you only modify declared files?
-2. **Criteria check** — Does the implementation satisfy each requirement?
-3. **Invariants check** — Does it follow organization-wide rules?
-
-Results appear as a GitHub PR check. Pass means you're clear to merge. Fail shows exactly what went wrong and where.
-
-→ Explanation: How verification works
-
-→ Reference: Verification results
-
-#### Verification layers
-
-Verify checks against multiple layers of requirements:
-
-| Layer                   | Scope            | Purpose                         |
-| ----------------------- | ---------------- | ------------------------------- |
-| **Org Invariants**      | All changes      | Security, standards, compliance |
-| **Domain Contracts**    | Specific modules | Module-specific rules           |
-| **Acceptance Criteria** | Single spec      | Task-specific requirements      |
-
-Org invariants apply automatically—you don't need to add "requires authentication" to every spec. Define it once, enforce everywhere.
-
-→ [Tutorial: Setting up org invariants](setting-up-org-invariants.md)
-
-→ [Explanation: Verification layers](./#verification-layers)
-
-#### Audit trails
-
-Every action creates an immutable record:
-
-* Spec created, by whom, when
-* Spec approved, by whom, when
-* Verification run, results, what was checked
-* Links to commits, PRs, tickets
-
-This provides complete traceability for compliance. If an auditor asks "why was this change made?", you can show the approved spec, who authorized it, and proof the implementation matched.
-
-→ Explanation: Audit trails and compliance
-
-→ How-to: Export audit logs
+| Concept                                                                | What it is                                                                              |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [Intent and acceptance criteria](reference/spec-format.md)             | What the agent submits — what the change is for, and the verifiable assertions it must satisfy. |
+| [Invariants](concepts/invariants.md)                                   | Team-defined rules applied to every matching change. Security baseline, data access, conventions. |
+| [Previews](concepts/previews.md)                                       | Ephemeral environments scenarios run against. Per-run, torn down after.                 |
+| [Verification layers](concepts/verification-layers.md)                 | How criteria, invariants, and domain contracts stack.                                   |
+| [Audit and compliance](concepts/audit-trails-and-compliance.md)        | Immutable trail of every step — submission, verdicts, evidence, decisions.              |
 
 ### Getting started
 
-The fastest way to understand Verify is to use it:
-
-1. [Tutorial: Your first spec](your-first-spec.md) - Create a spec, get it approved, see verification in action (15 min)
-2. [How-to: Connect a repository](how-to-guides/connect-a-repository.md) - Set up GitHub integration
-3. [How-to: Configure branch protection](how-to-guides/configuring-branch-protection.md) - Require verification before merge
+1. [Your first verification](your-first-spec.md) — a 15-minute hands-on. Install the MCP, ship a small change, watch verification run.
+2. [Connect a repository](how-to-guides/connect-a-repository.md) — wire up GitHub.
+3. [Creating a preview](how-to-guides/creating-a-preview.md) — give scenarios something to run against.
+4. [Setting up org invariants](setting-up-org-invariants.md) — codify the rules every change must respect.
 
 ### Quick links
 
-* New to Verify? Start with [Your first spec](your-first-spec.md)
-* Setting up? See [Connect a repository](how-to-guides/connect-a-repository.md)
-* Verification failed? Check [Fix verification failures](how-to-guides/fixing-verification-failures.md)
-* Need compliance info? Read [Audit trails and compliance](concepts/audit-trails-and-compliance.md)
+* **Writing for the agent:** [SKILL.md guide](how-to-guides/writing-a-skill-md.md) · [Effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
+* **Configuration:** [Preview YAML](reference/preview-yaml.md) · [Spec format](reference/spec-format.md)
+* **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
+* **When things go wrong:** [Fixing verification failures](how-to-guides/fixing-verification-failures.md)

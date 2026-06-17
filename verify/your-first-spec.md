@@ -1,268 +1,120 @@
-# Your first spec
+# Your first verification
 
-In this tutorial, you’ll create a spec, get it approved, implement code against it, and see verification in action. By the end, you’ll understand the complete Verify workflow.
+In this tutorial, you'll ship a small change end to end through Verify: implement it with your agent, submit the intent through the Aviator MCP, watch verification run, and read the review document.
 
-**Time:** 15 minutes
+By the end, you'll have a working loop and a sense of where each piece fits.
+
+**Time:** ~15 minutes
 
 **Prerequisites:**
 
-* An Aviator account with a connected GitHub repository
-* Write access to the repository
+* An Aviator org with a connected GitHub repo — see [Connect a repository](how-to-guides/connect-a-repository.md)
+* A coding agent that supports MCP — Claude Code, Cursor, or another MCP-compatible client
+* Write access to the repo
+* A preview configured for the repo — see [Creating a preview](how-to-guides/creating-a-preview.md). For a first run, a minimal one is fine.
 
-### What you’ll do
+### Step 1: Install the Aviator MCP in your agent
 
-1. Create a spec for a simple code change
-2. Submit it for review and approve it
-3. Implement the change
-4. See verification pass (or fail)
+The MCP is how the agent talks to Aviator. Install it once per agent.
 
-### Step 1: Open the spec editor
+1. In the Aviator UI, go to **Settings → Integrations → MCP** and copy your install snippet (it includes a scoped token).
+2. Paste it into your agent's MCP config:
+   * **Claude Code:** `~/.claude/mcp_servers.json`
+   * **Cursor:** Cursor → Settings → MCP → Add server
+   * Other clients: see your client's MCP documentation.
+3. Restart the agent. You should see `aviator` listed in the available MCP tools.
 
-Go to **Verify → Specs** in your Aviator dashboard and click **New Spec**.
+A successful install gives your agent access to one tool: `submit-spec`. That's the only one you need today.
 
-You’ll see a split view:
+### Step 2: Pick a small change
 
-* Left: The spec editor
-* Right: AI assistant chat
+For the tutorial, pick something small and concrete. Examples that work well for a first run:
 
-Select your repository from the dropdown if you have multiple connected.
+* Add a `GET /health` endpoint that returns `{"status": "ok"}` with a 200.
+* Add a `/version` endpoint that returns the current commit SHA.
+* Add a feature flag check to an existing endpoint.
 
-### Step 2: Describe what you want to build
+Keep the scope to one or two files. You're learning the loop, not stress-testing the verifier.
 
-In the chat panel, describe your change in plain language:
+### Step 3: Implement the change
 
-```
-Add a health check endpoint at /health that returns {"status": "ok"}
-with a 200 response. It should not require authentication.
-```
+Open your agent in the repo. Describe the change normally:
 
-Click **Generate Spec**. The AI analyzes your description and generates a structured spec.
+> Add a `GET /health` endpoint to the API. It should return `{"status": "ok"}` with a 200 response and not require authentication.
 
-### Step 3: Review the generated spec
+Let the agent implement it. Iterate until you're aligned on the details — same flow you use today. Don't worry about Verify yet.
 
-You should see something like this in the editor:
+When you're happy with the change, tell the agent it's ready.
 
-```markdown
-# Add health check endpoint
+### Step 4: Submit the intent
 
-## Intent
-Public health check endpoint for load balancer and monitoring
-integration. Returns service status without requiring authentication.
+Tell the agent to submit the intent:
 
-## Scope
--**modify:** `src/handlers/health.go`, `src/routes.go`
--**forbid:** authentication logic, database queries
+> Submit this to Aviator Verify.
 
-## Acceptance Criteria
--[ ] Endpoint: `GET /health`
--[ ] Returns HTTP 200
--[ ] Response body: `{"status": "ok"}`
--[ ] Does not require authentication
--[ ] Response time under 50ms
+The agent calls `submit-spec` through the MCP. The tool captures:
 
-# Execution Steps
+* **Intent** — what the change is for, in plain language.
+* **Acceptance criteria** — the verifiable assertions, generated from what was built.
 
-### Step 1: Define the response model
-Create a model that only includes the allowed fields.
+The MCP returns a review URL like `https://app.aviator.co/r/218/review`. The agent will print it.
 
-#### 1.1: Create UserProfile struct
-Add a new struct in the models package that excludes sensitive fields.
+Open the URL in your browser. You'll land on the review document — three regions: intent at the top, evidence in the middle, decisions at the bottom. Right now it shows "Verifying…" while the run executes.
 
-- Create `UserProfile` struct in `src/models/user.go`
-- Include only `display_name` and `avatar_url` fields
-- Add JSON tags for serialization
+### Step 5: Watch verification run
 
-### Step 2: Implement the handler
-Create the HTTP handler that fetches and returns profile data.
+The review document updates as the verification pipeline progresses. The phases:
 
-#### 2.1: Create GetProfile handler
-Add a handler function that retrieves user data and returns the public profile.
+1. **Preview is built and booted.** Your image is pulled, secrets injected, setup script runs. Logged inline.
+2. **Criteria run in parallel.** Each acceptance criterion is routed to a verifier (code-scan, scenario, invariant, or LLM fallback) and produces a verdict + evidence.
+3. **Invariants are checked.** Any org or repo invariants matching the change run alongside.
 
-- Create `GetProfile` function in `src/handlers/profile.go`
-- Parse user ID from URL path
-- Call `user-service` to fetch user data
+For a small change, the whole run completes in 30–90 seconds.
 
-#### 2.2: Map to response model
-Convert the internal user object to the public profile response.
+### Step 6: Read the review document
 
-- Map user fields to `UserProfile` struct
-- Ensure `email` and `internal_id` are not included
-```
+When the run finishes, each criterion shows:
 
-Review each section:
+* **Verdict** — pass, fail, or waived.
+* **Verifier** — which method ran it (Scenario, Code-scan, Invariant, LLM).
+* **Evidence** — the diff snippet, scenario output, or matched rule that backs the verdict.
 
-**Intent** — Does this capture what you’re trying to do?
+For the health endpoint, you should see something like:
 
-**Scope** — Are the files correct for your codebase? You might need to adjust the paths.
+| Criterion                            | Verifier  | Verdict |
+| ------------------------------------ | --------- | ------- |
+| Endpoint `GET /health` exists        | Code-scan | ✓ Pass  |
+| Returns 200                          | Scenario  | ✓ Pass  |
+| Response body is `{"status": "ok"}`  | Scenario  | ✓ Pass  |
+| Does not require authentication      | Scenario  | ✓ Pass  |
 
-**Acceptance Criteria** — Are these the right requirements?
+Click any verdict to see the evidence. For scenarios, the evidence is the actual request + response from the preview.
 
-### Step 4: Adjust the spec
+If something failed, the verdict is annotated with the file and line that caused it. Push a fix and Verify will re-run automatically — no new submission needed.
 
-Let’s say your routes file is actually named `router.go`. Tell the assistant:
+### Step 7: Approve (or send back)
 
-```
-The routes file is src/router.go, not src/routes.go
-```
+From the review document you can:
 
-The spec updates. You can also edit the markdown directly in the left panel.
+* **Approve** — sign off and continue your normal merge flow.
+* **Waive with reason** — accept a failed criterion explicitly (recorded in the audit trail).
+* **Request another scenario** — ask the agent to test a specific case before you decide.
+* **Open the preview** — poke at the running code yourself before approving.
 
-### Step 5: Submit for review
+Approve to close the loop. The audit trail now has a complete record: intent submitted, verdicts per criterion with evidence, your decision.
 
-When the spec looks right, click **Submit for Review**.
+### What you just learned
 
-Select yourself as the reviewer (for this tutorial). In a real workflow, you’d select a teammate.
-
-Add an optional note: “Tutorial spec - please approve”
-
-Click **Submit**.
-
-### Step 6: Approve the spec
-
-Go to **Verify → Reviews**. You’ll see your pending spec.
-
-Click to open it. As a reviewer, you’re checking:
-
-* Does the intent make sense?
-* Is the scope appropriate?
-* Are the acceptance criteria complete and verifiable?
-
-For this tutorial, everything looks good. Click **Approve**.
-
-The spec status changes to **Approved**. It’s now locked and ready for implementation.
-
-### Step 7: View the approved spec
-
-Go back to **Verify → Specs** and open your spec. You’ll see:
-
-* Status: Approved
-* Who approved it and when
-* **Copy Spec** and **Download Spec** buttons
-
-Click **Copy Spec** to copy the markdown to your clipboard.
-
-### Step 8: Implement the code
-
-Now implement the endpoint. You can:
-
-* Paste the spec into an AI coding tool (Cursor, Copilot, etc.)
-* Implement it manually
-
-Here’s a simple Go implementation:
-
-```go
-// src/handlers/health.go
-package handlers
-
-import (
-    "encoding/json"
-    "net/http"
-)
-
-func HealthCheck(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusOK)
-    json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
-}
-```
-
-```go
-// In src/router.go, add:
-router.HandleFunc("/health", handlers.HealthCheck).Methods("GET")
-```
-
-Commit your changes and push to a branch:
-
-```bash
-git checkout -b add-health-endpoint
-git add .
-git commit -m "Add health check endpoint"
-git push origin add-health-endpoint
-```
-
-### Step 9: Create a pull request
-
-Open a PR for your branch on GitHub.
-
-If you haven’t linked the spec to this PR, comment on the PR:
-
-```
-/aviator link <spec-id>
-```
-
-(You can find the spec ID in the URL when viewing the spec)
-
-### Step 10: Watch verification run
-
-After linking (or if auto-link is configured), verification starts automatically.
-
-You’ll see a GitHub check:
-
-```
-◐ Aviator Verify — Running...
-```
-
-Wait for it to complete (usually under a minute for small changes).
-
-### Step 11: Check the results
-
-If everything is correct, you’ll see:
-
-```
-✓ Aviator Verify — All checks passed
-  5/5 criteria passed
-```
-
-Click **Details** to see the full report:
-
-```
-✓ Scope: PASSED
-  Modified files match declared scope
-
-✓ Acceptance Criteria: PASSED (5/5)
-  ✓ Endpoint: GET /health
-  ✓ Returns HTTP 200
-  ✓ Response body: {"status": "ok"}
-  ✓ Does not require authentication
-  ✓ Response time under 50ms
-
-Audit ID: aud_abc123
-```
-
-Your PR is now clear to merge.
-
-### What if verification fails?
-
-Let’s say you accidentally included an auth check. Verification might show:
-
-```
-✗ Acceptance Criteria: FAILED (4/5)
-  ✓ Endpoint: GET /health
-  ✓ Returns HTTP 200
-  ✓ Response body: {"status": "ok"}
-  ✗ Does not require authentication
-  ✓ Response time under 50ms
-
-  Failure: Handler calls AuthMiddleware
-  Location: src/router.go:15
-```
-
-To fix it:
-
-1. Remove the auth middleware from this route
-2. Push the fix
-3. Verification runs again automatically
-
-### What you learned
-
-* Specs have three sections: Intent, Scope, and Acceptance Criteria
-* The AI assistant helps generate and refine specs
-* Specs must be approved before implementation
-* Verification checks code against the approved spec
-* Results show exactly what passed or failed
+* Verify runs *after* you build, not before. There's no separate "approve the spec first" step.
+* The MCP is the only handoff between you and Aviator. One tool call carries everything.
+* Acceptance criteria come from what was built, not what you planned upfront.
+* The review document is the surface — verdicts and evidence per criterion, not a 500-line diff.
+* Reviewer decisions, scenario evidence, and verdicts are all recorded as one immutable audit trail per change.
 
 ### Next steps
 
-* [Setting up org invariants](setting-up-org-invariants.md) - Add organization-wide rules
-* [How-to write effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md) - Improve your specs
-* [How verification works](concepts/how-verification-works.md) - Understand what happens during verification
+* [How Verify works](how-it-works.md) — the full picture
+* [Concepts: Previews](concepts/previews.md) — what scenarios actually run against
+* [Concepts: Invariants](concepts/invariants.md) — encode team rules so they apply automatically
+* [Writing a SKILL.md](how-to-guides/writing-a-skill-md.md) — give the scenario runner the context it needs
+* [Fixing verification failures](how-to-guides/fixing-verification-failures.md) — what to do when a verdict goes red
