@@ -12,9 +12,9 @@ Aviator is a suite of building blocks for that *everything-after*: capturing int
 
 ## Getting started — free tools
 
-Three entry points. Adopt them in isolation; combine when you're ready.
+Two entry points. Adopt them in isolation; combine when you're ready.
 
-<table data-card-size="large" data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4>Inbox</h4></td><td>One feed for every change that needs your attention — across every repo. Stops the polling-Slack-and-GitHub-notifications habit and replaces it with a single ranked queue.</td><td></td><td><a href="inbox/">inbox</a></td></tr><tr><td><h4>Stacked PRs CLI</h4></td><td>An open-source CLI for managing stacked PRs natively in GitHub. Smaller, focused reviews; cleaner history; no extra hosting.</td><td></td><td><a href="aviator-cli/">aviator-cli</a></td></tr><tr><td><h4>Team Reviews</h4></td><td>Team-level config for review assignment, with response-time SLOs and automated escalations. The first place to start when review latency is your bottleneck.</td><td></td><td><a href="flexreview/">flexreview</a></td></tr></tbody></table>
+<table data-card-size="large" data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4>Inbox</h4></td><td>One feed for every change that needs your attention — across every repo. Stops the polling-Slack-and-GitHub-notifications habit and replaces it with a single ranked queue.</td><td></td><td><a href="inbox/">inbox</a></td></tr><tr><td><h4>Stacked PRs CLI</h4></td><td>An open-source CLI for managing stacked PRs natively in GitHub. Smaller, focused reviews; cleaner history; no extra hosting.</td><td></td><td><a href="aviator-cli/">aviator-cli</a></td></tr></tbody></table>
 
 ## Power tools
 
