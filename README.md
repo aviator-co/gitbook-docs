@@ -1,19 +1,23 @@
 ---
-description: >-
-  Learn how to use the Aviator's developer collaboration suite to manage build,
-  test, and merge deploy processes.
+description: Building blocks for shipping AI-generated code quickly and reliably.
 ---
 
 # Introduction
 
 ![](.gitbook/assets/A_Illustration.svg)
 
-Aviator is a fast, customizable workflow automation tool for developers to manage their build, test, merge and deploy processes. Aviator’s scalable framework helps teams avoid broken builds and unreliable tests, and improve code review process using smart heuristics.
+AI writes code faster than teams can review, merge, and release it. The bottleneck moved — from typing the change to everything that happens after.
 
-There are 4 key components of Aviator:
+Aviator is a suite of building blocks for that *everything-after*: capturing intent, verifying behavior, queuing safe merges, coordinating releases, and routing reviewer attention to where it matters. Some pieces are open and free, designed to drop in beside what you already use. The rest are the power tools we build for teams pushing thousands of PRs a day.
 
-<table data-card-size="large" data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4>MergeQueue</h4></td><td>An automated queue to manage the merging workflow for your GitHub pull requests to help protect important branches from broken builds. Built for scale, Aviator’s merge queue is highly customizable. It can merge over 10,000 changes in a day.</td><td></td><td><a href="mergequeue/">mergequeue</a></td></tr><tr><td><h4>FlexReview</h4></td><td>Introduce flexibility to your code review process by understanding the nuances of every code change and every reviewer. Instead of defining a static <code>CODEOWNERS</code> file, it analyses the history of code review patterns to suggest reviewers.<br>Additionally teams can set response time SLOs and configure automated actions.</td><td></td><td></td></tr><tr><td><h4>Stacked PRs CLI</h4></td><td>A command line tool that helps developers manage cross-PR dependencies. This tool also automates syncing and merging of stacked PRs. Useful when your team wants to promote a culture of smaller, incremental PRs instead of large changes, or when your workflows involve keeping multiple, dependent PRs in sync.</td><td></td><td><a href="aviator-cli/">aviator-cli</a></td></tr><tr><td><h4>Releases</h4></td><td>A unified dashboard to manage releasing all services across all environments.</td><td>Eliminate human errors with automated deployments, cherry-picks, rollbacks and scheduled runs.</td><td><a href="releases-beta/">releases-beta</a></td></tr></tbody></table>
+## Getting started — free tools
 
-## How Aviator works
+Three entry points. Adopt them in isolation; combine when you're ready.
 
-Aviator connects as a GitHub app that can be installed on any repository. The CLI can be installed using HomeBrew and configured using your GitHub personal access token. Aviator also has a Chrome Extension that gives live status updates within the GitHub UI.
+<table data-card-size="large" data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4>Inbox</h4></td><td>One feed for every change that needs your attention — across every repo. Stops the polling-Slack-and-GitHub-notifications habit and replaces it with a single ranked queue.</td><td></td><td><a href="inbox/">inbox</a></td></tr><tr><td><h4>Stacked PRs CLI</h4></td><td>An open-source CLI for managing stacked PRs natively in GitHub. Smaller, focused reviews; cleaner history; no extra hosting.</td><td></td><td><a href="aviator-cli/">aviator-cli</a></td></tr><tr><td><h4>Team Reviews</h4></td><td>Team-level config for review assignment, with response-time SLOs and automated escalations. The first place to start when review latency is your bottleneck.</td><td></td><td><a href="flexreview/">flexreview</a></td></tr></tbody></table>
+
+## Power tools
+
+Four products that compound on each other once you're shipping at scale.
+
+<table data-card-size="large" data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4>Verify</h4></td><td>Capture the intent for every change and verify the running code against it before merge. Deterministic guardrails for AI-generated code — catches the slop that diff review misses.</td><td></td><td><a href="verify/">verify</a></td></tr><tr><td><h4>MergeQueue</h4></td><td>The most popular and most scalable merge queue in the industry. In production at Figma, DoorDash, Notion, Meta, and others — tens of thousands of PRs through the queue every day.</td><td></td><td><a href="mergequeue/">mergequeue</a></td></tr><tr><td><h4>Releases</h4></td><td>One dashboard for deployments, rollbacks, and cherry-picks across every environment. Replaces the spreadsheet-and-Slack release ritual with a single source of truth.</td><td></td><td><a href="releases-beta/">releases-beta</a></td></tr><tr><td><h4>Runbooks</h4></td><td>Multiplayer AI coding with standardized playbooks. Your team's repeatable work — refactors, migrations, upgrades — turned into agentic runbooks anyone can launch.</td><td></td><td><a href="runbooks/">runbooks</a></td></tr></tbody></table>
