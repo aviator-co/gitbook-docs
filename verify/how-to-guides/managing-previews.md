@@ -21,14 +21,12 @@ A preview that takes 90 seconds to boot is a preview people stop trusting. If yo
 
 ### Keeping the image fresh
 
-`image` references a tag, and Verify pulls that tag every run. The rollout point is wherever your CI pushes — there's nothing for Verify to refresh manually.
+`image` references an image you've uploaded to Aviator. The freshness of the preview tracks whenever you upload a new version — there's no automatic pull.
 
 Two patterns work well:
 
-* **Tag per branch or per merge.** CI pushes `registry.io/api:edge` on every merge to `main`. Verify always pulls the latest version of `main`. Simple, fast, recommended for most teams.
-* **Tag per release.** CI pushes `registry.io/api:v1.42.0` on release. The preview pins to a specific release tag. Use this if you need verification runs to reproduce months later for compliance — the image used at verification time stays available.
-
-Avoid `:latest`. It's ambiguous about *which* latest, breaks under registry caching, and makes audit trails harder to reconstruct.
+* **Re-upload on every merge.** Wire your CI to push a new image to Aviator under the same name (e.g. `api-preview`) after every merge to `main`. Verify uses the latest upload. Simple, recommended for most teams.
+* **Upload a versioned name per release.** For changes that need to be reproducible months later for compliance, push `api-preview-v1.42.0` on release and reference that name from `verify.yaml` on the long-lived branch. The exact image used at verification time stays available.
 
 ### Multi-preview repos
 

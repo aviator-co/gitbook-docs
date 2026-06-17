@@ -37,7 +37,7 @@
 
   <text class="mono" x="60" y="128">preview:</text>
   <text class="mono" x="60" y="148">  - name: default</text>
-  <text class="mono" x="60" y="168">    image: registry.io/api:edge</text>
+  <text class="mono" x="60" y="168">    image: api-preview</text>
   <text class="mono" x="60" y="188">    port: 8000</text>
   <text class="key"  x="60" y="208">    skills_dir:</text>
   <text class="val"  x="190" y="208">.aviator/skills</text>

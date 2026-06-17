@@ -13,7 +13,7 @@ Each preview definition in `aviator/verify.yaml` can declare a `skills_dir`. Eve
 ```yaml
 preview:
   - name: default
-    image: registry.io/api:edge
+    image: api-preview
     port: 8000
     skills_dir: .aviator/skills
     secrets:

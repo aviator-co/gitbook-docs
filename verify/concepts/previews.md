@@ -20,11 +20,11 @@ Every verification run starts fresh. That's deliberate — a preview that carrie
 
 ### Composition
 
-A preview is composed of inputs from three places: your container registry, your secret store, and your repo.
+A preview is composed of inputs from three places: an image uploaded to Aviator, your secret store, and your repo.
 
 <figure><img src="../../.gitbook/assets/verify-preview-anatomy.svg" alt="Preview anatomy: inputs, the preview container, and what consumes it"><figcaption><p>Where each piece of a preview comes from, and what uses it</p></figcaption></figure>
 
-* **Image** — pulled from your container registry. Public registries work as-is; private registries pull through credentials stored in your Aviator secret store.
+* **Image** — an image you've uploaded to Aviator. Pulling from your own container registry is planned; see [Preview YAML reference — Image source](../reference/preview-yaml.md#image-source).
 * **Secrets** — runtime secrets (DB passwords, API keys) are referenced by name from the secret store and injected as environment variables when the container boots.
 * **Setup script** — optional. Runs after the container starts and before the port is marked ready. Used for migrations, seeding, warm-up.
 * **Skills directory** — optional. Tells the scenario runner about the preview — base URL, test users, fixture references. See [Writing a SKILL.md](../how-to-guides/writing-a-skill-md.md).

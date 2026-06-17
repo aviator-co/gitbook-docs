@@ -1,6 +1,6 @@
 # Creating a preview
 
-This guide walks through adding a preview to a repo end-to-end: declaring it in `aviator/verify.yaml`, wiring up image-pull credentials, injecting runtime secrets, and confirming it boots.
+This guide walks through adding a preview to a repo end-to-end: uploading an image to Aviator, injecting runtime secrets, declaring the preview in `aviator/verify.yaml`, and confirming it boots.
 
 By the end, you'll have a working `default` preview that scenarios can run against.
 
@@ -8,26 +8,25 @@ By the end, you'll have a working `default` preview that scenarios can run again
 
 **Prerequisites:**
 
-* Admin access to your Aviator org (for managing secrets)
-* A container image of your service in a registry you control
+* Admin access to your Aviator org (for managing secrets and images)
+* A container image of your service
 * The repo connected to Aviator — see [Connect a repository](connect-a-repository.md)
 
 For the concept overview, see [Concepts: Previews](../concepts/previews.md). For the full field list, see [Preview YAML reference](../reference/preview-yaml.md).
 
-### Step 1: Store the registry pull credentials
+### Step 1: Upload the image to Aviator
 
-If your image is in a private registry, Aviator needs credentials to pull it. Store them as a secret first.
+Today, previews boot from images uploaded directly to Aviator (registry-URL support is planned — see [Preview YAML reference — Image source](../reference/preview-yaml.md#image-source)).
 
-1. Open **Settings → Secrets** in the Aviator UI.
-2. Create a new secret. Pick a name that describes the registry, e.g. `GHCR_PULL_TOKEN`.
-3. Paste the registry password or token as the value. For GitHub Container Registry, this is a PAT with `read:packages`.
-4. Grant the secret to the repo that will use it.
+1. Open **Settings → Images** in the Aviator UI.
+2. Upload your image. Give it a short, stable name — e.g. `api-preview`. You'll reference this name from `verify.yaml`.
+3. Grant the image to the repo that will use it.
 
-For a public registry, skip this step.
+If you build images on every merge, automate this step from your CI so the image stays fresh without manual reupload.
 
-### Step 2: Store the runtime secrets
+### Step 2: Store runtime secrets
 
-Anything your service reads from the environment at runtime — DB password, third-party API keys — needs to be a secret too.
+Anything your service reads from the environment at runtime — DB password, third-party API keys — needs to be a secret.
 
 For each runtime secret:
 
@@ -44,8 +43,7 @@ Add a `preview` block to `aviator/verify.yaml` at the root of your repo:
 ```yaml
 preview:
   - name: default
-    image: ghcr.io/acme/api:edge
-    image_pull_secret: GHCR_PULL_TOKEN
+    image: api-preview
     port: 8000
     setup: .aviator/scripts/preview-setup.sh
     secrets:
@@ -55,7 +53,7 @@ preview:
 
 Three things to get right:
 
-* **`image`** — the full registry path plus tag. Use a stable tag like `edge` or `staging`, not `latest`. Verify pulls the tag each time, so the rollout point is wherever your CI pushes.
+* **`image`** — the name you used when uploading. Aviator resolves this to the latest version you've uploaded under that name.
 * **`port`** — the port your service listens on inside the container. This is what the scenario runner connects to.
 * **`secrets`** — every name listed here must exist in the secret store and be granted to this repo, or the boot will fail with a clear error.
 
@@ -112,7 +110,7 @@ If the link works, the preview is fully wired. Reviewers can now open it for ad-
 
 | Symptom                                         | Likely cause                                                                          |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `ImagePullBackOff` / `unauthorized`             | `image_pull_secret` is missing, mistyped, or the secret value is wrong.               |
+| `image not found`                               | The image name in `verify.yaml` doesn't match what's uploaded, or the image isn't granted to this repo. |
 | `MissingSecret: DB_PASSWORD`                    | The secret isn't created or isn't granted to this repo.                               |
 | Container exits 0 immediately                   | The container's CMD ran a one-off command and exited. Add a long-running process.     |
 | Port never opens                                | Your service binds to `localhost` only. Bind to `0.0.0.0` inside the container.       |

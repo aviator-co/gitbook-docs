@@ -12,37 +12,28 @@ The root of all per-repo configuration. Lives at `aviator/verify.yaml` in your r
 
 #### Top-level keys
 
-| Key                      | Type        | Default | Description                                                                  |
-| ------------------------ | ----------- | ------- | ---------------------------------------------------------------------------- |
-| `require_verification`   | boolean     | `false` | If true, every PR to a protected branch must have a verification run.        |
-| `exempt_paths`           | string list | `[]`    | Glob patterns. PRs touching only exempt paths skip verification.             |
-| `block_on_failure`       | boolean     | `true`  | Failed verification blocks merge via the GitHub check.                       |
-| `draft_pr_verification`  | boolean     | `false` | Run verification on draft PRs.                                               |
-| `preview`                | list        | none    | One or more preview definitions. See [Preview YAML](preview-yaml.md).        |
+| Key             | Type        | Default | Description                                                                  |
+| --------------- | ----------- | ------- | ---------------------------------------------------------------------------- |
+| `exempt_paths`  | string list | `[]`    | Glob patterns. PRs touching only exempt paths skip verification.             |
+| `preview`       | list        | none    | One or more preview definitions. See [Preview YAML](preview-yaml.md).        |
 
 Example:
 
 ```yaml
-require_verification: true
 exempt_paths:
   - "docs/**"
   - "*.md"
   - ".github/**"
-block_on_failure: true
-draft_pr_verification: false
 
 preview:
   - name: default
-    image: ghcr.io/acme/api:edge
-    image_pull_secret: GHCR_PULL_TOKEN
+    image: sim-preview-baked-deps
     port: 8000
     setup: .aviator/scripts/preview-setup.sh
     secrets:
       - DB_PASSWORD
       - STRIPE_KEY
 ```
-
-Dashboard-level settings override the file. If both define `block_on_failure`, the dashboard value wins.
 
 #### Exempt path glob syntax
 
@@ -65,22 +56,13 @@ Detailed in its own reference page:
 
 Configure in **Verify → Settings**.
 
-#### Notifications
+#### Preview lifetime
 
-| Setting             | Type    | Default | Description                                                |
-| ------------------- | ------- | ------- | ---------------------------------------------------------- |
-| `slack_channel`     | string  | none    | Default Slack channel for verification failure notifications. |
-| `email_on_failure`  | boolean | `true`  | Email the submission author when verification fails.        |
-| `post_pr_comment`   | boolean | `true`  | Post failure details as a PR comment on GitHub.             |
+| Setting            | Type    | Default | Description                                                          |
+| ------------------ | ------- | ------- | -------------------------------------------------------------------- |
+| `preview_idle_ttl` | integer | `1800`  | Seconds the preview stays alive after the run for reviewer access.   |
 
-#### Timeouts
-
-| Setting                  | Type    | Default | Description                                                  |
-| ------------------------ | ------- | ------- | ------------------------------------------------------------ |
-| `verification_timeout`   | integer | `300`   | Maximum seconds for a verification run before it's failed.   |
-| `preview_idle_ttl`       | integer | `1800`  | Seconds the preview stays alive after the run for reviewer access. |
-
-If verification times out, the run is marked failed with a `timeout` reason. Re-running is safe — the previous run's state doesn't carry forward.
+When the TTL expires, the preview is torn down. Reviewers can extend a preview manually from the review document — see [Managing previews](../how-to-guides/managing-previews.md).
 
 ### Invariants
 
