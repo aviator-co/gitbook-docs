@@ -95,40 +95,6 @@ The MCP install and tool surface are on a dedicated reference page:
 
 → [MCP tools](mcp-tools.md)
 
-### API
-
-#### Authentication
-
-```bash
-export AVIATOR_API_KEY="av_live_..."
-```
-
-Generate keys in **Settings → API Keys**. API keys are distinct from MCP tokens — keys authenticate programmatic access; MCP tokens authenticate agent submissions.
-
-#### Base URL
-
-```
-https://api.aviator.co/v1/verify
-```
-
-#### Rate limits
-
-| Tier       | Requests/hour |
-| ---------- | ------------- |
-| Free       | 100           |
-| Team       | 1,000         |
-| Enterprise | 10,000        |
-
-### Environment variables
-
-For CI/CD integration:
-
-| Variable                  | Description                                              |
-| ------------------------- | -------------------------------------------------------- |
-| `AVIATOR_API_KEY`         | API key for programmatic access.                         |
-| `AVIATOR_ORG`             | Organization slug. Used by CLI and CI integrations.      |
-| `AVIATOR_VERIFY_ENABLED`  | Set to `false` to disable Verify in a specific CI job.   |
-
 ### See also
 
 * [Preview YAML reference](preview-yaml.md)
