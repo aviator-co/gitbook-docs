@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 300" role="img" aria-labelledby="title desc">
+  <title id="title">Preview lifecycle: define, build, boot, use, teardown</title>
+  <desc id="desc">A preview moves through five phases. It is defined in verify.yaml, built by loading the image with injected secrets, booted with a setup script, used by scenarios and reviewers, and then torn down.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a3a3a3"/>
+    </marker>
+    <style>
+      .surface { fill: #0f0f15; }
+      .card    { fill: #16161c; stroke: #2c2c35; stroke-width: 1; }
+      .num     { font: 700 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #ffd000; letter-spacing: 0.1em; }
+      .ttl     { font: 600 16px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #fafafa; }
+      .sub     { font: 400 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #a3a3a3; }
+      .cap     { font: 500 11px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #75757f; }
+      .rail    { stroke: #6a6a76; stroke-width: 1.5; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Outer surface -->
+  <rect class="surface" x="0" y="0" width="1140" height="300" rx="16"/>
+
+  <!-- Card 01 Define -->
+  <rect class="card" x="30" y="50" width="180" height="180" rx="12"/>
+  <text class="num" x="50" y="80">01</text>
+  <text class="ttl" x="50" y="113">Define</text>
+  <text class="sub" x="50" y="148">A preview block in</text>
+  <text class="sub" x="50" y="166">aviator/verify.yaml</text>
+
+  <line class="rail" x1="215" y1="140" x2="245" y2="140" marker-end="url(#arrow)"/>
+
+  <!-- Card 02 Build -->
+  <rect class="card" x="250" y="50" width="180" height="180" rx="12"/>
+  <text class="num" x="270" y="80">02</text>
+  <text class="ttl" x="270" y="113">Build</text>
+  <text class="sub" x="270" y="148">Load the image,</text>
+  <text class="sub" x="270" y="166">inject secrets</text>
+
+  <line class="rail" x1="435" y1="140" x2="465" y2="140" marker-end="url(#arrow)"/>
+
+  <!-- Card 03 Boot -->
+  <rect class="card" x="470" y="50" width="180" height="180" rx="12"/>
+  <text class="num" x="490" y="80">03</text>
+  <text class="ttl" x="490" y="113">Boot</text>
+  <text class="sub" x="490" y="148">Run setup script,</text>
+  <text class="sub" x="490" y="166">expose the port</text>
+
+  <line class="rail" x1="655" y1="140" x2="685" y2="140" marker-end="url(#arrow)"/>
+
+  <!-- Card 04 Use (accent) -->
+  <rect x="690" y="50" width="180" height="180" rx="12" fill="#ffd000" fill-opacity="0.07" stroke="#ffd000" stroke-opacity="0.32" stroke-width="1"/>
+  <text class="num" x="710" y="80">04</text>
+  <text class="ttl" x="710" y="113">Use</text>
+  <text class="sub" x="710" y="148">Scenarios run, reviewer</text>
+  <text class="sub" x="710" y="166">opens it from the UI</text>
+
+  <line class="rail" x1="875" y1="140" x2="905" y2="140" marker-end="url(#arrow)"/>
+
+  <!-- Card 05 Teardown -->
+  <rect class="card" x="910" y="50" width="180" height="180" rx="12"/>
+  <text class="num" x="930" y="80">05</text>
+  <text class="ttl" x="930" y="113">Teardown</text>
+  <text class="sub" x="930" y="148">Container destroyed</text>
+  <text class="sub" x="930" y="166">after the run</text>
+
+  <!-- Captions -->
+  <text class="cap" x="120" y="263" text-anchor="middle">Repo</text>
+  <text class="cap" x="340" y="263" text-anchor="middle">Aviator image + secret store</text>
+  <text class="cap" x="560" y="263" text-anchor="middle">Container starts</text>
+  <text class="cap" x="780" y="263" text-anchor="middle">Per-run, ephemeral</text>
+  <text class="cap" x="1000" y="263" text-anchor="middle">No state persists</text>
+</svg>

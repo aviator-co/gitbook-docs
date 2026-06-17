@@ -1,162 +1,85 @@
 ---
-description: All configuration options for Verify.
+description: Configuration surface for Verify — per-repo verify.yaml and org-level settings.
 ---
 
 # Configuration reference
 
-### Repository settings
+This page is the umbrella reference for Verify configuration. Per-concept references live on their own pages and are linked from here.
 
-Configure in **Verify → Repositories → \[repo] → Settings** or via `.aviator/verify.yaml`.
+### Per-repo: `aviator/verify.yaml`
 
-| Setting                 | Type      | Default | Description                         |
-| ----------------------- | --------- | ------- | ----------------------------------- |
-| `require_specs`         | boolean   | `false` | PRs must have a linked spec         |
-| `exempt_paths`          | string\[] | `[]`    | File patterns that don’t need specs |
-| `auto_link_specs`       | boolean   | `true`  | Auto-link specs based on branch/PR  |
-| `block_on_failure`      | boolean   | `true`  | Failed verification blocks merge    |
-| `draft_pr_verification` | boolean   | `false` | Run verification on draft PRs       |
+The root of all per-repo configuration. Lives at `aviator/verify.yaml` in your repo's default branch.
 
-#### Configuration file
+#### Top-level keys
 
-Create `.aviator/verify.yaml` in your repository’s default branch:
+| Key             | Type        | Default | Description                                                                  |
+| --------------- | ----------- | ------- | ---------------------------------------------------------------------------- |
+| `exempt_paths`  | string list | `[]`    | Glob patterns. PRs touching only exempt paths skip verification.             |
+| `preview`       | list        | none    | One or more preview definitions. See [Preview YAML](preview-yaml.md).        |
+
+Example:
 
 ```yaml
-require_specs:true
 exempt_paths:
--"docs/**"
--"*.md"
--".github/**"
--"**/*.test.ts"
-auto_link_specs:true
-block_on_failure:true
-draft_pr_verification:false
+  - "docs/**"
+  - "*.md"
+  - ".github/**"
+
+preview:
+  - name: default
+    image: sim-preview-baked-deps
+    port: 8000
+    setup: .aviator/scripts/preview-setup.sh
+    secrets:
+      - DB_PASSWORD
+      - STRIPE_KEY
 ```
 
-Dashboard settings override the config file.
+#### Exempt path glob syntax
 
-#### Exempt paths
+| Pattern      | Matches                                  |
+| ------------ | ---------------------------------------- |
+| `docs/**`    | Any file under the `docs/` directory     |
+| `*.md`       | Markdown files in the repo root          |
+| `**/*.md`    | Markdown files anywhere in the repo      |
+| `.github/**` | Files under `.github/`                   |
 
-Patterns use glob syntax:
+A PR that modifies *only* exempt-path files skips verification entirely. A PR that modifies any non-exempt file runs the full pipeline.
 
-| Pattern      | Matches                    |
-| ------------ | -------------------------- |
-| `docs/**`    | Anything in docs directory |
-| `*.md`       | Markdown files in root     |
-| `**/*.md`    | Markdown files anywhere    |
-| `.github/**` | GitHub config files        |
+### Per-repo: preview block
 
-PRs that only modify exempt paths don’t require specs.
+Detailed in its own reference page:
 
-### Organization settings
+→ [Preview YAML reference](preview-yaml.md)
+
+### Org-level settings
 
 Configure in **Verify → Settings**.
 
-#### General
+#### Preview lifetime
 
-| Setting                 | Type    | Default | Description                         |
-| ----------------------- | ------- | ------- | ----------------------------------- |
-| `default_require_specs` | boolean | `false` | Default for new repositories        |
-| `allow_self_approval`   | boolean | `false` | Authors can approve their own specs |
-| `approval_count`        | integer | `1`     | Required approvals per spec         |
+| Setting            | Type    | Default | Description                                                          |
+| ------------------ | ------- | ------- | -------------------------------------------------------------------- |
+| `preview_idle_ttl` | integer | `1800`  | Seconds the preview stays alive after the run for reviewer access.   |
 
-#### Notifications
+When the TTL expires, the preview is torn down. Reviewers can extend a preview manually from the review document — see [Managing previews](../how-to-guides/managing-previews.md).
 
-| Setting            | Type    | Default | Description                             |
-| ------------------ | ------- | ------- | --------------------------------------- |
-| `slack_channel`    | string  | none    | Default Slack channel for notifications |
-| `email_on_failure` | boolean | `true`  | Email authors on verification failure   |
-| `post_pr_comment`  | boolean | `true`  | Post failure details as PR comment      |
+### Invariants
 
-#### Timeouts
+Invariants have their own configuration surface in **Settings → Invariants**. Field-level reference and writing guidance are on the concept and tutorial pages:
 
-| Setting                 | Type    | Default | Description                           |
-| ----------------------- | ------- | ------- | ------------------------------------- |
-| `verification_timeout`  | integer | `300`   | Max seconds for verification          |
-| `spec_approval_timeout` | integer | `0`     | Hours before spec expires (0 = never) |
+* [Concepts: Invariants](../concepts/invariants.md) — sources, categories, selection
+* [Setting up org invariants](../setting-up-org-invariants.md) — step-by-step setup
 
-### Org invariants
+### MCP
 
-Configure in **Verify → Settings → Org Invariants**.
+The MCP install and tool surface are on a dedicated reference page:
 
-#### Invariant structure
-
-```yaml
-name: security-baseline
-description: Core security requirements
-enabled:true
-applies_to:"**/*"  # or specific paths
-rules:|
-  # Security Baseline
-
-  ## Rules
-  - All HTTP handlers must use AuthMiddleware
-  - No hardcoded credentials
-  - SQL queries must use parameterized statements
-
-  ## Exceptions
-  - Health check endpoints (/health, /ready)
-```
-
-#### Invariant options
-
-| Field         | Type    | Required | Description                       |
-| ------------- | ------- | -------- | --------------------------------- |
-| `name`        | string  | Yes      | Unique identifier                 |
-| `description` | string  | No       | Human-readable description        |
-| `enabled`     | boolean | Yes      | Whether invariant is active       |
-| `applies_to`  | string  | No       | Glob pattern (default: all files) |
-| `rules`       | string  | Yes      | Markdown-formatted rules          |
-
-### Spec settings
-
-#### Spec lifecycle
-
-| State             | Editable | Can verify |
-| ----------------- | -------- | ---------- |
-| Draft             | Yes      | No         |
-| In Review         | No       | No         |
-| Changes Requested | Yes      | No         |
-| Approved          | No       | Yes        |
-
-#### Spec expiration
-
-If `spec_approval_timeout` is set, approved specs expire after that many hours without verification. Expired specs must be re-approved.
-
-### API configuration
-
-#### Authentication
-
-```bash
-export AVIATOR_API_KEY="av_live_..."
-```
-
-Generate keys in **Settings → API Keys**.
-
-#### Base URL
-
-```
-<https://api.aviator.co/v1/verify>
-```
-
-#### Rate limits
-
-| Tier       | Requests/hour |
-| ---------- | ------------- |
-| Free       | 100           |
-| Team       | 1000          |
-| Enterprise | 10000         |
-
-### Environment variables
-
-For CI/CD integration:
-
-| Variable                 | Description                              |
-| ------------------------ | ---------------------------------------- |
-| `AVIATOR_API_KEY`        | API authentication                       |
-| `AVIATOR_ORG`            | Organization slug                        |
-| `AVIATOR_VERIFY_ENABLED` | Enable/disable verification (true/false) |
+→ [MCP tools](mcp-tools.md)
 
 ### See also
 
-* [How to connect a repository](../how-to-guides/connect-a-repository.md)
-* [Tutorial: Setting up org invariants](configuration-reference.md#org-invariants)
+* [Preview YAML reference](preview-yaml.md)
+* [MCP tools](mcp-tools.md)
+* [Spec format](spec-format.md)
+* [Concepts: Invariants](../concepts/invariants.md)

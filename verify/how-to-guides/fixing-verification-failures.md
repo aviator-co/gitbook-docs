@@ -1,157 +1,134 @@
 # Fixing verification failures
 
-When verification fails, you need to either fix your code or update your spec. This guide covers common failures and how to resolve them.
+A failed verification means either your code, your criteria, an invariant, or your preview needs attention. This guide covers the common failure shapes and how to resolve each.
 
-### Understanding the failure
+### Reading the failure
 
-First, read the failure details carefully. Click **Details** on the GitHub check to see:
+Open the review document for the run. Every failed verdict shows:
 
-* Which check failed (scope, criteria, or invariant)
-* The specific reason
-* The file and line number
-* A suggested fix
+* **The criterion text** (or invariant title).
+* **Which verifier path handled it** (Code-scan or Runtime).
+* **Evidence** — the snippet, request/response, screenshot, or other captured artifact that produced the verdict.
+* **A reason** describing why the verdict went the way it did.
+* **A location** — file + line range, when the verifier could attribute one.
 
-### Scope violations
+Most failures fall into one of the patterns below.
 
-#### File not in declared scope
+### Criterion failed on Runtime
 
-```
-❌ Scope: FAILED
-   Modified file not in declared scope: src/auth/middleware.go
-```
-
-**Cause:** You changed a file that isn’t listed in your spec’s `modify` section.
-
-**Options:**
-
-1.  **Remove the changes** if they shouldn’t be part of this change:
-
-    ```bash
-    git checkout origin/main -- src/auth/middleware.go
-    git commit --amend
-    git push -f
-    ```
-2. **Update the spec** if the file change is intentional:
-   * Create a new spec revision that includes this file
-   * Get it approved
-   * Verification will re-run
-
-#### Forbidden file modified
+The most common failure. The runtime runner drove your preview and the assertion didn't hold.
 
 ```
-❌ Scope: FAILED
-   Modified file matches forbidden pattern: src/auth/*
+✗ Returns 429 when rate exceeded
+  Verifier: Runtime
+  Evidence: POST /api/v1/public/users → 200 (expected 429)
 ```
 
-**Cause:** You changed a file explicitly forbidden in the spec.
+**Cause:** the implementation doesn't behave as the criterion asserts.
 
-**Options:**
+**Fix:** make the code do what the criterion says. Push the fix; verification re-runs.
 
-1. Remove the changes to the forbidden file
-2. Reconsider whether this file really needs to change—if so, create a new spec
+If you're confident the code is right and the runtime check is wrong, see *When the failure is the verifier* below.
 
-### Criteria failures
+### Criterion failed on Code-scan
 
-#### Criterion not satisfied
-
-```
-❌ Response excludes: internal_id, billing_provider_id
-   Found: Response includes billing_provider_id
-   Location: src/models/subscription.go:24
-```
-
-**Cause:** Your implementation doesn’t satisfy a requirement.
-
-**Fix:** Change your code to satisfy the criterion. In this case, remove the field from the response:
-
-```go
-// Before
-type SubscriptionStatus struct {
-    Status    string `json:"status"`
-    BillingID string `json:"billing_provider_id"` // Remove this
-    PlanName  string `json:"plan_name"`
-}
-
-// After
-type SubscriptionStatus struct {
-    Status   string `json:"status"`
-    PlanName string `json:"plan_name"`
-}
-```
-
-Push the fix. Verification runs automatically.
-
-#### Criterion ambiguous (false positive)
-
-If you believe your code satisfies the criterion but verification disagrees:
-
-1. **Check the criterion wording.** Is it specific enough? “Requires authentication” might be interpreted differently than “Handler calls AuthMiddleware.”
-2. **Add context to the Intent.** Help verification understand how your implementation works.
-3. **Make the criterion more specific.** Replace vague criteria with concrete ones.
-4. **Report the issue.** Click the feedback button in the verification report if you believe it’s a bug.
-
-### Invariant violations
-
-#### Security invariant failed
+The verifier inspected the diff or AST and the assertion didn't hold.
 
 ```
-❌ Org Invariants: FAILED
-   security-baseline: No hardcoded credentials
-   Found: Possible API key at src/client.go:23
+✗ No new direct dependencies
+  Verifier: Code-scan
+  Evidence: package.json:42 — added "got@^12.0.0"
 ```
 
-**Cause:** Your code violates an organization-wide rule.
+**Cause:** the assertion is structural and the diff violates it.
 
-**Fix:** Address the security issue:
+**Fix:** either remove the offending change or update the criterion if the change is intentional. Edit the criteria via [`editRunbook`](../reference/mcp-tools.md#editrunbook) (for user criteria) or work with the reviewer to waive (for invariant criteria).
 
-```go
-// Before
-const apiKey = "sk_live_abc123..."
+### Invariant violation
 
-// After
-var apiKey = os.Getenv("API_KEY")
+A team-defined rule flagged the change.
+
+```
+✗ auth-required-on-handlers (invariant)
+  Verifier: Code-scan
+  Evidence: src/handlers/admin.go:23 — Handler AdminUsers does not call
+  an authentication middleware before responding.
 ```
 
-#### Legitimate exception
+**Cause:** the code breaks a rule that applies across changes.
 
-If your code legitimately doesn’t need to follow an invariant:
+**Fix paths, in order of preference:**
 
-1. Check if there’s an exception path configured for your case
-2. Talk to whoever manages org invariants about adding an exception
-3. Document in your spec’s Intent why this exception is valid
+1. **Fix the code.** Most of the time the rule is right and the change just missed it.
+2. **Waive the verdict with a category.** For legitimate cases the invariant didn't anticipate, the reviewer waives from the review document. Pick the right category:
+   * `false_positive` — the rule fired but misjudged this case.
+   * `doesnt_apply` — the rule is valid in general but isn't relevant to this PR.
+   * `accepted_risk` — the failure is real but the author accepts it.
+   * `fix_in_followup` — will be addressed in a separate PR.
+3. **Fix the invariant.** If you're waiving the same invariant repeatedly across changes, the rule is wrong. Tighten its conditions or rewrite the body. See [Concepts: Invariants](../concepts/invariants.md).
+
+### Preview boot failure
+
+Verification couldn't bring up the preview, so no runtime checks ran.
+
+```
+✗ Preview did not become ready
+  Phase: setup script
+  Exit code: 1
+  Container output (last lines): [...]
+```
+
+**Cause:** something is wrong with the preview itself — secret missing, setup script broken, image incompatible.
+
+**Fix:** start with the container output. The common shapes are listed under [Creating a preview — Common boot failures](creating-a-preview.md#common-boot-failures). For ongoing flakiness, see [Managing previews — When the preview is wrong](managing-previews.md#when-the-preview-is-wrong).
+
+### Runtime run terminated
+
+The preview booted, but the runtime runner stopped without producing a clean verdict. Common termination reasons:
+
+| Reason            | What it means                                                                |
+| ----------------- | ---------------------------------------------------------------------------- |
+| `caps_exceeded`   | Hit a hard cap on tool calls, wall time, or per-scenario cost.               |
+| `loop_detected`   | The runner got stuck repeating the same action or page state.                |
+| `stuck`           | A periodic check determined the runner wasn't making progress.               |
+| `give_up`         | The runner explicitly decided it couldn't verify the criterion.              |
+| `unhandled_error` | The runner raised an unclassified exception.                                 |
+
+**Fix:**
+
+* `caps_exceeded` or `give_up`: often the criterion is too expensive to verify or the preview is too slow. Move setup work into the image, or rewrite the criterion to be tighter.
+* `loop_detected` or `stuck`: usually the preview's UI/state is non-deterministic between runs. See [Seed data for previews](seed-data-for-previews.md).
+* `unhandled_error`: file as a bug from the review document.
+
+### When the failure is the verifier, not the code
+
+Occasionally a verdict is wrong. Before assuming it's a bug:
+
+* **Re-read the evidence.** Does it actually contradict the criterion, or are you and the verifier interpreting the criterion differently?
+* **Check the criterion phrasing.** "Requires authentication" might be read as "calls AuthMiddleware" or "rejects unauthenticated callers." Tighten the phrasing — for user criteria, via `editRunbook`; for invariants, by editing the catalog entry.
+* **Check the preview.** If a runtime verdict is wrong, the preview's state at run time might be wrong — wrong fixtures, stale seed. See [Seed data for previews](seed-data-for-previews.md).
+
+If you've ruled all that out and the verdict still seems wrong, click **Report verdict** in the review document. Include the run ID; the team uses these to improve the classifier and verifier accuracy.
 
 ### Re-running verification
 
-After fixing issues, verification re-runs automatically when you push.
+After fixing issues, verification re-runs automatically on the next push.
 
-You can also trigger it manually:
-
-* Comment `/aviator verify` on the PR
-* Click **Re-run** in the verification details page
-
-### When to update the spec vs. fix the code
-
-| Situation                              | Action                                      |
-| -------------------------------------- | ------------------------------------------- |
-| Code doesn’t do what spec says         | Fix the code                                |
-| Spec is wrong about requirements       | Create new spec revision, get approval      |
-| Forgot to include a file in scope      | Create new spec revision, get approval      |
-| Verification is wrong (false positive) | Make criterion more specific, or report bug |
-
-Remember: approved specs are locked. You can’t edit them—you create a new revision.
+You can also trigger it manually from the runbook UI. Re-running is safe — verifier results are stable on identical input, and the system caches runtime evidence per criterion + change set.
 
 ### Getting help
 
-If you can’t resolve a failure:
+If you can't resolve a failure:
 
-1. Check common issues
-2. Ask on Discord: [discord.gg/aviator](https://discord.gg/MmQWrY9xrA)
-3. Email support: [support@aviator.co](mailto:support@aviator.co)
+* Check the run timeline and container output from the review document.
+* Ask on Discord: [discord.gg/aviator](https://discord.gg/MmQWrY9xrA).
+* Email support: [support@aviator.co](mailto:support@aviator.co).
 
-Include the verification ID when asking for help.
+Include the runbook number when asking. It's in the URL of the review document (`r/{number}`).
 
 ### See also
 
-* Reference: Verification results
-* Reference: Troubleshooting
-* How to write effective criteria
+* [How verification works](../concepts/how-verification-works.md) — the verifier pipeline
+* [Concepts: Invariants](../concepts/invariants.md) — waivers and the catalog
+* [Managing previews](managing-previews.md) — preview reliability
+* [Writing effective acceptance criteria](writing-effective-acceptance-criteria.md)

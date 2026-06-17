@@ -1,145 +1,91 @@
 # Spec format
 
-Complete reference for Verify spec syntax.
+This page documents the shape of what `specSubmit` captures: a **title**, the **intent**, and the **acceptance criteria**. The agent typically generates this from your conversation; documented here so you can read submissions, hand-edit when needed, or build tools against the structure.
+
+For the conceptual flow, see [How Verify works](../how-it-works.md). For the MCP tool itself, see [MCP tools](mcp-tools.md).
 
 ### Structure
 
-Every spec has a title and three required sections:
+A spec is markdown. Two sections are parsed:
 
 ```markdown
 # Title
 
 ## Intent
-[description]
-
-## Scope
-[scope declarations]
+[plain-language description]
 
 ## Acceptance Criteria
-[list of criteria]
-
-## Execution steps
-[steps to execute]
+[bullet list of verifiable assertions]
 ```
+
+Section headings must be level-2 (`##`). The parser is case-insensitive on the heading text.
 
 ### Title
 
-Short description of the change. Appears in dashboard, PR checks, and audit trail.
+A short description of the change. Appears in the dashboard, runbook UI, and audit trail.
 
 ```markdown
-# Add user profile endpoint
+# Add per-user rate limiting to public API
 ```
+
+Keep it under ~80 characters. The title is what reviewers see first in the inbox.
 
 ### Intent
 
-Plain-language description of what and why. Provides context for verification.
+Plain-language description of *what* this change is for and *why*. Captures the constraints that aren't visible from the diff alone.
 
 ```markdown
 ## Intent
-Public endpoint for retrieving basic user profile information.
-Returns display name and avatar, but not email or internal IDs.
+Cap per-user request rate on /api/v1/public/* endpoints. On overflow,
+return 429 with a Retry-After header so well-behaved clients can back off.
+Existing internal endpoints are unaffected.
 ```
 
-### Scope
-
-Declares what the change may touch using three keywords.
-
-#### Keywords
-
-| Keyword  | Purpose                     | Required |
-| -------- | --------------------------- | -------- |
-| `modify` | Files to create or edit     | Yes      |
-| `call`   | External services to access | No       |
-| `forbid` | Prohibited files or actions | No       |
-
-#### Syntax
-
-```markdown
-## Scope
--**modify:** `src/handlers/profile.go`, `src/models/user.go`
--**call:** `user-service`
--**forbid:** `src/auth/*`, database migrations
-```
-
-#### Glob patterns
-
-| Pattern                | Matches                                      |
-| ---------------------- | -------------------------------------------- |
-| `src/handlers/*.go`    | .go files in src/handlers                    |
-| `src/handlers/**/*.go` | .go files in src/handlers and subdirectories |
-| `tests/*_test.go`      | Files ending in \_test.go in tests           |
+The intent is the contract reviewers approve against. It doesn't describe implementation choices — those live in the code itself.
 
 ### Acceptance Criteria
 
-Checklist of requirements using markdown checkbox syntax.
+A bullet list of verifiable assertions. Each criterion is checked independently during verification.
 
 ```markdown
 ## Acceptance Criteria
--[ ] Endpoint: `GET /api/v1/users/{id}/profile`
--[ ] Returns 200 with profile data
--[ ] Response includes: display_name, avatar_url
--[ ] Response excludes: email, internal_id
--[ ] Returns 404 if user not found
+- /api/v1/public/* endpoints enforce per-user rate limit
+- Returns 429 when the per-user limit is exceeded
+- Response includes Retry-After header on 429
+- Rate-limit events log through the structured logger
+- Internal endpoints (/api/v1/internal/*) are unaffected
 ```
 
-Each criterion is checked independently during verification.
+Bullet markers are `-` or `*`. Checkbox syntax (`- [ ]`) is accepted but not required — the checkbox is dropped during parsing.
+
+Each criterion should:
+
+* **State one claim.** "Returns 429 when exceeded" — not "Returns 429 when exceeded and logs the event." Split compound claims.
+* **Be verifiable on its own.** A criterion that requires reading the rest of the codebase to evaluate will route to a less-deterministic verifier path.
+* **Avoid implementation language.** "Uses the new `RateLimiter` struct" is brittle. "Per-user limit is enforced before business logic runs" is durable.
+
+See [Writing effective acceptance criteria](../how-to-guides/writing-effective-acceptance-criteria.md) for more guidance.
 
 ### Complete example
 
 ```markdown
-# Add user profile endpoint
+# Add per-user rate limiting to public API
 
 ## Intent
-Public endpoint for retrieving basic user profile information.
-Returns display name and avatar, but not email or internal IDs.
-
-## Scope
--**modify:** `src/handlers/profile.go`, `src/models/user.go`
--**call:** `user-service`
--**forbid:** `src/auth/*`, database migrations
+Cap per-user request rate on /api/v1/public/* endpoints. On overflow,
+return 429 with a Retry-After header so well-behaved clients can back
+off. Existing internal endpoints are unaffected.
 
 ## Acceptance Criteria
--[ ] Endpoint: `GET /api/v1/users/{id}/profile`
--[ ] Returns 200 with profile data
--[ ] Response includes: display_name, avatar_url
--[ ] Response excludes: email, internal_id
--[ ] Returns 404 if user not found
-
-## Execution Steps
-
-### Step 1: Define the response model
-Create a model that only includes the allowed fields.
-
-#### 1.1: Create UserProfile struct
-Add a new struct in the models package that excludes sensitive fields.
-
-- Create `UserProfile` struct in `src/models/user.go`
-- Include only `display_name` and `avatar_url` fields
-- Add JSON tags for serialization
-
-### Step 2: Implement the handler
-Create the HTTP handler that fetches and returns profile data.
-
-#### 2.1: Create GetProfile handler
-Add a handler function that retrieves user data and returns the public profile.
-
-- Create `GetProfile` function in `src/handlers/profile.go`
-- Parse user ID from URL path
-- Call `user-service` to fetch user data
-
-#### 2.2: Map to response model
-Convert the internal user object to the public profile response.
-
-- Map user fields to `UserProfile` struct
-- Ensure `email` and `internal_id` are not included
-
+- /api/v1/public/* endpoints enforce per-user rate limit
+- Returns 429 when the per-user limit is exceeded
+- Response includes Retry-After header on 429
+- Rate-limit events log through the structured logger
+- Internal endpoints (/api/v1/internal/*) are unaffected
 ```
 
-### Validation errors
+### See also
 
-| Error                     | Fix                                       |
-| ------------------------- | ----------------------------------------- |
-| Missing required section  | Add Intent, Scope, or Acceptance Criteria |
-| Empty acceptance criteria | Add at least one criterion                |
-| Invalid scope keyword     | Use `modify`, `call`, or `forbid`         |
-| Invalid glob pattern      | Check pattern syntax                      |
+* [MCP tools](mcp-tools.md) — the `specSubmit` tool that submits this
+* [Writing effective acceptance criteria](../how-to-guides/writing-effective-acceptance-criteria.md)
+* [Concepts: Invariants](../concepts/invariants.md) — for assertions that should hold across changes

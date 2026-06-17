@@ -1,101 +1,112 @@
 # Export audit logs
 
-Export verification and approval records for compliance reporting.
+Export verification and reviewer-decision records from the Aviator UI for compliance reporting.
+
+For the underlying concept and what each record contains, see [Concepts: Audit trails and compliance](../concepts/audit-trails-and-compliance.md).
 
 ### Prerequisites
 
-* Admin access to your Aviator organization
-* Completed verifications you want to export
+* Admin access to your Aviator organization.
+* At least one verification run in the period you want to export.
 
 ### Exporting from the dashboard
 
-#### 1. Navigate to audit logs
+#### 1. Open the audit view
 
 Go to **Verify → Audit**.
 
-You’ll see a chronological list of all verification events: spec creations, approvals, verification runs, and results.
+You'll see a chronological list of records: runbook submissions, verification runs, individual verdicts, and reviewer actions (approvals + waivers).
 
 #### 2. Filter the data
 
-Use filters to narrow down what you need:
+Use the filters at the top to narrow:
 
-| Filter         | Options                                                               |
-| -------------- | --------------------------------------------------------------------- |
-| **Date range** | Last 7 days, 30 days, 90 days, custom                                 |
-| **Repository** | All or specific repository                                            |
-| **Event type** | Spec created, Spec approved, Verification passed, Verification failed |
-| **Author**     | All or specific user                                                  |
+| Filter         | Options                                                                      |
+| -------------- | ---------------------------------------------------------------------------- |
+| Date range     | Last 7 days, 30 days, 90 days, or custom range.                              |
+| Repository     | All repos, or a specific repo.                                               |
+| Record type    | Runbook submissions, verification runs, verdicts, waivers.                   |
+| Actor          | All users, or a specific submitter or reviewer.                              |
+| Verdict status | `pass`, `fail`, `warn`, `error`.                                              |
+| Waiver category| `false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`.        |
 
 #### 3. Export
 
 Click **Export** and choose a format:
 
-* **JSON** — Machine-readable, good for processing
-* **CSV** — Spreadsheet-compatible
-* **PDF** — Formatted report, good for auditors
+* **JSON** — machine-readable, good for downstream processing.
+* **CSV** — spreadsheet-compatible.
+* **PDF** — formatted report, good for handing to auditors directly.
 
-The export includes all events matching your filters.
+The export contains every record matching your filters.
 
-### What’s included in exports
+### Record shapes
 
-Each audit record contains:
+Each record carries fields specific to its type. Common shapes:
 
-| Field             | Description                                                               |
-| ----------------- | ------------------------------------------------------------------------- |
-| `timestamp`       | When the event occurred                                                   |
-| `event_type`      | Type of event (spec\_created, spec\_approved, verification\_passed, etc.) |
-| `actor`           | Who performed the action                                                  |
-| `spec_id`         | The spec involved                                                         |
-| `spec_title`      | Human-readable spec title                                                 |
-| `repository`      | Repository name                                                           |
-| `pr_number`       | Associated pull request (if applicable)                                   |
-| `commit_sha`      | Commit that was verified (if applicable)                                  |
-| `verification_id` | Unique ID for verification runs                                           |
-| `result`          | Pass/fail details                                                         |
+**Runbook submission:**
 
-### Generating SOC 2 evidence
+| Field           | Description                                                        |
+| --------------- | ------------------------------------------------------------------ |
+| `runbook_number`| User-facing runbook ID.                                            |
+| `submitted_by`  | Submitter (the user the MCP token belonged to, or the UI user).    |
+| `submitted_at`  | ISO 8601 timestamp.                                                |
+| `repo`, `branch`| Git context — target branch and working branch.                    |
+| `commit_sha`    | The HEAD commit at submission time.                                |
+| `intent`        | The submitted intent (plain-language description).                 |
+| `acceptance_criteria` | The acceptance criteria submitted with the runbook.          |
 
-For SOC 2 audits, export:
+**Verification run:**
 
-1. **Spec approvals** — Shows segregation of duties (author ≠ approver)
-2. **Verification results** — Shows systematic verification of all changes
-3. **Failure logs** — Shows failures were addressed before merge
+| Field           | Description                                                                       |
+| --------------- | --------------------------------------------------------------------------------- |
+| `run_id`        | Unique ID.                                                                        |
+| `runbook_number`| The runbook this run belongs to.                                                  |
+| `runbook_version`| The version of the runbook that was verified.                                    |
+| `trigger_source`| `manual`, `commit_push`, `step_complete`, or `criteria_edit`.                     |
+| `commit_sha`    | The commit verified.                                                              |
+| `status`        | `pending`, `in_progress`, `passed`, `failed`, `error`, `deferred`.                |
+| `criteria_total / passed / failed / skipped / waived` | Aggregate counts.                            |
+| `started_at`, `completed_at` | ISO 8601 timestamps.                                                |
 
-Filter by date range matching your audit period, export as PDF for easy sharing.
+**Verification result (one per criterion):**
 
-### Scheduled exports
+| Field          | Description                                                              |
+| -------------- | ------------------------------------------------------------------------ |
+| `run_id`       | The run this result belongs to.                                          |
+| `criterion`    | The criterion text.                                                      |
+| `is_invariant` | True if the criterion was materialized from an invariant.                |
+| `is_waived`    | True if the verdict has been waived.                                     |
+| `status`       | `pass`, `fail`, `warn`, `error`.                                          |
+| `evidence`     | Reference to the captured evidence (snippet, screenshot, API response).  |
+| `reason`       | Verifier-produced explanation.                                           |
+| `location`     | File + line range when applicable.                                       |
 
-To schedule automatic exports:
+**Waiver:**
 
-1. Go to **Verify → Settings → Scheduled Reports**
-2. Click **Add Schedule**
-3. Configure:
-   * Frequency (weekly, monthly)
-   * Filters (repository, event types)
-   * Format (JSON, CSV, PDF)
-   * Delivery (email, webhook)
+| Field         | Description                                                       |
+| ------------- | ----------------------------------------------------------------- |
+| `result_id`   | The verification result being waived.                             |
+| `waived_by`   | Reviewer.                                                         |
+| `waived_at`   | ISO 8601 timestamp.                                               |
+| `category`    | `false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`. |
+| `reason`      | Free-text justification.                                          |
 
-Reports are generated and delivered automatically.
+### Generating compliance evidence
 
-### API export
+For an audit period, the most useful exports:
 
-For programmatic access, use the Audit API:
+* **Runbook submissions + reviewer decisions.** Demonstrates that every change had an explicit submission and a recorded sign-off.
+* **Verification results.** Demonstrates that every change was systematically verified against its criteria and against the team's invariants.
+* **Waivers.** Demonstrates that exceptions were categorized, attributed, and reasoned.
 
-```bash
-curl -X GET "<https://api.aviator.co/v1/verify/audit>" \\
-  -H "Authorization: Bearer$AVIATOR_API_KEY" \\
-  -d "start_date=2024-01-01" \\
-  -d "end_date=2024-01-31" \\
-  -d "repository=your-org/your-repo"
-```
-
-See API Reference: Audit for full documentation.
+Filter to your audit period and export as PDF for sharing. See [Concepts: Audit trails and compliance — Compliance framework mapping](../concepts/audit-trails-and-compliance.md#compliance-framework-mapping) for SOC 2 / ISO 27001 / HIPAA references.
 
 ### Retention
 
-Audit logs are retained indefinitely by default. Contact support if you need a specific retention policy.
+Audit records are retained indefinitely by default. If you need a specific retention or archival policy, contact support.
 
 ### See also
 
-* Explanation: Audit trails and compliance
-* Reference: Configuration options
+* [Audit trails and compliance](../concepts/audit-trails-and-compliance.md)
+* [Configuration reference](../reference/configuration-reference.md)

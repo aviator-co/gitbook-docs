@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 320" role="img" aria-labelledby="title desc">
+  <title id="title">How Verify works: build, submit intent, verify, review</title>
+  <desc id="desc">Four-stage workflow. Build with your agent, submit intent via MCP, Aviator verifies end to end, review behavior.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a3a3a3"/>
+    </marker>
+    <style>
+      .surface { fill: #0f0f15; }
+      .card    { fill: #16161c; stroke: #2c2c35; stroke-width: 1; }
+      .num     { font: 700 13px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #ffd000; letter-spacing: 0.1em; }
+      .ttl     { font: 600 18px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #fafafa; }
+      .sub     { font: 400 14px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #a3a3a3; }
+      .cap     { font: 500 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #75757f; }
+      .rail    { stroke: #6a6a76; stroke-width: 1.5; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Outer surface -->
+  <rect class="surface" x="0" y="0" width="1140" height="320" rx="16"/>
+
+  <!-- Card 01 -->
+  <rect class="card" x="40" y="60" width="220" height="180" rx="12"/>
+  <text class="num" x="60" y="90">01</text>
+  <text class="ttl" x="60" y="125">Build with</text>
+  <text class="ttl" x="60" y="148">your agent</text>
+  <text class="sub" x="60" y="185">Cursor, Claude,</text>
+  <text class="sub" x="60" y="204">or Copilot</text>
+
+  <line class="rail" x1="265" y1="150" x2="315" y2="150" marker-end="url(#arrow)"/>
+
+  <!-- Card 02 -->
+  <rect class="card" x="320" y="60" width="220" height="180" rx="12"/>
+  <text class="num" x="340" y="90">02</text>
+  <text class="ttl" x="340" y="125">Submit intent</text>
+  <text class="ttl" x="340" y="148">via MCP</text>
+  <text class="sub" x="340" y="185">Agent captures intent</text>
+  <text class="sub" x="340" y="204">and acceptance criteria</text>
+
+  <line class="rail" x1="545" y1="150" x2="595" y2="150" marker-end="url(#arrow)"/>
+
+  <!-- Card 03 (accent) -->
+  <rect x="600" y="60" width="220" height="180" rx="12" fill="#ffd000" fill-opacity="0.07" stroke="#ffd000" stroke-opacity="0.32" stroke-width="1"/>
+  <text class="num" x="620" y="90">03</text>
+  <text class="ttl" x="620" y="125">Verify</text>
+  <text class="ttl" x="620" y="148">end to end</text>
+  <text class="sub" x="620" y="185">Code-scan and runtime,</text>
+  <text class="sub" x="620" y="204">invariants apply auto</text>
+
+  <line class="rail" x1="825" y1="150" x2="875" y2="150" marker-end="url(#arrow)"/>
+
+  <!-- Card 04 -->
+  <rect class="card" x="880" y="60" width="220" height="180" rx="12"/>
+  <text class="num" x="900" y="90">04</text>
+  <text class="ttl" x="900" y="125">Review</text>
+  <text class="ttl" x="900" y="148">behavior</text>
+  <text class="sub" x="900" y="185">Verdict and evidence</text>
+  <text class="sub" x="900" y="204">per criterion</text>
+
+  <!-- Captions -->
+  <text class="cap" x="150" y="276" text-anchor="middle">You work locally</text>
+  <text class="cap" x="430" y="276" text-anchor="middle">One tool call</text>
+  <text class="cap" x="710" y="276" text-anchor="middle">Aviator runs the pipeline</text>
+  <text class="cap" x="990" y="276" text-anchor="middle">In the review document</text>
+</svg>

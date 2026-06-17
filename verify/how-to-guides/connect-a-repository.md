@@ -35,25 +35,26 @@ Click **Enable**.
 
 After enabling, you can configure:
 
-| Setting              | Description                             | Default |
-| -------------------- | --------------------------------------- | ------- |
-| **Require specs**    | PRs must have a linked spec             | Off     |
-| **Exempt paths**     | File patterns that don’t need specs     | Empty   |
-| **Auto-link specs**  | Link specs to PRs based on branch names | On      |
-| **Block on failure** | Failed verification blocks merge        | On      |
+| Setting             | Description                                              | Default |
+| ------------------- | -------------------------------------------------------- | ------- |
+| **Exempt paths**    | Glob patterns. PRs touching only these skip verification | Empty   |
+| **Preview block**   | Per-repo preview configuration in `aviator/verify.yaml`  | None    |
 
-Adjust these based on your workflow. For a trial, you might leave “Require specs” off to start.
+A preview is **not required** to get started — Verify runs code-scan only without one and produces verdicts on structural criteria from the first PR. Add a preview later when behavioral verification matters.
+
+See [Configuration reference](../reference/configuration-reference.md) for the full surface, and [Preview YAML](../reference/preview-yaml.md) for the preview block.
 
 #### 4. Verify the connection
 
 To confirm everything works:
 
-1. Create a test spec in Verify
-2. Push a branch to the repository
-3. Link the spec to a PR
-4. Check that the Aviator Verify check appears
+1. Install the [Aviator MCP](../reference/mcp-tools.md) in your coding agent.
+2. Make a small change in this repo with the agent.
+3. Have the agent call `specSubmit` through the MCP.
+4. Open the review URL returned by the tool — you should land on the review document for this repo.
+5. Verify the Aviator Verify check appears on the PR (assuming you've opened one).
 
-If the check doesn’t appear, see Troubleshooting: Check not appearing.
+If the check doesn't appear or the review document fails to load, see [Fixing verification failures](fixing-verification-failures.md).
 
 ### Adding more repositories
 
@@ -68,10 +69,10 @@ If a repository doesn’t appear in the dropdown, check that:
 
 Go to **Verify → Repositories**, find the repository, and click **Remove**.
 
-This disables Verify for that repository. Existing specs and verification history are retained.
+This disables Verify for that repository. Existing submissions and verification history are retained.
 
 ### See also
 
-* How to configure branch protection
-* Reference: GitHub integration
-* Reference: Configuration options
+* [Configuring branch protection](configuring-branch-protection.md)
+* [GitHub integration](../reference/github-integration.md)
+* [Configuration reference](../reference/configuration-reference.md)

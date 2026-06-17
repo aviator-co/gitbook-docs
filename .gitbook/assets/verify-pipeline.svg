@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 340" role="img" aria-labelledby="title desc">
+  <title id="title">Verify pipeline: each criterion is classified and routed to a verifier path</title>
+  <desc id="desc">A criterion enters a classifier, which routes it to one of two verifier paths: code-scan (static analysis of the diff) or runtime (executed against the preview). Each produces a verdict plus evidence.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a3a3a3"/>
+    </marker>
+    <style>
+      .surface { fill: #0f0f15; }
+      .card    { fill: #16161c; stroke: #2c2c35; stroke-width: 1; }
+      .lbl     { font: 600 12px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.08em; fill: #75757f; }
+      .ttl     { font: 600 16px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #fafafa; }
+      .sub     { font: 400 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #a3a3a3; }
+      .mono    { font: 400 12px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #d0d0d8; }
+      .head    { font: 700 11px -apple-system, "Segoe UI", system-ui, sans-serif; letter-spacing: 0.15em; fill: #75757f; }
+      .foot    { font: 400 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #75757f; }
+      .rail    { stroke: #6a6a76; stroke-width: 1.5; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Outer surface -->
+  <rect class="surface" x="0" y="0" width="1140" height="340" rx="16"/>
+
+  <!-- Column headers -->
+  <text class="head" x="40"  y="34">INPUT</text>
+  <text class="head" x="300" y="34">CLASSIFY</text>
+  <text class="head" x="540" y="34">VERIFY</text>
+  <text class="head" x="900" y="34">OUTPUT</text>
+
+  <!-- Input card -->
+  <rect class="card" x="40" y="140" width="230" height="90" rx="10"/>
+  <text class="lbl" x="60" y="166">CRITERION</text>
+  <text class="mono" x="60" y="196">Returns 429 when</text>
+  <text class="mono" x="60" y="213">rate exceeded</text>
+
+  <!-- Classifier -->
+  <rect class="card" x="300" y="150" width="180" height="70" rx="10"/>
+  <text class="ttl" x="318" y="180">Classifier</text>
+  <text class="sub" x="318" y="202">Picks runtime or code-scan</text>
+
+  <!-- Connector input → classifier -->
+  <line class="rail" x1="275" y1="185" x2="295" y2="185" marker-end="url(#arrow)"/>
+
+  <!-- Code-scan card (emerald-tinted? or muted?) - use muted since code-scan is the default deterministic path -->
+  <rect x="540" y="80" width="280" height="86" rx="10" fill="#1c1c24" stroke="#2c2c35" stroke-width="1"/>
+  <text class="ttl" x="558" y="108">Code-scan</text>
+  <text class="sub" x="558" y="128">Static analysis of the changed code</text>
+  <text class="sub" x="558" y="148">Evidence: diff and AST snippets</text>
+
+  <!-- Runtime card (primary-tinted) -->
+  <rect x="540" y="204" width="280" height="86" rx="10" fill="#ffd000" fill-opacity="0.07" stroke="#ffd000" stroke-opacity="0.32" stroke-width="1"/>
+  <text class="ttl" x="558" y="232">Runtime</text>
+  <text class="sub" x="558" y="252">Run against the preview environment</text>
+  <text class="sub" x="558" y="272">Evidence: screenshots, logs, API responses</text>
+
+  <!-- Connectors classifier → verifiers -->
+  <path class="rail" d="M 485 185 C 510 185, 510 122, 535 122" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 485 185 C 510 185, 510 247, 535 247" marker-end="url(#arrow)"/>
+
+  <!-- Output card -->
+  <rect class="card" x="900" y="140" width="200" height="90" rx="10"/>
+  <text class="lbl" x="918" y="166">RESULT</text>
+  <text class="ttl" x="918" y="194">Verdict</text>
+  <text class="sub" x="918" y="216">+ linked evidence</text>
+
+  <!-- Connectors verifiers → output -->
+  <path class="rail" d="M 825 122 C 870 122, 870 185, 895 185" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 825 247 C 870 247, 870 185, 895 185" marker-end="url(#arrow)"/>
+
+  <!-- Bottom note -->
+  <text class="foot" x="40" y="312">A criterion runs through exactly one verifier path. Acceptance criteria and matched invariants flow through the same pipeline.</text>
+</svg>

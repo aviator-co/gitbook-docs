@@ -1,164 +1,123 @@
 # Setting up org invariants
 
-Org invariants are rules that apply to every change in your organization. Instead of adding “requires authentication” to every spec, you define it once as an invariant and it’s checked automatically.
+Invariants are rules that apply to every matching change. Instead of asking the agent to assert "requires authentication" on every submission, you encode it once. Every matching runbook is then checked automatically.
 
-In this tutorial, you’ll create a security invariant that enforces authentication on HTTP handlers.
+In this tutorial, you'll create a security invariant by hand, watch the selector pick it up, and learn how it appears in a real verification run.
 
-**Time:** 10 minutes
+**Time:** ~10 minutes
 
 **Prerequisites:**
 
-* Admin access to your Aviator organization
-* Completed the Your first spec tutorial (recommended)
+* Admin access to your Aviator account.
+* At least one repository connected to Verify.
+* Familiar with [How Verify works](how-it-works.md) and [Concepts: Invariants](concepts/invariants.md).
 
-### What you’ll do
+### Step 1: Open the invariant editor
 
-1. Create an org invariant for authentication
-2. Test it against an existing change
-3. See how invariants appear in verification results
+Go to **Verify → Settings → Invariants**.
 
-### Step 1: Navigate to invariants
+You'll see the invariant catalog — every entry your account has, grouped by category. The list may already include AI-drafted entries (from PR-comment mining or docs extraction) and template-derived ones; those wait in draft status until an admin promotes them.
 
-Go to **Verify → Settings → Org Invariants**.
-
-You’ll see a list of existing invariants (possibly empty) and a button to create new ones.
+For this tutorial, you'll create a manual entry.
 
 ### Step 2: Create a new invariant
 
-Click **New Invariant**.
+Click **New invariant** and give it:
 
-Give it a name: `security-baseline`
+* **Title:** `auth-required-on-handlers`
+* **Category:** `security`
+* **Source:** `manual` (set automatically when you create from the UI)
 
-Add a description: `Core security requirements for all code changes`
+Pick a title you'll be okay with seeing in the audit trail — every verdict references it.
 
-### Step 3: Define the rules
+### Step 3: Write the body
 
-In the invariant editor, add your security rules:
-
-```markdown
-# Security Baseline
-
-## Rules
-
-### Authentication
--All HTTP handlers must use AuthMiddleware
--No endpoint may bypass authentication without explicit exception
-
-### Secrets
--No hardcoded credentials, API keys, or tokens
--Secrets must come from environment variables or secret manager
--No secrets in log output
-
-### Input Validation
--All external input must be validated before use
--SQL queries must use parameterized statements
-```
-
-These rules are written in natural language. Verify understands them semantically.
-
-### Step 4: Configure scope
-
-Invariants can apply to all files or specific paths. For this security baseline:
-
-**Applies to:** `All files` (default)
-
-Some invariants might only apply to certain areas:
-
-* API rules might apply only to `src/handlers/**`
-* Database rules might apply only to `src/db/**`
-
-For security, we want it everywhere. Leave it as “All files.”
-
-### Step 5: Save and enable
-
-Click **Save Invariant**.
-
-The invariant is now active. Toggle the **Enabled** switch if it isn’t already on.
-
-### Step 6: Test with a verification
-
-Let’s see the invariant in action. Go back to one of your PRs that has verification results, or create a new spec and implement it.
-
-When verification runs, you’ll see the invariant checks in the results:
+The body is the assertion the verifier will check. Keep it specific about the assertion, vague about the implementation:
 
 ```
-✓ Org Invariants: PASSED (5/5)
-
-  security-baseline:
-    ✓ All HTTP handlers must use AuthMiddleware
-    ✓ No hardcoded credentials, API keys, or tokens
-    ✓ Secrets must come from environment variables
-    ✓ No secrets in log output
-    ✓ SQL queries must use parameterized statements
+All HTTP handlers must call an authentication middleware before any
+business logic. Endpoints that intentionally accept anonymous traffic
+must declare themselves as exceptions (see Conditions below).
 ```
 
-### Step 7: See a violation
+A few rules (covered in depth in [Invariants — Writing a good invariant](concepts/invariants.md#writing-a-good-invariant)):
 
-Create a spec and implementation that violates an invariant. For example, add a hardcoded API key:
+* Don't name specific functions or modules — the rule should survive renames.
+* Don't write the *fix* — the verifier will explain what's wrong.
+* If you need "do X *except* when Y," use conditions or accept that the selector will pass on Y-shaped runbooks.
+
+### Step 4: Add conditions (optional)
+
+Conditions gate when the invariant is *eligible* to apply. Most invariants don't need them — leave them empty and the invariant is eligible for every runbook.
+
+For this security rule, add a condition if you want to scope by language:
+
+* **Condition type:** `file_path_glob`
+* **Pattern:** `src/**/*.go`
+
+This makes the invariant eligible only when a runbook touches Go files under `src/`.
+
+Eligibility doesn't mean the invariant applies — the selector still decides per-runbook whether it's a defensible match. Conditions are useful for hard exclusions, not fine-grained scoping.
+
+### Step 5: Save as draft
+
+Click **Save**. New invariants land in **draft** status.
+
+Draft invariants are visible in the catalog but the selector ignores them when building runbook criterion lists. Use the draft state to review the rule's wording — both with yourself and with the rest of your team — before it starts producing verdicts.
+
+### Step 6: Promote to active
+
+Once you're happy with the wording, edit the invariant and toggle **Status → Active**.
+
+From this point on, the selector considers this invariant for every new runbook. When it picks the invariant for a runbook, it materializes it as an acceptance criterion (tagged with `source: baseline_invariant`) and the criterion is verified through the standard pipeline.
+
+The audit trail records the promotion: who promoted, when, and from which draft state.
+
+### Step 7: Watch it in a real runbook
+
+Trigger a verification on a PR that touches Go files under `src/`. Open the review document.
+
+If the selector picked your invariant for this change, you'll see a criterion in the criterion list tagged as an invariant. It runs alongside the user-supplied criteria. Verdict + evidence are produced the same way.
+
+If the selector *didn't* pick it, that's fine — the LLM judged it didn't apply to this change. Look at the runbook's spec and scope: does the rule actually apply here? If yes and the selector missed it, the rule body may be too vague.
+
+### Step 8: See a violation
+
+Push a change that intentionally violates the rule — for example, a handler that skips the middleware:
 
 ```go
-const apiKey = "sk_live_abc123..."
+func (h *Handler) PublicEndpoint(w http.ResponseWriter, r *http.Request) {
+    // No auth middleware called
+    w.Write([]byte("hello"))
+}
 ```
 
-When verification runs:
+The next verification run shows the invariant criterion as failed:
 
 ```
-✗ Org Invariants: FAILED (4/5)
-
-  security-baseline:
-    ✓ All HTTP handlers must use AuthMiddleware
-    ✗ No hardcoded credentials, API keys, or tokens
-    ✓ Secrets must come from environment variables
-    ✓ No secrets in log output
-    ✓ SQL queries must use parameterized statements
-
-  Failure: Possible hardcoded API key detected
-  Location: src/client.go:12
-
-  Suggested fix: Move this credential to an environment variable
+✗ auth-required-on-handlers (invariant)
+  Handler PublicEndpoint at src/handlers/public.go:23 does not call an
+  authentication middleware before responding.
 ```
 
-The invariant caught the violation even though the spec didn’t mention credentials.
+The verdict explains the failure but doesn't prescribe the fix — that's deliberate.
 
-### Step 8: Add an exception path
+### Step 9: Waive when appropriate
 
-Some code legitimately doesn’t need certain checks. For example, your health check endpoint from the previous tutorial shouldn’t require authentication.
+If a verdict is wrong or doesn't apply, the reviewer can waive it from the review document with a categorized reason: `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`. Every waiver is recorded in the audit trail.
 
-Edit the `security-baseline` invariant and add an exceptions section:
+If you find yourself waiving the same invariant repeatedly, the rule is wrong. See [Concepts: Invariants — Waivers](concepts/invariants.md#waivers).
 
-```markdown
-## Exceptions
+### What you just did
 
-### Authentication exceptions
--Health check endpoints (`/health`, `/ready`, `/live`)
--Public documentation endpoints
-```
-
-Save the invariant. Now the authentication rule won’t fail for health check handlers.
-
-### How invariants work with specs
-
-Invariants and spec criteria work together:
-
-| Source             | What it checks                            |
-| ------------------ | ----------------------------------------- |
-| **Spec criteria**  | Requirements specific to this change      |
-| **Org invariants** | Organization-wide rules that always apply |
-
-You don’t need to repeat invariant rules in your specs. If authentication is an invariant, you don’t need to add “requires authentication” to every spec—it’s checked automatically.
-
-But you can override invariants in a spec. If your spec explicitly says “does not require authentication” and has a valid reason in the intent, verification understands the exception.
-
-### What you learned
-
-* Org invariants define rules that apply to all changes
-* Rules are written in natural language
-* Invariants are checked alongside spec criteria
-* Exceptions can be defined for legitimate edge cases
-* You don’t need to repeat invariant rules in individual specs
+* Created a manual invariant in the account catalog.
+* Wrote a rule body that's specific about the assertion but doesn't prescribe implementation.
+* Added a glob condition to scope eligibility by language.
+* Promoted it from draft to active, at which point the selector started considering it.
+* Saw it materialize as a criterion in a real runbook and produce a verdict.
 
 ### Next steps
 
-* [How-to: Add more invariants](setting-up-org-invariants.md) - Common invariant patterns
-* [Configuration options](reference/configuration-reference.md) - All invariant settings
-* [Verification layers](concepts/verification-layers.md) - How invariants, domain contracts, and specs work together
+* [Concepts: Invariants](concepts/invariants.md) — sources (including AI-from-PR-comments), conditions, categories, waivers.
+* [Verification layers](concepts/verification-layers.md) — how invariants compose with user criteria.
+* [Fixing verification failures](how-to-guides/fixing-verification-failures.md) — what reviewers do when an invariant verdict goes red.
