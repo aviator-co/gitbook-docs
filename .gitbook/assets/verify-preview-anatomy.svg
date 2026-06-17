@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 480" role="img" aria-labelledby="title desc">
+  <title id="title">Preview anatomy: inputs, the preview container, and what consumes it</title>
+  <desc id="desc">Inputs from your container registry, secret store, and repo are composed into a single preview environment. Scenarios and reviewers then run against it.</desc>
+  <defs>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.07"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .head  { font: 700 11px -apple-system, "Segoe UI", system-ui, sans-serif; letter-spacing: 0.15em; fill: #64748b; }
+      .ttl   { font: 600 15px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #0f172a; }
+      .sub   { font: 400 12px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #475569; }
+      .mono  { font: 400 12px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #334155; }
+      .tag   { font: 500 11px -apple-system, "Segoe UI", system-ui, sans-serif; fill: #94a3b8; }
+      .card  { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .accent{ fill: #fffbeb; stroke: #fcd34d; stroke-width: 1.5; }
+      .em    { fill: #ecfdf5; stroke: #6ee7b7; stroke-width: 1; }
+      .rail  { stroke: #94a3b8; stroke-width: 1.5; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Column heads -->
+  <text class="head" x="30"  y="28">INPUTS</text>
+  <text class="head" x="430" y="28">PREVIEW</text>
+  <text class="head" x="850" y="28">CONSUMED BY</text>
+
+  <!-- Input cards (left) -->
+  <g filter="url(#card-shadow)">
+    <rect class="card" x="30" y="55" width="240" height="100" rx="10"/>
+  </g>
+  <text class="ttl" x="50" y="83">Container registry</text>
+  <text class="sub" x="50" y="106">Your image — public or private</text>
+  <text class="mono" x="50" y="132">registry.io/api:edge</text>
+
+  <g filter="url(#card-shadow)">
+    <rect class="card" x="30" y="180" width="240" height="100" rx="10"/>
+  </g>
+  <text class="ttl" x="50" y="208">Secret store</text>
+  <text class="sub" x="50" y="231">Pull creds, runtime secrets</text>
+  <text class="mono" x="50" y="257">DB_PASSWORD, STRIPE_KEY</text>
+
+  <g filter="url(#card-shadow)">
+    <rect class="card" x="30" y="305" width="240" height="100" rx="10"/>
+  </g>
+  <text class="ttl" x="50" y="333">Repo files</text>
+  <text class="sub" x="50" y="356">Setup script, skill files</text>
+  <text class="mono" x="50" y="382">.aviator/scripts, /skills</text>
+
+  <!-- Arrows inputs to preview -->
+  <path class="rail" d="M 275 105 C 320 105, 320 175, 415 175" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 275 230 C 340 230, 340 240, 415 240" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 275 355 C 320 355, 320 305, 415 305" marker-end="url(#arrow)"/>
+
+  <!-- Arrow labels -->
+  <text class="tag" x="296" y="160">image</text>
+  <text class="tag" x="296" y="218">secrets</text>
+  <text class="tag" x="296" y="328">setup + skills</text>
+
+  <!-- Center: Preview env -->
+  <g filter="url(#card-shadow)">
+    <rect class="accent" x="420" y="100" width="400" height="280" rx="12"/>
+  </g>
+  <text class="ttl" x="440" y="130" fill="#d97706">Preview environment</text>
+  <text class="sub" x="440" y="150">Per-run ephemeral container</text>
+  <line x1="440" y1="160" x2="800" y2="160" stroke="#fcd34d"/>
+
+  <text class="mono" x="440" y="190">name:        default</text>
+  <text class="mono" x="440" y="212">image:       registry.io/api:edge</text>
+  <text class="mono" x="440" y="234">port:        8000</text>
+  <text class="mono" x="440" y="256">setup:       .aviator/scripts/setup.sh</text>
+  <text class="mono" x="440" y="278">skills_dir:  .aviator/skills</text>
+  <text class="mono" x="440" y="300">secrets:     [DB_PASSWORD, STRIPE_KEY]</text>
+
+  <text class="sub" x="440" y="338">Booted on demand. Torn down</text>
+  <text class="sub" x="440" y="356">after the run. No persistent state.</text>
+
+  <!-- Arrows preview to consumers -->
+  <path class="rail" d="M 825 195 C 850 195, 850 195, 880 195" marker-end="url(#arrow)"/>
+  <path class="rail" d="M 825 305 C 850 305, 850 305, 880 305" marker-end="url(#arrow)"/>
+
+  <!-- Right: Consumers -->
+  <g filter="url(#card-shadow)">
+    <rect class="em" x="880" y="150" width="230" height="100" rx="10"/>
+  </g>
+  <text class="ttl" x="900" y="178">Scenario runner</text>
+  <text class="sub" x="900" y="201">Hits the preview's port</text>
+  <text class="sub" x="900" y="220">with each scenario</text>
+
+  <g filter="url(#card-shadow)">
+    <rect class="em" x="880" y="260" width="230" height="100" rx="10"/>
+  </g>
+  <text class="ttl" x="900" y="288">Reviewer</text>
+  <text class="sub" x="900" y="311">Opens the preview from</text>
+  <text class="sub" x="900" y="330">the review document</text>
+
+  <!-- Footer -->
+  <text class="sub" x="30" y="445" fill="#64748b">Each repo can declare multiple previews — staging, sandbox, prod-mirror — and tag scenarios to the one they need.</text>
+</svg>
