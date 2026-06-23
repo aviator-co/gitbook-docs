@@ -99,6 +99,28 @@ Also checkout the [<mark style="color:blue;">parallel mode section</mark>](conce
         - 'ci/circleci: build'
 ```
 
+#### Managing parallelism
+
+Since every draft PR triggers a new CI run, you typically want to cap how many run at once. These properties in `parallel_mode` control how much work Aviator keeps in flight:
+
+* **`max_parallel_builds`** — The maximum number of builds Aviator runs at any time. Once this limit is reached, the bot stops creating new draft PRs until one of the in-flight draft PRs is closed. Defaults to no limit.
+* **`max_topup_builds`** — The number of extra draft PRs that may be tagged on top of `max_parallel_builds` once their builds have passed CI but are waiting to merge behind earlier PRs. When `0` (default), `max_parallel_builds` caps the total number of in-flight draft PRs, whether passed or still running. When set, `max_parallel_builds` instead caps only the draft PRs actively running CI, and Aviator tops up to keep that many builds running while allowing up to `max_parallel_builds + max_topup_builds` draft PRs open in total. This keeps your CI capacity busy instead of leaving slots idle while passed PRs wait to merge. Requires `max_parallel_builds` to be set.
+* **`max_parallel_paused_builds`** — Must be less than `max_parallel_builds`. The maximum number of PRs in a [paused](concepts/paused-queues.md) state that Aviator will create draft PRs for. If set to `0`, Aviator will not create any draft PRs on paused base branches. If `null` (default), there is no specific limit for paused PRs. Paused draft PRs always count toward the `max_parallel_builds` cap.
+* **`block_parallel_builds_label`** — A GitHub label that pauses queuing until a particular PR is merged. Once added to a PR, no further draft PRs are built on top of it until that PR is merged or dequeued. Useful when a PR touches files that trigger long-running CI that every subsequent draft PR would otherwise inherit.
+
+```yaml
+ merge_rules:
+   labels:
+     trigger: "mergequeue"
+   merge_mode:
+    type: "parallel"
+    parallel_mode:
+      max_parallel_builds: 10
+      max_topup_builds: 5
+      max_parallel_paused_builds: 1
+      block_parallel_builds_label: "blocked"
+```
+
 ### Automatic requeue
 
 On failure, the PRs will automatically requeue before giving up. Only available in parallel mode.
