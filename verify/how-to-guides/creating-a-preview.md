@@ -17,10 +17,28 @@ For the concept overview, see [Concepts: Previews](../concepts/previews.md). For
 
 ### Step 1: Register a preview image
 
-Aviator caches preview images locally and boots a container from the cached copy per run.
+Aviator boots a preview container from an image you register under **Settings → Sandboxes**. Give it a short, stable name — e.g. `api-preview` — which you'll reference from `verify.yaml`. There are two ways to register one.
 
-1. Open **Settings → Sandboxes** in the Aviator UI.
-2. Register the image you want previews to boot from. Give it a short, stable name — e.g. `api-preview`. You'll reference this name from `verify.yaml`.
+#### Option A: From a Dockerfile
+
+Provide a Dockerfile and Aviator builds the image for you. Choose this when you want Aviator to own the build. `git`, `git-lfs`, and the coding-agent CLI are installed automatically; `COPY` and `ADD` instructions aren't supported.
+
+#### Option B: From a container registry image
+
+Point Aviator at an image you already publish to your own registry — AWS ECR, Google Artifact/Container Registry, or any generic registry (Docker Hub, GHCR, Artifactory, self-hosted). Choose this when you already build and push the image in your own CI.
+
+1. Open **Settings → Sandboxes → Add → From Registry Image**.
+2. Select the registry type and enter the fully-qualified image reference, e.g. `123456789.dkr.ecr.us-west-2.amazonaws.com/api:latest`.
+3. Provide **read-only** pull credentials. Scope them as tightly as possible — Aviator only needs to pull and inspect the image:
+   * **AWS ECR** — an access key ID, secret access key, and region for an IAM principal with `AmazonEC2ContainerRegistryReadOnly` on the repository.
+   * **GCP** — a service-account key (JSON) with `roles/artifactregistry.reader` on the repository.
+   * **Generic** — a username and password/token (omit both for a public image).
+
+   Credentials are stored encrypted and are never displayed again.
+
+The image **must include `git`** — Aviator checks out the branch under test into the container at boot.
+
+When you push a new image to the same tag, Aviator picks it up automatically the next time a preview starts: it re-pulls and rebuilds only when the tag's digest has actually changed. To pin an exact build instead, reference an image digest (`…@sha256:…`) rather than a tag.
 
 If you don't have a service image yet, the simplest path is to start with a base image that has your runtime (e.g. `node:20`) and let the setup script install dependencies. As your previews mature, bake more into the image.
 
@@ -111,6 +129,7 @@ If the link works, the preview is fully wired. Reviewers can now open it for ad-
 | Symptom                                         | Likely cause                                                                          |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------- |
 | `image not found`                               | The image name in `verify.yaml` doesn't match what's registered in **Sandboxes**, or the image isn't granted to this repo. |
+| Registry pull / auth error                      | For a registry-sourced image, the stored pull credentials are wrong, expired, or lack read access to the repository. Re-enter them in **Sandboxes**. |
 | Missing secret error                            | A name in `secrets` isn't defined or isn't granted to this repo.                       |
 | Container exits 0 immediately                   | The container's CMD ran a one-off command and exited. Add a long-running process.     |
 | Port never opens                                | Your service binds to `localhost` only. Bind to `0.0.0.0` inside the container.       |
