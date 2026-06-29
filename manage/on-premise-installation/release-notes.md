@@ -18,7 +18,7 @@ mergeit: `sha256:b5528eeabc7985127b44323c98608e032f49223aa9a925f73405f7a9c886079
 
 **MergeQueue**
 
-* Apply the configured acceptable statuses for required checks in parallel mode, so conditional or path-filtered checks that never report no longer stall the queue
+* If override_required_checks are empty, acceptable statuses now also fallback to the ones specified for required_checks in parallel mode
 * New `max_topup_builds` option keeps parallel mode running more CI builds by freeing slots held by drafts that have passed CI and are waiting to merge
 * A `block_parallel_builds` barrier PR now blocks only its own target branch instead of pausing tagging across every branch in the repo
 * Only send full-queue reset webhook events to accounts subscribed to the reset action
