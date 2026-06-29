@@ -9,6 +9,35 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-06-26" %}
+## 2026.06.26-1-rc1
+
+frontend: `sha256:4f7a2f01415af924dc5369344aa37f965e41aa372ab28df05e3c7f2ad053f987`
+
+mergeit: `sha256:b5528eeabc7985127b44323c98608e032f49223aa9a925f73405f7a9c8860793`
+
+**MergeQueue**
+
+* If override_required_checks are empty, acceptable statuses now also fallback to the ones specified for required_checks in parallel mode
+* New `max_topup_builds` option keeps parallel mode running more CI builds by freeing slots held by drafts that have passed CI and are waiting to merge
+* A `block_parallel_builds` barrier PR now blocks only its own target branch instead of pausing tagging across every branch in the repo
+* Only send full-queue reset webhook events to accounts subscribed to the reset action
+* Fix team membership sync timing out on some large GitHub organizations
+* Add a daily cleanup job that prunes stale PR mapping rows for PRs merged more than 60 days ago
+
+**Runbooks**
+
+* Consolidated several Runbooks views into a more unified layout
+
+**FlexReview**
+
+* Cache PR diffs in Redis so reviewer assignment makes fewer duplicate GitHub requests
+
+**Releases**
+
+* Skip a scheduled release cut when no path-matching changes are present
+{% endupdate %}
+
 {% update date="2026-06-15" %}
 ## 2026.06.15-1-rc1
 
