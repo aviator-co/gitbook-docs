@@ -30,7 +30,7 @@ A run's record carries trigger context plus aggregate counts:
 | Field            | Description                                                                            |
 | ---------------- | -------------------------------------------------------------------------------------- |
 | `status`         | One of the values above.                                                               |
-| `trigger_source` | What kicked the run off: `manual`, `commit_push`, `step_complete`, `criteria_edit`.    |
+| `trigger_source` | What kicked the run off: `manual`, `ready`, `approval`, `queued`, `linked`, `criteria_edit`. |
 | `runbook_version`| Version of the runbook that was verified (matches what `getRunbook` returned at submission time). |
 | `commit_sha`     | The commit verified.                                                                   |
 | `criteria_total` | Total criteria evaluated in this run.                                                   |

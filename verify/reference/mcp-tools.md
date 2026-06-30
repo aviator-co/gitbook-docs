@@ -20,7 +20,7 @@ Restart the agent after configuring. The Aviator tools should appear in the agen
 
 ### `specSubmit`
 
-Submits a runbook to Aviator. It captures two things: the **intent** for the change (what it's for, in plain language), and the **acceptance criteria** the change must satisfy. From this point on, verification runs against this runbook.
+Submits a runbook to Aviator. It captures two things: the **intent** for the change (what it's for, in plain language), and the **acceptance criteria** the change must satisfy.
 
 **When to call it:** when the user explicitly asks to submit to Aviator. Never call it proactively.
 
