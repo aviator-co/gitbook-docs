@@ -4,13 +4,35 @@ This document goes deeper than the [How it works](../how-it-works.md) narrative.
 
 ### A verification run, end to end
 
-A run starts when the agent submits a runbook through the MCP and acceptance criteria are generated (or read from the supplied spec). Aviator does three things in order:
+Once a verification auto-run trigger fires (or you start a run by hand), Aviator does three things in order:
 
 1. **Constructs the run.** Pulls the change set (the diff against the target branch), the acceptance criteria, and the invariants whose conditions match the change. Allocates a preview if any criterion will need one.
 2. **Routes each check through the pipeline.** Every criterion runs through one of two verifier paths. Verdicts are produced in parallel where possible.
 3. **Compiles the results.** Verdicts, evidence, and links to the preview are assembled into the review document.
 
 The run is observable in real time — the review document streams updates as verdicts land.
+
+### When a run is triggered
+
+Verify runs against an open PR. Aside from manual runs you start yourself, it runs on its own at a few specific moments in the PR's life rather than on every push:
+
+| Moment             | Runs when                                                              | Run label      |
+| ------------------ | --------------------------------------------------------------------- | -------------- |
+| **PR ready**       | A PR with acceptance criteria first becomes ready for review (leaves draft). | `on PR ready`  |
+| **Approval**       | The PR receives code-owner approval.                                  | `on approval`  |
+| **Queued**         | The PR is added to the merge queue.                                   | `on queue`     |
+| **PR linked**      | An externally-opened PR is linked to a runbook.                       | `on PR link`   |
+| **Criteria edited**| Acceptance criteria are changed from the Verify chat or the MCP.      | replaces the in-flight run |
+
+A plain push to the branch does **not** start a run. Pushing keeps the change set fresh and pre-computes baselines so the next triggered run is fast, but the verdict you already have stands until one of the moments above fires. You can also start a run by hand from the runbook UI — manual runs bypass every rule below and always execute.
+
+Verify de-duplicates so the same change isn't verified twice:
+
+* **PR ready** fires once per PR. Flipping it back to draft and ready again, or amending the commit, won't re-run it.
+* **Approval**, **queued**, and **PR linked** each run once per commit + criteria set. Duplicate webhooks, repeated approvals, or re-queues on the same commit are no-ops.
+* **Criteria edited** supersedes an in-flight run that was using the old criteria — the stale run is cancelled and a fresh one starts on the new criteria.
+
+A failed run doesn't count against de-duplication, so re-triggering after a pipeline issue works. And if baseline invariants for a commit haven't been selected yet, the run is **deferred** and starts automatically once that selection finishes — see [Understanding verification results](../reference/understanding-verification-results.md) for the `deferred` status.
 
 ### The criterion pipeline
 
