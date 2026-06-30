@@ -88,7 +88,7 @@ For the health endpoint without a preview, you should see something like:
 
 With a preview configured, the behavioral criteria would route to Runtime instead — and you'd see the actual request + response as evidence.
 
-Click any verdict to see the evidence. If something failed, the verdict is annotated with the file and line that caused it. Push a fix and Verify will re-run automatically — no new submission needed.
+Click any verdict to see the evidence. If something failed, the verdict is annotated with the file and line that caused it. Fix the issue, then start another run from the runbook UI — a plain push doesn't re-run Verify on its own (see [When a run is triggered](concepts/how-verification-works.md#when-a-run-is-triggered)).
 
 ### Step 7: Approve (or send back)
 

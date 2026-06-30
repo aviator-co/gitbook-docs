@@ -10,7 +10,7 @@ For every runbook:
 | --------------------- | ------------------------------------------------------------------------------------------------------ |
 | Runbook submission    | Submitter, timestamp, intent, acceptance criteria, target branch, working branch, repo + commit         |
 | Runbook version       | Each iteration of the runbook (steps + acceptance criteria), with version number                       |
-| Verification run      | Trigger source (manual / commit-push / step-complete / criteria-edit), commit SHA, run status, counts (passed / failed / skipped / waived) |
+| Verification run      | Trigger source (manual / ready / approval / queued / linked / criteria-edit), commit SHA, run status, counts (passed / failed / skipped / waived) |
 | Verification result   | One per criterion: verifier path, verdict, evidence reference, reason, location                        |
 | Reviewer waiver       | Reviewer, timestamp, criterion, category (false-positive / doesn't-apply / accepted-risk / fix-in-followup), free-text reason |
 
