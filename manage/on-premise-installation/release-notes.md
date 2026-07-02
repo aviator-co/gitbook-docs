@@ -9,6 +9,23 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-07-01" %}
+## 2026.07.01-2-rc1
+
+frontend: `sha256:ab8fcb3e73d9073c773994565cab36039da89db187f626d0adf1b2b9e40d932b`
+
+mergeit: `sha256:80a7b7605ce6752535039e103edd9cbb5b40bcaa01502581f8b85abe90f85fe0`
+
+**MergeQueue**
+
+* Expose the queue status code on MergeQueue events so Pilot scenarios can read it
+* Fix a stacked PR getting spuriously blocked when an ancestor was already queued on its own
+* Fix a top-of-queue PR stalling as pending after a missed CI completion webhook
+* Prevent and heal cyclic stacked-PR parent chains
+* Fix config apply hanging when a required check had multiple acceptable statuses
+* PR title rules now support regex matching via a `match_type` option
+{% endupdate %}
+
 {% update date="2026-06-26" %}
 ## 2026.06.26-1-rc1
 
