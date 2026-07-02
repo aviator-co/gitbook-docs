@@ -89,6 +89,8 @@ Associated with a `merge_queue` trigger. It has the following properties:
 * `event.pullRequest` - a `PullRequest` object
 * `event.action` - string representing the action on the pull request
 * `event.repository` - a `GitHubRepository` object
+* `event.statusCode` - integer (optional) representing the MergeQueue status code at the time the event fired, e.g. `105`. Captured on the event, so it reflects the queue state when triggered (for example, the reason a PR is `blocked`).
+* `event.statusCodeText` - string (optional) representing the human-readable name for `statusCode`, e.g. `BLOCKED_BY_LABEL`.
 
 ### Event Objects
 
