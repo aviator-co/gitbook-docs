@@ -63,7 +63,7 @@ Each record carries fields specific to its type. Common shapes:
 | `run_id`        | Unique ID.                                                                        |
 | `runbook_number`| The runbook this run belongs to.                                                  |
 | `runbook_version`| The version of the runbook that was verified.                                    |
-| `trigger_source`| `manual`, `commit_push`, `step_complete`, or `criteria_edit`.                     |
+| `trigger_source`| `manual`, `ready`, `approval`, `queued`, `linked`, or `criteria_edit`.            |
 | `commit_sha`    | The commit verified.                                                              |
 | `status`        | `pending`, `in_progress`, `passed`, `failed`, `error`, `deferred`.                |
 | `criteria_total / passed / failed / skipped / waived` | Aggregate counts.                            |
