@@ -29,6 +29,7 @@ If a single preview is declared with no `name`, it's treated as `default`. Alway
 | `setup`    | string          | no       | Path (in the repo) to a setup script. Defaults to `.aviator/scripts/preview-setup.sh`. Runs after the container starts. |
 | `teardown` | string          | no       | Optional path (in the repo) to a teardown script. Runs before the container is destroyed.                |
 | `secrets`  | list of strings | no       | Account secret keys. Each is injected into the container as an environment variable of the same name.   |
+| `verify_skill` | string | no | Repo-relative path to this preview's [Verify skill](../how-to-guides/writing-a-skill-md.md) entry point. Overrides the default `.aviator/verify/skills/<preview-name>.md` lookup. |
 
 ### Image
 
@@ -47,6 +48,16 @@ secrets:
 ```
 
 Secrets are managed in the Aviator UI under **Settings → Secrets**. Scoped per account, granted to repos explicitly. The preview container never sees the unresolved name — only the value.
+
+### Verify skill
+
+By default, Verify reads this preview's app-driving guidance from `.aviator/verify/skills/<preview-name>.md` (the entry-point file may reference other files in the repo). To point the preview at a file elsewhere, set a single path:
+
+```yaml
+verify_skill: docs/verify/main.md
+```
+
+The path is repo-relative; when set, it replaces the default `<preview-name>.md` lookup. See [Writing a Verify skill](../how-to-guides/writing-a-skill-md.md).
 
 ### Setup script
 
