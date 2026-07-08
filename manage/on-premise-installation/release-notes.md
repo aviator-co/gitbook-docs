@@ -9,6 +9,23 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-07-07" %}
+## 2026.07.07-2-rc1
+
+frontend: `sha256:321637b8035358b2c52b028e3d84ddfe9504aee6df10e6ea33c8796c6ed32763`
+
+mergeit: `sha256:bca60ad284836f2d2cb0a9dea6163369d186d0228e5b47192b5c7e55e49b17d0`
+
+**MergeQueue**
+
+* Fix bisected-only queues stalling in parallel mode when every remaining PR is under bisection
+* Clean up the temporary branch when a merge commit fails to create, instead of leaving it orphaned on the remote
+
+**Runbooks**
+
+* Simplify the generation pipeline to spec → plan → criteria by removing the separate scope phase
+{% endupdate %}
+
 {% update date="2026-07-01" %}
 ## 2026.07.01-2-rc1
 
