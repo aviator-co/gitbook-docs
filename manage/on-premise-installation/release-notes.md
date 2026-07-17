@@ -9,6 +9,27 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-07-15" %}
+## 2026.07.15-2-rc1
+
+frontend: `sha256:3663afe88cb50b368f811d000f28f7a2e54ad96d25dbd74702c0cb638df14798`
+
+mergeit: `sha256:fe9c05f9068229471380fedca04c81cc388c07f4af893d457bb8655098d5c48b`
+
+**MergeQueue**
+
+* Fix PRs getting stuck in the bisection section after a batch hits a CI timeout
+* Fix parallel bisection looping on a batch already at the max bisected batch size
+* Keep the queue label on a PR that is auto-requeued after a failure
+* Authorize dequeue on behalf of a requested-by user via the API
+* Optimize queue page load times for large queues
+* Move merge-conflict file lookups off the repo lock to reduce contention
+
+**Runbooks**
+
+* Deduplicate runbook pull requests when a PR is attached to multiple steps
+{% endupdate %}
+
 {% update date="2026-07-07" %}
 ## 2026.07.07-2-rc1
 
