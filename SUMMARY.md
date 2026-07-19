@@ -160,6 +160,7 @@
     * [Managing flaky tests](mergequeue/concepts/managing-flaky-tests-in-mergequeue.md)
     * [Fast-forwarding](mergequeue/concepts/parallel-mode/fast-forwarding.md)
     * [Pre-Queue Conditions](mergequeue/concepts/pre-queue-conditions.md)
+    * [Final Gates](mergequeue/concepts/final-gates.md)
     * [Sticky Comments](mergequeue/concepts/sticky-comments.md)
     * [Backporting](mergequeue/concepts/backporting.md)
     * [Paused Queues](mergequeue/concepts/paused-queues.md)

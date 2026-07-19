@@ -329,6 +329,22 @@ merge_rules:
 
 <table><thead><tr><th width="249.86328125">Name</th><th width="120">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>skip_blocked_label</strong></td><td>Boolean</td><td>When enabled, Aviator will not add the <code>blocked</code> label to a PR when it fails to merge. The PR is left in the open state (with queue and ready labels removed) and the author is instructed to re-queue the PR to retry. Aviator will still post a GitHub comment describing the reason for the failure, and the PR's status is still recorded as <code>blocked</code> in the Aviator audit trail. Defaults to <code>false</code>.</td></tr></tbody></table>
 
+### Final gates
+
+Final gates run a GitHub Actions workflow as the last step before a PR is merged, once it reaches the top of the queue and all required checks have passed. See [Final Gates](../concepts/final-gates.md) for the full behavior. Requires [parallel mode](../concepts/parallel-mode/README.md).
+
+```yaml
+merge_rules:
+  final_gates:
+    - workflow: run-migration.yml
+      timeout_mins: 10
+      label: has-migration
+```
+
+<table><thead><tr><th width="249.86328125">Name</th><th width="120">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>workflow</strong></td><td>String</td><td>Required. Filename of the workflow under <code>.github/workflows/</code>. Either <code>run-migration.yml</code> or <code>.github/workflows/run-migration.yml</code> is accepted; nested paths are not. The workflow must declare <code>workflow_dispatch</code> as a trigger.</td></tr><tr><td><strong>timeout_mins</strong></td><td>Integer</td><td>Required. How long to wait for the workflow run before treating the gate as failed. Valid range: <code>1</code> to <code>60</code>.</td></tr><tr><td><strong>label</strong></td><td>String</td><td>Optional. Only run this gate when a PR being merged carries this GitHub label. With batching, the gate applies if any PR in the batch carries the label. Matched case-insensitively. When omitted, the gate runs for every merge.</td></tr></tbody></table>
+
+Multiple gates run sequentially in the order listed.
+
 ### Other
 
 ```
