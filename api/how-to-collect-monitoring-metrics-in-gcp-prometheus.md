@@ -74,7 +74,7 @@ stringData:
           exporters: [googlemanagedprometheus]
 ```
 
-Update `YOUR_ORG/YOUR_REPO` and `YOUR API KEY HERE` parts in the config. The API key can be obtained from [<mark style="color:blue;">https://app.aviator.co/integrations/api</mark>](https://app.aviator.co/integrations/api). Apply this with `kubectl apply -n YOUR_K8S_NAMESPACE -f FILE`.
+Update `YOUR_ORG/YOUR_REPO` and `YOUR API KEY HERE` parts in the config. The API key can be obtained from [<mark style="color:blue;">https://app.aviator.co/settings/workspace/integrations</mark>](https://app.aviator.co/settings/workspace/integrations). Apply this with `kubectl apply -n YOUR_K8S_NAMESPACE -f FILE`.
 
 ## Step 3: Deploy otel-collector
 

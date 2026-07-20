@@ -113,7 +113,7 @@ Aviator MergeQueue is purpose built as a highly scalable stack-aware merge queue
 
 1. [<mark style="color:blue;">Sign up</mark>](https://app.aviator.co/auth/register) for a free account with Aviator
 2. Walk through the initial steps, and install the Aviator app on GitHub
-3. Navigate to user access token page: [<mark style="color:blue;">https://app.aviator.co/account/apitoken</mark>](https://app.aviator.co/account/apitoken)
+3. Navigate to user access token page: [<mark style="color:blue;">https://app.aviator.co/settings/personal/api\_token</mark>](https://app.aviator.co/settings/personal/api_token)
 4. Generate a token and add it to your configuration file at `~/.av/config.yaml`
 
 {% code title="~/.av/config.yaml" lineNumbers="true" %}

@@ -128,8 +128,8 @@ We value the time and effort put into responsible disclosure. For valid vulnerab
 #### In scope
 
 * https://aviator.co
-* https://app.aviator.com
-* https://api.aviator.com
+* https://app.aviator.co
+* https://api.aviator.co
 
 #### Out-of-scope
 

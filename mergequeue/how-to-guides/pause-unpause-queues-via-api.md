@@ -10,7 +10,7 @@ description: >-
 
 ### Pausing all queues in a repository
 
-You can prevent all PRs from merging in a repository. A repository can be paused from the [<mark style="color:blue;">repositories page</mark>](https://app.aviator.co/github/repos) or using the API:
+You can prevent all PRs from merging in a repository. A repository can be paused from the [<mark style="color:blue;">repositories page</mark>](https://app.aviator.co/repos) or using the API:
 
 ```bash
 curl -X POST \
