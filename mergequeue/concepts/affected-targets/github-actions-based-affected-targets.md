@@ -39,6 +39,6 @@ jobs:
           aviator-token: ${{ secrets.AVIATOR_TOKEN }}
 ```
 
-You can get the Aviator API token from [<mark style="color:blue;">https://app.aviator.co/integrations/api</mark>](https://app.aviator.co/integrations/api) and store it as a GitHub Actions secret.
+You can get the Aviator API token from [<mark style="color:blue;">https://app.aviator.co/settings/workspace/integrations</mark>](https://app.aviator.co/settings/workspace/integrations) and store it as a GitHub Actions secret.
 
 Every time a PR is created, this workflow runs and detect which workflow is affected. This is sent to Aviator, and when this PR gets queued, it uses the affected targets reported by this action.

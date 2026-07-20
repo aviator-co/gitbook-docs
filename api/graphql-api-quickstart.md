@@ -8,7 +8,7 @@ This tutorial will show you how to use the Aviator GraphQL API to access pull re
 
 ## 1. Create a user access token
 
-[<mark style="color:blue;">Create a user access token from the Aviator webapp.</mark>](https://app.aviator.co/account/apitoken)
+[<mark style="color:blue;">Create a user access token from the Aviator webapp.</mark>](https://app.aviator.co/settings/personal/api_token)
 
 * Enter `GraphQL tutorial` for the token name.
 * Select `30 days` for the token expiration.
