@@ -80,7 +80,7 @@ A ` · `-joined summary under the headline:
 * **Counts** — `X of Y criteria passing` on a pass, `X of Y criteria failed` on a failure, or `last run couldn't complete — not caused by your code` on an error.
 * **Waived count** — shown only when at least one criterion is waived.
 * **Commit** — the short SHA, when known.
-* **Trigger** — see [Trigger labels](#trigger-labels).
+* **Trigger** — a readable label for what started the run, such as `triggered manually` or `triggered by approval`. See [When a run is triggered](../concepts/how-verification-works.md#when-a-run-is-triggered). A trigger with no label falls back to `triggered automatically`.
 
 #### Failure listing
 
@@ -91,24 +91,6 @@ A ` · `-joined summary under the headline:
 * Each entry shows `file:line` when the verdict carried a location, and the reason, **truncated to 120 characters**.
 
 Full evidence is never inlined in Slack — follow the link to the review document for it.
-
-### Trigger labels
-
-The run's trigger renders into the context line as readable text:
-
-| Trigger                  | Label in Slack                | Meaning                                                            |
-| ------------------------ | ----------------------------- | ------------------------------------------------------------------ |
-| `manual`                 | triggered manually            | Someone started the run from the UI, the API, or the Re-run button. |
-| `manual_evaluator_only`  | re-evaluated manually         | Re-judged without re-collecting evidence.                          |
-| `commit_push`            | triggered by push             | New commits pushed to the PR.                                      |
-| `ready`                  | triggered by push             | The PR became non-draft with criteria, or criteria were first created on an already-ready PR. |
-| `step_complete`          | triggered by step completion  | A runbook step finished.                                           |
-| `criteria_edit`          | triggered by criteria edit    | The acceptance criteria were edited.                               |
-| `approval`               | triggered by approval         | A codeowner approved the PR.                                       |
-| `queued`                 | triggered by queueing         | The PR was added to the merge queue.                               |
-| `linked`                 | triggered by PR link          | The PR was linked to a runbook session.                            |
-
-Anything unmapped falls back to **triggered automatically**.
 
 ### Actions
 
@@ -138,20 +120,13 @@ Opens a modal with two required fields:
 
 | Field             | Notes                                                     |
 | ----------------- | --------------------------------------------------------- |
-| **Category**      | One of the four waiver categories below.                  |
+| **Category**      | The standard waiver categories — see [Invariants](../concepts/invariants.md#waivers). |
 | **Justification** | Free text. A whitespace-only value is rejected inline and the modal stays open. |
-
-| Category                     | When to use it                                                        |
-| ---------------------------- | --------------------------------------------------------------------- |
-| **False positive**           | The invariant fired but the rule misjudged this case.                 |
-| **Doesn't apply to this PR** | The rule is valid in general but isn't relevant here.                 |
-| **Accepted risk**            | The failure is real but the author accepts the trade-off.             |
-| **Fix in follow-up PR**      | The failure is real and will be addressed separately.                 |
 
 On submit, Verify records the waiver, refreshes the run's counts, re-posts the `aviator/verify` check so the merge gate can unblock, confirms in the thread, and re-renders the thread root:
 
 ```
-✅ @ayushi waived Handler does not call auth middleware (Accepted risk) — shipping
+✅ @user waived Handler does not call auth middleware (Accepted risk) — shipping
 behind a feature flag, follow-up in ENG-2214.
 ```
 
@@ -167,7 +142,7 @@ Semantics worth knowing:
 A pure confirmation modal — no inputs. On submit, the criterion is removed from the runbook's acceptance criteria and future runs won't check it:
 
 ```
-@ayushi removed Returns 429 when the rate limit is exceeded — future verify runs
+@user removed Returns 429 when the rate limit is exceeded — future verify runs
 won't check it.
 ```
 
