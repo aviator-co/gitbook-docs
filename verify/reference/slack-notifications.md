@@ -8,7 +8,6 @@ This page is a reference for what gets sent, when, and what each control does. F
 
 * Your workspace has the Slack integration connected. See [Slack Integration Guide](../../api/personal-integrations.md#initial-slack-setup).
 * The recipient has linked their Slack account by running `/aviator connect`, and has associated their GitHub handle with their Aviator user.
-* The recipient has the `VERIFY_FAILED` personal notification event enabled. It is **on by default** — see [Notification settings](#notification-settings).
 
 ### The thread model
 
@@ -207,15 +206,15 @@ Requests are verified against the Slack signing secret, and a click arriving fro
 
 ### Notification settings
 
-The Verify DM is gated on the `VERIFY_FAILED` personal notification event, which is **on by default**. Both the failure DM and the recovery DM are sent under it.
+Verify notifications are sent to the PR author as a Slack DM and are enabled by default. Both the failure DM and the recovery DM are sent this way.
 
-Users manage it at `Settings > Personal > Integrations`; admins set the account-wide default at `Settings > Workspace > Integrations`. See [Slack Integration Guide](../../api/personal-integrations.md#personal-notifications).
+Per-event opt-out for Verify notifications is not currently available in Aviator settings. To stop all Aviator DMs, disconnect your Slack account under `Settings > Personal > Integrations`.
 
 ### Troubleshooting
 
 | Symptom                                              | Likely cause                                                                                     |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| No DM at all                                         | Slack not connected for the account, the user hasn't run `/aviator connect`, or `VERIFY_FAILED` is disabled. |
+| No DM at all                                         | Slack isn't connected for the account, the user hasn't run `/aviator connect`, or their GitHub handle isn't associated with their Aviator user. |
 | The run passed but no DM arrived                     | Expected. Passes are only announced when they follow a failure.                                  |
 | The thread root looks stale                          | Your workspace forbids message edits. Read the thread replies, or open the run in Aviator.       |
 | Buttons do nothing / refuse                          | Verify is no longer enabled for the account, or your Slack account isn't linked to an Aviator user on this account. |
