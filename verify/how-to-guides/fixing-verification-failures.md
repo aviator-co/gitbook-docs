@@ -114,7 +114,9 @@ If you've ruled all that out and the verdict still seems wrong, click **Report v
 
 After fixing issues, verification re-runs automatically on the next push.
 
-You can also trigger it manually from the runbook UI. Re-running is safe — verifier results are stable on identical input, and the system caches runtime evidence per criterion + change set.
+You can also trigger it manually from the runbook UI, or with the **🔁 Re-run** button on the Slack notification for the run. Re-running is safe — verifier results are stable on identical input, and the system caches runtime evidence per criterion + change set.
+
+If you got the failure as a Slack DM, you can also waive a failing invariant or remove a failing criterion directly from that message. See [Slack notifications](../reference/slack-notifications.md#actions).
 
 ### Getting help
 
@@ -132,3 +134,4 @@ Include the runbook number when asking. It's in the URL of the review document (
 * [Concepts: Invariants](../concepts/invariants.md) — waivers and the catalog
 * [Managing previews](managing-previews.md) — preview reliability
 * [Writing effective acceptance criteria](writing-effective-acceptance-criteria.md)
+* [Slack notifications](../reference/slack-notifications.md) — triaging failures from Slack

@@ -93,3 +93,4 @@ Similar to channel notifications, you can subscribe to the following personal no
 * **`RELEASE_VERIFICATION_REQUIRED`** – When your PR requires verification before deployment.
 * **`FLEXREVIEW_REVIEW_ASSIGNED`** – When you are assigned as a reviewer for a PR.
 * **`FLEXREVIEW_REVIEW_PINGED`** – Reminder for pending PR reviews, based on your team’s reminder configuration.
+* **`VERIFY_FAILED`** – When a Verify run on one of your PRs fails or can't complete, and when a previously failing PR recovers. See [Verify Slack notifications](../verify/reference/slack-notifications.md).

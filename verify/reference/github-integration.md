@@ -64,3 +64,4 @@ See [Configuring branch protection](../how-to-guides/configuring-branch-protecti
 * [Configuring branch protection](../how-to-guides/configuring-branch-protection.md)
 * [Connect a repository](../how-to-guides/connect-a-repository.md)
 * [Understanding verification results](understanding-verification-results.md)
+* [Slack notifications](slack-notifications.md)
