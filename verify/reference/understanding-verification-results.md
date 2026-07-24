@@ -8,6 +8,7 @@ For the pipeline that produces these, see [How verification works](../concepts/h
 
 * **The runbook's review document.** Streamed live as the run progresses. The primary surface for reviewers.
 * **The GitHub PR check.** A single check named `aviator/verify` mirrors the run's overall status.
+* **A Slack DM to the PR author.** One thread per PR, with controls to re-run, waive, or remove a failing criterion. See [Slack notifications](slack-notifications.md).
 * **`getRunbook` over the MCP.** Returns the latest verification record plus failing results in structured form.
 
 The shapes below are what `getRunbook` returns; the UI and PR check are rendered presentations of the same data.

@@ -67,6 +67,7 @@
     * [Preview YAML](verify/reference/preview-yaml.md)
     * [Understanding verification results](verify/reference/understanding-verification-results.md)
     * [GitHub integration](verify/reference/github-integration.md)
+    * [Slack notifications](verify/reference/slack-notifications.md)
     * [Configuration reference](verify/reference/configuration-reference.md)
   * [How to guides](verify/how-to-guides/README.md)
     * [Connect a repository](verify/how-to-guides/connect-a-repository.md)

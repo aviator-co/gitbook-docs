@@ -61,6 +61,18 @@ Create the following slash command, it will link a user’s Slack account with t
 
 <figure><img src="../../.gitbook/assets/image (6).png" alt=""><figcaption><p>Add the slash commands.</p></figcaption></figure>
 
+### Enable interactivity
+
+Some Aviator messages carry action buttons and menus — for example the re-run, waive, and remove controls on [Verify notifications](../../verify/reference/slack-notifications.md). Clicking one posts back to your Aviator instance, so this must be configured or the messages will arrive with buttons that do nothing.
+
+In your app config navigate to `Features -> Interactivity & Shortcuts` and turn on **Interactivity**.
+
+**Request URL**: `https://<your_domain>/slack/interactions`
+
+Requests to this URL are verified against the signing secret, so make sure `SLACK_SIGNING_SECRET` matches the **Signing Secret** on your app's `Basic Information` page.
+
+<figure><img src="../../.gitbook/assets/slack-app-interactivity-request-url.png" alt="The Interactivity &#38; Shortcuts page in Slack app config, with Interactivity toggled On and the Request URL set to your Aviator instance's /slack/interactions endpoint"><figcaption><p>Turn on Interactivity and point the Request URL at <code>https://&#60;your_domain&#62;/slack/interactions</code>.</p></figcaption></figure>
+
 ### Add in Slack Home Page
 
 In your app config navigate to `Features -> Event Subscriptions`.
