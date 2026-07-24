@@ -10,22 +10,21 @@ description: >-
 
 * Set `merge_mode` type to `parallel` in the yaml configuration.
 * Set `use_fast_forwarding` to `true` in the `parallel_mode` configuration.
-* Update required checks. There are two separate checks that can be configured. Aviator will validate the checks that are set as required on GitHub by default. You can override those rules in the `required_checks` section. You can also override separate required checks for the parallel pipeline.
+* Update required checks. There are two separate sets of required checks you can configure. By default, Aviator validates the checks that are set as required on GitHub. You can override those for the original PRs in the `required_checks` section (under `preconditions`), and you can set separate checks for the parallel pipeline's draft PRs in the `override_required_checks` section (under `parallel_mode`).
 
 ## Sample configuration
 
 ```yaml
-version: 1.0.0
 merge_rules:
   labels:
     trigger: "label_name"
-preconditions:
-  required_checks:
-    - check 1
+  preconditions:
+    required_checks:
+      - check 1
   merge_mode:
     type: "parallel"
     parallel_mode:
-      use_fast_forwarding: false
+      use_fast_forwarding: true
       override_required_checks:
         - check 1
         - check 2
@@ -33,7 +32,7 @@ preconditions:
 
 ## Modify your GitHub protected branch settings
 
-* To ensure that Aviator can forward your default branch, it may require additional privileges. Aviator requires permission to be able to force push to the default branch. To do so, you should authorize the Aviator app to be able to force push to the protected branch. We don’t force push the commits, but this is required to be able to fast forward protected branches that requires PullRequests.
+* To ensure that Aviator can forward your default branch, it may require additional privileges. Aviator requires permission to be able to force push to the default branch. To do so, you should authorize the Aviator app to be able to force push to the protected branch. We don’t force push the commits, but this is required to be able to fast forward protected branches that require pull requests.
 
 ![](<../../.gitbook/assets/Screen Shot 2022-07-18 at 9.55.56 AM.png>)
 
