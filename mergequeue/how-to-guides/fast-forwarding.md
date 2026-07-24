@@ -19,21 +19,37 @@ version: 1.0.0
 merge_rules:
   labels:
     trigger: "label_name"
-preconditions:
-  required_checks:
-    - check 1
+  preconditions:
+    required_checks:
+      - check 1
   merge_mode:
     type: "parallel"
     parallel_mode:
-      use_fast_forwarding: false
+      use_fast_forwarding: true
       override_required_checks:
         - check 1
         - check 2
 ```
 
-## Modify your GitHub protected branch settings
+## Allow Aviator to update your protected branch
 
-* To ensure that Aviator can forward your default branch, it may require additional privileges. Aviator requires permission to be able to force push to the default branch. To do so, you should authorize the Aviator app to be able to force push to the protected branch. We don’t force push the commits, but this is required to be able to fast forward protected branches that requires PullRequests.
+Fast-forwarding moves the branch reference directly to the commit that CI already validated, instead of merging through a pull request. GitHub treats that as a direct update to the branch, so when your target branch is protected, Aviator has to be allowed to make it.
+
+### Do I need to change these settings?
+
+You need them if the target branch is covered by branch protection rules or a repository ruleset that requires pull requests or restricts who can push. If the target branch has no such rules, fast-forwarding works without any extra permission.
+
+If you are not sure which applies, enable fast-forwarding and watch the first merge. When a rule blocks the update, GitHub rejects it and Aviator reports the rejection on the pull request, naming the rule that was violated.
+
+### Is this safe?
+
+Aviator sends the branch update **without the force flag**. GitHub therefore applies it only when the update is a genuine fast-forward, meaning the new commit already has the current branch head as an ancestor. If that is not true, GitHub rejects the request. This operation cannot rewrite, reorder, or drop commits that are already on your branch.
+
+The permission is still required because GitHub evaluates branch protection on *any* direct update to a branch reference, regardless of whether that update is a fast-forward. Several of the settings that grant it are worded in terms of force pushes, which is why the setup below asks for a permission broader than what Aviator actually performs.
+
+### Branch protection rules
+
+* Authorize the Aviator app to update the protected branch. In GitHub's classic branch protection settings this permission is presented as force-push access, so `aviator-app` needs to be listed there even though Aviator does not force push.
 
 ![](<../../.gitbook/assets/Screen Shot 2022-07-18 at 9.55.56 AM.png>)
 
@@ -44,6 +60,20 @@ preconditions:
 * In addition, add `aviator-app` bot in `Restrict who can push to matching branches` only if you use this setting.
 
 <figure><img src="../../.gitbook/assets/Screen Shot 2022-10-13 at 3.45.53 PM.png" alt=""><figcaption></figcaption></figure>
+
+### Repository rulesets
+
+Rulesets are evaluated separately from classic branch protection, and a repository can have both. If a ruleset targets your default branch, add `aviator-app` to that ruleset's **bypass list**, under **Settings > Rules > Rulesets** in your repository.
+
+The rule that most commonly blocks fast-forwarding is **Require a pull request before merging**, because fast-forwarding updates the branch reference rather than merging a pull request. When it blocks a merge, GitHub returns an error like:
+
+```
+Repository rule violations found
+
+Changes must be made through a pull request.
+```
+
+If that message also mentions a required status check, the ruleset is still the cause. Adding `aviator-app` to the bypass list resolves both.
 
 ## Optimize CI execution rules (optional)
 

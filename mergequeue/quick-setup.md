@@ -10,13 +10,13 @@ This setup guide will walk you through the initial set up for MergeQueue. Since 
 
 1\. Create an account. [<mark style="color:blue;">Register here</mark>](https://app.aviator.co/auth/login).
 
-2\. Follow the onboarding flow to connect to the Aviator GitHub app, authorize one or more repositories that you want to automate.
+2\. Sign in at [<mark style="color:blue;">app.aviator.co</mark>](https://app.aviator.co) and follow the onboarding flow. It prompts you to install the Aviator GitHub app and to authorize one or more repositories that you want to automate. If you already have an account and want to add another repository, go straight to the [<mark style="color:blue;">Repositories page</mark>](https://app.aviator.co/repos) and connect it from there.
 
 {% hint style="info" %}
 If you have trouble connecting the app, please read the [<mark style="color:blue;">troubleshooting doc</mark>](../manage/faqs/troubleshooting-github-app-connection.md).
 {% endhint %}
 
-3\. Select the repository on the **Repositories** page to configure the rules. This will take you to the Basic Configuration page to customize some basic settings.
+3\. Select the repository on the [<mark style="color:blue;">**Repositories** page</mark>](https://app.aviator.co/repos) to configure the rules. This will take you to the Basic Configuration page to customize some basic settings.
 
 ![Configure a repository.](<../.gitbook/assets/Screen Shot 2022-05-23 at 2.38.56 PM.png>)
 
