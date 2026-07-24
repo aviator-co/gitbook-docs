@@ -15,8 +15,22 @@ Invariants live in a per-account catalog. Each invariant has a source:
 | **AI-generated**        | AI-drafted from signals about the repo, awaiting admin approval.                             |
 | **AI from docs**        | Extracted from your repo's `CONTRIBUTING.md`, `LLM.md`, or similar files by the docs pipeline. |
 | **AI from PR comments** | Mined from your team's recurring PR-review comments. Often the highest-yield source — it captures real-world feedback your team has already given. |
+| **Slack**               | Drafted on request from a `@Aviator invariant` command in Slack.                              |
+| **GitHub comment**      | Drafted on request from a `@aviator invariant` comment on a pull request.                     |
 
 Sources that aren't `manual` produce drafts. Admins promote drafts to active in the UI; that's when they start producing verdicts.
+
+### Creating invariants from Slack
+
+Mention the Aviator Slack app in a channel, or DM it, with `@Aviator invariant [repo-name] <rule description>`; when used inside a thread, the thread's messages become context for the draft, and naming a repository scopes the invariant to it (otherwise it applies account-wide). Aviator replies in the thread with the draft titles and a link to review and approve them.
+
+<figure><img src="../../.gitbook/assets/verify-invariant-slack-thread.png" alt="A Slack thread where a user reports a UI inconsistency, a teammate replies with an @Aviator invariant command, and Aviator responds with a draft invariant and a review link" width="469"><figcaption><p>Turning a Slack thread into a draft invariant</p></figcaption></figure>
+
+### Creating invariants from a GitHub comment
+
+Include `@aviator invariant` in any pull request comment (a regular comment, an inline review comment, or a review body) and Aviator acknowledges with a 👍 reaction, then drafts invariants from the comment and its surrounding discussion. This trigger is limited to repository maintainers; Aviator replies on the pull request with the draft titles and a link to review and approve them.
+
+<figure><img src="../../.gitbook/assets/verify-invariant-github-comment.png" alt="A PR comment reading @aviator invariant the error message should not be in first person, with Aviator replying with a draft invariant and a review link"><figcaption><p>Turning a PR comment into a draft invariant</p></figcaption></figure>
 
 ### Conditions
 
