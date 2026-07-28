@@ -9,7 +9,7 @@ description: >-
 
 In addition to the dashboard, Aviator provides sticky comments to give you the status of a PR within GitHub.
 
-Aviator posts a comment when a PR is opened, and will automatically update the comment as the PR moves through its lifecycle. This is a great way to stay up to date and identify any reasons that may have dequeued your PR or is preventing your PR from merging.
+By default, Aviator posts a comment when a PR is opened, and will automatically update the comment as the PR moves through its lifecycle. This is a great way to stay up to date and identify any reasons that may have dequeued your PR or is preventing your PR from merging. Use `merge_rules.status_comment.publish` to change when the comment is first posted, for example to hold it until the PR is queued. See [<mark style="color:blue;">Customize Sticky Comments</mark>](../how-to-guides/customize-sticky-comments.md).
 
 <figure><img src="../../.gitbook/assets/Screen Shot 2023-04-24 at 12.31.23 PM.png" alt=""><figcaption></figcaption></figure>
 
