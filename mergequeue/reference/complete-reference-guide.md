@@ -266,7 +266,7 @@ merge_rules:
   # Optional (defaults to publish: "always" with no custom messages).
   status_comment:
     # When to publish the Aviator status comment.
-    # Optional. Valid values are "always", "queued", or "never".
+    # Optional. Valid values are "always", "ready", "queued", or "never".
     # Default value is "always".
     #   - "always": Post the status comment whenever the pull request is opened.
     #   - "ready": Publish the status comment when the pull request is ready for review.
@@ -300,6 +300,10 @@ merge_rules:
 | **blocked\_message** | String | An optional message to include in the Aviator status comment when the pull request is blocked.           |
 {% endtab %}
 {% endtabs %}
+
+{% hint style="info" %}
+Pull requests that are part of a stack always get a status comment when they are opened, since the comment carries the stack information. `publish` does not apply to them.
+{% endhint %}
 
 ### Blocked queue sources
 
