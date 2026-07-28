@@ -16,7 +16,7 @@ Here’s a sample config, see `merge_rules.status_comment` in [<mark style="colo
 ```
 merge_rules:
   status_comment:
-    # Optional. Valid values are "always", "queued", or "never".
+    # Optional. Valid values are "always", "ready", "queued", or "never".
     # Default value is "always".
     publish: "always"
     # A message to include when the pull request is in the open state.
@@ -27,6 +27,19 @@ merge_rules:
     blocked_message: "..."
 
 ```
+
+`publish` controls when the comment is first posted:
+
+* `always` - post the comment when the pull request is opened. This is the default.
+* `ready` - post the comment once the pull request is out of draft.
+* `queued` - post the comment only once the pull request is queued.
+* `never` - do not post the comment.
+
+Once the comment has been posted, it is updated in place for the rest of the pull request lifecycle regardless of this setting.
+
+{% hint style="info" %}
+Pull requests that are part of a stack always get a sticky comment when they are opened, since the comment carries the stack information. `publish` does not apply to them.
+{% endhint %}
 
 Comments are enabled by default in your repository, you can modify this configuration from the config file:
 
