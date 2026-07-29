@@ -13,7 +13,6 @@ Every preview has work that has to happen before scenarios run: dependencies, mi
 | It's slow (`npm install`, downloading large blobs, compiling assets)            | It depends on per-run state (current DB schema, fresh fixtures)              |
 | It rarely changes (system packages, language runtime, compiled binaries)       | It changes every run (re-seeding, applying migrations from `HEAD`)            |
 | It doesn't depend on secrets that are only available at runtime                | It needs runtime secrets to complete                                         |
-| You control the image build and can rebuild on CI                              | The image is a vendor artifact you can't modify                              |
 
 Default: bake heavy work into the image. Use `setup` for the things that genuinely have to be fresh.
 
@@ -21,12 +20,15 @@ A preview that takes 90 seconds to boot is a preview people stop trusting. If yo
 
 ### Keeping the image fresh
 
-`image` references a preview image registered with Aviator. Aviator caches the image locally and boots from the cached copy per run. The freshness of the preview depends on when you push a new version of the image to Aviator.
+`image` references a preview image registered with Aviator. Aviator caches the built image and boots from the cached copy per run, so a preview is only as fresh as the last build it picked up. How it refreshes depends on how the image is registered:
 
-Two patterns work well:
+* **Registry-sourced images.** Push a new image to the same tag. Aviator re-pulls and rebuilds it automatically within the hour — and only when the tag's digest actually changed. To pull a new build immediately, open the image under **Settings → Sandboxes** and click **Check for Update**.
+* **Dockerfile-built images.** Aviator builds these from the Dockerfile you provided at registration. When the contents need to change, register the updated image under **Settings → Sandboxes**.
 
-* **Re-register on every merge.** Wire your CI to push a new version of the image to Aviator under the same name (e.g. `api-preview`) after every merge to `main`. Verify uses the latest version. Simple, recommended for most teams.
-* **Register a versioned name per release.** For changes that need to be reproducible months later for compliance, push `api-preview-v1.42.0` on release and reference that name from `verify.yaml` on the long-lived branch. The exact image used at verification time stays available.
+Two patterns work well for either source:
+
+* **Track a moving tag.** Reference a stable name/tag (e.g. `api-preview`) and let each new push flow through. Simple, recommended for most teams.
+* **Pin an exact build per release.** For changes that must be reproducible months later for compliance, reference an image digest (`…@sha256:…`) or a versioned tag (e.g. `api-preview-v1.42.0`) from `verify.yaml` on the long-lived branch. The exact image used at verification time stays fixed.
 
 ### Multi-preview repos
 
@@ -44,22 +46,9 @@ Previews are torn down after their run completes. The "Open preview" link in the
 
 If a reviewer needs longer access — for a security review, a customer demo, a deep debugging session — extend the preview from the review document UI. Extensions are bounded (typically a few hours), audited, and cost the team explicit acknowledgment.
 
-If you find people extending the same preview repeatedly, that's a signal — either the preview is hard to reproduce locally (consider seeding more state) or the review pattern is wrong (longer-lived staging environments live outside Verify).
-
-### When the preview is wrong
-
-Sometimes the preview itself is the problem, not the code being verified. Signs:
-
-* **Scenarios fail randomly across runs** — usually preview state isn't deterministic. See [Seed data for previews](seed-data-for-previews.md).
-* **Scenarios fail consistently in an unrelated area** — usually a missing secret or migration that should run in `setup`.
-* **The first scenario passes, the rest fail** — usually the preview lacks a reset hook and the first run mutated state the others depend on.
-* **The reviewer's open-preview link 404s or hangs** — usually the container has crashed in the background. Check the run's container output for the exit reason.
-
-When a preview misbehaves, fix the preview before you debug the code. A flaky preview produces flaky verdicts and erodes trust in verification fast.
-
 ### Updating an existing preview
 
-Most preview changes are safe to ship as a normal commit — verify.yaml is read fresh every run.
+Most preview changes are low-risk — your setup script is read fresh from the branch every run, and config changes take effect as soon as you save them in Verify settings.
 
 Two exceptions:
 
