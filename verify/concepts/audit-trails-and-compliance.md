@@ -43,7 +43,7 @@ Verify supports this naturally:
 | Role           | Actor                                                                  | Tracked separately |
 | -------------- | ---------------------------------------------------------------------- | ------------------ |
 | Submitter      | The user whose MCP token created the runbook                            | yes                |
-| Reviewer       | The person approving (or waiving verdicts) from the review document    | yes                |
+| Reviewer       | The person approving (or waiving verdicts), from the review document or the Verify tab on the PR | yes                |
 | Verifier       | Automated — the Verify pipeline itself                                  | yes                |
 
 Account policy can require the reviewer differ from the submitter. The audit chain makes the separation explicit: a single change can't merge without two distinct actors appearing on it.

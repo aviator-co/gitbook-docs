@@ -81,6 +81,8 @@ The review document is the surface reviewers actually use. Three regions:
 
 The reviewer is judging behavior and intent — not the diff. The diff is still there if you want it, but it's not the primary surface.
 
+The same verdicts and decisions are available on the pull request itself. With the [Aviator Chrome extension](../mergequeue/aviator-chrome-extension.md), a **Verify** tab on the PR mirrors the review document and carries the rerun, waive and remove actions. See [Review verification on the pull request](how-to-guides/verify-on-github.md).
+
 ### Audit and compliance
 
 Every step is recorded as an immutable event: intent submitted, who submitted it, criteria generated, verifier and verdict per criterion, evidence captured, reviewer decisions, exceptions and waivers. Compliance teams export this log as a single audit trail per change.

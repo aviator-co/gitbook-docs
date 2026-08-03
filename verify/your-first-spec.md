@@ -99,6 +99,8 @@ From the review document you can:
 * **Edit the acceptance criteria** — ask the agent to call `editRunbook` with the corrected criteria, then re-verify.
 * **Open the preview** — if you have one configured, poke at the running code yourself before approving.
 
+If you'd rather stay on GitHub, the [Verify tab on the pull request](how-to-guides/verify-on-github.md) carries the verdicts and the rerun, waive and remove actions.
+
 Approve to close the loop. The audit trail now has a complete record: runbook submission, verdicts per criterion with evidence, your decision.
 
 ### What you just learned
