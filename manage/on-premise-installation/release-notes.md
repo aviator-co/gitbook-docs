@@ -9,6 +9,28 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-08-03" %}
+## 2026.08.03-2-rc1
+
+frontend: `sha256:b2e6d603a3d491aaa5488d0feb9f9885bed1f97bad18e91b240ae508079b232f`
+
+mergeit: `sha256:0b3668e3c5c8db7d6cb908f47ce1b2ab0c65fb81b648f6f702dd034fdfaa18d9`
+
+**MergeQueue**
+
+* New `draft_checks_started_timeout_mins` option dequeues draft PRs whose required checks never start
+* Final gates now support an optional `label` to scope a gate to labeled PRs
+* Handle GitHub-native stacks with a fast-forward merge fallback instead of stalling the queue
+* Build the bot branch from full stacks in topological order, fixing false merge conflicts
+* Validate the head branch ref before merging to avoid merging a stale head SHA
+* Fix optimistic validation being skipped whenever the CI status cache was fresh
+* Fix a tagging race blocking a PR with FAILED_UNKNOWN just after it queued
+* `synchronizePullRequest` in MergeQueue hooks now updates the whole stack
+* Clearer blocked-PR comments for stack and upstream failures, without the stale auto re-queue note
+* Coalesce sticky comment refreshes on large stacks to reduce background load
+* Rebuilt stats page with new charts plus repository and date-range filters
+{% endupdate %}
+
 {% update date="2026-07-15" %}
 ## 2026.07.15-2-rc1
 
