@@ -73,4 +73,5 @@ Three things follow:
 * **Writing for the agent:** [SKILL.md guide](how-to-guides/writing-a-skill-md.md) · [Effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
 * **Configuration:** [Preview YAML](reference/preview-yaml.md) · [Spec format](reference/spec-format.md)
 * **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
+* **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md) · [Understanding verification results](reference/understanding-verification-results.md)
 * **When things go wrong:** [Fixing verification failures](how-to-guides/fixing-verification-failures.md)

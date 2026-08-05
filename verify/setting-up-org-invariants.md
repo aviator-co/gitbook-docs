@@ -104,7 +104,7 @@ The verdict explains the failure but doesn't prescribe the fix — that's delibe
 
 ### Step 9: Waive when appropriate
 
-If a verdict is wrong or doesn't apply, the reviewer can waive it from the review document with a categorized reason: `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`. Every waiver is recorded in the audit trail.
+If a verdict is wrong or doesn't apply, the reviewer can waive it with a categorized reason: `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`. Waive from the review document, or from the [Verify tab on the pull request](how-to-guides/verify-on-github.md). Every waiver is recorded in the audit trail.
 
 If you find yourself waiving the same invariant repeatedly, the rule is wrong. See [Concepts: Invariants — Waivers](concepts/invariants.md#waivers).
 

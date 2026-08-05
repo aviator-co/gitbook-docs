@@ -8,10 +8,11 @@ For the pipeline that produces these, see [How verification works](../concepts/h
 
 * **The runbook's review document.** Streamed live as the run progresses. The primary surface for reviewers.
 * **The GitHub PR check.** A single check named `aviator/verify` mirrors the run's overall status.
+* **The Verify tab on the pull request.** With the [Aviator Chrome extension](../../mergequeue/aviator-chrome-extension.md), the same verdicts render on the PR itself, with the reviewer actions attached. See [Review verification on the pull request](../how-to-guides/verify-on-github.md).
 * **A Slack DM to the PR author.** One thread per PR, with controls to re-run, waive, or remove a failing criterion. See [Slack notifications](slack-notifications.md).
 * **`getRunbook` over the MCP.** Returns the latest verification record plus failing results in structured form.
 
-The shapes below are what `getRunbook` returns; the UI and PR check are rendered presentations of the same data.
+The shapes below are what `getRunbook` returns; every other surface is a rendered presentation of the same data.
 
 ### Run-level status
 
@@ -79,7 +80,7 @@ The trace is captured for every runtime scenario regardless of success — it's 
 
 Invariant-sourced criteria look identical to user criteria on the result record. The only signal is `is_invariant: true`. They run through the same pipeline and produce the same verdict + evidence shapes.
 
-When an invariant verdict is wrong (or doesn't apply to this PR), the reviewer waives it from the review document with a category:
+When an invariant verdict is wrong (or doesn't apply to this PR), the reviewer waives it — from the review document, or from the [Verify tab on the PR](../how-to-guides/verify-on-github.md) — with a category:
 
 | Waiver category    | When to use it                                                                 |
 | ------------------ | ------------------------------------------------------------------------------ |
@@ -104,6 +105,8 @@ The PR check named `aviator/verify` mirrors the run's overall status:
 | `deferred`    | `in_progress` until the run actually starts.    |
 
 The check summary surfaces the aggregate counts (`X/Y criteria passed`) and links back to the runbook for the full evidence.
+
+The check doesn't only move when a run finishes. Waiving a verdict, or removing an acceptance criterion, recomputes the run's counts against the criteria that are still active and re-posts the check right away — so the gate can flip to `success` without a new run.
 
 ### See also
 

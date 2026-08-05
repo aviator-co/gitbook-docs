@@ -12,6 +12,8 @@ Open the review document for the run. Every failed verdict shows:
 * **A reason** describing why the verdict went the way it did.
 * **A location** — file + line range, when the verifier could attribute one.
 
+The failing rows and their reasons also render on the pull request itself in the [Verify tab](verify-on-github.md), if you have the Aviator Chrome extension.
+
 Most failures fall into one of the patterns below.
 
 ### Criterion failed on Runtime
@@ -60,7 +62,7 @@ A team-defined rule flagged the change.
 **Fix paths, in order of preference:**
 
 1. **Fix the code.** Most of the time the rule is right and the change just missed it.
-2. **Waive the verdict with a category.** For legitimate cases the invariant didn't anticipate, the reviewer waives from the review document. Pick the right category:
+2. **Waive the verdict with a category.** For legitimate cases the invariant didn't anticipate, the reviewer waives from the review document or from the [Verify tab on the PR](verify-on-github.md). Pick the right category:
    * `false_positive` — the rule fired but misjudged this case.
    * `doesnt_apply` — the rule is valid in general but isn't relevant to this PR.
    * `accepted_risk` — the failure is real but the author accepts it.
@@ -114,7 +116,7 @@ If you've ruled all that out and the verdict still seems wrong, click **Report v
 
 After fixing issues, verification re-runs automatically on the next push.
 
-You can also trigger it manually from the runbook UI, or with the **🔁 Re-run** button on the Slack notification for the run. Re-running is safe — verifier results are stable on identical input, and the system caches runtime evidence per criterion + change set.
+You can also trigger it manually from the runbook UI, with **Rerun verification** in the [Verify tab on the PR](verify-on-github.md), or with the **🔁 Re-run** button on the Slack notification for the run. Re-running is safe — verifier results are stable on identical input, and the system caches runtime evidence per criterion + change set.
 
 If you got the failure as a Slack DM, you can also waive a failing invariant or remove a failing criterion directly from that message. See [Slack notifications](../reference/slack-notifications.md#actions).
 
@@ -134,4 +136,5 @@ Include the runbook number when asking. It's in the URL of the review document (
 * [Concepts: Invariants](../concepts/invariants.md) — waivers and the catalog
 * [Managing previews](managing-previews.md) — preview reliability
 * [Writing effective acceptance criteria](writing-effective-acceptance-criteria.md)
+* [Review verification on the pull request](verify-on-github.md) — resolving failures from GitHub
 * [Slack notifications](../reference/slack-notifications.md) — triaging failures from Slack

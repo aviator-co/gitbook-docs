@@ -52,6 +52,8 @@ Reviewers can:
 
 Invariant criteria can't be edited per-runbook. They're auto-managed by the catalog; if a rule is wrong, fix the invariant itself.
 
+The same verdicts and the same waive action are available on the pull request itself through the [Verify tab](../how-to-guides/verify-on-github.md).
+
 ### When to put a check in each layer
 
 | Use…                | When the check is…                                                                  |

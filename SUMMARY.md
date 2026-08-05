@@ -79,6 +79,7 @@
     * [Running with remote agents](verify/how-to-guides/running-with-remote-agents.md)
     * [Configuring branch protection](verify/how-to-guides/configuring-branch-protection.md)
     * [Fixing verification failures](verify/how-to-guides/fixing-verification-failures.md)
+    * [Review verification on the pull request](verify/how-to-guides/verify-on-github.md)
     * [Export audit logs](verify/how-to-guides/export-audit-logs.md)
 * [Releases](releases-beta/README.md)
   * [Getting Started with Releases](releases-beta/getting-started.md)

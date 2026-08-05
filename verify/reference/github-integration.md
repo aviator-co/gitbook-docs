@@ -24,7 +24,7 @@ If you don't see Verify behaving as expected, the most common cause is that the 
 Every verification run is mirrored to GitHub as a single PR check.
 
 * **Check name:** `aviator/verify`
-* **Where it shows up:** the PR's "Checks" tab and the merge-readiness summary.
+* **Where it shows up:** the PR's "Checks" tab and the merge-readiness summary. With the [Aviator Chrome extension](../../mergequeue/aviator-chrome-extension.md), a [**Verify** tab](../how-to-guides/verify-on-github.md) also appears in the PR tab row for acting on the run from the PR.
 
 #### Check states
 

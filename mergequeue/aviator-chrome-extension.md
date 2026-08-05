@@ -1,7 +1,7 @@
 ---
 description: >-
-  Access Aviator's Chrome extension for MergeQueue and AttentionSet features.
-  Find implementation and usecase instructions in our documentation.
+  Access Aviator's Chrome extension for MergeQueue, AttentionSet and Verify
+  features. Find implementation and usecase instructions in our documentation.
 icon: puzzle-piece
 ---
 
@@ -11,6 +11,7 @@ icon: puzzle-piece
 
 * MergeQueue - You can enqueue / dequeue your pull-request from GitHub, monitor the status and review the stack.
 * AttentionSet - Track all the PRs that require your attention. On the GitHub page for the PR, you can also toggle the attention.
+* Verify - Read a pull request's verification run from a Verify tab on the PR, and rerun, waive or remove criteria without leaving GitHub.
 
 ## Installation
 
@@ -62,6 +63,16 @@ The extension will show updated information if the PR is blocked.
 <figure><img src="../.gitbook/assets/Screen Shot 2023-11-07 at 3.31.41 PM.png" alt="" width="563"><figcaption><p>Blocked PR</p></figcaption></figure>
 
 If you need, there is an option to show the original GitHub merge button.
+
+### Verify
+
+If the pull request has a [Verify](../verify/README.md) verification run, the extension adds a **Verify** tab to the PR's tab row, next to Files changed. The tab is a live view of the review document: the run's outcome, the verified commit, and every acceptance criterion and invariant with its verdict and failure reason. A counter on the tab shows how many rows still block the merge.
+
+<figure><img src="../.gitbook/assets/verify-tab-pull-request.png" alt="The Verify tab selected on a GitHub pull request, showing the run outcome, passing acceptance criteria, a failing invariant and a waived one"><figcaption><p>The Verify tab on a pull request</p></figcaption></figure>
+
+From the tab you can rerun verification, waive a failing invariant with a category and reason, and remove an acceptance criterion you don't want verified. A pull request with no verification run gets no tab.
+
+See [Review verification on the pull request](../verify/how-to-guides/verify-on-github.md) for the walkthrough.
 
 ### Use with Aviator MergeQueue on-prem
 

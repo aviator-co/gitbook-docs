@@ -123,7 +123,7 @@ Category: `functional_correctness`.
 
 ### Waivers
 
-Invariant verdicts can be waived from the review document with a categorized reason:
+Invariant verdicts can be waived with a categorized reason, either from the review document or from the [Verify tab on the pull request](../how-to-guides/verify-on-github.md):
 
 | Waiver category    | When to use it                                                                 |
 | ------------------ | ------------------------------------------------------------------------------ |
