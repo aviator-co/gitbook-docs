@@ -141,37 +141,10 @@ Note that, auto-detection can have some side effects where Aviator might detect 
 
 GitHub has its own [stacked pull requests](https://github.github.com/gh-stack/) feature (currently in preview), managed with the `gh stack` commands in the GitHub CLI — `gh stack submit` to create or update the PRs and link them as a stack, and `gh stack sync` to rebase and re-link the whole stack. See GitHub's [Working with Stacked PRs](https://github.github.com/gh-stack/guides/stacked-prs/) guide for the full workflow.
 
-Aviator can queue and merge these stacks. Two settings are required:
+Aviator supports these stacks natively, with no configuration required. Aviator reads the stack information GitHub tracks on each PR, so the stack and its ordering are recognized automatically — the `auto_detect_stacks` and `use_separate_commits_for_stack` settings described above are not needed for GitHub-managed stacks.
 
-```
-merge_rules:
-  auto_detect_stacks: true
+Queue the stack the same way as any other — request the merge on the topmost PR of the subset you want to land, using any of the methods in [Queueing action](merging-stacked-prs.md#queueing-action).
 
-merge_strategy:
-  use_separate_commits_for_stack: true
-```
+<figure><img src="../../.gitbook/assets/aviator-gh-stack.png" alt=""><figcaption><p>Queueing a GitHub-managed stack from the pull request page</p></figcaption></figure>
 
-* `auto_detect_stacks` lets Aviator recognize the stack. These PRs are not created by the `av` CLI, so Aviator infers the stack from the base branch of each PR instead.
-* `use_separate_commits_for_stack` makes Aviator merge each PR in the stack as its own commit. Without it, Aviator merges the stack by first retargeting the topmost PR to the mainline, which GitHub does not allow for a PR in one of its stacks. This setting requires the Rulesets setup described in [Separating the merge commits](merging-stacked-prs.md#separating-the-merge-commits).
-
-With those in place, queue the stack the same way as any other — request the merge on the topmost PR of the subset you want to land, using any of the methods in [Queueing action](merging-stacked-prs.md#queueing-action).
-
-### Merged PRs appear as closed
-
-GitHub does not allow merging a PR that belongs to one of its stacks through the API. The merge call is rejected outright:
-
-```
-Merging stacked PRs via this API is not supported. Use the web interface instead.
-```
-
-This means Aviator cannot merge these PRs as they are. Instead, it creates one squash commit per PR in the stack and fast-forwards the mainline to those commits. All of the changes land, and each PR is closed with a link to the squash commit that carries its changes, so the PR timeline reads `closed this in <commit>`. The PRs will show as **Closed** in GitHub rather than **Merged**.
-
-### `update_pr_commits_before_stack_merge` is not supported
-
-The [Setting original PRs as merged](merging-stacked-prs.md#setting-original-prs-as-merged-beta) mode works by retargeting every PR in the stack to the mainline before merging, so that GitHub recognizes them as merged. GitHub owns the base branch of every PR in one of its stacks and rejects that change:
-
-```
-Cannot change the base branch because the pull request is part of a stack.
-```
-
-Leave `update_pr_commits_before_stack_merge` disabled (the default) for repositories using GitHub's stacked PRs. If it is enabled, Aviator blocks the stack and comments asking you to turn it off, instead of retrying a merge that cannot succeed.
+When the stack reaches the front of the queue, Aviator merges it through GitHub itself. Every PR in the stack shows as **Merged** in GitHub (not closed), and GitHub's stack state stays consistent with what landed. The [Setting original PRs as merged](merging-stacked-prs.md#setting-original-prs-as-merged-beta) workaround exists for exactly this purpose on Aviator-managed stacks; GitHub-managed stacks do not need it, so `update_pr_commits_before_stack_merge` has no effect on them and can be left disabled.
