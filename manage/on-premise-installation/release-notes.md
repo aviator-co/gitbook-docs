@@ -9,6 +9,27 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-08-05" %}
+## 2026.08.05-2-rc1
+
+frontend: `sha256:9efdf596ba26de44297a343854579c9ac0b6e1b8f24d52d4d17213e55432881e`
+
+mergeit: `sha256:5bdc8bc8e9975a26d4fd02b3c1012f108808166a6b1f1f1e57a0b9f483e927d9`
+
+**MergeQueue**
+
+* PRs on repositories using `use_rebase` are now rebased through the GitHub API, which is much faster on large repositories
+* Support for merging GitHub-native stacks
+
+**Runbooks**
+
+* Fix runbook steps failing when editing large files
+
+**Inbox**
+
+* Counts no longer include merged and closed pull requests
+{% endupdate %}
+
 {% update date="2026-08-03" %}
 ## 2026.08.03-2-rc1
 
