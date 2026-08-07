@@ -70,6 +70,18 @@ merge_rules:
     conversation_resolution_required: true
 ```
 
+### Require verified commits
+
+This requires every commit in the PR to be signed with a GPG key that GitHub has verified. Aviator will block the PR from being queued if any commit is unverified.
+
+```yaml
+merge_rules:
+  labels:
+    trigger: "mergequeue"
+  preconditions:
+    require_verified_commits: true
+```
+
 ### No approval
 
 Useful for testing. Aviator will only be able to merge PR if the approval is not enforced at GitHub level. By default, Aviator always require approvals.
