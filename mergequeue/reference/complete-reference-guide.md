@@ -49,6 +49,7 @@ merge_rules:
       - "golang-*"  # matches golang-test, golang-lint, etc.
     use_github_mergeability: true    
     conversation_resolution_required: false
+    require_verified_commits: false
     validations:
     - name: missing JIRA ticket in PR title
       match:
@@ -65,7 +66,7 @@ merge_rules:
 
 {% tabs %}
 {% tab title="Attributes" %}
-<table><thead><tr><th>Name</th><th width="150">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>number_of_approvals</strong></td><td>Integer</td><td>Minimum number of reviewers that should approve the PullRequest before it can qualify to be merged. Defaults to 1.</td></tr><tr><td><strong>required_checks</strong></td><td>List[Union[String, ConditionalCheck]]</td><td>Checks that need to pass before Aviator bot will merge the PR. Supports shell wildcard (glob) patterns. Also supports other acceptable CI statuses if your repo uses conditional status checks. See the Example tab.</td></tr><tr><td><strong>use_github_mergeability</strong></td><td>Boolean</td><td>Determines whether to use the default required checks specified in branch protection rules on GitHub. When this setting is enabled, Aviator bot will ignore <code>required_checks</code>. Defaults to <code>true</code>.</td></tr><tr><td><strong>conversation_resolution_required</strong></td><td>Boolean</td><td>Determines whether Aviator bot will queue the PR only after all conversations are resolved. Defaults to <code>false</code>.</td></tr><tr><td><strong>validations</strong></td><td>List[Validation]</td><td>Custom validation rules using regexes for the PR body or title. See the Example tab for more details.</td></tr></tbody></table>
+<table><thead><tr><th>Name</th><th width="150">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>number_of_approvals</strong></td><td>Integer</td><td>Minimum number of reviewers that should approve the PullRequest before it can qualify to be merged. Defaults to 1.</td></tr><tr><td><strong>required_checks</strong></td><td>List[Union[String, ConditionalCheck]]</td><td>Checks that need to pass before Aviator bot will merge the PR. Supports shell wildcard (glob) patterns. Also supports other acceptable CI statuses if your repo uses conditional status checks. See the Example tab.</td></tr><tr><td><strong>use_github_mergeability</strong></td><td>Boolean</td><td>Determines whether to use the default required checks specified in branch protection rules on GitHub. When this setting is enabled, Aviator bot will ignore <code>required_checks</code>. Defaults to <code>true</code>.</td></tr><tr><td><strong>conversation_resolution_required</strong></td><td>Boolean</td><td>Determines whether Aviator bot will queue the PR only after all conversations are resolved. Defaults to <code>false</code>.</td></tr><tr><td><strong>require_verified_commits</strong></td><td>Boolean</td><td>Determines whether Aviator bot will require every commit in the PR to be signed with a GPG key that GitHub has verified. Defaults to <code>false</code>.</td></tr><tr><td><strong>validations</strong></td><td>List[Validation]</td><td>Custom validation rules using regexes for the PR body or title. See the Example tab for more details.</td></tr></tbody></table>
 {% endtab %}
 {% endtabs %}
 
