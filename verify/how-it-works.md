@@ -1,19 +1,19 @@
 # How Verify works
 
-Verify replaces line-by-line code review with verification of *what the change is supposed to do*. You work with your agent locally. Aviator captures your intent through an MCP call, runs every acceptance criterion against the running code, and produces a review document with verdicts and evidence.
+Verify replaces line-by-line code review with verification of *what the change is supposed to do*. You work with your agent locally. Aviator captures your intent through a CLI call, runs every acceptance criterion against the running code, and produces a review document with verdicts and evidence.
 
 <figure><img src="../.gitbook/assets/verify-how-it-works.svg" alt="Four-stage Verify workflow: build, submit intent, verify, review"><figcaption><p>The end-to-end Verify loop</p></figcaption></figure>
 
 The full loop:
 
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot, or anything else you use today. No new tooling, no behavior change.
-2. **Submit intent via the Aviator MCP.** When you're done, the agent calls one MCP tool. It captures the intent you and the agent agreed on and the acceptance criteria from what was built.
+2. **Submit intent with the Aviator CLI.** When you're done, the agent runs `/verify-submit`, which reads the change and submits it through the [Aviator CLI](reference/cli.md). It captures the intent you and the agent agreed on and the acceptance criteria from what was built.
 3. **Aviator verifies end to end.** Every criterion runs through the verification pipeline. Code-scan handles structural checks against the diff — this works out of the box. Runtime checks run against a preview environment if you've configured one (optional; see [Concepts: Previews](concepts/previews.md)). Matching invariants apply automatically.
 4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence behind each verdict. They can approve, waive with reason, or ask for another scenario on the spot.
 
 ### What gets submitted
 
-The MCP call carries two things:
+The submission carries two things:
 
 - **Intent** — a short statement of *what* this change is for. It carries the constraints that aren't visible from the diff alone.
 - **Acceptance criteria** — verifiable assertions the change must satisfy. Each criterion is independent and has a clear pass/fail shape.
@@ -91,10 +91,12 @@ Every step is recorded as an immutable event: intent submitted, who submitted it
 
 ### Running with remote agents
 
-If you'd rather not run the agent locally, Aviator Runbooks runs the implementing agent inside a sandbox, calls the same MCP, and waits for verification. The verification path is identical — only the agent's location changes. Useful for batch work, off-hours runs, or non-developer-driven changes.
+If you'd rather not run the agent locally, Aviator Runbooks runs the implementing agent inside a sandbox, submits the same way, and waits for verification. The verification path is identical — only the agent's location changes. Useful for batch work, off-hours runs, or non-developer-driven changes.
 
 ### See also
 
+- [Reference: Aviator CLI](reference/cli.md)
+- [How to: Set up agent hooks](how-to-guides/set-up-agent-hooks.md)
 - [Setting up org invariants](setting-up-org-invariants.md)
 - [Concepts: Invariants](concepts/invariants.md)
 - [How to: Writing a SKILL.md](how-to-guides/writing-a-skill-md.md)

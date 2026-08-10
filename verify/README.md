@@ -4,7 +4,7 @@ icon: shield-check
 
 # Verify
 
-Aviator Verify replaces line-by-line code review with verification of *what the change is supposed to do*. You work with your agent locally. Aviator captures your intent through a single MCP call, runs every acceptance criterion against the running code, and produces a review document with verdicts and evidence.
+Aviator Verify replaces line-by-line code review with verification of *what the change is supposed to do*. You work with your agent locally. Aviator captures your intent through a single CLI call, runs every acceptance criterion against the running code, and produces a review document with verdicts and evidence.
 
 The reviewer judges behavior — not the diff.
 
@@ -13,7 +13,7 @@ You can start using Verify with code-scan alone — no preview, no infrastructur
 ### The flow
 
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot — anything you use today. No new tooling, no behavior change.
-2. **Submit intent via MCP.** The agent calls one tool when you're done. It captures the intent and the acceptance criteria from what was built.
+2. **Submit intent with the Aviator CLI.** When you're done, the agent runs `/verify-submit`, which captures the intent and the acceptance criteria from what was built and submits them. Set up [agent hooks](how-to-guides/set-up-agent-hooks.md) and it gets prompted before every PR.
 3. **Aviator verifies end to end.** Scenarios run in your preview, invariants apply automatically, code-scan handles structural checks.
 4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence. They approve, waive with reason, or ask for another scenario on the spot.
 
@@ -64,12 +64,13 @@ Three things follow:
 ### Getting started
 
 1. [Connect a repository](how-to-guides/connect-a-repository.md) — wire up GitHub.
-2. [Your first verification](your-first-spec.md) — a 15-minute hands-on. Install the MCP, ship a small change, watch verification run. No preview needed.
+2. [Your first verification](your-first-spec.md) — a 15-minute hands-on. Install the CLI, ship a small change, watch verification run. No preview needed.
 3. [Setting up org invariants](setting-up-org-invariants.md) — codify the rules every change must respect.
 4. [Creating a preview](how-to-guides/creating-a-preview.md) — *optional.* Unlocks runtime verification when your criteria start asking about behavior the diff alone can't answer.
 
 ### Quick links
 
+* **Submitting:** [Aviator CLI](reference/cli.md) · [Set up agent hooks](how-to-guides/set-up-agent-hooks.md)
 * **Writing for the agent:** [SKILL.md guide](how-to-guides/writing-a-skill-md.md) · [Effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
 * **Configuration:** [Preview YAML](reference/preview-yaml.md) · [Spec format](reference/spec-format.md)
 * **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
