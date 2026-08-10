@@ -9,6 +9,18 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-08-06" %}
+## 2026.08.06-2-rc1
+
+frontend: `sha256:0272d0f7d0c7ef8f94bb15d81606d8bbeec143a89421290acc7a1857d30e3fdd`
+
+mergeit: `sha256:b9b040fbd58567f546fa7ae7b144343d4799eafb45994ee6206fc15e1312c630`
+
+**Runbooks**
+
+* Fix pull requests failing to open when the title exceeded GitHub's length limit
+{% endupdate %}
+
 {% update date="2026-08-05" %}
 ## 2026.08.05-2-rc1
 
