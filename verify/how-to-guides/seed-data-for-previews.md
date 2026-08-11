@@ -21,13 +21,14 @@ If any of these break, the noise floor of verification rises. Verdicts get less 
 Best for small, stable datasets. Commit a JSON or SQL file to the repo and load it in `setup`.
 
 ```yaml
-preview:
-  - name: default
-    image: ghcr.io/acme/api:edge
-    port: 8000
-    setup: .aviator/scripts/preview-setup.sh
-    secrets:
-      - DB_PASSWORD
+verify:
+  preview:
+    - name: default
+      image: ghcr.io/acme/api:edge
+      port: 8000
+      setup: .aviator/scripts/preview-setup.sh
+      secrets:
+        - DB_PASSWORD
 ```
 
 ```bash
