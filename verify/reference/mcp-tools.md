@@ -1,6 +1,10 @@
 # MCP tools
 
-The Aviator MCP server is how your coding agent talks to Verify. It exposes three tools for creating, reading, and editing the runbook that drives a verification run.
+{% hint style="info" %}
+The MCP server is the legacy submission path. The [Aviator CLI](cli.md) is the preferred way to submit to Verify — it's what `/verify-submit` uses, and it's where new capability lands. The MCP tools below still work, and existing installs keep functioning.
+{% endhint %}
+
+The Aviator MCP server exposes three tools for creating, reading, and editing the runbook that drives a verification run.
 
 This page documents the tool surface. For the conceptual flow, see [How Verify works](../how-it-works.md).
 
@@ -120,6 +124,7 @@ The MCP tool surface follows backwards-compatibility rules:
 
 ### See also
 
-* [How Verify works](../how-it-works.md) — where the MCP fits in the loop
+* [Aviator CLI](cli.md) — the preferred submission path
+* [How Verify works](../how-it-works.md) — where submission fits in the loop
 * [Your first verification](../your-first-spec.md) — hands-on tutorial
 * [Running with remote agents](../how-to-guides/running-with-remote-agents.md) — alternative flow that uses Runbooks directly

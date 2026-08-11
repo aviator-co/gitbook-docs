@@ -1,6 +1,6 @@
 # Your first verification
 
-In this tutorial, you'll ship a small change end to end through Verify: implement it with your agent, submit the intent through the Aviator MCP, watch verification run, and read the review document.
+In this tutorial, you'll ship a small change end to end through Verify: implement it with your agent, submit the intent with the Aviator CLI, watch verification run, and read the review document.
 
 By the end, you'll have a working loop and a sense of where each piece fits.
 
@@ -9,20 +9,36 @@ By the end, you'll have a working loop and a sense of where each piece fits.
 **Prerequisites:**
 
 * An Aviator org with a connected GitHub repo — see [Connect a repository](how-to-guides/connect-a-repository.md)
-* A coding agent that supports MCP — Claude Code, Cursor, or another MCP-compatible client
+* A coding agent — Claude Code or Codex
 * Write access to the repo
 
 You **don't need a preview** to do this tutorial. Without one, Verify runs code-scan only — every criterion is checked against the diff. You'll see a fully working loop end to end. Add a preview later when you want behavioral (runtime) verdicts; see [Creating a preview](how-to-guides/creating-a-preview.md).
 
-### Step 1: Install the Aviator MCP in your agent
+### Step 1: Install the Aviator CLI and the agent plugin
 
-The MCP is how the agent talks to Aviator. Install it once per agent.
+The CLI is how your agent talks to Aviator. Install it once per machine:
 
-1. In the Aviator UI, go to **Settings → Integrations → MCP** and copy your install snippet (it includes a scoped token).
-2. Add the snippet to your agent's MCP server configuration. See your client's MCP documentation for where this lives.
-3. Restart the agent. You should see the Aviator tools listed in the agent's available tools.
+```bash
+brew install aviator-co/tap/aviator
+export AVIATOR_API_TOKEN=<your token>
+```
 
-A successful install gives your agent access to three Aviator tools: `specSubmit`, `getRunbook`, and `editRunbook`. You only need `specSubmit` for this tutorial. See [MCP tools](reference/mcp-tools.md) for the full surface.
+Create a token at [app.aviator.co/settings/personal/api_token](https://app.aviator.co/settings/personal/api_token). To keep it out of your shell profile, put it in `~/.config/aviator/config.yaml` instead — see [Authentication](reference/cli.md#authentication).
+
+Next, install the `/verify-submit` skill from the [Aviator agent plugins](https://github.com/aviator-co/agent-plugins). In Claude Code:
+
+```
+/plugin marketplace add aviator-co/agent-plugins
+/plugin install aviator@aviator-plugins
+```
+
+Finally, from inside the repo, set up the pre-PR reminder so your agent doesn't need to be told each time:
+
+```bash
+aviator init
+```
+
+See [Set up agent hooks](how-to-guides/set-up-agent-hooks.md) for what this writes and how to scope it to your team or just yourself. It's optional for this tutorial — you can prompt the agent directly instead.
 
 ### Step 2: Pick a small change
 
@@ -48,14 +64,15 @@ When you're happy with the change, tell the agent it's ready.
 
 Tell the agent to submit the intent:
 
-> Submit this to Aviator Verify.
+> /verify-submit
 
-The agent calls `specSubmit` through the MCP. The tool creates a runbook carrying:
+The skill reads the change, drafts the submission with you, and calls `aviator verify`. It carries:
 
 * **Intent** — what the change is for, captured from your conversation.
 * **Acceptance criteria** — the verifiable assertions, generated from what was built.
+* **Working branch** — the branch the work lives on, so the PR you open from it is verified against these criteria.
 
-The MCP returns a runbook URL like `https://app.aviator.co/r/218`. The agent will print it.
+The CLI prints a session URL like `https://app.aviator.co/r/218`.
 
 Open the URL in your browser. You'll see the runbook with the generated plan, the acceptance criteria, and (once verification starts) a streaming verdict per criterion.
 
@@ -96,7 +113,7 @@ From the review document you can:
 
 * **Approve** — sign off and continue your normal merge flow.
 * **Waive a failed verdict with a category** — `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`. Recorded in the audit trail.
-* **Edit the acceptance criteria** — ask the agent to call `editRunbook` with the corrected criteria, then re-verify.
+* **Edit the acceptance criteria** — use `aviator edit` to replace them, then re-verify. Re-running `/verify-submit` creates a new session, so edit rather than resubmit.
 * **Open the preview** — if you have one configured, poke at the running code yourself before approving.
 
 If you'd rather stay on GitHub, the [Verify tab on the pull request](how-to-guides/verify-on-github.md) carries the verdicts and the rerun, waive and remove actions.
@@ -106,7 +123,7 @@ Approve to close the loop. The audit trail now has a complete record: runbook su
 ### What you just learned
 
 * Verify runs *after* you build, not before. There's no separate "approve the spec first" step.
-* The MCP is the only handoff between you and Aviator. One tool call carries everything.
+* The CLI is the only handoff between you and Aviator. One call carries everything.
 * Acceptance criteria come from what was built, not what you planned upfront.
 * The review document is the surface — verdicts and evidence per criterion, not a 500-line diff.
 * Reviewer decisions, scenario evidence, and verdicts are all recorded as one immutable audit trail per change.
