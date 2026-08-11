@@ -29,11 +29,12 @@ The skill is read from the **commit under verification**, so it versions with yo
 To point a preview at a file somewhere other than the default location, set `verify_skill`:
 
 ```yaml
-preview:
-  - name: default
-    image: api-preview
-    port: 8000
-    verify_skill: docs/verify/main.md
+verify:
+  preview:
+    - name: default
+      image: api-preview
+      port: 8000
+      verify_skill: docs/verify/main.md
 ```
 
 `verify_skill` is a single repo-relative path; when set, it replaces the default `<preview-name>.md` lookup for that preview. See [Preview YAML](../reference/preview-yaml.md).

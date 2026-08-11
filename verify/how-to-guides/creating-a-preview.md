@@ -92,7 +92,7 @@ The fields to get right:
 
 The setup script is what **starts your service** — it's the launch point of every preview, so this step isn't optional. Aviator runs it once inside the container at boot, after checking out the branch under test, and it's also where migrations, fixtures, and warm-up belong. Your declared secrets and a `PREVIEW_URL` variable are injected into the script's environment.
 
-Create `.aviator/scripts/preview-setup.sh` in the repo (at the path your `setup` field points to):
+Create `.aviator/scripts/preview-setup.sh` in the repo (at the path your `setup` field points to). The script below is a sample — the exact commands are specific to your repo and service:
 
 ```bash
 #!/usr/bin/env bash
@@ -108,12 +108,6 @@ nohup ./bin/api serve --port 8000 > /tmp/preview.log 2>&1 &
 
 # There's no health check, so give the port a moment to come up before exiting.
 sleep 2
-```
-
-Make it executable:
-
-```bash
-chmod +x .aviator/scripts/preview-setup.sh
 ```
 
 Two rules of thumb:
