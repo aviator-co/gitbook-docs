@@ -2,7 +2,7 @@
 
 A **preview** is an ephemeral environment Verify builds on demand and runs scenarios against. It's how Verify makes behavioral claims real — every "the endpoint returns X" criterion needs the code to actually run somewhere, and the preview is that somewhere.
 
-A preview is short-lived: built per run, used by the scenario runner (and optionally a human reviewer), then torn down. No state persists between runs.
+A preview is short-lived: built for the branch's current commit, used by the scenario runner (and optionally a human reviewer), and torn down when the branch moves to a new commit. A re-run on the same commit reuses the running preview — including its state. See [Lifecycle](#lifecycle) for the exact contract.
 
 ### Optional, not required
 
@@ -12,17 +12,22 @@ A preview unlocks **runtime verification**: behavioral criteria like "the endpoi
 
 ### Lifecycle
 
-<figure><img src="../../.gitbook/assets/verify-preview-lifecycle.svg" alt="Preview lifecycle: define, build, boot, use, teardown"><figcaption><p>A preview moves through five phases per verification run</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/verify-preview-lifecycle.svg" alt="Preview lifecycle: define, build, boot, use, teardown"><figcaption><p>A preview moves through five phases</p></figcaption></figure>
 
 | Phase        | What happens                                                                                |
 | ------------ | ------------------------------------------------------------------------------------------- |
-| **Define**   | The repo declares the preview in `aviator/verify.yaml`.                                     |
+| **Define**   | The preview is configured in the Verify settings in the Aviator dashboard (**Verify → Settings → Verify**, with the repo selected). |
 | **Build**    | Aviator boots a container from the cached image and prepares the environment.                |
 | **Boot**     | The setup script runs. The declared port becomes reachable.                                  |
 | **Use**      | Scenarios execute against the preview. Reviewers can also open it from the UI.               |
-| **Teardown** | The optional teardown script runs. The container is destroyed. No state survives.            |
+| **Teardown** | When the branch moves to a new commit (or the preview is stopped), the optional teardown script runs and the container is destroyed. |
 
-Every verification run starts fresh. That's deliberate — a preview that carries state from a previous run produces non-reproducible verdicts.
+Whether a run starts fresh depends on whether the branch has moved. When a verification run starts, Aviator compares the branch's current head SHA to the SHA the existing preview was built from:
+
+* **New commit since the last run** — the old container is torn down and a fresh one is built and booted. The setup script runs. The run starts from a clean slate.
+* **Same commit (a re-run)** — Aviator reconnects to the already-running container and skips the setup script entirely. Everything from the previous run persists: database rows, files, logged-in sessions.
+
+The practical consequence: if your scenarios mutate data, a re-run on the same commit sees the previous run's leftovers. Push a new commit (or stop the preview) to force a clean boot.
 
 ### Composition
 
@@ -36,11 +41,11 @@ A preview is composed of inputs from three places: a preview image, your secret 
 * **Teardown script** — optional. Runs before destruction to release external resources.
 * **Port** — the port the runner connects to. The container is considered ready when this port accepts connections.
 
-Aviator stitches these together into a single ephemeral container. The repo's `verify.yaml` is the contract — see [Preview YAML reference](../reference/preview-yaml.md) for every field.
+Aviator stitches these together into a single ephemeral container. Your Verify settings are the contract — see [Preview YAML reference](../reference/preview-yaml.md) for every field.
 
 ### Multiple previews per repo
 
-A repo can declare more than one preview. Common patterns:
+A repo can have more than one preview configured. Common patterns:
 
 | Pattern                        | Why                                                                                   |
 | ------------------------------ | ------------------------------------------------------------------------------------- |
@@ -70,8 +75,8 @@ Previews look like CI environments but they're not the same thing:
 |                    | Preview                              | CI environment                        |
 | ------------------ | ------------------------------------ | ------------------------------------- |
 | Triggered by       | Verify run                           | Push, PR open, schedule               |
-| Lifespan           | Per run (minutes)                    | Per job (minutes to hours)            |
-| Configured in      | `aviator/verify.yaml`                | CI provider config (GH Actions, etc.) |
+| Lifespan           | Until the branch moves to a new commit | Per job (minutes to hours)            |
+| Configured in      | Verify settings in the Aviator dashboard | CI provider config (GH Actions, etc.) |
 | Used by            | Scenario runner + reviewer           | Test runners, build pipeline          |
 | Purpose            | Make behavioral verification real    | Run the test suite, ship artifacts    |
 

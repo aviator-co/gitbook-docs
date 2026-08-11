@@ -1,21 +1,24 @@
 # Preview YAML reference
 
-This page documents the `preview` block in `aviator/verify.yaml`. For the concept of what a preview is and how it fits in, see [Concepts: Previews](../concepts/previews.md).
+This page documents the `preview` block of your Verify configuration, edited in the Aviator dashboard under **Verify → Settings → Verify** (with the repo selected). For the concept of what a preview is and how it fits in, see [Concepts: Previews](../concepts/previews.md).
 
 ### Shape
 
-`preview` is a list. Each entry defines one preview.
+`preview` is a list nested under the top-level `verify` key. Each entry defines one preview.
 
 ```yaml
-preview:
-  - name: default
-    image: sim-preview-baked-deps
-    port: 8000
-    setup: .aviator/scripts/preview-setup.sh
-    secrets:
-      - DB_PASSWORD
-      - STRIPE_KEY
+verify:
+  preview:
+    - name: default
+      image: sim-preview-baked-deps
+      port: 8000
+      setup: .aviator/scripts/preview-setup.sh
+      secrets:
+        - DB_PASSWORD
+        - STRIPE_KEY
 ```
+
+The `verify:` wrapper is required — the schema rejects unknown top-level keys, so a bare `preview:` block fails validation.
 
 If a single preview is declared with no `name`, it's treated as `default`. Always set names explicitly when you have more than one.
 
@@ -94,32 +97,34 @@ See [Managing previews](../how-to-guides/managing-previews.md) for the bake-vs-s
 **Minimal:**
 
 ```yaml
-preview:
-  - name: default
-    image: sim-preview-baked-deps
-    port: 8000
-    setup: .aviator/scripts/preview-setup.sh
-    secrets:
-      - PREVIEW_DB_PASSWORD
+verify:
+  preview:
+    - name: default
+      image: sim-preview-baked-deps
+      port: 8000
+      setup: .aviator/scripts/preview-setup.sh
+      secrets:
+        - PREVIEW_DB_PASSWORD
 ```
 
 **Multi-preview repo:**
 
 ```yaml
-preview:
-  - name: default
-    image: api-preview
-    port: 8000
-    setup: .aviator/scripts/preview-setup.sh
-    secrets:
-      - DB_PASSWORD
-      - STRIPE_KEY
-  - name: worker
-    image: worker-preview
-    port: 9000
-    secrets:
-      - DB_PASSWORD
-      - QUEUE_URL
+verify:
+  preview:
+    - name: default
+      image: api-preview
+      port: 8000
+      setup: .aviator/scripts/preview-setup.sh
+      secrets:
+        - DB_PASSWORD
+        - STRIPE_KEY
+    - name: worker
+      image: worker-preview
+      port: 9000
+      secrets:
+        - DB_PASSWORD
+        - QUEUE_URL
 ```
 
 ### See also
