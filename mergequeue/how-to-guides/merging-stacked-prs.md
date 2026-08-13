@@ -148,3 +148,29 @@ Queue the stack the same way as any other — request the merge on the topmost P
 <figure><img src="../../.gitbook/assets/aviator-gh-stack.png" alt=""><figcaption><p>Queueing a GitHub-managed stack from the pull request page</p></figcaption></figure>
 
 When the stack reaches the front of the queue, Aviator merges it through GitHub itself. Every PR in the stack shows as **Merged** in GitHub (not closed), and GitHub's stack state stays consistent with what landed. The [Setting original PRs as merged](merging-stacked-prs.md#setting-original-prs-as-merged-beta) workaround exists for exactly this purpose on Aviator-managed stacks; GitHub-managed stacks do not need it, so `update_pr_commits_before_stack_merge` has no effect on them and can be left disabled.
+
+### Remove the "Restrict updates" rule
+
+A branch protected by the **Restrict updates** ruleset rule cannot accept a stacked-PR merge — not from Aviator, and not from a person clicking Merge in GitHub's own web interface. This includes users and apps listed as bypass actors on the ruleset.
+
+The rule means that only actors with bypass permission may update the branch. GitHub honors that bypass for an ordinary pull request merge, which is why regular merges keep working. It does not honor it when merging a stack, so the merge is refused with:
+
+```
+Cannot update this protected ref.
+```
+
+The message names no rule, so this is easy to mistake for a missing status check or approval. The symptoms are every pull request in the stack reporting as **not ready** in GitHub with that message on the bottom PR, or Aviator blocking the stack with `GitHub could not merge this stack: Cannot update this protected ref.`
+
+To use GitHub's stacked pull requests, remove **Restrict updates** from the ruleset that targets your mainline.
+
+#### Preventing merges that skip the queue
+
+**Restrict updates** is often enabled to stop developers merging directly and bypassing MergeQueue. A required status check does that job without breaking stacks.
+
+Add `aviator/checks` to the **Require status checks to pass** rule in the same ruleset.
+
+<figure><img src="../../.gitbook/assets/gh-stack-required-checks.png" alt="Branch rules with Restrict updates unchecked and aviator/checks listed as a required status check"><figcaption><p>Restrict updates turned off, with <code>aviator/checks</code> required instead</p></figcaption></figure>
+
+Aviator publishes this check on every pull request and only reports it as successful at the point the PR is merged through the queue. Until then it stays pending, so GitHub blocks a manual merge while Aviator itself can still merge. Leave `publish_status_check` at its default of `ready` — setting it to `never` disables the check this depends on.
+
+Direct pushes to the branch are still blocked by **Require a pull request before merging**, which is unaffected by removing **Restrict updates**.
