@@ -37,8 +37,9 @@ After enabling, you can configure:
 
 | Setting             | Description                                              | Default |
 | ------------------- | -------------------------------------------------------- | ------- |
-| **Exempt paths**    | Glob patterns. PRs touching only these skip verification | Empty   |
-| **Preview block**   | Per-repo preview configuration in `aviator/verify.yaml`  | None    |
+| **Auto-create runbook on PR open** | Opening a PR in this repository automatically creates a runbook | Off |
+| **Generate invariants from PR comments** | Aviator reviews merged-PR comments weekly to propose new baseline invariants | On after onboarding |
+| **`verify.yaml`**   | Per-repo Verify configuration, including preview environments, edited under **Verify → Settings → Verify** | Empty |
 
 A preview is **not required** to get started — Verify runs code-scan only without one and produces verdicts on structural criteria from the first PR. Add a preview later when behavioral verification matters.
 

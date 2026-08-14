@@ -10,7 +10,7 @@ This page documents the `preview` block of your Verify configuration, edited in 
 verify:
   preview:
     - name: default
-      image: sim-preview-baked-deps
+      image: api-preview
       port: 8000
       setup: .aviator/scripts/preview-setup.sh
       secrets:
@@ -38,7 +38,7 @@ If a single preview is declared with no `name`, it's treated as `default`. Alway
 
 `image` is the name of a preview image registered with Aviator for your account. Aviator caches the image locally and boots a container from it for each verification run.
 
-You can register an image through **Settings → Sandboxes** in the Aviator UI. The same image system backs both the preview environment and the coding sandbox — set both to the same image when you want them to share dependencies and tooling.
+You can register an image through **Settings → Sandbox** in the Aviator UI. The same image system backs both the preview environment and the coding sandbox — set both to the same image when you want them to share dependencies and tooling.
 
 ### Secrets
 
@@ -100,7 +100,7 @@ See [Managing previews](../how-to-guides/managing-previews.md) for the bake-vs-s
 verify:
   preview:
     - name: default
-      image: sim-preview-baked-deps
+      image: api-preview
       port: 8000
       setup: .aviator/scripts/preview-setup.sh
       secrets:

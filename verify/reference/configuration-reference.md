@@ -1,50 +1,37 @@
 ---
-description: Configuration surface for Verify — per-repo verify.yaml and org-level settings.
+description: Configuration surface for Verify — per-repo verify.yaml and account-level settings.
 ---
 
 # Configuration reference
 
 This page is the umbrella reference for Verify configuration. Per-concept references live on their own pages and are linked from here.
 
-### Per-repo: `aviator/verify.yaml`
+### Per-repo: `verify.yaml`
 
-The root of all per-repo configuration. Lives at `aviator/verify.yaml` in your repo's default branch.
+The root of all per-repo configuration. Edit it in the Aviator dashboard under **Verify → Settings → Verify** with the repository selected — it is not a file you commit to the repo. Each save is versioned, and earlier versions can be restored from the editor's history.
 
 #### Top-level keys
 
-| Key             | Type        | Default | Description                                                                  |
-| --------------- | ----------- | ------- | ---------------------------------------------------------------------------- |
-| `exempt_paths`  | string list | `[]`    | Glob patterns. PRs touching only exempt paths skip verification.             |
-| `preview`       | list        | none    | One or more preview definitions. See [Preview YAML](preview-yaml.md).        |
+| Key              | Type | Default | Description                                                           |
+| ---------------- | ---- | ------- | --------------------------------------------------------------------- |
+| `verify`         | map  | none    | Root key. All Verify configuration nests under it.                    |
+| `verify.preview` | list | none    | One or more preview definitions. See [Preview YAML](preview-yaml.md). |
 
 Example:
 
 ```yaml
-exempt_paths:
-  - "docs/**"
-  - "*.md"
-  - ".github/**"
-
-preview:
-  - name: default
-    image: sim-preview-baked-deps
-    port: 8000
-    setup: .aviator/scripts/preview-setup.sh
-    secrets:
-      - DB_PASSWORD
-      - STRIPE_KEY
+verify:
+  preview:
+    - name: default
+      image: api-preview
+      port: 8000
+      setup: .aviator/scripts/preview-setup.sh
+      secrets:
+        - DB_PASSWORD
+        - STRIPE_KEY
 ```
 
-#### Exempt path glob syntax
-
-| Pattern      | Matches                                  |
-| ------------ | ---------------------------------------- |
-| `docs/**`    | Any file under the `docs/` directory     |
-| `*.md`       | Markdown files in the repo root          |
-| `**/*.md`    | Markdown files anywhere in the repo      |
-| `.github/**` | Files under `.github/`                   |
-
-A PR that modifies *only* exempt-path files skips verification entirely. A PR that modifies any non-exempt file runs the full pipeline.
+Unknown keys are rejected: saving fails with a validation error rather than silently ignoring them. A common mistake is starting the document at `preview:` — it must nest under `verify:`.
 
 ### Per-repo: preview block
 
@@ -52,17 +39,20 @@ Detailed in its own reference page:
 
 → [Preview YAML reference](preview-yaml.md)
 
-### Org-level settings
+### Account-level settings
 
-Configure in **Verify → Settings**.
+Configure in **Verify → Settings**. These apply across the account rather than per repository.
 
-#### Preview lifetime
+#### Sandbox
 
-| Setting            | Type    | Default | Description                                                          |
-| ------------------ | ------- | ------- | -------------------------------------------------------------------- |
-| `preview_idle_ttl` | integer | `1800`  | Seconds the preview stays alive after the run for reviewer access.   |
+Set under **Verify → Settings → Sandbox**.
 
-When the TTL expires, the preview is torn down. Reviewers can extend a preview manually from the review document — see [Managing previews](../how-to-guides/managing-previews.md).
+| Setting                       | Type    | Default | Description                                                                 |
+| ----------------------------- | ------- | ------- | --------------------------------------------------------------------------- |
+| **Sandbox Timeout (minutes)** | integer | `60`    | How long a sandbox stays active. Accepts 1–240.                             |
+| **Sandbox Image**             | template | Aviator default | The image sandboxes boot from. Custom images are registered on the same page. |
+
+When the timeout expires, the sandbox is torn down and the preview link stops resolving. See [Managing previews](../how-to-guides/managing-previews.md).
 
 ### Invariants
 

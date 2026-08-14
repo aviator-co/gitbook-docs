@@ -17,7 +17,7 @@ For the concept overview, see [Concepts: Previews](../concepts/previews.md). For
 
 ### Step 1: Register a preview image
 
-Aviator boots a preview container from an image you register under **Settings → Sandboxes**. Give it a short, stable name — e.g. `api-preview` — which you'll reference from your preview config. There are two ways to register one.
+Aviator boots a preview container from an image you register under **Settings → Sandbox**. Give it a short, stable name — e.g. `api-preview` — which you'll reference from your preview config. There are two ways to register one.
 
 #### Option A: From a Dockerfile
 
@@ -35,7 +35,7 @@ Choose this when you want the preview to run your *real* environment rather than
 * **Reuse the image your CI already builds.** One build definition instead of a second Dockerfile to keep in sync, so previews mirror what you actually ship — and it covers private base images and build-time secrets Aviator's builder can't use.
 * **Faster, prod-like boots.** Bake the repository into the image (see **Repo root** below) and Aviator fetches the branch in place instead of cloning it fresh each run.
 
-1. Open **Settings → Sandboxes → Add → From Registry Image**.
+1. Open **Settings → Sandbox → Add → From Registry Image**.
 2. Select the registry type and enter the fully-qualified image reference, e.g. `123456789.dkr.ecr.us-west-2.amazonaws.com/api:latest`.
 3. Provide **read-only** pull credentials. Scope them as tightly as possible — Aviator only needs to pull and inspect the image:
    * **AWS ECR** — an access key ID, secret access key, and region for an IAM principal with `AmazonEC2ContainerRegistryReadOnly` on the repository.
@@ -49,7 +49,7 @@ The image **must include `git`** — Aviator checks out (or updates) the branch 
 
 After you register the image, Aviator pulls and prepares it. The image card shows **Building**, then **Success** once it's ready — reference it from your preview config at that point.
 
-**Keeping a registry image current.** When you push a new image to the same tag, Aviator re-pulls and rebuilds it automatically within the hour — and only when the tag's digest has actually changed, so an unchanged tag costs nothing. To pull a new build immediately, open the image under **Settings → Sandboxes** and click **Check for Update**. To pin an exact build that never moves, reference an image digest (`…@sha256:…`) instead of a tag.
+**Keeping a registry image current.** When you push a new image to the same tag, Aviator re-pulls and rebuilds it automatically within the hour — and only when the tag's digest has actually changed, so an unchanged tag costs nothing. To pull a new build immediately, open the image under **Settings → Sandbox** and click **Check for Update**. To pin an exact build that never moves, reference an image digest (`…@sha256:…`) instead of a tag.
 
 If you don't have a service image yet, the simplest path is to start with a base image that has your runtime (e.g. `node:20`) and let the setup script install dependencies. As your previews mature, bake more into the image.
 

@@ -35,7 +35,7 @@ A preview is composed of inputs from three places: a preview image, your secret 
 
 <figure><img src="../../.gitbook/assets/verify-preview-anatomy.svg" alt="Preview anatomy: inputs, the preview container, and what consumes it"><figcaption><p>Where each piece of a preview comes from, and what uses it</p></figcaption></figure>
 
-* **Image** — a preview image registered with Aviator for your account. Aviator caches the image locally and boots containers from it. Register images through **Settings → Sandboxes** in the Aviator UI.
+* **Image** — a preview image registered with Aviator for your account. Aviator caches the image locally and boots containers from it. Register images through **Settings → Sandbox** in the Aviator UI.
 * **Secrets** — runtime secrets (DB passwords, API keys) referenced by name from the account secret store and injected as environment variables when the container boots.
 * **Setup script** — optional. Runs after the container starts and before the port is marked ready. Used for migrations, seeding, warm-up.
 * **Teardown script** — optional. Runs before destruction to release external resources.
@@ -66,7 +66,7 @@ This matters for cost: previews are the expensive part of verification. The clas
 
 The review document exposes a per-run "Open preview" link. Clicking it gives the reviewer access to the same ephemeral container the scenarios ran against — same data, same configuration, same code under test.
 
-The link expires when the preview is torn down (default: shortly after the run completes). If you need a long-running review session, ask Aviator to extend the preview from the UI.
+The link expires when the sandbox times out and the preview is torn down. The window is controlled by **Sandbox Timeout (minutes)** under **Verify → Settings → Sandbox** (default 60, up to 240). If reviewers routinely need longer sessions, raise that setting; a preview that has already been torn down can be launched again from the review document.
 
 ### Previews vs. CI environments
 
