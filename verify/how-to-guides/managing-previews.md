@@ -22,13 +22,13 @@ A preview that takes 90 seconds to boot is a preview people stop trusting. If yo
 
 `image` references a preview image registered with Aviator. Aviator caches the built image and boots from the cached copy per run, so a preview is only as fresh as the last build it picked up. How it refreshes depends on how the image is registered:
 
-* **Registry-sourced images.** Push a new image to the same tag. Aviator re-pulls and rebuilds it automatically within the hour — and only when the tag's digest actually changed. To pull a new build immediately, open the image under **Settings → Sandboxes** and click **Check for Update**.
-* **Dockerfile-built images.** Aviator builds these from the Dockerfile you provided at registration. When the contents need to change, register the updated image under **Settings → Sandboxes**.
+* **Registry-sourced images.** Push a new image to the same tag. Aviator re-pulls and rebuilds it automatically within the hour — and only when the tag's digest actually changed. To pull a new build immediately, open the image under **Settings → Sandbox** and click **Check for Update**.
+* **Dockerfile-built images.** Aviator builds these from the Dockerfile you provided at registration. When the contents need to change, register the updated image under **Settings → Sandbox**.
 
-Two patterns work well for either source:
+Two patterns work well for registry-sourced images. Both are set on the image itself under **Settings → Sandbox**, not in `verify.yaml` — the `image` field there only names the registered image:
 
-* **Track a moving tag.** Reference a stable name/tag (e.g. `api-preview`) and let each new push flow through. Simple, recommended for most teams.
-* **Pin an exact build per release.** For changes that must be reproducible months later for compliance, reference an image digest (`…@sha256:…`) or a versioned tag (e.g. `api-preview-v1.42.0`) from `verify.yaml` on the long-lived branch. The exact image used at verification time stays fixed.
+* **Track a moving tag.** Register the image against a stable tag (e.g. `registry.example.com/api-preview:latest`) and let each new push flow through. Simple, recommended for most teams.
+* **Pin an exact build per release.** For changes that must be reproducible months later for compliance, register the image by digest (`…@sha256:…`) or by a versioned tag (e.g. `registry.example.com/api-preview:v1.42.0`). The exact image used at verification time stays fixed.
 
 ### Multi-preview repos
 
@@ -42,9 +42,9 @@ Don't proliferate previews for small differences. Two previews that share most o
 
 ### TTL and cleanup
 
-Previews are torn down after their run completes. The "Open preview" link in the review document keeps the container alive for a short window so reviewers can poke at it; once that window expires, it's gone.
+Previews are torn down when their sandbox times out. The "Open preview" link in the review document stays live until then, so reviewers can poke at the container; once it expires, it's gone.
 
-If a reviewer needs longer access — for a security review, a customer demo, a deep debugging session — extend the preview from the review document UI. Extensions are bounded (typically a few hours), audited, and cost the team explicit acknowledgment.
+The window is the account-wide **Sandbox Timeout (minutes)** setting under **Verify → Settings → Sandbox** — 60 minutes by default, adjustable from 1 to 240. If reviewers need longer access for a security review, a customer demo, or a deep debugging session, raise that setting, or launch the preview again from the review document when they're ready to look.
 
 ### Updating an existing preview
 

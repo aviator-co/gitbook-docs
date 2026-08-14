@@ -102,7 +102,7 @@ Verification adds overhead. For some changes, that overhead isn't worth it:
 * Documentation updates
 * Trivial config changes
 
-Verify lets you exempt paths from requiring verification. Not everything needs this level of rigor — and forcing it everywhere produces noise that erodes trust in the verdicts.
+Verification is enabled per repository, and draft PRs are left alone until they're marked ready for review. Not everything needs this level of rigor — and forcing it everywhere produces noise that erodes trust in the verdicts.
 
 ### The mental model
 
