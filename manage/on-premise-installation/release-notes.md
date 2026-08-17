@@ -18,7 +18,7 @@ mergeit: `sha256:39560dcfca68cec3cfaca5bcf515f576035c43cc0f954cdd9ef56e8725dac32
 
 **MergeQueue**
 
-* `require_verified_commits` is now added to MergeQueue config
+* [`require_verified_commits`](https://docs.aviator.co/mergequeue/configuration-file#require-verified-commits) is now added to MergeQueue config
 * Pending PRs in a stalled stack now explain which PR is blocking the queue
 * With batching enabled, a stack is validated in a single draft PR instead of one CI run per member
 * Publish the Aviator check on every PR in a stack, against each PR's current head
@@ -31,13 +31,12 @@ mergeit: `sha256:39560dcfca68cec3cfaca5bcf515f576035c43cc0f954cdd9ef56e8725dac32
 
 **Runbooks**
 
-* Agent models upgraded to Claude Sonnet 5 and Opus 5
+* Default agent models are now Claude Sonnet 5 and Opus 5
 
 **General**
 
-* Redesigned login page with dark mode support and an SSO login option
-* SAML sign-in resolves the identity provider by user account, and deep links are preserved through SSO
-* Fine-grained GitHub personal access tokens are now supported
+* Redesigned login page with an SSO login option
+* Deep links are preserved through SSO sign-in
 {% endupdate %}
 
 {% update date="2026-08-06" %}
