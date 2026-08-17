@@ -9,6 +9,37 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-08-13" %}
+## 2026.08.13-2-rc1
+
+frontend: `sha256:39e5540a81b22b6677ccff7d6de61cce8d25b49bb559aebe2ca697e753010a16`
+
+mergeit: `sha256:39560dcfca68cec3cfaca5bcf515f576035c43cc0f954cdd9ef56e8725dac32d`
+
+**MergeQueue**
+
+* `require_verified_commits` is now added to MergeQueue config
+* Pending PRs in a stalled stack now explain which PR is blocking the queue
+* With batching enabled, a stack is validated in a single draft PR instead of one CI run per member
+* Publish the Aviator check on every PR in a stack, against each PR's current head
+* GitHub-native stack merges now retry after branch-protection rejections, fall back to fast-forwarding, and surface GitHub's full error when refused
+* Warn when GitHub requires checks that the queue config does not validate
+* Don't delete a branch that a pending PR still targets
+* Run the ready hook at most once per merge operation
+* Fix bisection cleanup interfering with reused original PRs
+* The queue page refreshes automatically when its tab becomes visible again
+
+**Runbooks**
+
+* Agent models upgraded to Claude Sonnet 5 and Opus 5
+
+**General**
+
+* Redesigned login page with dark mode support and an SSO login option
+* SAML sign-in resolves the identity provider by user account, and deep links are preserved through SSO
+* Fine-grained GitHub personal access tokens are now supported
+{% endupdate %}
+
 {% update date="2026-08-06" %}
 ## 2026.08.06-2-rc1
 
