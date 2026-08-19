@@ -56,13 +56,3 @@ A few things to note:
 * `filters` are the various directory packages that you can define as various affected targets. It accepts glob format and you can define more than 1 path per affected target. You may also optionally specify this in a separate file. Read more on the path-filters action [<mark style="color:blue;">documentation</mark>](https://github.com/dorny/paths-filter).
 * This will queue the PR in Aviator. You can also want to setup a similar GH action to dequeue when the label is removed.
 * This label `av-ready` should be separate from the label defined in Aviator’s configuration.
-
-### Manually specify targets
-
-If you prefer to do this manually, you can also specify the affected targets as a Slash command comment in your PR. The targets can be represented as a comma separated list in the `/aviator merge` command:
-
-```
-/aviator merge --targets=frontend,api,android
-```
-
-Although Manual approach is much simpler, it is prone to human errors and is a less preferred approach.
