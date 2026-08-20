@@ -9,6 +9,23 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-08-19" %}
+## 2026.08.19-2-rc1
+
+frontend: `sha256:b80e9c6bd567c70b7fc4bb8b0f5fff47f7f395881e03b19bc79329df3d1cb137`
+
+mergeit: `sha256:bbf1cf25add5bdfac91747b6ae6eb924b097ee2d15d82d9e9ecedfe32e1b2621`
+
+**MergeQueue**
+
+* New `merge_commit.wrap_body` option wraps squash commit messages at 72 characters, the same way GitHub's Squash and merge button does
+* Required checks configured as final gates now run for every pull request in a merged stack, not only the top one
+* Now the failures to merge GitHub-native stack due to branch's restrict-updates rule give a clear explanation of the failure
+* Better handling of GitHub timeouts when trying to create draft PRs, and PR sync actions
+* Repository actions such as Pause Queue now show a permission error instead of appearing to do nothing
+* Minor optimization for queue processing by moving less critical tasks to async
+{% endupdate %}
+
 {% update date="2026-08-13" %}
 ## 2026.08.13-2-rc1
 
