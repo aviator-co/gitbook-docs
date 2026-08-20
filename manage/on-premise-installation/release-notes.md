@@ -9,6 +9,24 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-08-19" %}
+## 2026.08.19-2-rc1
+
+frontend: `sha256:b80e9c6bd567c70b7fc4bb8b0f5fff47f7f395881e03b19bc79329df3d1cb137`
+
+mergeit: `sha256:bbf1cf25add5bdfac91747b6ae6eb924b097ee2d15d82d9e9ecedfe32e1b2621`
+
+**MergeQueue**
+
+* New `merge_commit.wrap_body` option wraps squash commit messages at 72 characters, the same way GitHub's Squash and merge button does
+* Required checks configured as final gates now run for every pull request in a merged stack, not only the top one
+* GitHub-native stack merges refused by a branch's restrict-updates rule now get a comment naming the rule, rather than an unexplained failure
+* If the request creating the queue's draft pull request times out, Aviator now attempts to recover the pull request GitHub created, instead of leaving it and its branch abandoned on the repository
+* A pull request that times out while syncing now reports a network error instead of "unknown error"
+* Repository actions such as Pause Queue now show a permission error instead of appearing to do nothing
+* Faster queue processing on large repositories: branch cleanup no longer holds up the queue, and required-check lookups are faster
+{% endupdate %}
+
 {% update date="2026-08-13" %}
 ## 2026.08.13-2-rc1
 
