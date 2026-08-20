@@ -12,11 +12,7 @@ Read the how-to-guide on [<mark style="color:blue;">using Slash commands</mark>]
 
 ## Merge
 
-The `/aviator merge` command queues a PR for merging. This can be used instead of adding the ready label. You can also specify affected targets as an additional parameter. See [<mark style="color:blue;">affected targets</mark>](../concepts/affected-targets/) mode to learn more.&#x20;
-
-```
-/aviator merge --targets=frontend,backend,api
-```
+The `/aviator merge` command queues a PR for merging. This can be used instead of adding the ready label.
 
 This command can also be used to merge stacked PRs. When queueing a stack, MergeQueue internally queues the PR where the command was given and every PR that comes before it in the stack. The target branch of the stack (i.e., the branch where that the stack is being merged into) is the base branch of the first PR in the stack. Read the details about [merging stacked PRs](../how-to-guides/merging-stacked-prs.md).
 
