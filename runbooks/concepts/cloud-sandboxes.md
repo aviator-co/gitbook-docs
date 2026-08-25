@@ -14,11 +14,11 @@ All our cloud runners are single tenant and do not share permissions or environm
 
 Every time a new task is created, a new runner will be spawned in the cloud. The runner will automatically select one of the environments suitable for this task. Cloning an existing Runbook creates a new task and a new runner environment.
 
-A runner will automatically pause after 30 mins of inactivity. You may also choose to pause the runner manually anytime during the task.
+A runner will automatically pause after 60 mins of inactivity by default. This timeout is configurable per repository (see [Timeout configuration](#timeout-configuration)). You may also choose to pause the runner manually anytime during the task.
 
 To unpause an existing runner, simply post a message on the chat associated with that Runbook. This will reload the runner from the previous saved state and resume the conversation. All the context is loaded back when resuming the runner.
 
-All paused runners are permanently deleted after 4 months of inactivity.
+All paused runners are permanently deleted after 7 days of inactivity. Resuming a runner resets that window.
 
 ## Environment management
 
