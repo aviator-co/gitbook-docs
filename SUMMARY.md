@@ -52,6 +52,7 @@
   * [API Reference for Runbooks](runbooks/api-reference.md)
 * [Verify](verify/README.md)
   * [How it works](verify/how-it-works.md)
+  * [Setting up your team](verify/setting-up-your-team.md)
   * [Your first verification](verify/your-first-spec.md)
   * [Setting up org invariants](verify/setting-up-org-invariants.md)
   * [Concepts](verify/concepts/README.md)
