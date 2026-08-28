@@ -21,6 +21,10 @@ When a CI run fails in one of those parallel build draft PRs, that failing a PR 
 
 If your test is flaky, this queue reset happens frequently. This slows down the entire queue and affects the efficacy of the team.
 
+{% hint style="info" %}
+Optimistic validation treats every failure the same way, because it does not know why the check failed. [Flaky test detection](flaky-test-detection.md) (beta) reads the failure and retries only the ones that would pass on a rerun.
+{% endhint %}
+
 ## Optimistic validation
 
 Optimistic validation is a feature to address this situation. When a CI run fails for a draft PR, instead of immediately dequeue the PR and causing a queue reset, it waits for other PRs to finish.
