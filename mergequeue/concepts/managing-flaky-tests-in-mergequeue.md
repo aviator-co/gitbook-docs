@@ -1,11 +1,11 @@
 ---
 description: >-
-  Learn about the flaky test problem in parallel mode and how to manage flaky
-  tests with optimistic validation. Optimistic validation configuration
-  instructions.
+  Learn about the flaky test problem in parallel mode and how optimistic
+  validation mitigates queue resets by waiting on later batches, including
+  configuration instructions.
 ---
 
-# Managing flaky tests
+# Optimistic validation
 
 Optimistic validation is a feature to mitigate the queue reset caused by flaky tests in [<mark style="color:blue;">parallel mode</mark>](parallel-mode/). When a test fails in a batch, it waits for other batches to see if a test passes.
 
@@ -20,6 +20,10 @@ For example, when there are two PRs (`PR #1` and `PR #2`) enqueued, we create tw
 When a CI run fails in one of those parallel build draft PRs, that failing a PR gets dequeued. This causes a queue reset. Imagine that `Draft PR #3` fails the CI run. This includes `PR #1` and this PR gets dequeued. `Draft PR #4` also includes `PR #1` and the CI run for this PR is cancelled. Because all the PRs created after `PR #1` includes it, this makes a cascading effect and effectively the entire queue is reset.
 
 If your test is flaky, this queue reset happens frequently. This slows down the entire queue and affects the efficacy of the team.
+
+{% hint style="info" %}
+This page covers optimistic validation, which waits on later batches without reading the failure. [Flaky test management](flaky-test-management.md) (beta) goes further: it reads the failure, reruns the ones that would pass on a retry, and stops those failures counting against the depth configured here.
+{% endhint %}
 
 ## Optimistic validation
 
