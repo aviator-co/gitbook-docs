@@ -7,7 +7,9 @@ description: >-
 
 # How to Configure Flaky Test Detection
 
-Flaky test detection lets Aviator investigate a failing check on a draft PR and retry it when the failure looks transient, instead of dequeuing the pull request. This guide covers turning it on and tuning it. For how the decision is made, see [Flaky test detection](../concepts/flaky-test-detection.md).
+Flaky test detection lets Aviator investigate a failing check on a draft PR and retry it when the failure looks transient, instead of dequeuing the pull request.
+
+This guide covers setting it up. For how Aviator decides whether a failure is worth retrying — and what it will never do — read [Flaky test detection](../concepts/flaky-test-detection.md) first.
 
 {% hint style="info" %}
 This feature is in beta and is off by default. It applies to [parallel mode](../concepts/parallel-mode/) only.
@@ -52,7 +54,7 @@ A check that never fails deterministically is a poor candidate. Retrying a test 
 
 ## Giving Aviator context
 
-The single highest-leverage thing you can configure is a short description of how a check actually fails. Aviator reads it when judging a failure, and it is often more informative than the diff.
+The single highest-leverage thing you can configure is a short description of how a check actually fails. Aviator reads it at the [last step of the decision ladder](../concepts/flaky-test-detection.md#how-aviator-decides), and it is often more informative than the diff.
 
 ```yaml
   flaky_retry:
@@ -160,7 +162,7 @@ Flaky test detection works with [optimistic validation](../concepts/managing-fla
       - name: "e2e-*"
 ```
 
-A failure judged transient does not count toward that depth, so the queue looks further ahead for it than for an ordinary failure. Your configured depth is a floor: a verdict can make the queue more patient, never less. You do not need to raise the depth to accommodate this feature.
+A failure judged transient does not count toward that depth, so the queue looks further ahead for it than for an ordinary failure. Your configured depth is a floor: a verdict can make the queue more patient, never less. You do not need to raise the depth to accommodate this feature. See [what happens to a transient failure](../concepts/flaky-test-detection.md#what-happens-to-a-transient-failure).
 
 ## Rolling it out
 
@@ -171,10 +173,16 @@ A failure judged transient does not count toward that depth, so the queue looks 
 
 ## Provider support
 
-Available for **GitHub Actions** and **Buildkite**.
+Available for **GitHub Actions** and **Buildkite**. The concept page covers this in more detail under [supported CI providers](../concepts/flaky-test-detection.md#supported-ci-providers).
 
 For GitHub Actions, Aviator retries the individual failing job rather than the whole workflow run, so matrix legs that already passed are not rerun. Jobs depending on the failed job via `needs:` are rerun with it.
 
 For Buildkite, Aviator retries the failing step within the build.
 
 Checks reporting as commit statuses rather than check runs can still be investigated, and can still stop a transient failure from dequeuing a pull request, but cannot be retried automatically.
+
+## Related
+
+* [Flaky test detection](../concepts/flaky-test-detection.md) — how the decision is made, and the guarantees it holds to
+* [Managing flaky tests](../concepts/managing-flaky-tests-in-mergequeue.md) — optimistic validation, which this builds on
+* [Parallel mode](../concepts/parallel-mode/) — why a single failing check resets the queue

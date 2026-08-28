@@ -9,6 +9,8 @@ description: >-
 
 When a CI check fails on a draft PR, Aviator can investigate the failure before deciding what to do about it. If the failure looks like it would pass on a retry, Aviator reruns the check and keeps the pull request in the queue instead of dequeuing it and resetting everything behind it.
 
+This page explains how that decision is made. To set it up, see [How to configure flaky test detection](../how-to-guides/configure-flaky-test-detection.md).
+
 {% hint style="info" %}
 Flaky test detection is in beta. It is off by default and must be enabled per repository. See [How to configure flaky test detection](../how-to-guides/configure-flaky-test-detection.md).
 {% endhint %}
@@ -44,7 +46,7 @@ flowchart TD
 
 ### 1. Only checks you opt in
 
-Aviator investigates the checks you list in `retriable_checks` and nothing else. A check you have not named is dequeued exactly as it is today.
+Aviator investigates the checks you list in `retriable_checks` and nothing else. A check you have not named is dequeued exactly as it is today. See [choosing which checks](../how-to-guides/configure-flaky-test-detection.md#choosing-which-checks).
 
 ### 2. Reading the failure
 
@@ -91,7 +93,7 @@ The safety properties matter more than the feature itself, so they are worth sta
 
 Whenever a check fails and then passes on the same commit, Aviator records that as an observed flake. The commit did not change, so the code cannot explain the disagreement.
 
-These observations accumulate into a flake rate per check, which is available in your analytics and is fed back into the investigation as prior evidence: a check with a long history of flaking is treated differently from one that has never flaked before. It also gives you a straightforward way to find your worst offenders and fix them, which remains the real solution.
+These observations accumulate into a flake rate per check, which is available in your analytics and is fed back into the investigation as prior evidence: a check with a long history of flaking is treated differently from one that has never flaked before. The rate also appears in the [comment Aviator posts](../how-to-guides/configure-flaky-test-detection.md#what-aviator-posts-on-the-pull-request) when it retries a check, and it is how you find your worst offenders and fix them, which remains the real solution.
 
 ## Supported CI providers
 
@@ -103,6 +105,16 @@ These observations accumulate into a flake rate per check, which is available in
 For GitHub Actions, Aviator reruns the individual failing job rather than the workflow run, so matrix legs that already passed are not repeated. Jobs that declare a `needs:` dependency on the failed job are rerun with it.
 
 Checks that report as commit statuses rather than check runs can be investigated, but cannot be retried automatically — there is no per-job handle to retry. For those, Aviator can still extend the queue's patience.
+
+## Configuring it
+
+| To do this | See |
+| ---------- | --- |
+| Turn the feature on | [Minimal configuration](../how-to-guides/configure-flaky-test-detection.md#minimal-configuration) |
+| Decide which checks may be retried | [Choosing which checks](../how-to-guides/configure-flaky-test-detection.md#choosing-which-checks) |
+| Tell Aviator how a check tends to fail | [Giving Aviator context](../how-to-guides/configure-flaky-test-detection.md#giving-aviator-context) |
+| Keep that description in your repository | [Keeping context in a file](../how-to-guides/configure-flaky-test-detection.md#keeping-context-in-a-file) |
+| Adjust how long the queue waits | [Tuning alongside optimistic validation](../how-to-guides/configure-flaky-test-detection.md#tuning-alongside-optimistic-validation) |
 
 ## Limitations
 
