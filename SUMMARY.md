@@ -164,7 +164,7 @@
     * [CI Status Requirements](mergequeue/concepts/ci-status-requirements.md)
     * [MQ Created Branches](mergequeue/concepts/optimizing-ci-execution.md)
     * [Batching](mergequeue/concepts/parallel-mode/batching.md)
-    * [Managing flaky tests](mergequeue/concepts/managing-flaky-tests-in-mergequeue.md)
+    * [Optimistic validation](mergequeue/concepts/managing-flaky-tests-in-mergequeue.md)
     * [Flaky test management](mergequeue/concepts/flaky-test-management.md)
     * [Fast-forwarding](mergequeue/concepts/parallel-mode/fast-forwarding.md)
     * [Pre-Queue Conditions](mergequeue/concepts/pre-queue-conditions.md)

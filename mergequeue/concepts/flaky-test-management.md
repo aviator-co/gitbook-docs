@@ -11,7 +11,7 @@ When a CI check fails on a draft PR, Aviator can investigate the failure before 
 
 This page covers how Aviator identifies a flaky failure and the two things it does about it — rerunning the check and extending the queue's look-ahead depth. To set it up, see [How to configure flaky test management](../how-to-guides/configure-flaky-test-management.md).
 
-For optimistic validation on its own, which waits on later batches without reading the failure, see [Managing flaky tests](managing-flaky-tests-in-mergequeue.md).
+For optimistic validation on its own, which waits on later batches without reading the failure, see [Optimistic validation](managing-flaky-tests-in-mergequeue.md).
 
 {% hint style="info" %}
 Flaky test management is in beta. It is off by default and must be enabled per repository. See [How to configure flaky test management](../how-to-guides/configure-flaky-test-management.md).

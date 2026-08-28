@@ -184,5 +184,5 @@ Checks reporting as commit statuses rather than check runs can still be investig
 ## Related
 
 * [Flaky test management](../concepts/flaky-test-management.md) — how a flake is identified, how it is handled, and the guarantees it holds to
-* [Managing flaky tests](../concepts/managing-flaky-tests-in-mergequeue.md) — optimistic validation, which this builds on
+* [Optimistic validation](../concepts/managing-flaky-tests-in-mergequeue.md) — waiting on later batches, which this builds on
 * [Parallel mode](../concepts/parallel-mode/) — why a single failing check resets the queue

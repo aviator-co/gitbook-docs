@@ -1,11 +1,11 @@
 ---
 description: >-
-  Learn about the flaky test problem in parallel mode and how to manage flaky
-  tests with optimistic validation. Optimistic validation configuration
-  instructions.
+  Learn about the flaky test problem in parallel mode and how optimistic
+  validation mitigates queue resets by waiting on later batches, including
+  configuration instructions.
 ---
 
-# Managing flaky tests
+# Optimistic validation
 
 Optimistic validation is a feature to mitigate the queue reset caused by flaky tests in [<mark style="color:blue;">parallel mode</mark>](parallel-mode/). When a test fails in a batch, it waits for other batches to see if a test passes.
 
