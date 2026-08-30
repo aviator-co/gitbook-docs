@@ -15,3 +15,5 @@ You can set up the conditions that a PR must meet before entering a queue. You c
 * Custom regexp checks on the PR title and body
 
 Without meeting these conditions, a PR cannot go into a queue.
+
+In parallel mode you can additionally hold a PR back until GitHub has started the CI runs for its latest commit. See [Pending Workflow Runs](parallel-mode/pending-workflow-runs.md).
