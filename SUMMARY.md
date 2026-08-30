@@ -167,6 +167,7 @@
     * [Optimistic validation](mergequeue/concepts/managing-flaky-tests-in-mergequeue.md)
     * [Flaky test management](mergequeue/concepts/flaky-test-management.md)
     * [Fast-forwarding](mergequeue/concepts/parallel-mode/fast-forwarding.md)
+    * [Pending Workflow Runs](mergequeue/concepts/parallel-mode/pending-workflow-runs.md)
     * [Pre-Queue Conditions](mergequeue/concepts/pre-queue-conditions.md)
     * [Final Gates](mergequeue/concepts/final-gates.md)
     * [Sticky Comments](mergequeue/concepts/sticky-comments.md)

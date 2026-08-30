@@ -133,6 +133,22 @@ Since every draft PR triggers a new CI run, you typically want to cap how many r
       block_parallel_builds_label: "blocked"
 ```
 
+#### Waiting for CI to start
+
+If your workflows re-run on events that do not change the commit — a `pull_request` trigger listing `labeled`, `unlabeled` or `edited` — GitHub starts a fresh run on an unchanged commit and declines the merge until it reports. Aviator still holds the previous run's green results, so it queues the PR and the merge is refused.
+
+* **`wait_for_pending_github_workflows`** — Hold the PR out of the queue while GitHub has a workflow run for its latest commit that has not started yet. Defaults to `false`. See [<mark style="color:blue;">pending workflow runs</mark>](concepts/parallel-mode/pending-workflow-runs.md).
+
+```yaml
+ merge_rules:
+   labels:
+     trigger: "mergequeue"
+   merge_mode:
+    type: "parallel"
+    parallel_mode:
+      wait_for_pending_github_workflows: true
+```
+
 ### Automatic requeue
 
 On failure, the PRs will automatically requeue before giving up. Only available in parallel mode.
