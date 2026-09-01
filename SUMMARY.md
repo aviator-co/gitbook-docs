@@ -259,7 +259,7 @@
   * [GraphQL API Quickstart](api/graphql-api-quickstart.md)
   * [Prometheus Metrics Setup for GCP](api/how-to-collect-monitoring-metrics-in-gcp-prometheus.md)
   * [Reference](api/reference/README.md)
-    * [JSON API](api/reference/json-api.md)
+    * [REST API](api/reference/json-api.md)
     * [GraphQL](api/reference/graphql.md)
     * [Webhooks](api/reference/webhooks.md)
     * [Monitoring Metrics](api/reference/monitoring-metrics.md)
