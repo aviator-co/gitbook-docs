@@ -1,8 +1,8 @@
 ---
-description: Access Aviator's JSON API reference documentation.
+description: Access Aviator's REST API reference documentation.
 ---
 
-# JSON API
+# REST API
 
 ## Repository
 

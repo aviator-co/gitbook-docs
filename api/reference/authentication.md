@@ -1,6 +1,6 @@
 # API Authentication
 
-The Aviator [<mark style="color:blue;">JSON API</mark>](json-api.md) and [<mark style="color:blue;">GraphQL API</mark>](graphql.md) use token-based authentication.
+The Aviator [<mark style="color:blue;">REST API</mark>](json-api.md) and [<mark style="color:blue;">GraphQL API</mark>](graphql.md) use token-based authentication.
 
 ## Account Token
 
