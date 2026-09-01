@@ -1,7 +1,8 @@
 ---
 description: >-
-  Discover the GitHub slash commands you can use with Aviator. Merge, cancel,
-  refresh, backport, stack merge, stack cancel, sync, and other core commands.
+  Discover the GitHub slash commands you can use with Aviator. Help, merge,
+  cancel, refresh, backport, stack merge, stack cancel, sync, and other core
+  commands.
 ---
 
 # GitHub Slash Commands
@@ -9,6 +10,20 @@ description: >-
 {% hint style="info" %}
 Read the how-to-guide on [<mark style="color:blue;">using Slash commands</mark>](https://docs.aviator.co/mergequeue/how-to-guides/slash-commands) from within GitHub comments.
 {% endhint %}
+
+## Help
+
+The `/aviator help` command posts a single comment on the pull request listing the available `/aviator` commands and their options, grouped as MergeQueue, FlexReview, Runbooks, and Git Operations.
+
+```
+/aviator help
+```
+
+{% hint style="info" %}
+The help comment lists commands across all Aviator products, including ones that your account or repository does not have enabled. A command for a product that is not enabled will not perform the action.
+{% endhint %}
+
+If you post a command that Aviator does not recognize, Aviator replies with `Unknown /aviator command` and suggests running `/aviator help` to see the available commands.
 
 ## Merge
 
