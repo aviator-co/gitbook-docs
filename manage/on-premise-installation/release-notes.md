@@ -9,6 +9,41 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-09-01" %}
+## 2026.09.01-2-rc1
+
+frontend: `sha256:ac89e7721592991f475c479cd51d8efd376c62855f1dd6c320d01161d6c8b131`
+
+mergeit: `sha256:01146822c2d9f7fcf33e25ba1ead75d4fe0083c0d1e7064b08d95d37da741e8b`
+
+**MergeQueue**
+
+* Merges refused by GitHub over required checks are handled properly now: required checks are resolved per base branch, so a release branch with its own ruleset counts, and a refusal resyncs the required-check list instead of retrying the same merge
+* PRs are held out of the queue while CI that GitHub knows is coming has not started yet, so a PR is no longer admitted on the previous commit's results
+* New `dequeue_conditions.not_approved` option removes an unapproved PR from the queue instead of parking it as pending, cascading to the rest of its stack
+* Stack auto-detection no longer requires every pull request in a stack to have the same author
+* After a refused merge the Aviator check no longer stays green, the stuck-PR comment no longer lists passing checks as stuck, and dependent pull requests are reset correctly
+* Fewer GitHub round trips on the merge path
+* New `SKIP_API_CI_VALIDATION_ON_BATCH_MERGE` environment variable: a batch merge trusts cached green check statuses instead of re-reading each queued pull request's CI from the GitHub API. Checks that are not green are still confirmed against the API
+
+**FlexReview**
+
+* Approvals and review comments count as a reviewer's first reply again, so team SLO graphs are populated
+* The review SLO clock now starts when a person requests a reviewer before Aviator assigns one
+* Review assignment no longer refetches CODEOWNERS for every open pull request
+
+**Releases**
+
+* Fixed two causes of failed release cuts: an aborted fetch while computing a cherry-pick's merge base, and an unresolvable commit graph that took the project's other releases down with it
+* A cut whose cherry-pick fails is now reported as failed instead of staying pending
+* Recomputing non-released pull requests no longer repeats the same git fetch once per release project
+
+**General**
+
+* Dark mode is now generally available
+* The pull request page loads a bounded timeline instead of refetching every activity row
+{% endupdate %}
+
 {% update date="2026-08-19" %}
 ## 2026.08.19-2-rc1
 
