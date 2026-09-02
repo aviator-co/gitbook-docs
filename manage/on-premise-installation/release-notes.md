@@ -18,13 +18,13 @@ mergeit: `sha256:01146822c2d9f7fcf33e25ba1ead75d4fe0083c0d1e7064b08d95d37da741e8
 
 **MergeQueue**
 
-* Merges refused by GitHub over required checks are handled properly now: required checks are resolved per base branch, so a release branch with its own ruleset counts, and a refusal resyncs the required-check list instead of retrying the same merge
-* PRs are held out of the queue while CI that GitHub knows is coming has not started yet, so a PR is no longer admitted on the previous commit's results
-* New `dequeue_conditions.not_approved` option removes an unapproved PR from the queue instead of parking it as pending, cascading to the rest of its stack
+* MergeQueue can now synchronize unique GitHub rulesets for each valid base branch
+* Additional guardrails to hold PRs from entering the queue while GitHub is waiting for CI checks to start. [Read the docs](https://docs.aviator.co/mergequeue/concepts/pending-workflow-runs).
+* New `dequeue_conditions.not_approved` option dequeues an unapproved PR from the queue instead of parking it as pending
 * Stack auto-detection no longer requires every pull request in a stack to have the same author
-* After a refused merge the Aviator check no longer stays green, the stuck-PR comment no longer lists passing checks as stuck, and dependent pull requests are reset correctly
+* Aviator status check now reports the PR's blocked status more consistently
 * Fewer GitHub round trips on the merge path
-* New `SKIP_API_CI_VALIDATION_ON_BATCH_MERGE` environment variable: a batch merge trusts cached green check statuses instead of re-reading each queued pull request's CI from the GitHub API. Checks that are not green are still confirmed against the API
+* New `SKIP_API_CI_VALIDATION_ON_BATCH_MERGE` environment variable uses local cached results instead of calling GitHub API to validate CI status
 
 **FlexReview**
 
