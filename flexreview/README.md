@@ -13,7 +13,7 @@ Read our launch post about why we built FlexReview: [https://www.aviator.co/blog
 
 ## What is FlexReview
 
-FlexReview is a modern code review platform focused on on collaborative teams. It acts as a drop-in replacement for GitHub `CODEOWNERS` . FlexReview uses domain expertise and recursive ownership to avoid rigid boundaries of GitHub `CODEOWNERS`.
+FlexReview is a modern code review platform focused on collaborative teams. It acts as a drop-in replacement for GitHub `CODEOWNERS` . FlexReview uses domain expertise and recursive ownership to avoid rigid boundaries of GitHub `CODEOWNERS`.
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-03-16 at 7.55.30 PM.png" alt=""><figcaption></figcaption></figure>
 
