@@ -9,6 +9,23 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-09-02" %}
+## 2026.09.02-2-rc1
+
+frontend: `sha256:b23e5b1f74b7c1a4f001423b8133c9f383ce03dd5b03740c91ac115b40087959`
+
+mergeit: `sha256:85cc7236960d39c110459c937f68ffbb3361482e8efa8c2290593e28bccfa6b1`
+
+**MergeQueue**
+
+* Config validation now runs automatically on any pull request that touches `.aviator/config.yml`
+* A transient GitHub failure on one merge no longer slows the rest of the queue
+
+**FlexReview**
+
+* The time to first reply graph picks axis ticks that fit the selected time range
+{% endupdate %}
+
 {% update date="2026-09-01" %}
 ## 2026.09.01-2-rc1
 
