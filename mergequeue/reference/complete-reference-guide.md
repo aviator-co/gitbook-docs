@@ -96,6 +96,26 @@ Custom validation rules let you require the PR title or body to match one or mor
 
 <table><thead><tr><th width="212">Name</th><th width="150">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>name</strong></td><td>String</td><td>A descriptive name for the validation rule. Surfaced in the failure reason when the rule does not match.</td></tr><tr><td><strong>match.type</strong></td><td>String</td><td>Which PR field to match against. One of <code>title</code> or <code>body</code>.</td></tr><tr><td><strong>match.regex</strong></td><td>String or List[String]</td><td>A single regex or a list of regexes to match against the selected field.</td></tr></tbody></table>
 
+### Dequeue Conditions
+
+When a queued pull request stops satisfying a precondition, Aviator normally keeps it in the queue and moves it back to `pending`, so it proceeds on its own once the condition is resolved again. Dequeue conditions change that for specific reasons: instead of waiting in the queue, the pull request is taken out of it and has to be queued again.
+
+```yaml
+merge_rules:
+  labels:
+    trigger: "label_name"
+  dequeue_conditions:
+    not_approved: true
+```
+
+<table><thead><tr><th width="249.86328125">Name</th><th width="120">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>not_approved</strong></td><td>Boolean</td><td>Determines whether Aviator removes a pull request from the queue when it no longer satisfies the approval requirements, instead of leaving it queued as <code>pending</code>. The pull request has to be re-queued once it is approved again. Defaults to <code>false</code>.</td></tr></tbody></table>
+
+A dequeued pull request returns to the open state with the queue and ready labels removed, and Aviator posts a comment naming the reason it was removed.
+
+This applies while the pull request is waiting in the queue. Once it has been tagged for merge — in [parallel mode](../concepts/parallel-mode/README.md), while its draft PR is building — losing approval blocks the PR as usual, so that the in-flight draft PR is reset.
+
+For [stacked PRs](../how-to-guides/merging-stacked-prs.md), the stack is validated as a unit, so the dequeue applies to the whole stack: every other queued member (ancestors and descendants) is removed from the queue as well and gets a comment naming the member that caused it.
+
 ### Queue Modes
 
 <table><thead><tr><th width="150">Name</th><th width="150">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>type</strong></td><td>String</td><td>Determines the mode. Options are: default, parallel, no-queue.</td></tr></tbody></table>
