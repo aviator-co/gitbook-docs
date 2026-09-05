@@ -258,6 +258,7 @@
   * [Slack Integration Guide](api/personal-integrations.md)
   * [GraphQL API Quickstart](api/graphql-api-quickstart.md)
   * [Prometheus Metrics Setup for GCP](api/how-to-collect-monitoring-metrics-in-gcp-prometheus.md)
+  * [How to Collect Metrics in Datadog](api/how-to-collect-monitoring-metrics-in-datadog.md)
   * [Reference](api/reference/README.md)
     * [REST API](api/reference/json-api.md)
     * [GraphQL](api/reference/graphql.md)
