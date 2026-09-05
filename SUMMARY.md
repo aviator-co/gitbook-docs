@@ -80,6 +80,7 @@
     * [Creating a preview](verify/how-to-guides/creating-a-preview.md)
     * [Managing previews](verify/how-to-guides/managing-previews.md)
     * [Seed data for previews](verify/how-to-guides/seed-data-for-previews.md)
+    * [Registering an external preview](verify/how-to-guides/registering-an-external-preview.md)
     * [Running with remote agents](verify/how-to-guides/running-with-remote-agents.md)
     * [Configuring branch protection](verify/how-to-guides/configuring-branch-protection.md)
     * [Fixing verification failures](verify/how-to-guides/fixing-verification-failures.md)

@@ -4,6 +4,8 @@ This guide walks through adding a preview to a repo end-to-end: registering an i
 
 By the end, you'll have a working `default` preview that scenarios can run against.
 
+> This guide covers previews Aviator builds and runs. If your CI already deploys an ephemeral environment for every pull request, you can point Verify at that instead — see [Registering an external preview](registering-an-external-preview.md).
+
 > Previews are optional. Verify works without one — every criterion routes to code-scan in that case. Add a preview when behavioral verdicts (endpoint contracts, UI flows, error shapes) start mattering for your team. See [Concepts: Previews](../concepts/previews.md).
 
 **Time:** ~15 minutes
