@@ -22,11 +22,25 @@ The `verify:` wrapper is required — the schema rejects unknown top-level keys,
 
 If a single preview is declared with no `name`, it's treated as `default`. Always set names explicitly when you have more than one.
 
-### Fields
+### Preview methods
+
+Every entry has a `method` that decides who owns the environment:
+
+| Method              | Who builds the environment                                                                    | Use it when                                                                                        |
+| ------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `sandbox` (default) | Aviator boots a container from a registered preview image and runs your setup script.          | You want Aviator to own the environment end to end.                                                 |
+| `endpoint`          | Your CI builds and deploys the environment, then registers its URL with Aviator.               | You already deploy a per-PR environment, or the environment needs infrastructure Aviator can't host. |
+
+`method` is optional and defaults to `sandbox`, so a config written without it keeps behaving exactly as before. The sections below document the sandbox fields; for the endpoint schema, see [Endpoint previews](#endpoint-previews-method-endpoint).
+
+When a repo declares more than one preview, the first entry whose method is usable governs the run.
+
+### Sandbox fields
 
 | Field      | Type            | Required | Description                                                                                              |
 | ---------- | --------------- | -------- | -------------------------------------------------------------------------------------------------------- |
 | `name`     | string          | no       | Unique name within the repo. Defaults to `default`. Scenarios target a preview by this name.            |
+| `method`   | string          | no       | `sandbox` or `endpoint`. Defaults to `sandbox`.                                                          |
 | `image`    | string          | yes      | Name of a preview image. Aviator caches the image locally and boots a container from it per run.        |
 | `port`     | int             | yes      | Port the app serves on. Aviator handles exposing this as a public URL.                                   |
 | `setup`    | string          | no       | Path (in the repo) to a setup script. Defaults to `.aviator/scripts/preview-setup.sh`. Runs after the container starts. |
@@ -92,7 +106,7 @@ See [Managing previews](../how-to-guides/managing-previews.md) for the bake-vs-s
 
 <figure><img src="../../.gitbook/assets/verify-preview-anatomy.svg" alt="Preview anatomy: inputs, the preview container, and what consumes it"><figcaption><p>How the YAML fields translate to a running preview</p></figcaption></figure>
 
-### Examples
+### Sandbox examples
 
 **Minimal:**
 
@@ -127,8 +141,34 @@ verify:
         - QUEUE_URL
 ```
 
+### Endpoint previews (`method: endpoint`)
+
+An endpoint preview is hosted outside Aviator. Your CI pipeline builds and deploys the environment for the pull request and registers its URL with Aviator; Aviator correlates that registration to the verification session, waits for it when a run needs it, drives it, and honors its expiry. It never builds or tears the environment down.
+
+```yaml
+verify:
+  preview:
+    - name: ci
+      method: endpoint
+      wait_timeout_sec: 1800     # how long a verification run waits for a registered preview
+      expires_default_sec: 7200  # registration lifetime when a registration omits expires_at
+```
+
+| Field                 | Type   | Required | Description                                                                                              |
+| --------------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------- |
+| `name`                | string | no       | Unique name within the repo. Defaults to `default`. Scenarios target a preview by this name.              |
+| `method`              | string | yes      | Must be `endpoint`.                                                                                        |
+| `wait_timeout_sec`    | int    | no       | How long a verification run waits for a registered preview before falling back to code analysis. Defaults to 1800. Range 60–7200. |
+| `expires_default_sec` | int    | no       | How long a registration stays current when it doesn't supply its own `expires_at`. Defaults to 7200. Range 300–86400. |
+| `verify_skill`        | string | no       | Repo-relative path to this preview's [Verify skill](../how-to-guides/writing-a-skill-md.md) entry point. Overrides the default `.aviator/verify/skills/<preview-name>.md` lookup. |
+
+Endpoint entries take none of the sandbox fields — `image`, `port`, `setup`, `teardown`, and `secrets` are all rejected, because the environment isn't Aviator's to build. Credentials for driving the app come from the registration itself.
+
+Registering a preview is an API call from your CI pipeline. See [Registering an external preview](../how-to-guides/registering-an-external-preview.md) for the request shape, the waiting behavior, and the expiry and deregistration semantics.
+
 ### See also
 
 * [Concepts: Previews](../concepts/previews.md)
 * [Creating a preview](../how-to-guides/creating-a-preview.md)
 * [Managing previews](../how-to-guides/managing-previews.md)
+* [Registering an external preview](../how-to-guides/registering-an-external-preview.md)
