@@ -4,6 +4,8 @@ A **preview** is an ephemeral environment Verify builds on demand and runs scena
 
 A preview is short-lived: built for the branch's current commit, used by the scenario runner (and optionally a human reviewer), and torn down when the branch moves to a new commit. A re-run on the same commit reuses the running preview — including its state. See [Lifecycle](#lifecycle) for the exact contract.
 
+Aviator can build the environment itself — the **sandbox** method, described through most of this page — or use one your own CI deploys, the **endpoint** method. See [Externally hosted previews](#externally-hosted-previews).
+
 ### Optional, not required
 
 Previews are optional. Verify works on day one with code-scan alone — without a preview, every criterion is routed to code-scan (static analysis of the diff) and you get verdicts on structural criteria from the first PR.
@@ -42,6 +44,33 @@ A preview is composed of inputs from three places: a preview image, your secret 
 * **Port** — the port the runner connects to. The container is considered ready when this port accepts connections.
 
 Aviator stitches these together into a single ephemeral container. Your Verify settings are the contract — see [Preview YAML reference](../reference/preview-yaml.md) for every field.
+
+### Externally hosted previews
+
+Many teams already deploy an ephemeral environment for every pull request from their own CI. Rather than have Aviator build a second one, a preview can be declared as **externally hosted** — `method: endpoint` in the config. The environment stays yours; Aviator only borrows it.
+
+The split of responsibility:
+
+| Your CI does                                                           | Aviator does                                                                    |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Builds and deploys the environment for the pull request                | Correlates the registration to the verification session for that PR or branch    |
+| Registers its URL (and the commit it's running) with Aviator           | Waits for a registration when a run needs one                                    |
+| Destroys the environment on its own schedule                           | Drives the app at the registered URL and records the evidence                    |
+| Optionally deregisters early when it tears the environment down        | Stops using the registration at its expiry                                       |
+
+Aviator never builds or tears down an externally hosted preview, and never holds infrastructure credentials for it — the environment is already running by the time Aviator sees it.
+
+**Waiting, then degrading.** Verification and the deploy pipeline run on their own clocks, so a run that needs the preview waits for one to be registered, up to a configured timeout. If the registration arrives in time, scenarios run against it. If it doesn't, verification still completes on code analysis alone — a degraded result rather than a failure — and a registration that lands afterwards starts a follow-up verification automatically. A registration also has to match the commit being verified: one built from a stale commit never drives the run.
+
+**Choosing between the two methods:**
+
+| Choose sandbox when…                                                     | Choose endpoint when…                                                             |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| You don't already build per-PR environments and don't want to           | You already run per-PR ephemeral environments in CI                                 |
+| The service boots from an image plus a setup script                     | The environment needs infrastructure Aviator can't host — managed data stores, private networks, a multi-service topology |
+| You want previews with no CI work at all                                | You want verification to run against the same environment your team already reviews |
+
+See [Registering an external preview](../how-to-guides/registering-an-external-preview.md) for the registration call and its semantics.
 
 ### Multiple previews per repo
 
@@ -86,3 +115,4 @@ Previews look like CI environments but they're not the same thing:
 * [Creating a preview](../how-to-guides/creating-a-preview.md) — walkthrough
 * [Managing previews](../how-to-guides/managing-previews.md) — bake vs. setup, refresh, cleanup
 * [Seed data for previews](../how-to-guides/seed-data-for-previews.md) — fixtures and deterministic state
+* [Registering an external preview](../how-to-guides/registering-an-external-preview.md) — using an environment your CI deploys
