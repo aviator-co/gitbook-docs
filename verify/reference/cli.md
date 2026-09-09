@@ -2,11 +2,12 @@
 
 The `aviator` CLI submits intent and acceptance criteria to Verify from your terminal or from inside a coding agent. It is the preferred way to talk to Verify.
 
-This is a different tool from `av`, the [Stacked PRs CLI](../../aviator-cli/README.md). The two are installed separately and don't depend on each other.
+This is a different tool from `av`, the [Stacked PRs CLI](../../aviator-cli/). The two are installed separately and don't depend on each other.
 
 ### Install
 
 ```bash
+brew tap aviator-co/tap
 brew install aviator-co/tap/aviator
 ```
 
@@ -20,13 +21,21 @@ aviator version
 
 ### Authentication
 
+#### OAuth (Preferred)
+
+```bash
+aviator login
+```
+
+#### API Token
+
 The CLI reads an API token from the `AVIATOR_API_TOKEN` environment variable:
 
 ```bash
 export AVIATOR_API_TOKEN=<your token>
 ```
 
-Create a User Access Token at [app.aviator.co/settings/personal/api_token](https://app.aviator.co/settings/personal/api_token). Submissions are attributed to the user the token belongs to, so each person needs their own — a shared token collapses the audit trail.
+Create a User Access Token at [app.aviator.co/settings/personal/api\_token](https://app.aviator.co/settings/personal/api_token). Submissions are attributed to the user the token belongs to, so each person needs their own — a shared token collapses the audit trail.
 
 You can also put the token in a config file. The CLI reads a `config.yaml` (`.json` and `.toml` also work) from the first of these that exists:
 
@@ -46,16 +55,16 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 
 ### Commands
 
-| Command           | What it does                                                                    |
-| ----------------- | ------------------------------------------------------------------------------- |
-| `aviator verify`  | Submit intent and acceptance criteria for a change you're writing yourself.     |
-| `aviator runbook` | Create a runbook and have Aviator's agent implement the change.                 |
-| `aviator show`    | Show a runbook or Verify session, e.g. `aviator show r/123`.                    |
-| `aviator results` | Show the latest verification results for a session.                             |
+| Command           | What it does                                                                                                                                                    |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aviator verify`  | Submit intent and acceptance criteria for a change you're writing yourself.                                                                                     |
+| `aviator runbook` | Create a runbook and have Aviator's agent implement the change.                                                                                                 |
+| `aviator show`    | Show a runbook or Verify session, e.g. `aviator show r/123`.                                                                                                    |
+| `aviator results` | Show the latest verification results for a session.                                                                                                             |
 | `aviator edit`    | Replace the acceptance criteria on an existing session. Takes `--expected-version` to guard against stale edits — read the current version with `aviator show`. |
-| `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md). |
-| `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.     |
-| `aviator version` | Print the CLI version.                                                          |
+| `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
+| `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
+| `aviator version` | Print the CLI version.                                                                                                                                          |
 
 ### `aviator verify`
 
@@ -69,16 +78,16 @@ aviator verify \
   --criteria-file criteria.txt
 ```
 
-| Flag               | Required | Description                                                                     |
-| ------------------ | -------- | --------------------------------------------------------------------------------- |
-| `--repo`           | yes      | GitHub repo as `owner/repo`.                                                    |
-| `--intent`         | yes      | Short, plain-language description of what the change is for.                    |
-| `--criteria`       | one of   | A single acceptance criterion. Repeatable.                                      |
+| Flag               | Required | Description                                                                                                                                                         |
+| ------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--repo`           | yes      | GitHub repo as `owner/repo`.                                                                                                                                        |
+| `--intent`         | yes      | Short, plain-language description of what the change is for.                                                                                                        |
+| `--criteria`       | one of   | A single acceptance criterion. Repeatable.                                                                                                                          |
 | `--criteria-file`  | one of   | Path to a file with one criterion per line. Preferred for more than two or three criteria — it avoids shell-quoting problems. Mutually exclusive with `--criteria`. |
-| `--working-branch` | no       | The branch the work lives on, so a PR opened from it is verified against these criteria. |
-| `--target-branch`  | no       | Base branch to verify against. Defaults to the repo default.                    |
-| `--spec`           | no       | Path to a spec file carrying the key decisions and architecture.                |
-| `--author-email`   | no       | Attribute the submission to a different user.                                   |
+| `--working-branch` | no       | The branch the work lives on, so a PR opened from it is verified against these criteria.                                                                            |
+| `--target-branch`  | no       | Base branch to verify against. Defaults to the repo default.                                                                                                        |
+| `--spec`           | no       | Path to a spec file carrying the key decisions and architecture.                                                                                                    |
+| `--author-email`   | no       | Attribute the submission to a different user.                                                                                                                       |
 
 The command prints the session URL and the number of criteria it recorded. The first verification run happens when the PR is marked ready for review.
 
