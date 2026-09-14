@@ -9,6 +9,29 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-09-10" %}
+## 2026.09.10-2-rc1
+
+frontend: `sha256:ec95e5334c80e9eb1922ce1b183df67c1f74a850c68054e90f4ac4d921dfb783`
+
+mergeit: `sha256:425fbfede82b1f304c075fe9cb72d083e287c0ba675ce7769ae6c18450324604`
+
+**MergeQueue**
+
+* With `update_latest` enabled, stacked pull requests are rebased onto the latest target branch before merging
+* Stack detection finds the correct bottom of a GitHub-native stack after its lower pull requests merge
+* Aviator can now update the branch of a pull request in a GitHub-native stack
+
+**Releases**
+
+* Improved cherry-pick UX and performance
+* Release cut calculation now skips over histories it can't fetch
+
+**General**
+
+* Upgraded Next.js to 16.3.4 to address [GHSA-2xp9-vwfh-vxw4](https://github.com/advisories/GHSA-2xp9-vwfh-vxw4)
+{% endupdate %}
+
 {% update date="2026-09-02" %}
 ## 2026.09.02-2-rc1
 
