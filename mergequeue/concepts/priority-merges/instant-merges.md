@@ -58,7 +58,7 @@ GitHub does not allow third-party bots to bypass branch protection when using th
 
 This capability is now available using GitHub’s [<mark style="color:blue;">Rulesets</mark>](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository). Rulesets offer feature parity with the configurations you use in classic branch protection rules and you should be able to migrate all your existing configurations to using Rulesets.
 
-Once migrated to Ruleset, you can add Aviator app in the bypass list.
+Once migrated to Ruleset, you can add Aviator app in the bypass list. Set the bypass mode to **Exempt**.
 
 <figure><img src="../../../.gitbook/assets/Screen Shot 2023-05-26 at 11.26.05 AM.png" alt=""><figcaption><p>add Aviator app in the bypass list for the Ruleset</p></figcaption></figure>
 

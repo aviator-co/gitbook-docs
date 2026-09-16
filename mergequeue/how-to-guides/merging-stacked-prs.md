@@ -90,7 +90,7 @@ By default the Sequential and Parallel modes create a single commit in the mainl
 
 This capability of bypassing the CI requirement is now available using GitHub’s [Rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository). Rulesets offer feature parity with the configurations you use in classic branch protection rules and you should be able to migrate all your existing configurations to using Rulesets.
 
-Once migrated to Ruleset, you can add Aviator app in the bypass list.
+Once migrated to Ruleset, you can add Aviator app in the bypass list. Set the bypass mode to **Exempt** — with **Always**, GitHub still evaluates the ruleset and expects an interactive bypass prompt that an app account cannot answer, and the stacked merge is rejected.
 
 <figure><img src="../../.gitbook/assets/rulesets.avif" alt=""><figcaption><p>Add Aviator GitHub app to Bypass list</p></figcaption></figure>
 

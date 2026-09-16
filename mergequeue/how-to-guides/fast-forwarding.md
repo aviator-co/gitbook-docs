@@ -47,7 +47,14 @@ How you grant this depends on whether the branch is governed by a **ruleset** or
 
 ### If you use rulesets
 
-Add `aviator-app` to the ruleset's **Bypass list**. That is the entire setup — a bypass entry covers both the pull request requirement and the required status checks.
+Add `aviator-app` to the ruleset's **Bypass list**, and set its bypass mode to **Exempt**. A bypass entry covers both the pull request requirement and the required status checks.
+
+<figure><img src="../../.gitbook/assets/ruleset-bypass-exempt.png" alt=""><figcaption><p>Add <code>aviator-app</code> to the Bypass list with the Exempt mode</p></figcaption></figure>
+
+**Exempt** skips evaluation of the ruleset for `aviator-app`. The other two modes do not work for fast-forwarding:
+
+* **Always** still evaluates the ruleset and expects an interactive bypass prompt, which an app cannot answer, so the push is rejected.
+* **For pull requests only** enforces the ruleset on command line changes, and a fast-forward is exactly that.
 
 ### If you use classic branch protection rules
 
