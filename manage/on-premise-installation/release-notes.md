@@ -9,6 +9,22 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-09-17" %}
+## 2026.09.17-1-rc1
+
+frontend: `sha256:bcae4d7e749fc1c1bbf5aad47994194799670e3fb069ef317f5ec780b2ffb0da`
+
+mergeit: `sha256:28254c185ba001893f27842c3b95fb9caee3f731877f55b563d986acf4f3cdb5`
+
+**Runbooks**
+
+* Runbooks created through the API with an account-level token and no `author_email` (and no default author configured) open their pull requests as the Aviator bot instead of an account admin
+
+**FlexReview**
+
+* Lower memory use when processing large pull request diffs
+{% endupdate %}
+
 {% update date="2026-09-10" %}
 ## 2026.09.10-2-rc1
 
