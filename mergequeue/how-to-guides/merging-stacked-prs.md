@@ -151,7 +151,7 @@ When the stack reaches the front of the queue, Aviator merges it through GitHub 
 
 ### Remove the "Restrict updates" rule
 
-A branch protected by the **Restrict updates** ruleset rule cannot accept a stacked-PR merge — not from Aviator, and not from a person clicking Merge in GitHub's own web interface. This includes users and apps listed as bypass actors on the ruleset.
+A branch protected by the **Restrict updates** ruleset rule cannot accept a stacked-PR merge — not from Aviator, and not from a person clicking Merge in GitHub's own web interface. This includes users and apps listed as bypass actors on the ruleset with the default **Always allow** mode.
 
 The rule means that only actors with bypass permission may update the branch. GitHub honors that bypass for an ordinary pull request merge, which is why regular merges keep working. It does not honor it when merging a stack, so the merge is refused with:
 
@@ -161,9 +161,21 @@ Cannot update this protected ref.
 
 The message names no rule, so this is easy to mistake for a missing status check or approval. The symptoms are every pull request in the stack reporting as **not ready** in GitHub with that message on the bottom PR, or Aviator blocking the stack with `GitHub could not merge this stack: Cannot update this protected ref.`
 
-To use GitHub's stacked pull requests, remove **Restrict updates** from the ruleset that targets your mainline.
+To use GitHub's stacked pull requests, either exempt the Aviator app from the ruleset, or remove **Restrict updates** from it.
 
-#### Preventing merges that skip the queue
+#### Option 1: Exempt the Aviator app
+
+In the ruleset that targets your mainline, add the Aviator app to the **Bypass list** and change its mode from **Always allow** to **Exempt** using the **...** menu.
+
+<figure><img src="../../.gitbook/assets/gh-stack-bypass-exempt.png" alt="Ruleset bypass list with the Aviator app set to Exempt"><figcaption><p>The Aviator app set to <strong>Exempt</strong> in the ruleset's bypass list</p></figcaption></figure>
+
+With **Exempt**, GitHub skips the ruleset entirely for the Aviator app instead of evaluating it and allowing a bypass, so stack merges go through. **Restrict updates** stays in place for everyone else, so developers still cannot merge around the queue.
+
+Exempt applies to every rule in that ruleset, not just **Restrict updates**: GitHub no longer enforces any of its rules on Aviator's merges. Make sure the checks you rely on are also configured as required checks in Aviator.
+
+#### Option 2: Remove "Restrict updates"
+
+Remove **Restrict updates** from the ruleset that targets your mainline.
 
 **Restrict updates** is often enabled to stop developers merging directly and bypassing MergeQueue. A required status check does that job without breaking stacks.
 
