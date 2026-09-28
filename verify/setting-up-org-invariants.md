@@ -55,7 +55,7 @@ For this security rule, add a condition if you want to scope by language:
 * **Condition type:** `file_path_glob`
 * **Pattern:** `src/**/*.go`
 
-This makes the invariant eligible only when a runbook touches Go files under `src/`.
+This makes the invariant eligible only when a runbook touches Go files under `src/`. See [Invariant conditions](reference/invariant-conditions.md) for glob syntax, language tags, and how conditions combine.
 
 Eligibility doesn't mean the invariant applies — the selector still decides per-runbook whether it's a defensible match. Conditions are useful for hard exclusions, not fine-grained scoping.
 

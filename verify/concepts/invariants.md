@@ -41,7 +41,7 @@ Each invariant has zero or more **conditions** that gate when it's eligible to a
 | `file_path_glob` | Files changed in the runbook match a glob like `src/**/*.py`. |
 | `language`       | The detected language of changed files matches.                |
 
-An invariant with no conditions is eligible for every runbook. With conditions, it's only eligible when at least one matches the change.
+An invariant with no conditions is eligible for every runbook. With conditions, it's eligible when at least one changed file satisfies them. See [Invariant conditions](../reference/invariant-conditions.md) for the exact matching rules and examples.
 
 Eligibility doesn't mean the invariant *applies* — it just means the next step (selection) will consider it.
 
