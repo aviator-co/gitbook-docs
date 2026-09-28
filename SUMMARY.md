@@ -67,6 +67,7 @@
     * [Aviator CLI](verify/reference/cli.md)
     * [MCP tools](verify/reference/mcp-tools.md)
     * [Spec format](verify/reference/spec-format.md)
+    * [Invariant conditions](verify/reference/invariant-conditions.md)
     * [Preview YAML](verify/reference/preview-yaml.md)
     * [Understanding verification results](verify/reference/understanding-verification-results.md)
     * [GitHub integration](verify/reference/github-integration.md)
