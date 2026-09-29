@@ -78,6 +78,7 @@
     * [Set up agent hooks](verify/how-to-guides/set-up-agent-hooks.md)
     * [Writing effective acceptance criteria](verify/how-to-guides/writing-effective-acceptance-criteria.md)
     * [Writing a Verify skill](verify/how-to-guides/writing-a-skill-md.md)
+    * [Managing invariants with the CLI](verify/how-to-guides/managing-invariants-with-the-cli.md)
     * [Creating a preview](verify/how-to-guides/creating-a-preview.md)
     * [Managing previews](verify/how-to-guides/managing-previews.md)
     * [Seed data for previews](verify/how-to-guides/seed-data-for-previews.md)

@@ -64,6 +64,7 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | `aviator edit`    | Replace the acceptance criteria on an existing session. Takes `--expected-version` to guard against stale edits — read the current version with `aviator show`. |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
 | `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
+| `aviator invariants` | Manage your account's [invariants](../concepts/invariants.md).                                                                                               |
 | `aviator version` | Print the CLI version.                                                                                                                                          |
 
 ### `aviator verify`
@@ -104,6 +105,48 @@ aviator runbook \
 ```
 
 `--repo` and `--intent` are required. `--title`, `--target-branch`, `--spec`, `--criteria`/`--criteria-file`, and `--author-email` are optional, and `--oneshot` (on by default) controls one-shot mode.
+
+### `aviator invariants`
+
+Manages your account's [invariants](../concepts/invariants.md). `list` and `categories` work with any API token. The other subcommands need a maintainer or admin signed in with `aviator login` or a personal access token. Every subcommand takes `--json` to print the full response.
+
+| Subcommand                    | What it does                                                                                    |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| `list`                        | List invariants, newest first.                                                                  |
+| `categories`                  | List the category slugs that `create` and `edit` accept.                                       |
+| `create`                      | Create an invariant. It's active immediately unless you pass `--disable`.                       |
+| `edit <id>`                   | Change only the fields you pass.                                                                |
+| `approve <id>...`             | Set invariants to `active`.                                                                     |
+| `reject <id>...`              | Set invariants to `rejected`. They stop applying but stay on record.                            |
+| `set-status <status> <id>...` | Set invariants to `pending`, `active`, or `rejected`.                                           |
+| `delete <id>`                 | Delete an invariant permanently.                                                                |
+
+`list` flags:
+
+| Flag       | Description                                                                                                                  |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `--status` | `pending`, `active`, or `rejected`.                                                                                          |
+| `--repo`   | Only invariants that apply to this `owner/repo`, including account-wide ones.                                                |
+| `--source` | Comma-separated sources: `manual`, `ai_generated`, `ai_generated_docs`, `ai_generated_pr_comments`, `template`, `slack`, `github_comment`. |
+| `--ids`    | Comma-separated invariant IDs.                                                                                               |
+| `--limit`  | Invariants per page. Defaults to 20, up to 100.                                                                              |
+| `--page`   | Page number, starting at 1. The JSON response's `has_more` says whether another page exists.                                 |
+
+`create` and `edit` flags:
+
+| Flag                        | Description                                                                                                                  |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `--title`                   | Short name for the rule. Required on `create`.                                                                               |
+| `--category`                | Category slug from `aviator invariants categories`. Required on `create`.                                                   |
+| `--body`, `--body-file`     | The rule itself, inline or from a file. One is required on `create`.                                                         |
+| `--repo`                    | Limit the invariant to this `owner/repo`. Repeatable. On `edit`, replaces the existing set.                                  |
+| `--condition`               | `file_path_glob=<glob>` or `language=<tag>` to include, `file_path_glob!=<glob>` to exclude. Repeatable. On `edit`, replaces the existing set. See [Invariant conditions](invariant-conditions.md). |
+| `--disable`                 | Turn the invariant off. On `edit`, only works on active invariants.                                                          |
+| `--enable`                  | Turn an active invariant back on. Use `approve` for a pending one. `edit` only.                                             |
+| `--account-scoped`          | Apply the invariant to every repository. `edit` only.                                                                        |
+| `--no-conditions`           | Remove all conditions. `edit` only.                                                                                          |
+
+See [Managing invariants with the CLI](../how-to-guides/managing-invariants-with-the-cli.md) for what makes a good invariant.
 
 ### Using the CLI from a coding agent
 
