@@ -18,10 +18,8 @@ mergeit: `sha256:58abd2ebf96f4f0b019b7d3bc6ba0e039ea09cd4a4e431615ed0526c19e861d
 
 **MergeQueue**
 
-* Adding the queue label to a blocked PR removes the blocked label and requeues it
+* Requeueing a blocked PR removes the blocked label and requeues it
 * When a stack is blocked because some of its PRs left the queue, the blocked comment lists those PRs instead of reporting an unknown reason
-* When a stacked PR merges, it and the PRs below it are now closed and marked merged
-* PRs that already merged in a partly merged batch are no longer blocked or requeued
 * In affected-targets mode, reopening a PR after it was fast-forward merged no longer stalls the queue
 * Improved chart tooltip contrast in dark mode
 
