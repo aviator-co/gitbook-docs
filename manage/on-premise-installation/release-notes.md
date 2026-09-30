@@ -9,6 +9,29 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-09-29" %}
+## 2026.09.29-2-rc1
+
+frontend: `sha256:7b58d7ced12fcea8e982a42662cc67cbfbafb386a4d92cd23e780c16446d1704`
+
+mergeit: `sha256:58abd2ebf96f4f0b019b7d3bc6ba0e039ea09cd4a4e431615ed0526c19e861df`
+
+**MergeQueue**
+
+* Adding the queue label to a blocked PR removes the blocked label and requeues it
+* When a stack is blocked because some of its PRs left the queue, the blocked comment lists those PRs instead of reporting an unknown reason
+* When a stacked PR merges, it and the PRs below it are now closed and marked merged
+* PRs that already merged in a partly merged batch are no longer blocked or requeued
+* In affected-targets mode, reopening a PR after it was fast-forward merged no longer stalls the queue
+* Improved chart tooltip contrast in dark mode
+
+**General**
+
+* Admins can now enable or disable individual products for their workspace
+* Redesigned sign-in pages support dark mode and remember your last sign-in method
+* Background workers now use less memory
+{% endupdate %}
+
 {% update date="2026-09-17" %}
 ## 2026.09.17-1-rc1
 
