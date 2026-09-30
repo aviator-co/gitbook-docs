@@ -177,3 +177,4 @@ Conditions are validated when you save the invariant.
 
 * [Concepts: Invariants](../concepts/invariants.md)
 * [Setting up org invariants](../setting-up-org-invariants.md)
+* [Managing invariants with the CLI](../how-to-guides/managing-invariants-with-the-cli.md)

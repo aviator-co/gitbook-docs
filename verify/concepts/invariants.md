@@ -90,9 +90,9 @@ A rule that requires running the whole system is hard to verify. Prefer rules th
 * ✓ "All migrations must declare a `down` block."
 * ✗ "All migrations must be reversible." (Can't be checked without running them backwards.)
 
-**Use conditions sparingly.**
+**Scope it to where it can be broken.**
 
-The selector reads the runbook context and picks what fits. Don't over-restrict with conditions — let the selector pass on inapplicable cases. Conditions are useful for hard exclusions (e.g. language-specific rules), not for fine-grained scoping.
+Use conditions to limit a rule to the files where it can be violated, for example a frontend rule to `web/**`. Verify skips an invariant when none of the changed files match its conditions.
 
 ### Turning a review comment into an invariant
 
@@ -137,6 +137,7 @@ Every waiver is recorded in the audit trail with the reviewer, the category, and
 ### See also
 
 * [Setting up org invariants](../setting-up-org-invariants.md) — step-by-step setup
+* [Managing invariants with the CLI](../how-to-guides/managing-invariants-with-the-cli.md)
 * [Verification layers](verification-layers.md) — how invariants compose with criteria in a run
 * [How verification works](how-verification-works.md) — the verifier pipeline
 * [How to: Writing a SKILL.md](../how-to-guides/writing-a-skill-md.md) — for runtime context, not for rules
