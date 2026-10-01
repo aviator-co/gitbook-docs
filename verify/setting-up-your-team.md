@@ -46,6 +46,19 @@ Every agent session in the repo then carries a standing instruction to capture i
 
 Everyone working in the repository sets up their own machine: [Setting up your machine](setting-up-your-machine.md).
 
+## Add team guidance (optional)
+
+To have agents follow your team's own instructions when they capture intent and acceptance criteria, commit them to `.aviator/verify/verify-submit-guidance.md`. The agent reads this file every time it runs `/verify-submit`. For example:
+
+```markdown
+- If the branch name has a Linear issue ID, read the issue and any Slack threads linked from it before writing the intent.
+- Show the author where the change departs from the issue and ask whether each difference was intended, since plans often shift in discussion.
+- Make sure the acceptance criteria cover every requirement from the issue that still applies.
+- Describe user-facing behavior with the names from our product UI, not internal service names.
+```
+
+Guidance adds to `/verify-submit` rather than replacing any of it. Keep the file brief, since it's read on every submission.
+
 ## See also
 
 * [Setting up your machine](setting-up-your-machine.md), the half your team does
