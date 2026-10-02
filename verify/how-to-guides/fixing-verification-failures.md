@@ -44,7 +44,7 @@ The verifier inspected the diff or AST and the assertion didn't hold.
 
 **Cause:** the assertion is structural and the diff violates it.
 
-**Fix:** either remove the offending change or update the criterion if the change is intentional. Edit the criteria via [`editRunbook`](../reference/mcp-tools.md#editrunbook) (for user criteria) or work with the reviewer to waive (for invariant criteria).
+**Fix:** either remove the offending change or update the criterion if the change is intentional. Edit the criteria with [`aviator edit`](../reference/cli.md#aviator-edit) or [`editRunbook`](../reference/mcp-tools.md#editrunbook) (for user criteria) or work with the reviewer to waive (for invariant criteria).
 
 ### Invariant violation
 
@@ -62,7 +62,7 @@ A team-defined rule flagged the change.
 **Fix paths, in order of preference:**
 
 1. **Fix the code.** Most of the time the rule is right and the change just missed it.
-2. **Waive the verdict with a category.** For legitimate cases the invariant didn't anticipate, the reviewer waives from the review document or from the [Verify tab on the PR](verify-on-github.md). Pick the right category:
+2. **Waive the verdict with a category.** For legitimate cases the invariant didn't anticipate, the reviewer waives from the review document, from the [Verify tab on the PR](verify-on-github.md), or with [`aviator dismiss`](../reference/cli.md#aviator-dismiss). Pick the right category:
    * `false_positive` — the rule fired but misjudged this case.
    * `doesnt_apply` — the rule is valid in general but isn't relevant to this PR.
    * `accepted_risk` — the failure is real but the author accepts it.
@@ -107,7 +107,8 @@ The preview booted, but the runtime runner stopped without producing a clean ver
 Occasionally a verdict is wrong. Before assuming it's a bug:
 
 * **Re-read the evidence.** Does it actually contradict the criterion, or are you and the verifier interpreting the criterion differently?
-* **Check the criterion phrasing.** "Requires authentication" might be read as "calls AuthMiddleware" or "rejects unauthenticated callers." Tighten the phrasing — for user criteria, via `editRunbook`; for invariants, by editing the catalog entry.
+* **Check the criterion phrasing.** "Requires authentication" might be read as "calls AuthMiddleware" or "rejects unauthenticated callers." Tighten the phrasing — for user criteria, via `aviator edit` or `editRunbook`; for invariants, by editing the catalog entry.
+* **Check what the run did.** For a runtime verdict, `aviator scenarios r/<n>` lists the scenarios behind the latest run, and `aviator evidence <id> -o trace.json` downloads a scenario's trace.
 * **Check the preview.** If a runtime verdict is wrong, the preview's state at run time might be wrong — wrong fixtures, stale seed. See [Seed data for previews](seed-data-for-previews.md).
 
 If you've ruled all that out and the verdict still seems wrong, click **Report verdict** in the review document. Include the run ID; the team uses these to improve the classifier and verifier accuracy.
@@ -116,7 +117,7 @@ If you've ruled all that out and the verdict still seems wrong, click **Report v
 
 After fixing issues, verification re-runs automatically on the next push.
 
-You can also trigger it manually from the runbook UI, with **Rerun verification** in the [Verify tab on the PR](verify-on-github.md), or with the **🔁 Re-run** button on the Slack notification for the run. Re-running is safe — verifier results are stable on identical input, and the system caches runtime evidence per criterion + change set.
+You can also trigger it manually from the runbook UI, with **Rerun verification** in the [Verify tab on the PR](verify-on-github.md), with the **🔁 Re-run** button on the Slack notification for the run, or with `aviator verify r/<n>`. Re-running is safe — verifier results are stable on identical input, and the system caches runtime evidence per criterion + change set.
 
 If you got the failure as a Slack DM, you can also waive a failing invariant or remove a failing criterion directly from that message. See [Slack notifications](../reference/slack-notifications.md#actions).
 
