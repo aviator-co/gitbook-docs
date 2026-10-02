@@ -21,16 +21,14 @@ Verify runs against an open PR. Aside from manual runs you start yourself, it ru
 | **PR ready**       | A PR with acceptance criteria first becomes ready for review (leaves draft). | `on PR ready`  |
 | **Approval**       | The PR receives code-owner approval.                                  | `on approval`  |
 | **Queued**         | The PR is added to the merge queue.                                   | `on queue`     |
-| **PR linked**      | An externally-opened PR is linked to a runbook.                       | `on PR link`   |
-| **Criteria edited**| Acceptance criteria are edited through the `editRunbook` MCP tool.    | replaces the in-flight run |
+| **PR linked**      | An externally-opened PR is linked to a review.                        | `on PR link`   |
 
-A plain push to the branch does **not** start a run. Pushing keeps the change set fresh and pre-computes baselines so the next triggered run is fast, but the verdict you already have stands until one of the moments above fires. You can also start a run by hand from the runbook UI — manual runs bypass every rule below and always execute.
+A plain push to the branch does **not** start a run. Pushing keeps the change set fresh and pre-computes baselines so the next triggered run is fast, but the verdict you already have stands until one of the moments above fires. Editing criteria doesn't start a run either. You can also start a run by hand. One started from the review in Aviator bypasses every rule below and always executes. [`aviator verify r/<n>`](../reference/cli.md#aviator-verify) returns the existing run when an equivalent one already exists for the current commit and criteria, unless you pass `--force`.
 
 Verify de-duplicates so the same change isn't verified twice:
 
 * **PR ready** fires once per PR. Flipping it back to draft and ready again, or amending the commit, won't re-run it.
 * **Approval**, **queued**, and **PR linked** each run once per commit + criteria set. Duplicate webhooks, repeated approvals, or re-queues on the same commit are no-ops.
-* **Criteria edited** supersedes an in-flight run that was using the old criteria — the stale run is cancelled and a fresh one starts on the new criteria.
 
 A failed run doesn't count against de-duplication, so re-triggering after a pipeline issue works. And if baseline invariants for a commit haven't been selected yet, the run is **deferred** and starts automatically once that selection finishes — see [Understanding verification results](../reference/understanding-verification-results.md) for the `deferred` status.
 
@@ -71,7 +69,7 @@ This is the part most teams underinvest in early — a thin SKILL.md and stale s
 
 ### How invariants compose with criteria
 
-Invariants are your team's standing rules. When the runbook is created, the invariant selector picks which active invariants apply to this change based on the intent, the criteria, and the change set — and materializes each pick as an acceptance criterion (tagged with `source: baseline_invariant`).
+Invariants are your team's standing rules. When the review is created, the invariant selector picks which active invariants apply to this change based on the intent, the criteria, and the change set — and materializes each pick as an acceptance criterion (tagged with `source: baseline_invariant`).
 
 The composition rule: a run passes only if every criterion — user-authored or invariant-materialized — passes. Failures stack: one failed user criterion plus two failed invariants produces three verdicts on the same review document, not one merged failure.
 

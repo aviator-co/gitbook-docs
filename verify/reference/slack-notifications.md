@@ -122,7 +122,7 @@ behind a feature flag, follow-up in ENG-2214.
 
 #### Remove criterion
 
-A confirmation modal, no inputs. On submit the criterion leaves the runbook's acceptance criteria and future runs won't check it:
+A confirmation modal, no inputs. On submit the criterion leaves the review's acceptance criteria and future runs won't check it:
 
 ```
 @user removed Returns 429 when the rate limit is exceeded — future verify runs
@@ -152,7 +152,7 @@ Per-event opt-out is not currently available in Aviator settings. To stop all Av
 ### See also
 
 * [Understanding verification results](understanding-verification-results.md)
-* [Fixing verification failures](../how-to-guides/fixing-verification-failures.md)
+* [Understanding and fixing a verification failure](../how-to-guides/fixing-verification-failures.md)
 * [GitHub integration](github-integration.md)
 * [Concepts: Invariants](../concepts/invariants.md)
 * [Slack Integration Guide](../../api/personal-integrations.md)

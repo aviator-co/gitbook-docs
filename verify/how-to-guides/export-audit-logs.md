@@ -15,7 +15,7 @@ For the underlying concept and what each record contains, see [Concepts: Audit t
 
 Go to **Verify → Audit**.
 
-You'll see a chronological list of records: runbook submissions, verification runs, individual verdicts, and reviewer actions (approvals + waivers).
+You'll see a chronological list of records: review submissions, verification runs, individual verdicts, and reviewer actions (approvals + waivers).
 
 #### 2. Filter the data
 
@@ -25,7 +25,7 @@ Use the filters at the top to narrow:
 | -------------- | ---------------------------------------------------------------------------- |
 | Date range     | Last 7 days, 30 days, 90 days, or custom range.                              |
 | Repository     | All repos, or a specific repo.                                               |
-| Record type    | Runbook submissions, verification runs, verdicts, waivers.                   |
+| Record type    | Review submissions, verification runs, verdicts, waivers.                    |
 | Actor          | All users, or a specific submitter or reviewer.                              |
 | Verdict status | `pass`, `fail`, `warn`, `error`.                                              |
 | Waiver category| `false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`.        |
@@ -44,25 +44,25 @@ The export contains every record matching your filters.
 
 Each record carries fields specific to its type. Common shapes:
 
-**Runbook submission:**
+**Review submission:**
 
 | Field           | Description                                                        |
 | --------------- | ------------------------------------------------------------------ |
-| `runbook_number`| User-facing runbook ID.                                            |
+| `runbook_number`| User-facing review ID.                                             |
 | `submitted_by`  | Submitter (the user the MCP token belonged to, or the UI user).    |
 | `submitted_at`  | ISO 8601 timestamp.                                                |
 | `repo`, `branch`| Git context — target branch and working branch.                    |
 | `commit_sha`    | The HEAD commit at submission time.                                |
 | `intent`        | The submitted intent (plain-language description).                 |
-| `acceptance_criteria` | The acceptance criteria submitted with the runbook.          |
+| `acceptance_criteria` | The acceptance criteria submitted with the review.           |
 
 **Verification run:**
 
 | Field           | Description                                                                       |
 | --------------- | --------------------------------------------------------------------------------- |
 | `run_id`        | Unique ID.                                                                        |
-| `runbook_number`| The runbook this run belongs to.                                                  |
-| `runbook_version`| The version of the runbook that was verified.                                    |
+| `runbook_number`| The review this run belongs to.                                                   |
+| `runbook_version`| The version of the review that was verified.                                     |
 | `trigger_source`| `manual`, `ready`, `approval`, `queued`, `linked`, or `criteria_edit`.            |
 | `commit_sha`    | The commit verified.                                                              |
 | `status`        | `pending`, `in_progress`, `passed`, `failed`, `error`, `deferred`.                |
@@ -96,7 +96,7 @@ Each record carries fields specific to its type. Common shapes:
 
 For an audit period, the most useful exports:
 
-* **Runbook submissions + reviewer decisions.** Demonstrates that every change had an explicit submission and a recorded sign-off.
+* **Review submissions + reviewer decisions.** Demonstrates that every change had an explicit submission and a recorded sign-off.
 * **Verification results.** Demonstrates that every change was systematically verified against its criteria and against the team's invariants.
 * **Waivers.** Demonstrates that exceptions were categorized, attributed, and reasoned.
 

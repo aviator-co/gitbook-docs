@@ -37,7 +37,7 @@ After enabling, you can configure:
 
 | Setting             | Description                                              | Default |
 | ------------------- | -------------------------------------------------------- | ------- |
-| **Auto-create runbook on PR open** | Opening a PR in this repository automatically creates a runbook | Off |
+| **Auto-create review on PR open** | Opening a PR in this repository automatically creates a review for it. See [How a PR gets its review](../reference/github-integration.md#how-a-pr-gets-its-review) | Off |
 | **Generate invariants from PR comments** | Aviator reviews merged-PR comments weekly to propose new baseline invariants | On after onboarding |
 | **`verify.yaml`**   | Per-repo Verify configuration, including preview environments, edited under **Verify → Settings → Verify** | Empty |
 
@@ -75,10 +75,10 @@ To confirm everything works:
 
 1. Make a small change in this repo with your coding agent.
 2. Let it open a pull request. The standing instruction should prompt it to run `/verify-submit` first — if it doesn't, run `/verify-submit` yourself.
-3. Open the session URL the CLI prints — you should land on the review document for this repo.
+3. Open the review URL the CLI prints — you should land on the review document for this repo.
 4. Check that the Aviator Verify check appears on the pull request.
 
-If the hook never fires, start a fresh agent session — the standing instruction is delivered at session start, so a session already running when you ran `init` won't have it. If the check doesn't appear or the review document fails to load, see [Fixing verification failures](fixing-verification-failures.md).
+If the hook never fires, start a fresh agent session — the standing instruction is delivered at session start, so a session already running when you ran `init` won't have it. If the check doesn't appear, see [How a PR gets its review](../reference/github-integration.md#how-a-pr-gets-its-review). If the review document fails to load, see [Understanding and fixing a verification failure](fixing-verification-failures.md).
 
 ### Adding more repositories
 

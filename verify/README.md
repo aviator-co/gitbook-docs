@@ -23,7 +23,7 @@ You can start using Verify with code-scan alone — no preview, no infrastructur
 
 Every code review has a long tail of repeated comments. *Use the structured logger. No direct user-table writes. Errors emit a metrics counter. Cap external dependencies. Stripe amounts use the Money type.* Reviewers say the same thing on PR after PR, and any one of them missed in any one review becomes a future bug or migration.
 
-Verify turns those into **invariants** — team-defined rules in an account-level catalog that apply to every matching change automatically. When a runbook is created, an LLM selector picks which invariants legitimately apply to this change, and they're materialized as acceptance criteria alongside the user-supplied ones. From there they flow through the same verifier pipeline — code-scan or runtime — and produce verdicts on the same review surface.
+Verify turns those into **invariants** — team-defined rules in an account-level catalog that apply to every matching change automatically. When a review is created, an LLM selector picks which invariants legitimately apply to this change, and they're materialized as acceptance criteria alongside the user-supplied ones. From there they flow through the same verifier pipeline — code-scan or runtime — and produce verdicts on the same review surface.
 
 How invariants get into your catalog:
 
@@ -75,4 +75,4 @@ Three things follow:
 * **Configuration:** [Preview YAML](reference/preview-yaml.md) · [Spec format](reference/spec-format.md)
 * **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
 * **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md) · [Understanding verification results](reference/understanding-verification-results.md)
-* **When things go wrong:** [Fixing verification failures](how-to-guides/fixing-verification-failures.md)
+* **When things go wrong:** [Understanding and fixing a verification failure](how-to-guides/fixing-verification-failures.md)

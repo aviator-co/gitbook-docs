@@ -22,7 +22,7 @@ Section headings must be level-2 (`##`). The parser is case-insensitive on the h
 
 ### Title
 
-A short description of the change. Appears in the dashboard, runbook UI, and audit trail.
+A short description of the change. Appears in the dashboard, the review, and the audit trail.
 
 ```markdown
 # Add per-user rate limiting to public API
