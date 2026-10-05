@@ -9,6 +9,22 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-10-02" %}
+## 2026.10.02-2-rc1
+
+frontend: `sha256:ef8a6f15874024b2ec4065b80112522c920bb5444203ed9d210ee07c60294581`
+
+mergeit: `sha256:88ab0636e5236fbbceb1810c6b9c035d698ab6416fb10674aad1dc3e2d35fa41`
+
+**MergeQueue**
+
+* Stacks are now restacked through the GitHub API instead of an in-memory rebase, removing the memory limit on `/aviator sync` for large repositories
+* Required checks are evaluated against the most recently created check run, matching GitHub
+* `/aviator sync` now reports the correct error when a sync fails
+* Reduced native-git API internal calls when FlexReview is off
+* New `PILOT_JS_EXECUTOR_TIMEOUT_SECONDS` environment variable lets ready hooks run longer than the default 10 seconds
+{% endupdate %}
+
 {% update date="2026-09-29" %}
 ## 2026.09.29-2-rc1
 
