@@ -55,7 +55,7 @@ Install the [Aviator CLI](../reference/cli.md), then run this once from a clone 
 aviator init
 ```
 
-Choose the repo-wide setup when it asks who it's for, then pick the agents your team uses. It writes the hook configuration into the repository — `.claude/settings.json` for Claude Code, `.codex/hooks.json` for Codex. Commit those files and the setup travels with the repo.
+It sets up the whole repo by default. Pick the agents your team uses. It writes the hook configuration into the repository — `.claude/settings.json` for Claude Code, `.codex/hooks.json` for Codex. Commit those files and the setup travels with the repo.
 
 From then on, every agent session in this repository starts with a standing instruction to capture intent and acceptance criteria before opening a pull request, and gets reminded again at the PR itself.
 
