@@ -1,6 +1,6 @@
 # Running with remote agents
 
-The default Verify flow is local: you work with your coding agent in your editor, and the [Aviator MCP](../reference/mcp-tools.md) submits the intent when you're done. This guide covers the alternative — running the agent remotely through Aviator Runbooks.
+The default Verify flow is local: you work with your coding agent in your editor, and the [Aviator CLI](../reference/cli.md) submits the intent when you're done. This guide covers the alternative — running the agent remotely through Aviator Runbooks.
 
 Use this when:
 
@@ -8,23 +8,23 @@ Use this when:
 * The change is driven by someone who isn't a developer — a PM filing a ticket-style task, a security team asking for a small fix across many repos.
 * You want full attribution and reproducibility — the agent runs in a sandbox Aviator manages, with the same configuration every time.
 
-This is a secondary flow. Most changes go through the local-MCP path. If you're picking your first integration, start there.
+This is a secondary flow. Most changes go through the local flow. If you're picking your first integration, start there.
 
 ### How the remote flow differs
 
 In the local flow:
 
 ```
-You + agent (local) → Aviator MCP → Verify → Review document
+You + agent (local) → aviator verify → Verify → Review document
 ```
 
 In the remote flow:
 
 ```
-Runbook (with task description) → Aviator-hosted agent (sandbox) → MCP → Verify → Review document
+Runbook (with task description) → Aviator-hosted agent (sandbox) → PR → Verify → Review document
 ```
 
-The implementation step moves into a sandbox. The MCP, verification, and review document are identical. The only thing that changes is *where* the agent runs and *who* drives it.
+The implementation step moves into a sandbox. The runbook carries the intent and acceptance criteria itself, so nothing is submitted separately. Verification and the review document are identical. The only thing that changes is *where* the agent runs and *who* drives it.
 
 ### Setting it up
 
@@ -32,9 +32,8 @@ You need:
 
 * A Verify-connected repo, with at least one preview defined.
 * A Runbook for the task — see [Runbooks: Getting started](../../runbooks/getting-started.md) for the basics.
-* The same MCP install as the local flow, scoped to the Aviator-hosted agent.
 
-The MCP is preconfigured for Aviator-hosted agents — you don't install it separately. Submissions are attributed to the user who triggered the runbook, not to the agent.
+Nothing to install for the agent. The runbook is attributed to the user who triggered it, not to the agent.
 
 ### Writing a runbook for Verify
 
@@ -65,10 +64,10 @@ The review document is identical to the local flow — same intent + criteria + 
 If a remote run fails verification, two recovery paths:
 
 * **Re-run the runbook.** If the failure was transient or the description needed sharpening, re-running is the cheapest fix.
-* **Take it local.** Check out the branch, open it in your local agent, iterate, and submit through the local MCP. The audit trail records both submissions.
+* **Take it local.** Check out the branch, open it in your local agent, iterate, and push to the same branch. The PR stays linked to the runbook's review, so don't submit a new one. Start a run with `aviator verify r/<n>`.
 
 ### See also
 
 * [How Verify works](../how-it-works.md)
-* [MCP tools](../reference/mcp-tools.md)
+* [Aviator CLI](../reference/cli.md)
 * [Runbooks: Getting started](../../runbooks/getting-started.md) — for the runbook side of the flow

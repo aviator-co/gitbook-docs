@@ -59,17 +59,41 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `aviator verify`  | Submit intent and acceptance criteria for a change you're writing yourself.                                                                                     |
 | `aviator runbook` | Create a runbook and have Aviator's agent implement the change.                                                                                                 |
-| `aviator show`    | Show a runbook or Verify session, e.g. `aviator show r/123`.                                                                                                    |
-| `aviator results` | Show the latest verification results for a session.                                                                                                             |
-| `aviator edit`    | Replace the acceptance criteria on an existing session. Takes `--expected-version` to guard against stale edits — read the current version with `aviator show`. |
+| `aviator sessions` | List your reviews in a repo, or find the one on a branch or PR. See [`aviator sessions`](#aviator-sessions).                                                  |
+| `aviator show`    | Show a review, its criteria, and its latest verification, e.g. `aviator show r/123`.                                                                            |
+| `aviator results` | Show the failures from a review's latest verification.                                                                                                          |
+| `aviator edit`    | Update a review's intent or replace its acceptance criteria. See [`aviator edit`](#aviator-edit).                                                               |
+| `aviator dismiss` | Delete acceptance criteria or waive failing invariants on a review. See [`aviator dismiss`](#aviator-dismiss).                                                   |
+| `aviator scenarios` | Show what the latest verification run exercised and the evidence it captured.                                                                                 |
+| `aviator evidence` | Download one piece of evidence, such as a screenshot or a scenario's trace.                                                                                    |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
 | `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
 | `aviator invariants` | Manage your account's [invariants](../concepts/invariants.md).                                                                                               |
 | `aviator version` | Print the CLI version.                                                                                                                                          |
 
+`verify`, `runbook`, `sessions`, `show`, `results`, `edit`, `dismiss`, `scenarios`, and `invariants` take `--json` to print a single JSON object instead of the human summary. Reviews are identified by `id` (for example `r/123`) and `url`.
+
+### `aviator sessions`
+
+Lists your reviews in a repo, newest first. Check here before running `aviator verify`, so you don't create a second review for a branch that already has one.
+
+```bash
+aviator sessions --repo myorg/myrepo --branch add-rate-limiting
+aviator sessions --repo myorg/myrepo --pr 1234
+```
+
+| Flag       | Required | Description                                          |
+| ---------- | -------- | ---------------------------------------------------- |
+| `--repo`   | yes      | GitHub repo as `owner/repo`.                         |
+| `--branch` | no       | Only reviews on this working branch.                 |
+| `--pr`     | no       | Only reviews linked to this PR number.               |
+| `--status` | no       | `active` (the default) or `archived`.                |
+| `--limit`  | no       | Reviews per page. Defaults to 20, up to 100.         |
+| `--page`   | no       | Page number, starting at 1.                          |
+
 ### `aviator verify`
 
-Creates a Verify session seeded with your acceptance criteria. The implementation stays with you — Aviator verifies the PR opened from the working branch against the criteria.
+Creates a review seeded with your acceptance criteria. The implementation stays with you — Aviator verifies the PR opened from the working branch against the criteria.
 
 ```bash
 aviator verify \
@@ -88,11 +112,55 @@ aviator verify \
 | `--working-branch` | no       | The branch the work lives on, so a PR opened from it is verified against these criteria.                                                                            |
 | `--target-branch`  | no       | Base branch to verify against. Defaults to the repo default.                                                                                                        |
 | `--spec`           | no       | Path to a spec file carrying the key decisions and architecture.                                                                                                    |
-| `--author-email`   | no       | Attribute the submission to a different user.                                                                                                                       |
 
-The command prints the session URL and the number of criteria it recorded. The first verification run happens when the PR is marked ready for review.
+The command prints the review URL and the number of criteria it recorded. The first verification run happens when the PR is marked ready for review, or when you start one with `aviator verify r/123`.
 
-To change criteria on a session that already exists, use `aviator edit` — re-running `aviator verify` creates a new session.
+A review tracks exactly one PR. Running `aviator verify` again for a branch that already has a review creates a second review. A PR opened from that branch then links to neither, unless its body links to one of them. Check with [`aviator sessions`](#aviator-sessions) first, and use [`aviator edit`](#aviator-edit) to change a review you already have. See [How a PR gets its review](github-integration.md#how-a-pr-gets-its-review).
+
+For stacked PRs, submit once per PR, each with its own `--working-branch`, intent, and criteria, and pass the parent branch as `--target-branch`.
+
+To start a verification run on an existing review, pass its ID: `aviator verify r/123`. If an equivalent run already exists for the current commit and criteria, you get that run back instead of a new one. `--force` starts a fresh full run anyway. `--evaluator-only` re-judges the evidence an earlier run collected instead of collecting it again. It's refused once criteria have been added or reworded, since those need a full run.
+
+### `aviator edit`
+
+Updates the intent of an existing review, replaces its acceptance criteria, or both.
+
+```bash
+aviator edit r/123 --intent "Rate limit the public API per client"
+aviator edit r/123 --expected-version 4 --criteria-file criteria.txt
+```
+
+Replacing criteria replaces the whole list, so pass the complete new set. `--expected-version` is required with criteria. Read the current version from `aviator show r/123`. If the criteria changed since you read it, the edit is refused and nothing is written, so read the version again and retry. Edits don't start a verification run; run `aviator verify r/123` when you're ready.
+
+A criterion whose text is unchanged keeps its key and the way it's checked. A reworded criterion counts as new. It gets a new key, and the next full run plans how to check it. See [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-criterion-is-wrong).
+
+### `aviator dismiss`
+
+Clears acceptance criteria off a review so they no longer gate the PR. A task criterion is deleted. An invariant is waived for this PR, with a category and a justification. `aviator show` and `aviator results` print each criterion's handle as `[key ...]` or `[invariant ...]`.
+
+```bash
+aviator dismiss r/123 --key 3f2a9c...
+aviator dismiss r/123 --criteria-json '[
+  {"baseline_invariant_id": 42, "category": "accepted_risk", "justification": "Known flake, tracked separately"}
+]'
+```
+
+`--criteria-json` (or `--criteria-json-file`) takes a JSON array. Each entry is either `{"stable_key": "..."}` to delete a criterion, or `{"baseline_invariant_id": 42, "category": "...", "justification": "..."}` to waive an invariant. The categories are `false_positive`, `doesnt_apply`, `accepted_risk`, and `fix_in_followup`; see [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-invariant-doesnt-fit-this-change) for when to use each. `--key` is shorthand for a `stable_key` entry and is repeatable.
+
+`dismiss` needs a user access token, from `aviator login` or a personal token. An account-scoped API token is refused.
+
+### `aviator scenarios` and `aviator evidence`
+
+`aviator scenarios r/123` shows what the review's latest verification run exercised: each scenario's status, the criteria it covers, and the evidence it captured, with an ID for each piece of evidence. Every scenario that ran records a trace of the verifier's actions.
+
+```bash
+aviator scenarios r/123
+aviator evidence 4567 -o trace.json
+```
+
+`aviator evidence <id>` prints a short-lived signed URL for the file. With `-o <path>` it downloads the file instead, or writes it to stdout with `-o -`. Like `curl -o`, it overwrites an existing file at that path once the download starts.
+
+With `--json`, `aviator scenarios` also lists each scenario's steps. Each piece of evidence carries the `step_id` it was captured on. See [Understanding verification results](../how-to-guides/understanding-verification-results.md#reading-a-scenario-trace) for the trace format.
 
 ### `aviator runbook`
 
@@ -108,7 +176,7 @@ aviator runbook \
 
 ### `aviator invariants`
 
-Manages your account's [invariants](../concepts/invariants.md). `list` and `categories` work with any API token. The other subcommands need a maintainer or admin signed in with `aviator login` or a personal access token. Every subcommand takes `--json` to print the full response.
+Manages your account's [invariants](../concepts/invariants.md). `list` and `categories` work with any API token. The other subcommands need a maintainer or admin signed in with `aviator login` or a personal access token. Every subcommand takes `--json` to print the result as JSON.
 
 | Subcommand                    | What it does                                                                                    |
 | ----------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -159,4 +227,3 @@ Run `aviator init` once per repo to have your agent remind you before a PR is op
 * [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md) — the pre-PR reminder
 * [Your first verification](../your-first-spec.md) — hands-on tutorial
 * [Writing effective acceptance criteria](../how-to-guides/writing-effective-acceptance-criteria.md)
-* [MCP tools](mcp-tools.md) — the legacy submission path

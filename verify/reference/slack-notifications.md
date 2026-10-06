@@ -2,7 +2,7 @@
 
 When a verification run finishes, Verify DMs the PR author the result — and lets them re-run verification, waive a failing invariant, or remove a failing criterion without leaving Slack.
 
-For the underlying result shapes, see [Understanding verification results](understanding-verification-results.md).
+For how to read the results behind a notification, see [Understanding verification results](../how-to-guides/understanding-verification-results.md).
 
 ### Prerequisites
 
@@ -122,7 +122,7 @@ behind a feature flag, follow-up in ENG-2214.
 
 #### Remove criterion
 
-A confirmation modal, no inputs. On submit the criterion leaves the runbook's acceptance criteria and future runs won't check it:
+A confirmation modal, no inputs. On submit the criterion leaves the review's acceptance criteria and future runs won't check it:
 
 ```
 @user removed Returns 429 when the rate limit is exceeded — future verify runs
@@ -151,8 +151,7 @@ Per-event opt-out is not currently available in Aviator settings. To stop all Av
 
 ### See also
 
-* [Understanding verification results](understanding-verification-results.md)
-* [Fixing verification failures](../how-to-guides/fixing-verification-failures.md)
+* [Understanding verification results](../how-to-guides/understanding-verification-results.md)
 * [GitHub integration](github-integration.md)
 * [Concepts: Invariants](../concepts/invariants.md)
 * [Slack Integration Guide](../../api/personal-integrations.md)

@@ -72,15 +72,15 @@ The skill reads the change, drafts the submission with you, and calls `aviator v
 * **Acceptance criteria** — the verifiable assertions, generated from what was built.
 * **Working branch** — the branch the work lives on, so the PR you open from it is verified against these criteria.
 
-The CLI prints a session URL like `https://app.aviator.co/r/218`.
+The CLI prints a review URL like `https://app.aviator.co/r/218`.
 
-Open the URL in your browser. You'll see the runbook with the generated plan, the acceptance criteria, and (once verification starts) a streaming verdict per criterion.
+Open the URL in your browser. You'll see the review with the generated plan, the acceptance criteria, and (once verification starts) a streaming verdict per criterion.
 
 ### Step 5: Watch verification run
 
-The runbook page updates as the verification pipeline progresses. The phases:
+The review updates as the verification pipeline progresses. The phases:
 
-1. **Runbook generation.** Aviator turns the submission into a structured plan + acceptance criteria. Any matching invariants from your account catalog are materialized as additional criteria.
+1. **Review generation.** Aviator turns the submission into a structured plan + acceptance criteria. Any matching invariants from your account catalog are materialized as additional criteria.
 2. **Preview is built and booted** (only if you've configured a preview). Your image is loaded, secrets injected, setup script runs.
 3. **Criteria run.** Each criterion is routed to one of two verifier paths — code-scan (static analysis of the diff) or runtime (executed against the preview). Without a preview, every criterion routes to code-scan.
 
@@ -105,20 +105,20 @@ For the health endpoint without a preview, you should see something like:
 
 With a preview configured, the behavioral criteria would route to Runtime instead — and you'd see the actual request + response as evidence.
 
-Click any verdict to see the evidence. If something failed, the verdict is annotated with the file and line that caused it. Fix the issue, then start another run from the runbook UI — a plain push doesn't re-run Verify on its own (see [When a run is triggered](concepts/how-verification-works.md#when-a-run-is-triggered)).
+Click any verdict to see the evidence. If something failed, the verdict is annotated with the file and line that caused it. Fix the issue, then start another run from the review or with `aviator verify r/<n>`. A plain push doesn't re-run Verify on its own (see [When a run is triggered](concepts/how-verification-works.md#when-a-run-is-triggered)).
 
 ### Step 7: Approve (or send back)
 
 From the review document you can:
 
 * **Approve** — sign off and continue your normal merge flow.
-* **Waive a failed verdict with a category** — `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`. Recorded in the audit trail.
+* **Waive a failed verdict with a category** — `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`, here or with [`aviator dismiss`](reference/cli.md#aviator-dismiss). Recorded in the audit trail.
 * **Edit the acceptance criteria** — use `aviator edit` to replace them, then re-verify. Re-running `/verify-submit` creates a new session, so edit rather than resubmit.
 * **Open the preview** — if you have one configured, poke at the running code yourself before approving.
 
 If you'd rather stay on GitHub, the [Verify tab on the pull request](how-to-guides/verify-on-github.md) carries the verdicts and the rerun, waive and remove actions.
 
-Approve to close the loop. The audit trail now has a complete record: runbook submission, verdicts per criterion with evidence, your decision.
+Approve to close the loop. The audit trail now has a complete record: review submission, verdicts per criterion with evidence, your decision.
 
 ### What you just learned
 
@@ -134,4 +134,4 @@ Approve to close the loop. The audit trail now has a complete record: runbook su
 * [How Verify works](how-it-works.md) — the full picture
 * [Concepts: Invariants](concepts/invariants.md) — encode team rules so they apply automatically
 * [Writing a SKILL.md](how-to-guides/writing-a-skill-md.md) — give the scenario runner the context it needs
-* [Fixing verification failures](how-to-guides/fixing-verification-failures.md) — what to do when a verdict goes red
+* [Understanding verification results](how-to-guides/understanding-verification-results.md) — what to do when a verdict goes red

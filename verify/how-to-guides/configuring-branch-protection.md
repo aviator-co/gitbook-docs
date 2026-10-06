@@ -51,7 +51,7 @@ Click **Save changes** at the bottom of the page.
 
 ### Testing the configuration
 
-Open a PR for a branch where you've submitted an intent through the MCP. You should see:
+Open a PR for a branch where you've submitted an intent with `/verify-submit` or `aviator verify`. You should see:
 
 1. The `aviator/verify` check appears.
 2. Merge button is disabled until verification passes.

@@ -38,10 +38,10 @@ Each invariant has zero or more **conditions** that gate when it's eligible to a
 
 | Condition type   | What it matches                                                |
 | ---------------- | -------------------------------------------------------------- |
-| `file_path_glob` | Files changed in the runbook match a glob like `src/**/*.py`. |
+| `file_path_glob` | Files changed in the review match a glob like `src/**/*.py`. |
 | `language`       | The detected language of changed files matches.                |
 
-An invariant with no conditions is eligible for every runbook. With conditions, it's eligible when at least one changed file satisfies them. See [Invariant conditions](../reference/invariant-conditions.md) for the exact matching rules and examples.
+An invariant with no conditions is eligible for every review. With conditions, it's eligible when at least one changed file satisfies them. See [Invariant conditions](../reference/invariant-conditions.md) for the exact matching rules and examples.
 
 Eligibility doesn't mean the invariant *applies* — it just means the next step (selection) will consider it.
 
@@ -63,16 +63,16 @@ Every invariant belongs to a category. Default categories:
 
 Categories drive grouping in the UI and reporting in the audit trail.
 
-### How invariants apply to a runbook
+### How invariants apply to a review
 
-When a runbook is created, a **selector** picks which eligible invariants actually apply. The selector reads the runbook's intent, the user-supplied acceptance criteria, and the change set, and uses an LLM to pick the catalog entries that defensibly fit the change.
+When a review is created, a **selector** picks which eligible invariants actually apply. The selector reads the review's intent, the user-supplied acceptance criteria, and the change set, and uses an LLM to pick the catalog entries that defensibly fit the change.
 
-Selected invariants are materialized as acceptance criteria on the runbook, tagged with `source: baseline_invariant`. From that point on, they flow through the [verification pipeline](how-verification-works.md) like any other criterion — same verdict shape, same evidence, same review-document treatment.
+Selected invariants are materialized as acceptance criteria on the review, tagged with `source: baseline_invariant`. From that point on, they flow through the [verification pipeline](how-verification-works.md) like any other criterion — same verdict shape, same evidence, same review-document treatment.
 
 Two consequences:
 
 * **You don't need to think about invariants when writing the intent.** The selector handles eligibility. Your acceptance criteria stay focused on what's specific to this change.
-* **Invariant verdicts and user-criterion verdicts look identical in the review document.** The only visible difference is the source tag, and the fact that invariant criteria can't be edited per-runbook (they can be waived).
+* **Invariant verdicts and user-criterion verdicts look identical in the review document.** The only visible difference is the source tag, and the fact that invariant criteria can't be edited per review (they can be waived).
 
 ### Writing a good invariant
 
@@ -102,7 +102,7 @@ Most invariants worth writing start as a review comment that's been left more th
 2. **Write the assertion.** State the rule in one sentence. Don't write the *fix* — the verifier will explain what's wrong.
 3. **Pick a category.** Helps with grouping and reporting.
 4. **Add conditions if needed.** Most invariants don't need them.
-5. **Save as draft, watch a week of verifications.** Draft invariants don't get materialized into runbooks. Use that to confirm the rule reads cleanly before promoting to active.
+5. **Save as draft, watch a week of verifications.** Draft invariants don't get materialized into reviews. Use that to confirm the rule reads cleanly before promoting to active.
 
 Example, turning a real review comment into an invariant:
 
@@ -123,7 +123,7 @@ Category: `functional_correctness`.
 
 ### Waivers
 
-Invariant verdicts can be waived with a categorized reason, either from the review document or from the [Verify tab on the pull request](../how-to-guides/verify-on-github.md):
+Invariant verdicts can be waived with a categorized reason, from the review document, from the [Verify tab on the pull request](../how-to-guides/verify-on-github.md), or with [`aviator dismiss`](../reference/cli.md#aviator-dismiss):
 
 | Waiver category    | When to use it                                                                 |
 | ------------------ | ------------------------------------------------------------------------------ |

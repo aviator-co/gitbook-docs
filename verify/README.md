@@ -23,7 +23,7 @@ You can start using Verify with code-scan alone — no preview, no infrastructur
 
 Every code review has a long tail of repeated comments. *Use the structured logger. No direct user-table writes. Errors emit a metrics counter. Cap external dependencies. Stripe amounts use the Money type.* Reviewers say the same thing on PR after PR, and any one of them missed in any one review becomes a future bug or migration.
 
-Verify turns those into **invariants** — team-defined rules in an account-level catalog that apply to every matching change automatically. When a runbook is created, an LLM selector picks which invariants legitimately apply to this change, and they're materialized as acceptance criteria alongside the user-supplied ones. From there they flow through the same verifier pipeline — code-scan or runtime — and produce verdicts on the same review surface.
+Verify turns those into **invariants** — team-defined rules in an account-level catalog that apply to every matching change automatically. When a review is created, an LLM selector picks which invariants legitimately apply to this change, and they're materialized as acceptance criteria alongside the user-supplied ones. From there they flow through the same verifier pipeline — code-scan or runtime — and produce verdicts on the same review surface.
 
 How invariants get into your catalog:
 
@@ -55,7 +55,7 @@ Three things follow:
 
 | Concept                                                                | What it is                                                                              |
 | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [Intent and acceptance criteria](reference/spec-format.md)             | What the agent submits — what the change is for, and the verifiable assertions it must satisfy. |
+| [Intent and acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md) | What the agent submits — what the change is for, and the verifiable assertions it must satisfy. |
 | [Invariants](concepts/invariants.md)                                   | Team-defined rules applied to every matching change. Security baseline, data access, conventions. |
 | [Previews](concepts/previews.md)                                       | Ephemeral environments scenarios run against. Per-run, torn down after.                 |
 | [Verification layers](concepts/verification-layers.md)                 | How criteria, invariants, and domain contracts stack.                                   |
@@ -72,7 +72,7 @@ Three things follow:
 
 * **Submitting:** [Aviator CLI](reference/cli.md) · [Set up agent hooks](how-to-guides/set-up-agent-hooks.md)
 * **Writing for the agent:** [SKILL.md guide](how-to-guides/writing-a-skill-md.md) · [Effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
-* **Configuration:** [Preview YAML](reference/preview-yaml.md) · [Spec format](reference/spec-format.md)
+* **Configuration:** [Preview YAML](reference/preview-yaml.md)
 * **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
-* **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md) · [Understanding verification results](reference/understanding-verification-results.md)
-* **When things go wrong:** [Fixing verification failures](how-to-guides/fixing-verification-failures.md)
+* **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md)
+* **Reading results and fixing failures:** [Understanding verification results](how-to-guides/understanding-verification-results.md)

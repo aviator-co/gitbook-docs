@@ -61,15 +61,7 @@ Invariants have their own configuration surface in **Settings → Invariants**. 
 * [Concepts: Invariants](../concepts/invariants.md) — sources, categories, selection
 * [Setting up org invariants](../setting-up-org-invariants.md) — step-by-step setup
 
-### MCP
-
-The MCP install and tool surface are on a dedicated reference page:
-
-→ [MCP tools](mcp-tools.md)
-
 ### See also
 
 * [Preview YAML reference](preview-yaml.md)
-* [MCP tools](mcp-tools.md)
-* [Spec format](spec-format.md)
 * [Concepts: Invariants](../concepts/invariants.md)

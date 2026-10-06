@@ -35,9 +35,11 @@ Codex users install the `verify-submit` skill from the same repository, then run
 
 <figure><img src="../.gitbook/assets/verify-codex-hooks-trust.png" alt="The Codex hooks screen warning that 3 hooks need review before they can run, listing PreToolUse, PostToolUse and SessionStart with counts, and offering to press t to trust all"><figcaption><p>Codex lists the three Aviator hooks as needing review until you trust them</p></figcaption></figure>
 
+If your team hasn't committed the hooks to the repo yet, set them up for yourself. `aviator init --scope local` covers just this repo and adds nothing you'd commit. `aviator init --scope self` covers every repo on this machine. See [Set up agent hooks](how-to-guides/set-up-agent-hooks.md#who-the-setup-covers).
+
 ## Check that it works
 
-Start a **fresh** agent session in the repo, make a small change, and let it open a pull request. The agent should run `/verify-submit`, print a session URL, and put a `Runbook:` line at the top of the PR body. The Aviator Verify check then appears on the pull request.
+Start a **fresh** agent session in the repo, make a small change, and let it open a pull request. The agent should run `/verify-submit`, print a review URL, and put a link to the review at the top of the PR body. The Aviator Verify check then appears on the pull request.
 
 <figure><img src="../.gitbook/assets/verify-check-on-pull-request.png" alt="The aviator/verify check on a pull request, reading Successful in 2m, Verification passed"><figcaption><p>The <code>aviator/verify</code> check on the pull request</p></figcaption></figure>
 
@@ -45,17 +47,17 @@ Start a **fresh** agent session in the repo, make a small change, and let it ope
 
 | Symptom | Cause |
 | --- | --- |
-| The agent never mentions Verify | The session predates the hooks. Start a new one. |
+| The agent never mentions Verify | The session predates the hooks, so start a new one. Or the repo has no hooks yet, so set them up for yourself as above. |
 | Nothing fires in Codex | The hook isn't trusted yet. Run `/hooks` in Codex. |
 | `/verify-submit` isn't a command | The Aviator skill isn't installed on this machine. |
 | The agent says the CLI isn't installed | It isn't on `PATH` here. Install it, step 2 above. |
 | The agent says no credentials were found | Run `aviator login`. |
 | Submitting fails with "Repository not found" | You're signed in to a personal account rather than your company's workspace. |
-| The session exists but the pull request never links to it | Your GitHub account isn't connected. Check Settings → Personal → Integrations. |
-| The pull request has no Verify check | The `Runbook:` line is missing from the body, or the repo isn't connected. See [Fixing verification failures](how-to-guides/fixing-verification-failures.md). |
+| The review exists but the pull request never links to it | Your GitHub account isn't connected. Check Settings → Personal → Integrations. |
+| The pull request has no Verify check | The PR body has no link to the review, or the repo isn't connected. See [How a PR gets its review](reference/github-integration.md#how-a-pr-gets-its-review). |
 
 ## See also
 
 * [Your first verification](your-first-spec.md), a hands-on run through the whole loop
 * [Writing effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
-* [Fixing verification failures](how-to-guides/fixing-verification-failures.md)
+* [Understanding verification results](how-to-guides/understanding-verification-results.md)

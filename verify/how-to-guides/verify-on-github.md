@@ -25,7 +25,7 @@ Use **Open in Aviator** for the full review document (evidence, scenarios, run h
 
 ### Rerun verification
 
-Select **Rerun verification** to start a new run against the PR's latest commit. It's unavailable while a run is in progress, and when the runbook has no open PR to verify against it explains why.
+Select **Rerun verification** to start a new run against the PR's latest commit. It's unavailable while a run is in progress, and when the review has no open PR to verify against it explains why.
 
 ### Waive an invariant failure
 
@@ -43,5 +43,5 @@ Failing acceptance-criteria rows offer **Remove…**, which drops a criterion yo
 
 ### Related
 
-* [Fixing verification failures](fixing-verification-failures.md) — the failure shapes and how to resolve each.
+* [Understanding verification results](understanding-verification-results.md): reading results and fixing failures.
 * [GitHub integration](../reference/github-integration.md) — the `aviator/verify` check and its states.

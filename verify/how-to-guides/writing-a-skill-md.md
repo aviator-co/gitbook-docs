@@ -95,7 +95,7 @@ Verify can already read your code. Don't repeat what it can see:
 * **Endpoint catalogs.** It will discover endpoints from the router. You don't need to list them.
 * **Code conventions.** That's invariants, not skills. ([Invariants](../concepts/invariants.md))
 * **Implementation history.** "We used to use library X, switched to Y in 2024." Irrelevant for running scenarios.
-* **The change under test.** That's the intent, submitted via MCP per change.
+* **The change under test.** That's the intent, submitted per change with the CLI.
 
 A bloated skill hurts more than a thin one. Every irrelevant line dilutes the context and slows the agent down.
 

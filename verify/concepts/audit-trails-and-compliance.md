@@ -4,13 +4,13 @@ Every Verify run produces an immutable record of what was submitted, what ran, w
 
 ### What gets recorded
 
-For every runbook:
+For every review:
 
 | Record                | What it contains                                                                                       |
 | --------------------- | ------------------------------------------------------------------------------------------------------ |
-| Runbook submission    | Submitter, timestamp, intent, acceptance criteria, target branch, working branch, repo + commit         |
-| Runbook version       | Each iteration of the runbook (steps + acceptance criteria), with version number                       |
-| Verification run      | Trigger source (manual / ready / approval / queued / linked / criteria-edit), commit SHA, run status, counts (passed / failed / skipped / waived) |
+| Review submission     | Submitter, timestamp, intent, acceptance criteria, target branch, working branch, repo + commit         |
+| Review version        | Each iteration of the review (steps + acceptance criteria), with version number                       |
+| Verification run      | Trigger source (manual / ready / approval / queued / linked; criteria-edit appears only on older runs), commit SHA, run status, counts (passed / failed / skipped / waived) |
 | Verification result   | One per criterion: verifier path, verdict, evidence reference, reason, location                        |
 | Reviewer waiver       | Reviewer, timestamp, criterion, category (false-positive / doesn't-apply / accepted-risk / fix-in-followup), free-text reason |
 
@@ -21,7 +21,7 @@ Records are immutable. Once written, they can't be modified or deleted by users.
 Every merged change has a complete chain:
 
 ```
-Implementation → Runbook submission → Verification run(s) → Reviewer decisions → Merged
+Implementation → Review submission → Verification run(s) → Reviewer decisions → Merged
        ↓                ↓                    ↓                       ↓               ↓
    Commit SHA      Submission           One result per           Waivers +       Merge
                     record              criterion + evidence     approval        reference
@@ -29,9 +29,9 @@ Implementation → Runbook submission → Verification run(s) → Reviewer decis
 
 This chain answers the questions an auditor asks:
 
-* **What was the change supposed to do?** → The runbook's intent + acceptance criteria.
+* **What was the change supposed to do?** → The review's intent + acceptance criteria.
 * **Did the running code actually do it?** → Each verification result, with evidence per criterion.
-* **Who decided this could merge?** → The reviewer's recorded actions on the runbook.
+* **Who decided this could merge?** → The reviewer's recorded actions on the review.
 * **What was overridden, and why?** → Waivers, each with a category and reason.
 
 ### Segregation of duties
@@ -42,7 +42,7 @@ Verify supports this naturally:
 
 | Role           | Actor                                                                  | Tracked separately |
 | -------------- | ---------------------------------------------------------------------- | ------------------ |
-| Submitter      | The user whose MCP token created the runbook                            | yes                |
+| Submitter      | The user whose token created the review                                 | yes                |
 | Reviewer       | The person approving (or waiving verdicts), from the review document or the Verify tab on the PR | yes                |
 | Verifier       | Automated — the Verify pipeline itself                                  | yes                |
 
@@ -54,7 +54,7 @@ This is stronger than diff review, where the same person can leave a comment and
 
 Every production change links back to:
 
-* The runbook submission (the *what was supposed to happen*).
+* The review submission (the *what was supposed to happen*).
 * The verification results (the *what actually happened*).
 * The reviewer's recorded decisions (the *who said yes*, including waivers).
 * The commit SHA (the *what shipped*).
@@ -88,10 +88,6 @@ If an auditor asks "why was this change made and how do you know it was safe," y
 | Audit controls     | Immutable records of every submission, verdict, and reviewer decision.      |
 | Integrity controls | Verification gives evidence that the code matches the declared intent.      |
 
-### Exporting reports
-
-The audit data is queryable and exportable from the Aviator UI. See [How to export audit logs](../how-to-guides/export-audit-logs.md) for the current export surface.
-
 ### Retention
 
 Audit records are retained indefinitely by default. Contact support if you have a regulatory requirement for a different retention or archival policy.
@@ -119,6 +115,5 @@ Integrate Verify alongside your other compliance tools for full coverage.
 
 ### See also
 
-* [How to export audit logs](../how-to-guides/export-audit-logs.md)
 * [How verification works](how-verification-works.md)
 * [Why intent-driven verification](why-intent-driven-verification.md)

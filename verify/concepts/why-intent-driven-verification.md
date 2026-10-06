@@ -56,7 +56,7 @@ The intent is the contract. Verification is the enforcement. The reviewer judges
 
 ### Where reviewers actually spend their time
 
-In the Verify flow, the agent implements the change, then submits the intent and acceptance criteria through the MCP. Verification runs. The reviewer opens a review document that contains:
+In the Verify flow, the agent implements the change, then submits the intent and acceptance criteria with the [Aviator CLI](../reference/cli.md). Verification runs. The reviewer opens a review document that contains:
 
 * The intent.
 * Every criterion with a verdict.

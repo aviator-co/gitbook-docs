@@ -44,11 +44,11 @@ Four phases:
 
    All AI drafts wait in pending status. An admin promotes drafts to active before they start producing verdicts.
 
-2. **Selection.** When a runbook is submitted, an LLM **selector** reads the intent, the acceptance criteria, and the change set, and picks which eligible invariants legitimately apply to this change. Eligibility is gated by optional conditions on the invariant (e.g. `file_path_glob: src/**/*.py`); among the eligible, the selector decides what actually fits.
+2. **Selection.** When a review is submitted, an LLM **selector** reads the intent, the acceptance criteria, and the change set, and picks which eligible invariants legitimately apply to this change. Eligibility is gated by optional conditions on the invariant (e.g. `file_path_glob: src/**/*.py`); among the eligible, the selector decides what actually fits.
 
-3. **Materialization.** Selected invariants are materialized as acceptance criteria on the runbook, tagged with `source: baseline_invariant`. From here they flow through the same verifier pipeline as user criteria — code-scan or runtime — and produce verdicts on the same review surface.
+3. **Materialization.** Selected invariants are materialized as acceptance criteria on the review, tagged with `source: baseline_invariant`. From here they flow through the same verifier pipeline as user criteria — code-scan or runtime — and produce verdicts on the same review surface.
 
-4. **Review and waivers.** Reviewers see invariant verdicts alongside user criteria. Invariant-sourced criteria can't be edited per-runbook (they're catalog-managed), but they can be **waived** with a category:
+4. **Review and waivers.** Reviewers see invariant verdicts alongside user criteria. Invariant-sourced criteria can't be edited per review (they're catalog-managed), but they can be **waived** with a category:
 
    | Waiver category    | When to use it                                                      |
    | ------------------ | ------------------------------------------------------------------- |
@@ -101,4 +101,3 @@ If you'd rather not run the agent locally, Aviator Runbooks runs the implementin
 - [Concepts: Invariants](concepts/invariants.md)
 - [How to: Writing a SKILL.md](how-to-guides/writing-a-skill-md.md)
 - [Concepts: Verification layers](concepts/verification-layers.md)
-- [Reference: Spec format](reference/spec-format.md)

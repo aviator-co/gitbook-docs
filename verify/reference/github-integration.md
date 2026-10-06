@@ -39,7 +39,19 @@ The check state tracks the verification run's status:
 | `error`                 | `failure`          | The run itself errored — surfaced as a check failure.|
 | `deferred`              | `in_progress`      | Waiting for invariant selection before the run starts.|
 
-The check summary links back to the runbook in the Aviator UI for the full review document.
+The check summary links back to the review in Aviator for the full review document.
+
+The check doesn't only move when a run finishes. Waiving a verdict or removing an acceptance criterion recounts the latest run against the criteria still active and updates the check right away, so it can flip to `success` without a new run.
+
+### How a PR gets its review
+
+Verify checks a PR against the review it's linked to. When a PR is opened, edited, or marked ready for review, Aviator looks for that review in this order:
+
+1. **A link in the PR body.** If the body contains a review URL (`<your Aviator URL>/r/123`), the PR links to that review. This only works when the PR's author owns the review. Otherwise Aviator comments on the PR and doesn't link it. `/verify-submit` puts this link at the top of the PR body.
+2. **The working branch.** With no link in the body, Aviator looks for the PR author's active reviews in the repo whose working branch matches the PR's branch. If exactly one matches, the PR links to it. If more than one matches, the PR links to none of them.
+3. **Auto-create.** If nothing linked and **Auto-create review on PR open** is on for the repo (see [Connect a repository](../how-to-guides/connect-a-repository.md)), Aviator creates a review from the PR. It does this when a PR is opened or marked ready for review, never for a draft and never on an edit. It comments on the PR with the review URL, writes an intent from the PR, and starts the first verification run. The review has no acceptance criteria of its own, so the account's invariants alone gate the PR. Add criteria with [`aviator edit`](cli.md#aviator-edit) or in the review. The PR's author owns the review, so their GitHub account has to be connected to Aviator. If it isn't, no review is created.
+
+Two reviews on one branch break step 2: the PR links to neither, and with auto-create on, Aviator creates a third review from the PR. Before submitting, check for an existing review with `aviator sessions --repo <owner/repo> --branch <branch>`, and keep the review link in the PR body.
 
 ### Branch protection
 
@@ -63,5 +75,5 @@ See [Configuring branch protection](../how-to-guides/configuring-branch-protecti
 
 * [Configuring branch protection](../how-to-guides/configuring-branch-protection.md)
 * [Connect a repository](../how-to-guides/connect-a-repository.md)
-* [Understanding verification results](understanding-verification-results.md)
+* [Understanding verification results](../how-to-guides/understanding-verification-results.md)
 * [Slack notifications](slack-notifications.md)
