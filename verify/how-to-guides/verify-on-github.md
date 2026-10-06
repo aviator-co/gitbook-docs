@@ -43,5 +43,5 @@ Failing acceptance-criteria rows offer **Remove…**, which drops a criterion yo
 
 ### Related
 
-* [Understanding and fixing a verification failure](fixing-verification-failures.md) — the failure shapes and how to resolve each.
+* [Understanding verification results](understanding-verification-results.md): reading results and fixing failures.
 * [GitHub integration](../reference/github-integration.md) — the `aviator/verify` check and its states.

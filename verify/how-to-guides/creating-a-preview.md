@@ -119,7 +119,7 @@ Two rules of thumb:
 
 ### Step 5: Commit and trigger a verification
 
-Save your preview config in Verify settings and commit the setup script to the repo. Submit through the MCP (or open a PR if you've already submitted).
+Save your preview config in Verify settings and commit the setup script to the repo. Submit with `/verify-submit` or `aviator verify` (or open a PR if you've already submitted).
 
 When the next verification run starts, watch the run timeline in the review document:
 

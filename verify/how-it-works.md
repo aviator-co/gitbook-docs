@@ -101,4 +101,3 @@ If you'd rather not run the agent locally, Aviator Runbooks runs the implementin
 - [Concepts: Invariants](concepts/invariants.md)
 - [How to: Writing a SKILL.md](how-to-guides/writing-a-skill-md.md)
 - [Concepts: Verification layers](concepts/verification-layers.md)
-- [Reference: Spec format](reference/spec-format.md)

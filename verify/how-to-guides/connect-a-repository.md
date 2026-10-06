@@ -78,7 +78,7 @@ To confirm everything works:
 3. Open the review URL the CLI prints — you should land on the review document for this repo.
 4. Check that the Aviator Verify check appears on the pull request.
 
-If the hook never fires, start a fresh agent session — the standing instruction is delivered at session start, so a session already running when you ran `init` won't have it. If the check doesn't appear, see [How a PR gets its review](../reference/github-integration.md#how-a-pr-gets-its-review). If the review document fails to load, see [Understanding and fixing a verification failure](fixing-verification-failures.md).
+If the hook never fires, start a fresh agent session — the standing instruction is delivered at session start, so a session already running when you ran `init` won't have it. If the check doesn't appear, see [How a PR gets its review](../reference/github-integration.md#how-a-pr-gets-its-review). If the review document fails to load, see [Understanding verification results](understanding-verification-results.md).
 
 ### Adding more repositories
 

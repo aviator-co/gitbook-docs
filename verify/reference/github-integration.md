@@ -41,6 +41,8 @@ The check state tracks the verification run's status:
 
 The check summary links back to the review in Aviator for the full review document.
 
+The check doesn't only move when a run finishes. Waiving a verdict or removing an acceptance criterion recounts the latest run against the criteria still active and updates the check right away, so it can flip to `success` without a new run.
+
 ### How a PR gets its review
 
 Verify checks a PR against the review it's linked to. When a PR is opened, edited, or marked ready for review, Aviator looks for that review in this order:
@@ -73,5 +75,5 @@ See [Configuring branch protection](../how-to-guides/configuring-branch-protecti
 
 * [Configuring branch protection](../how-to-guides/configuring-branch-protection.md)
 * [Connect a repository](../how-to-guides/connect-a-repository.md)
-* [Understanding verification results](understanding-verification-results.md)
+* [Understanding verification results](../how-to-guides/understanding-verification-results.md)
 * [Slack notifications](slack-notifications.md)

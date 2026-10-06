@@ -55,7 +55,7 @@ Three things follow:
 
 | Concept                                                                | What it is                                                                              |
 | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [Intent and acceptance criteria](reference/spec-format.md)             | What the agent submits — what the change is for, and the verifiable assertions it must satisfy. |
+| [Intent and acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md) | What the agent submits — what the change is for, and the verifiable assertions it must satisfy. |
 | [Invariants](concepts/invariants.md)                                   | Team-defined rules applied to every matching change. Security baseline, data access, conventions. |
 | [Previews](concepts/previews.md)                                       | Ephemeral environments scenarios run against. Per-run, torn down after.                 |
 | [Verification layers](concepts/verification-layers.md)                 | How criteria, invariants, and domain contracts stack.                                   |
@@ -72,7 +72,7 @@ Three things follow:
 
 * **Submitting:** [Aviator CLI](reference/cli.md) · [Set up agent hooks](how-to-guides/set-up-agent-hooks.md)
 * **Writing for the agent:** [SKILL.md guide](how-to-guides/writing-a-skill-md.md) · [Effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
-* **Configuration:** [Preview YAML](reference/preview-yaml.md) · [Spec format](reference/spec-format.md)
+* **Configuration:** [Preview YAML](reference/preview-yaml.md)
 * **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
-* **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md) · [Understanding verification results](reference/understanding-verification-results.md)
-* **When things go wrong:** [Understanding and fixing a verification failure](how-to-guides/fixing-verification-failures.md)
+* **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md)
+* **Reading results and fixing failures:** [Understanding verification results](how-to-guides/understanding-verification-results.md)

@@ -132,7 +132,7 @@ aviator edit r/123 --expected-version 4 --criteria-file criteria.txt
 
 Replacing criteria replaces the whole list, so pass the complete new set. `--expected-version` is required with criteria. Read the current version from `aviator show r/123`. If the criteria changed since you read it, the edit is refused and nothing is written, so read the version again and retry. Edits don't start a verification run; run `aviator verify r/123` when you're ready.
 
-A criterion whose text is unchanged keeps its key and the way it's checked. A reworded criterion counts as new. It gets a new key, and the next full run plans how to check it. See [Understanding and fixing a verification failure](../how-to-guides/fixing-verification-failures.md#the-criterion-is-wrong).
+A criterion whose text is unchanged keeps its key and the way it's checked. A reworded criterion counts as new. It gets a new key, and the next full run plans how to check it. See [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-criterion-is-wrong).
 
 ### `aviator dismiss`
 
@@ -145,7 +145,7 @@ aviator dismiss r/123 --criteria-json '[
 ]'
 ```
 
-`--criteria-json` (or `--criteria-json-file`) takes a JSON array. Each entry is either `{"stable_key": "..."}` to delete a criterion, or `{"baseline_invariant_id": 42, "category": "...", "justification": "..."}` to waive an invariant. The categories are `false_positive`, `doesnt_apply`, `accepted_risk`, and `fix_in_followup`; see [Understanding and fixing a verification failure](../how-to-guides/fixing-verification-failures.md#the-invariant-doesnt-fit-this-change) for when to use each. `--key` is shorthand for a `stable_key` entry and is repeatable.
+`--criteria-json` (or `--criteria-json-file`) takes a JSON array. Each entry is either `{"stable_key": "..."}` to delete a criterion, or `{"baseline_invariant_id": 42, "category": "...", "justification": "..."}` to waive an invariant. The categories are `false_positive`, `doesnt_apply`, `accepted_risk`, and `fix_in_followup`; see [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-invariant-doesnt-fit-this-change) for when to use each. `--key` is shorthand for a `stable_key` entry and is repeatable.
 
 `dismiss` needs a user access token, from `aviator login` or a personal token. An account-scoped API token is refused.
 
@@ -160,7 +160,7 @@ aviator evidence 4567 -o trace.json
 
 `aviator evidence <id>` prints a short-lived signed URL for the file. With `-o <path>` it downloads the file instead, or writes it to stdout with `-o -`. Like `curl -o`, it overwrites an existing file at that path once the download starts.
 
-With `--json`, `aviator scenarios` also lists each scenario's steps. Each piece of evidence carries the `step_id` it was captured on. See [Understanding verification results](understanding-verification-results.md#reading-a-scenario-trace) for the trace format.
+With `--json`, `aviator scenarios` also lists each scenario's steps. Each piece of evidence carries the `step_id` it was captured on. See [Understanding verification results](../how-to-guides/understanding-verification-results.md#reading-a-scenario-trace) for the trace format.
 
 ### `aviator runbook`
 
@@ -227,4 +227,3 @@ Run `aviator init` once per repo to have your agent remind you before a PR is op
 * [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md) — the pre-PR reminder
 * [Your first verification](../your-first-spec.md) — hands-on tutorial
 * [Writing effective acceptance criteria](../how-to-guides/writing-effective-acceptance-criteria.md)
-* [MCP tools](mcp-tools.md) — the legacy submission path

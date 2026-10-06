@@ -120,4 +120,4 @@ If you find yourself waiving the same invariant repeatedly, the rule is wrong. S
 
 * [Concepts: Invariants](concepts/invariants.md) — sources (including AI-from-PR-comments), conditions, categories, waivers.
 * [Verification layers](concepts/verification-layers.md) — how invariants compose with user criteria.
-* [Understanding and fixing a verification failure](how-to-guides/fixing-verification-failures.md) — what reviewers do when an invariant verdict goes red.
+* [Understanding verification results](how-to-guides/understanding-verification-results.md) — what reviewers do when an invariant verdict goes red.

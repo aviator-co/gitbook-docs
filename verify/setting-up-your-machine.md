@@ -58,4 +58,4 @@ Start a **fresh** agent session in the repo, make a small change, and let it ope
 
 * [Your first verification](your-first-spec.md), a hands-on run through the whole loop
 * [Writing effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
-* [Understanding and fixing a verification failure](how-to-guides/fixing-verification-failures.md)
+* [Understanding verification results](how-to-guides/understanding-verification-results.md)

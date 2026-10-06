@@ -212,5 +212,4 @@ Split into separate criteria:
 ### See also
 
 * [Your first verification](../your-first-spec.md)
-* [Spec format](../reference/spec-format.md)
 * [How verification works](../concepts/how-verification-works.md)

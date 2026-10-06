@@ -134,4 +134,4 @@ Approve to close the loop. The audit trail now has a complete record: review sub
 * [How Verify works](how-it-works.md) — the full picture
 * [Concepts: Invariants](concepts/invariants.md) — encode team rules so they apply automatically
 * [Writing a SKILL.md](how-to-guides/writing-a-skill-md.md) — give the scenario runner the context it needs
-* [Understanding and fixing a verification failure](how-to-guides/fixing-verification-failures.md) — what to do when a verdict goes red
+* [Understanding verification results](how-to-guides/understanding-verification-results.md) — what to do when a verdict goes red

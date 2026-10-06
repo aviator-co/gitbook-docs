@@ -30,7 +30,7 @@ Verify de-duplicates so the same change isn't verified twice:
 * **PR ready** fires once per PR. Flipping it back to draft and ready again, or amending the commit, won't re-run it.
 * **Approval**, **queued**, and **PR linked** each run once per commit + criteria set. Duplicate webhooks, repeated approvals, or re-queues on the same commit are no-ops.
 
-A failed run doesn't count against de-duplication, so re-triggering after a pipeline issue works. And if baseline invariants for a commit haven't been selected yet, the run is **deferred** and starts automatically once that selection finishes — see [Understanding verification results](../reference/understanding-verification-results.md) for the `deferred` status.
+A failed run doesn't count against de-duplication, so re-triggering after a pipeline issue works. And if baseline invariants for a commit haven't been selected yet, the run is **deferred** and starts automatically once that selection finishes — see [Understanding verification results](../how-to-guides/understanding-verification-results.md) for the `deferred` status.
 
 ### The criterion pipeline
 

@@ -2,7 +2,7 @@
 
 When a verification run finishes, Verify DMs the PR author the result — and lets them re-run verification, waive a failing invariant, or remove a failing criterion without leaving Slack.
 
-For the underlying result shapes, see [Understanding verification results](understanding-verification-results.md).
+For how to read the results behind a notification, see [Understanding verification results](../how-to-guides/understanding-verification-results.md).
 
 ### Prerequisites
 
@@ -151,8 +151,7 @@ Per-event opt-out is not currently available in Aviator settings. To stop all Av
 
 ### See also
 
-* [Understanding verification results](understanding-verification-results.md)
-* [Understanding and fixing a verification failure](../how-to-guides/fixing-verification-failures.md)
+* [Understanding verification results](../how-to-guides/understanding-verification-results.md)
 * [GitHub integration](github-integration.md)
 * [Concepts: Invariants](../concepts/invariants.md)
 * [Slack Integration Guide](../../api/personal-integrations.md)
