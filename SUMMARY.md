@@ -246,6 +246,7 @@
     * [Aviator CLI v0.1.0 Release Notes](aviator-cli/major-releases/v0.1.0.md)
 * [Aviator's Chrome Extension](mergequeue/aviator-chrome-extension.md)
   * [Enterprise Configuration](mergequeue/chrome-extension-enterprise-configuration.md)
+  * [Release Notes](browser-extension/release-notes.md)
 * [Pilot Automated Actions](pilot-automated-actions.md)
   * [Scheduled Events](pilot-automated-actions/scheduled-events.md)
   * [JavaScript Execution](pilot-automated-actions/js-execution.md)
