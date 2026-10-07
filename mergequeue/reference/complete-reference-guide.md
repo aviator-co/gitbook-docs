@@ -306,8 +306,9 @@ merge_rules:
     # Optional.
     queued_message: "..."
     
-    # A message to include in the status comment if the pull request is in the
-    # blocked state. Supports markdown.
+    # A message to include in the Aviator status comment when the
+    # pull request is blocked, and at the end of the comment posted when it
+    # fails to merge. Supports markdown.
     # Optional.
     blocked_message: "..."
 ```
