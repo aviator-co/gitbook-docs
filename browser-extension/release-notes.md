@@ -8,6 +8,14 @@ description: >-
 
 {% updates format="full" %}
 
+{% update date="2026-10-08" %}
+## 2026.10.08-1-rc1
+
+**Verify**
+
+* Criteria that come from an invariant show the invariant's title instead of its full rule text
+{% endupdate %}
+
 {% update date="2026-09-24" %}
 ## 2026.09.24-1-rc1
 
