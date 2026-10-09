@@ -37,12 +37,12 @@ Acceptance criteria are what *this* change should do. **Invariants** are what *e
 
 Four phases:
 
-1. **Catalog.** Invariants live in an account-level catalog. Admins can author them manually, adopt from templates, or accept AI-drafted ones. Three of the AI sources worth knowing about:
+1. **Catalog.** Invariants live in an account-level catalog. Anyone can author them manually or adopt from templates; owner teams and admins accept AI-drafted ones. Three of the AI sources worth knowing about:
    - **PR-comment mining.** AI reads your team's actual PR review comments and proposes invariants from the patterns. The highest-leverage source — you're already enforcing these in review, this just encodes them.
    - **Docs extraction.** Your `CONTRIBUTING.md`, `LLM.md`, or similar guidance files are read and proposed as invariants.
    - **Repo-signal synthesis.** AI looks at the shape of the codebase and proposes rules that fit.
 
-   All AI drafts wait in pending status. An admin promotes drafts to active before they start producing verdicts.
+   All AI drafts wait in pending status. The owner team or an admin promotes drafts to active before they start producing verdicts.
 
 2. **Selection.** When a review is submitted, an LLM **selector** reads the intent, the acceptance criteria, and the change set, and picks which eligible invariants legitimately apply to this change. Eligibility is gated by optional conditions on the invariant (e.g. `file_path_glob: src/**/*.py`); among the eligible, the selector decides what actually fits.
 

@@ -176,7 +176,7 @@ aviator runbook \
 
 ### `aviator invariants`
 
-Manages your account's [invariants](../concepts/invariants.md). `list` and `categories` work with any API token. The other subcommands need a maintainer or admin signed in with `aviator login` or a personal access token. Every subcommand takes `--json` to print the result as JSON.
+Manages your account's [invariants](../concepts/invariants.md). `list` and `categories` work with any API token. The other subcommands need a user signed in with `aviator login` or a personal access token: anyone can `create`, and the rest need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams). Every subcommand takes `--json` to print the result as JSON.
 
 | Subcommand                    | What it does                                                                                    |
 | ----------------------------- | ----------------------------------------------------------------------------------------------- |

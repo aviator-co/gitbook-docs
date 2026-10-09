@@ -30,9 +30,9 @@ How invariants get into your catalog:
 * **Mine your PR history.** Aviator's AI reads your team's actual PR review comments and proposes invariants from the patterns it sees. The highest-leverage onboarding path — your team is already enforcing these rules in review, just not encoding anywhere.
 * **Extract from your docs.** `CONTRIBUTING.md`, `LLM.md`, and similar files become drafts.
 * **Adopt from templates.** Aviator's starter library covers the common categories: security baseline, observability, data access, backwards compatibility.
-* **Author manually.** Admins write the rule directly.
+* **Author manually.** Anyone on the account writes the rule directly.
 
-All AI-drafted invariants land in draft status. An admin reviews each before it goes active. Failed invariant verdicts can be waived by the reviewer with a category (`false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`) — every waiver is recorded in the audit trail.
+All AI-drafted invariants land in draft status. The owner team or an admin reviews each before it goes active. Failed invariant verdicts can be waived by the reviewer with a category (`false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`) — every waiver is recorded in the audit trail.
 
 → [Concepts: Invariants](concepts/invariants.md)
 
