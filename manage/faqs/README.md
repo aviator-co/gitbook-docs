@@ -10,4 +10,6 @@ description: >-
 
 [<mark style="color:blue;">Billing</mark>](billing.md)
 
+[<mark style="color:blue;">Billing & Pricing</mark>](billing-and-pricing.md)
+
 Please contact us at support@aviator.co if you have any more questions!

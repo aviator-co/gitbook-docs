@@ -284,3 +284,4 @@
   * [Troubleshooting GitHub app connection](manage/faqs/troubleshooting-github-app-connection.md)
   * [MergeQueue FAQs](manage/faqs/mergequeue.md)
   * [Billing FAQs](manage/faqs/billing.md)
+  * [Billing & Pricing FAQs](manage/faqs/billing-and-pricing.md)
