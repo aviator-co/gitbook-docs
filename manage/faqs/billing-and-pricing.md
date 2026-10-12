@@ -40,7 +40,17 @@ For example, a workspace on Team with 25 billed developers pays:
 25 developers × $20 = $500 per month
 ```
 
-Aviator dashboard logins, bots and developers who have not used Aviator are never billed. The next question explains exactly who counts.
+Aviator dashboard logins and developers who have not used Aviator are never billed. The next question explains exactly who counts.
+
+</details>
+
+<details>
+
+<summary>Is Aviator free for small teams?</summary>
+
+Not for MergeQueue, FlexReview or Releases. Team and Scale are charged from the first billed developer; there is no free allowance of developers. Earlier Aviator pricing let teams of up to 15 developers use MergeQueue for free, and that no longer applies to new workspaces.
+
+The Free plan stays free for any team size. It includes the dashboard, review Inbox, Stacked PRs CLI, Chrome extension and Verify, but not MergeQueue, FlexReview or Releases.
 
 </details>
 
@@ -51,11 +61,11 @@ Aviator dashboard logins, bots and developers who have not used Aviator are neve
 A billed developer is a GitHub user whose pull request activity went through an Aviator product. What counts depends on the product:
 
 * **MergeQueue:** the author of a pull request that was queued for merge, or that MergeQueue updated with the latest base branch.
-* **FlexReview:** the author of a pull request that FlexReview assigned reviewers to. The reviewers themselves are not billed.
+* **FlexReview:** the author of a pull request that FlexReview assigned reviewers to. The reviewers themselves are not billed. Because FlexReview assigns reviewers automatically, every developer who opens a pull request in a FlexReview-enabled repository becomes billed, even if they never open Aviator.
 * **Releases:** the authors of the pull requests included in a release that was deployed through Aviator Releases.
 * **Verify:** the developer a Verify run is attributed to: the person who triggered it manually, otherwise the author of the pull request.
 
-A developer who shows up in several products is counted once. Bots are never counted. Your current count is shown under **Billed users** on the Billing page, and the **Details** button opens the full list.
+A developer who shows up in several products is counted once. The Billing page lists these developers under **Billed users**, with a separate count for each product. On Team and Scale you pay for the unique developers across all products, not the sum of those counts. The **Details** button opens the full list.
 
 </details>
 
@@ -63,7 +73,7 @@ A developer who shows up in several products is counted once. Bots are never cou
 
 <summary>What is the difference between a collaborator and a user?</summary>
 
-A collaborator is a GitHub user with access to your organization or repositories. You pay only for collaborators who become billed developers through the activity above.
+A collaborator is a GitHub user with access to your organization or repositories. You pay only for collaborators who become billed developers through the activity described above.
 
 An Aviator user is someone who can sign in to the Aviator dashboard. There is no cost for dashboard users on any plan. You can invite as many teammates as you like.
 
@@ -73,7 +83,7 @@ An Aviator user is someone who can sign in to the Aviator dashboard. There is no
 
 <summary>Are bots billed?</summary>
 
-No. GitHub Apps and bot accounts such as Dependabot or Renovate can queue pull requests and use Aviator normally, but they never hold a seat. Only human GitHub users are billed.
+No. GitHub Apps and bot accounts such as Dependabot or Renovate can queue pull requests and use Aviator normally, but they are never billed developers. Only human GitHub users are billed.
 
 </details>
 
@@ -97,14 +107,6 @@ The **Products** page under Billing shows the usage and subtotal for each produc
 
 </details>
 
-<details>
-
-<summary>Is there a limit on repositories or dashboard users?</summary>
-
-No. You can connect as many repositories and invite as many dashboard users as you need on every plan. Pricing is based on billed developers only.
-
-</details>
-
 ## Free trial
 
 <details>
@@ -119,7 +121,7 @@ No. Every new workspace starts on a 14-day Team trial with no payment method req
 
 <summary>What's included in the trial?</summary>
 
-The trial gives you everything in the Team plan: MergeQueue, FlexReview, Releases, and 10 Verify runs a month shared by the workspace. There is no limit on the number of developers during the trial.
+The trial gives you everything in the Team plan. There is no limit on the number of developers during the trial.
 
 </details>
 
@@ -127,7 +129,7 @@ The trial gives you everything in the Team plan: MergeQueue, FlexReview, Release
 
 <summary>What happens when my trial ends?</summary>
 
-If you have not chosen a plan after 14 days, your workspace moves to the Free plan automatically. MergeQueue, FlexReview and Releases are paused; the dashboard, review Inbox and your 10 shared Verify runs a month stay available.
+If you have not chosen a plan after 14 days, your workspace moves to the Free plan automatically. MergeQueue, FlexReview and Releases are paused; the dashboard, review Inbox and Verify stay available.
 
 Nothing is deleted. Your repositories, queue configuration, ownership rules and history are kept, so choosing Team or Scale later picks up exactly where you left off.
 
@@ -151,7 +153,7 @@ Each workspace gets one trial, and a workspace that has moved to Free cannot re-
 
 </details>
 
-## Billed developers and seats
+## Billed developers
 
 <details>
 
@@ -162,15 +164,7 @@ Aviator reviews billed developers once a week. A developer is released from bill
 * They are no longer a collaborator on any of your repositories that have MergeQueue or FlexReview enabled.
 * They have not created a pull request in the last 90 days.
 
-This happens automatically. If someone has left your team, removing them from the repositories on GitHub frees their seat at the next weekly review. If they become active again later, they are billed again from that point.
-
-</details>
-
-<details>
-
-<summary>Can I manually remove a developer from billing?</summary>
-
-There is no toggle for this on the Billing page. Seats are released automatically as described above. If you believe a developer is being billed in error, contact [support@aviator.co](mailto:support@aviator.co).
+This happens automatically. If someone has left your team, removing them from the repositories on GitHub releases them at the next weekly review. If they become active again later, they are billed again from that point. There is no manual toggle to remove a developer; if you believe someone is billed in error, contact [support@aviator.co](mailto:support@aviator.co).
 
 </details>
 
@@ -178,9 +172,11 @@ There is no toggle for this on the Billing page. Seats are released automaticall
 
 <summary>When do new or removed developers show up on my invoice?</summary>
 
-On a **monthly** plan, seat changes settle at your next renewal. A developer who becomes billed mid-month appears on the next invoice, and a developer released mid-month is simply not on it. There are no mid-cycle proration lines.
+On a **monthly** plan, changes settle at your next renewal. You are charged for the developers who are billed at the moment the renewal runs. A developer who becomes billed mid-month appears on the next invoice, and one released before the renewal is not on it. There are no mid-cycle proration lines.
 
-On an **annual** plan, developers added mid-year are prorated for the remainder of the year so that an early addition is not free until renewal.
+Because developers are released by the weekly review, someone you remove from GitHub a day or two before your renewal may still be on that invoice.
+
+On an **annual** plan, developers added mid-year are prorated for the remainder of the year.
 
 </details>
 
@@ -200,7 +196,7 @@ Only workspace **admins** can choose or switch a plan, add or change the payment
 
 Go to Billing, click **Change plan** and pick Scale. The upgrade applies immediately. The prorated difference for the rest of your current billing period is charged today, and your billing date does not change.
 
-Your Verify allowance switches from the shared pool to 50 runs per billed developer, starting a fresh cycle at the time of the switch.
+Your Verify allowance switches from the shared pool to the per-developer allowance, starting a fresh cycle at the time of the switch.
 
 </details>
 
@@ -208,11 +204,11 @@ Your Verify allowance switches from the shared pool to 50 runs per billed develo
 
 <summary>How do I downgrade from Scale to Team?</summary>
 
-Go to Billing, click **Change plan** and pick Team. You keep Scale, and are billed for it, until your next renewal. Team starts when that renewal is paid, and the Billing page shows the scheduled date.
+Go to Billing, click **Change plan** and pick Team. You keep Scale until your next renewal. That renewal is charged at the Team price, and Team starts then. The Billing page shows the scheduled date.
 
 You can undo a scheduled downgrade any time before it takes effect with the **Keep Scale** button.
 
-When the downgrade takes effect, ChangeSets are no longer available and Verify moves back to the shared pool of 10 runs a month.
+When the downgrade takes effect, ChangeSets are no longer available and Verify moves back to the shared pool.
 
 </details>
 
@@ -220,7 +216,7 @@ When the downgrade takes effect, ChangeSets are no longer available and Verify m
 
 <summary>How do I cancel my plan?</summary>
 
-Admins can cancel from the Billing page with **Cancel subscription**. You keep full access until the end of the period you have already paid for. After that your workspace moves to the Free plan and no further charges are made. If nothing has been billed yet, the workspace moves to Free right away.
+Admins can cancel from the Billing page with **Cancel subscription**. You keep full access until the end of the period you have already paid for. After that your workspace moves to the Free plan and no further charges are made. If you have not been charged yet, for example because no developer has been billed, the workspace moves to Free right away.
 
 You can change your mind at any point before the period ends with **Resume subscription**. While a cancellation is pending you cannot switch plans; resume first, then switch.
 
@@ -233,14 +229,6 @@ Partial periods are not refunded. If you prefer, you can also email [support@avi
 <summary>What happens to my data and configuration on the Free plan?</summary>
 
 Nothing is deleted. Your connected repositories, queue configuration, FlexReview rules, release settings and history are all kept. MergeQueue, FlexReview and Releases stop running until you choose a paid plan again, at which point everything resumes with the same configuration.
-
-</details>
-
-<details>
-
-<summary>Can I switch between monthly and annual billing?</summary>
-
-Not from the Billing page. Contact [support@aviator.co](mailto:support@aviator.co) and we will change the billing cycle for you.
 
 </details>
 
@@ -301,7 +289,7 @@ Yes. Add one or more addresses under **Billing emails** on the Billing page. Bil
 | Scale | 50 runs a month for each billed developer |
 | Enterprise with your own AI key | Unlimited |
 
-Runs renew once a month on your workspace's cycle date, which is anchored to when the workspace was created rather than to the calendar month or your invoice date. Unused runs do not roll over. Changing plans starts a fresh cycle on the new allowance.
+Runs renew once a month on your workspace's cycle date, which is anchored to when the workspace was created rather than to the calendar month or your invoice date. Your reset date is shown on **Billing → Verify**. Unused runs do not roll over. Changing plans starts a fresh cycle on the new allowance.
 
 </details>
 
@@ -347,7 +335,6 @@ Verify chat is also paused while you are out of runs. To continue right away, up
 
 * **Billing → Verify** shows runs remaining, granted and used for the cycle, with a per-developer table on Scale.
 * The **runs left** pill on the Verify dashboard shows your own remaining runs and when they reset.
-* Admins also see the Verify card on the **Products** page under Billing.
 
 </details>
 
@@ -355,7 +342,7 @@ Verify chat is also paused while you are out of runs. To continue right away, up
 
 <summary>Can I buy extra Verify runs?</summary>
 
-Extra runs are not sold individually from the Billing page today. To get more runs, upgrade from Team to Scale, which gives each billed developer 50 runs a month, or talk to [sales@aviator.co](mailto:sales@aviator.co) about an Enterprise plan with your own AI key and no run limit.
+Extra runs are not sold individually from the Billing page today. To get more runs, upgrade from Team to Scale for the per-developer allowance, or talk to [sales@aviator.co](mailto:sales@aviator.co) about an Enterprise plan.
 
 </details>
 
@@ -373,17 +360,9 @@ Bring-your-own-key for Verify is available on Enterprise plans. Verify then runs
 
 <summary>How are Runbooks billed?</summary>
 
-Runbooks run on your own LLM API key. Aviator does not charge per Runbook or per run; the model usage is billed to you directly by your LLM provider. Add your key under **Settings → Anthropic Key** before starting a Runbook. Without a key, Runbooks will not start and Aviator shows a message asking you to add one.
+Runbooks run on your own LLM API key. Aviator does not charge per Runbook or per run; the model usage is billed to you directly by your LLM provider. Add your key on the [Anthropic Key](https://app.aviator.co/verify/settings/anthropic-key) settings page before starting a Runbook. Without a key, Runbooks will not start and Aviator shows a message asking you to add one.
 
 If Runbooks is not enabled on your workspace, contact [support@aviator.co](mailto:support@aviator.co).
-
-</details>
-
-<details>
-
-<summary>I see Runbooks credits on my Billing page. What are they?</summary>
-
-Runbooks credits are a legacy of an earlier billing model and are no longer used or sold. Nothing is charged against them, and a zero or depleted balance does not stop Runbooks from running. Runbooks are billed through your own LLM API key as described above.
 
 </details>
 
@@ -395,7 +374,7 @@ Runbooks credits are a legacy of an earlier billing model and are no longer used
 
 Enterprise workspaces are billed under their contract rather than by card, and plan changes go through your Aviator contact. The Billing page shows your plan and billed developers, but the self-serve plan switch is disabled; it asks you to contact support instead.
 
-To discuss Enterprise pricing, self-hosted deployment, SSO / SCIM or bring-your-own-key for Verify, contact [sales@aviator.co](mailto:sales@aviator.co).
+To discuss Enterprise pricing, contact [sales@aviator.co](mailto:sales@aviator.co).
 
 </details>
 
