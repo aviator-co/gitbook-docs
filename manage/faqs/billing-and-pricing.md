@@ -48,7 +48,7 @@ Aviator dashboard logins and developers who have not used Aviator are never bill
 
 <summary>Is Aviator free for small teams?</summary>
 
-Not for MergeQueue, FlexReview or Releases. Team and Scale are charged from the first billed developer; there is no free allowance of developers. Earlier Aviator pricing let teams of up to 15 developers use MergeQueue for free, and that no longer applies to new workspaces.
+Not for MergeQueue, FlexReview or Releases. Team and Scale are charged from the first billed developer; there is no free allowance of developers.
 
 The Free plan stays free for any team size. It includes the dashboard, review Inbox, Stacked PRs CLI, Chrome extension and Verify, but not MergeQueue, FlexReview or Releases.
 
@@ -238,7 +238,11 @@ Nothing is deleted. Your connected repositories, queue configuration, FlexReview
 
 <summary>How do I add or update my credit card?</summary>
 
-Go to Billing and click **Add payment method** or **Change payment method**. Card details are entered in a secure Stripe form and stored by Stripe; Aviator never sees your full card number. A card is required before you can choose a paid plan.
+On a trial or the Free plan, you add your first card while choosing a plan. Click **Choose a plan**, pick Team or Scale, then **Continue to payment** and enter your card. There is no separate option to add a card before picking a plan.
+
+Once you are on a paid plan, you can replace the card any time with **Change payment method** under **Billing method**.
+
+Card details are entered in a secure Stripe form and stored by Stripe; Aviator never sees your full card number.
 
 </details>
 
