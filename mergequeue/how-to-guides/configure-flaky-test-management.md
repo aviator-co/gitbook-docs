@@ -13,7 +13,61 @@ This guide covers setting it up. For how Aviator decides a failure is flaky, wha
 
 {% hint style="info" %}
 This feature is in beta and is off by default. It applies to [parallel mode](../concepts/parallel-mode/) only.
+
+During beta it also has to be enabled on your account by Aviator — the configuration below has no effect until it is. Contact your Aviator representative or support@aviator.co to be added.
 {% endhint %}
+
+## Getting started
+
+The rollout is three steps, and the first two change nothing about how your queue behaves.
+
+### 1. Turn it on in shadow mode
+
+Pick one repository and one check you already know is flaky:
+
+```yaml
+merge_rules:
+  labels:
+    trigger: "mergequeue"
+  merge_mode:
+    type: "parallel"
+  flaky_retry:
+    enabled: true
+    shadow_mode: true
+    retriable_checks:
+      - name: "integration-tests"
+```
+
+In [shadow mode](#shadow-mode) Aviator investigates failures and records what it concluded without acting on any of it. No check is rerun, and no pull request survives a failure it would be dequeued for today. This is the mode to sit in while you decide whether you trust the verdicts.
+
+### 2. Read what it concluded
+
+Two places to look, and they answer different questions.
+
+**The comment on the draft PR** explains one decision. Each time Aviator would have treated a failure as flaky it comments on the draft, naming the check, quoting its reasoning, and saying plainly that nothing was changed. See [what Aviator posts](#what-aviator-posts-on-the-pull-request).
+
+**The flakiness dashboard** shows the pattern across decisions: every distinct failure Aviator has seen in the repository, how often each has recurred, and which commits it appeared on. Find it at `https://app.aviator.co/repos/<org>/<repo>/flakiness`, or follow the **Flake history** link in any comment Aviator posts.
+
+<!-- TODO(screenshot): the flakiness dashboard for a repository, showing the list of
+     failure signatures with their recurrence counts. Replace this comment with:
+     <figure><img src="../../.gitbook/assets/<filename>" alt=""><figcaption><p>The
+     flakiness dashboard lists each distinct CI failure Aviator has seen, with how
+     often it has recurred.</p></figcaption></figure> -->
+
+Spend a week here. What you are looking for is a verdict you disagree with — a failure Aviator called flaky that you know is genuine. Most corrections are one sentence of [context](#giving-aviator-context) naming that failure mode as real.
+
+### 3. Turn shadow mode off
+
+When the verdicts look right, remove the one line:
+
+```yaml
+  flaky_retry:
+    enabled: true
+    retriable_checks:
+      - name: "integration-tests"
+```
+
+From here Aviator reruns the checks it exonerates and keeps those pull requests queued. Add further checks once the first is behaving.
 
 ## Minimal configuration
 
@@ -31,7 +85,39 @@ merge_rules:
       - name: "integration-tests"
 ```
 
-A check that is not listed is never investigated and never retried. Start with the one or two checks you know are flaky rather than listing everything.
+A check that is not listed is never investigated and never retried.
+
+This is the configuration to arrive at, not to start from — add `shadow_mode: true` while you are still evaluating the verdicts.
+
+## Shadow mode
+
+`shadow_mode` runs the whole investigation and records every verdict, but never lets one change a queue decision:
+
+```yaml
+  flaky_retry:
+    enabled: true
+    shadow_mode: true
+    retriable_checks:
+      - name: "e2e-*"
+```
+
+It exists so you can judge the verdicts on your own CI before they are allowed to matter. Reading a week of recorded decisions is a far better basis for trusting this than reading the documentation for it.
+
+**What still happens.** Failures are investigated, verdicts are recorded, failure signatures accumulate, and the flakiness dashboard fills up. When a verdict would have changed what the queue did, Aviator comments on the draft PR to say so.
+
+**What does not.** No check is rerun. No failure is exonerated, so your `optimistic_validation_failure_depth` budget is spent exactly as it is today and every pull request is dequeued exactly when it would be with the feature off.
+
+{% hint style="info" %}
+Shadow mode comments on the **draft PR only**, not on the pull requests in the batch. Nobody needs to act on a decision that was not taken, so the authors are left alone. Once you turn shadow mode off, the comment goes to every pull request in the batch, because then they really are all waiting on that one failure.
+{% endhint %}
+
+### What it costs
+
+Two things, both small, but neither is zero.
+
+Investigating a failure reads CI logs and usually asks a model, so shadow mode spends that on every failure of a listed check while returning no queue benefit. Keep `retriable_checks` to the one or two checks you are evaluating rather than listing everything.
+
+Handling a failure is also held briefly while the verdict is reached — up to two minutes, and typically much less. A batch in shadow mode is therefore dequeued slightly later than it would be with the feature off entirely. It is dequeued, and for the same reason; only the timing differs.
 
 ## Choosing which checks
 
@@ -49,7 +135,7 @@ A check that is not listed is never investigated and never retried. Start with t
 Use the check name exactly as it appears on your pull request. For GitHub Actions this is the job name; for Buildkite it is typically `buildkite/<pipeline>/<step-key>`.
 
 {% hint style="warning" %}
-A check that never fails deterministically is a poor candidate. Retrying a test that is genuinely broken wastes CI time and delays the feedback that it is broken. Use your flake rate in analytics to pick candidates.
+A check that never fails deterministically is a poor candidate. Retrying a test that is genuinely broken wastes CI time and delays the feedback that it is broken. Pick candidates from the checks your team already reruns by hand, and from the flakiness dashboard once it has data.
 {% endhint %}
 
 ## Giving Aviator context
@@ -128,23 +214,31 @@ Runs against an ephemeral preview environment provisioned per build.
 
 ## What Aviator posts on the pull request
 
-When a check is retried, Aviator leaves a comment on the pull request explaining the decision, so the retry is never silent:
+When a verdict changes what the queue does, Aviator leaves a comment so the decision is never silent. It is a standalone comment rather than a section of the status comment, which is rewritten in place as the queue advances and would lose the record.
 
-> **Aviator retried `e2e-checkout`**
->
-> The failure on `a1b2c3d` looked transient, so the check was rerun instead of dequeuing this pull request.
->
-> ```
-> TimeoutError: waiting for selector `#confirm` after 30000ms
-> ```
->
-> **Why:** the failure names no file this change modifies, and matches a timeout waiting for the preview environment, which this check's notes describe as infrastructure.
->
-> **History:** `e2e-checkout` has flaked 7 times in the last 90 days.
->
-> The retry passed, and the pull request stayed in the queue.
+Each comment names the checks it decided about, quotes the reasoning behind the verdict, and says how often that same failure has been seen in your repository before:
 
-If the retry fails again, the comment says so and the pull request is dequeued as normal.
+```markdown
+### Flaky CI detected
+
+**e2e-checkout** was rerun — the failure looks unrelated to this change.
+
+> A timeout waiting for the preview environment to become ready, which this
+> check's notes describe as infrastructure. The failure names no file this
+> batch modifies.
+
+Seen flaking on 7 other commits in this repository.
+
+[Flake history](#) · [Failing job](#)
+```
+
+A failure Aviator has not seen before says **New failure** in place of the recurrence count. **Flake history** links to that specific failure on the flakiness dashboard, which is the quickest way in.
+
+In [shadow mode](#shadow-mode) the heading reads **Flaky CI detected (shadow mode)**, and the check line reads "would have been treated as flaky; nothing was changed".
+
+Aviator comments on every pull request in the batch as well as on the draft, since one failure holds all of them. In shadow mode it comments on the draft alone.
+
+If a retry fails again, that is a failure: the pull request is dequeued as normal.
 
 ## Tuning alongside optimistic validation
 
@@ -163,13 +257,6 @@ Flaky test management works with [optimistic validation](../concepts/managing-fl
 ```
 
 A failure judged transient does not count toward that depth, so the queue looks further ahead for it than for an ordinary failure. Your configured depth is a floor: a verdict can make the queue more patient, never less. You do not need to raise the depth to accommodate this feature. See [how Aviator handles a flaky failure](../concepts/flaky-test-management.md#how-aviator-handles-a-flaky-failure).
-
-## Rolling it out
-
-1. Turn it on for one repository with one known-flaky check.
-2. Leave it for a week and read the comments Aviator posts. They tell you what it concluded and why.
-3. Refine the context based on any decision you disagree with. Most corrections are a sentence naming a failure mode as genuine.
-4. Add further checks once the first is behaving.
 
 ## Provider support
 

@@ -372,6 +372,30 @@ merge_rules:
 
 Multiple gates run sequentially in the order listed.
 
+### Flaky retry
+
+Investigate a failing check on a draft PR before resetting the queue, and rerun the check when the failure looks transient. See [Flaky test management](../concepts/flaky-test-management.md) for the behavior and [How to configure flaky test management](../how-to-guides/configure-flaky-test-management.md) for the rollout. Beta, off by default, and requires [parallel mode](../concepts/parallel-mode/README.md).
+
+```yaml
+merge_rules:
+  flaky_retry:
+    enabled: true
+    shadow_mode: false
+    context: |
+      All CI runs on self-hosted runners that are occasionally evicted
+      mid-build. Runner disconnects are always infrastructure.
+    retriable_checks:
+      - name: "e2e-*"
+        context_file: ".aviator/mergequeue/flake/e2e.md"
+      - name: "integration-tests"
+```
+
+<table><thead><tr><th width="249.86328125">Name</th><th width="120">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>enabled</strong></td><td>Boolean</td><td>When enabled, Aviator investigates a draft PR CI failure before resetting the queue. A failure classified as unrelated to the change lets the queue spend more look-ahead instead of dequeuing the PR, and the failed check is rerun. Defaults to <code>false</code>.</td></tr><tr><td><strong>shadow_mode</strong></td><td>Boolean</td><td>Investigate and record verdicts without acting on them, so they can be reviewed before they are trusted. No failure is exonerated and no check is rerun, so PRs are dequeued exactly as they are with the feature off. Aviator still comments on the draft PR when a verdict would have changed a queue decision. Note that failure handling is still held while a verdict is reached — up to two minutes — so a batch is dequeued slightly later than with the feature off entirely. Defaults to <code>false</code>.</td></tr><tr><td><strong>retriable_checks</strong></td><td>List[String or Object]</td><td>The checks eligible for investigation. A failure of a check not listed here always follows the existing dequeue behavior. Glob patterns are supported. Each entry is either the check name as a bare string, or an object with <code>name</code> plus its own <code>context</code> or <code>context_file</code>. Defaults to an empty list, which investigates nothing.</td></tr><tr><td><strong>context</strong></td><td>String</td><td>Free-form prose about how CI in this repository typically flakes, used when classifying a failure. Applies to every retriable check, <em>in addition to</em> any per-check context rather than as a fallback for it. Mutually exclusive with <code>context_file</code>.</td></tr><tr><td><strong>context_file</strong></td><td>String</td><td>Path to a Markdown file in the repository holding that prose instead. Must be under <code>.aviator/mergequeue/flake/</code> and end in <code>.md</code>. Synced from your default branch. Mutually exclusive with <code>context</code>.</td></tr></tbody></table>
+
+Each entry in `retriable_checks` accepts:
+
+<table><thead><tr><th width="249.86328125">Name</th><th width="120">Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>name</strong></td><td>String</td><td>Required. The check name as it appears on the pull request. Glob patterns are supported (for example <code>e2e-*</code>). For GitHub Actions this is the job name; for Buildkite it is typically <code>buildkite/&#x3C;pipeline>/&#x3C;step-key></code>.</td></tr><tr><td><strong>context</strong></td><td>String</td><td>Free-form prose about how this specific check typically flakes, and which of its failure modes are always genuine. Mutually exclusive with <code>context_file</code>.</td></tr><tr><td><strong>context_file</strong></td><td>String</td><td>Path to a Markdown file holding that prose, under <code>.aviator/mergequeue/flake/</code>. Mutually exclusive with <code>context</code>.</td></tr></tbody></table>
+
 ### Other
 
 ```
