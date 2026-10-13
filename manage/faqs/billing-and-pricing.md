@@ -21,7 +21,7 @@ You manage your plan, payment method, invoices and billing contacts at **Setting
 | --- | --- | --- |
 | **Free** | $0 | Dashboard and review Inbox, Stacked PRs CLI, Chrome extension, 10 Verify runs a month shared by the workspace |
 | **Team** | $20 per developer per month | Everything in Free, plus MergeQueue, FlexReview and Releases. 10 Verify runs a month shared by the workspace |
-| **Scale** | $40 per developer per month | Everything in Team, plus ChangeSets and 50 Verify runs per developer per month |
+| **Scale** | $50 per developer per month | Everything in Team, plus ChangeSets and 50 Verify runs per developer per month |
 | **Enterprise** | Custom | Everything in Scale, plus self-hosted deployment, SSO / SAML / SCIM, audit logs, bring-your-own AI key for Verify, and a custom contract |
 
 New workspaces start on a 14-day Team trial. See the full feature comparison at [aviator.co/pricing](https://www.aviator.co/pricing).
@@ -93,7 +93,7 @@ No. GitHub Apps and bot accounts such as Dependabot or Renovate can queue pull r
 
 Yes. Annual billing is set up by our team rather than from the Billing page. Contact [support@aviator.co](mailto:support@aviator.co) and we will move your subscription to a yearly cycle.
 
-Annual prices are $200 per developer per year on Team and $400 per developer per year on Scale, which is two months free compared to paying monthly. On an annual plan, developers added mid-year are prorated for the remainder of the year.
+Annual prices are $200 per developer per year on Team and $500 per developer per year on Scale, which is two months free compared to paying monthly. On an annual plan, developers added mid-year are prorated for the remainder of the year.
 
 </details>
 
