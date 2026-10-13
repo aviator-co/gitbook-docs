@@ -33,7 +33,7 @@ Every entry has a `method` that decides who owns the environment:
 
 `method` is optional and defaults to `sandbox`, so a config written without it keeps behaving exactly as before. The sections below document the sandbox fields; for the endpoint schema, see [Endpoint previews](#endpoint-previews-method-endpoint).
 
-When a repo declares more than one preview, the first entry whose method is usable governs the run.
+A repo may declare any number of `sandbox` previews and at most one `endpoint` preview. When both kinds are present, the endpoint preview governs verification runs regardless of its position in the list; sandbox previews remain available to launch by hand.
 
 ### Sandbox fields
 

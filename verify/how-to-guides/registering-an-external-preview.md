@@ -46,10 +46,10 @@ Authenticate with `Authorization: Bearer <api token>`, the same as the rest of t
 | `repository`          | object  | yes      | `{"org": "...", "name": "..."}` — the repository the preview was built from.                                            |
 | `branch`              | string  | yes      | The branch the preview was built from. Used to correlate the registration when no PR number is supplied.                 |
 | `pr_number`           | integer | no       | The pull request number. Preferred: when present it takes precedence over `branch` for correlation.                     |
-| `commit_sha`          | string  | yes      | The commit the environment is running. A registration only drives verification while this matches the head of the branch being verified. |
+| `commit_sha`          | string  | yes      | The commit the environment is running: the full SHA or an abbreviation of at least 7 characters. A registration only drives verification while this matches the head of the branch being verified. |
 | `preview_url`         | string  | yes      | Absolute `http(s)` base URL of the live environment. Must be publicly reachable from Aviator — URLs pointing at localhost, private, or link-local addresses are rejected. (On-premise installations can permit private address space.)                                     |
 | `secrets`             | object  | no       | Credentials for driving the app as a signed-in test user, up to 16 KB. See [Credentials](#credentials-for-signing-in).                |
-| `expires_at`          | string  | no       | ISO 8601 timestamp. When omitted, the config's `expires_default_sec` applies.                                            |
+| `expires_at`          | string  | no       | ISO 8601 timestamp, at most 7 days ahead. When omitted, the config's `expires_default_sec` applies.                      |
 
 `branch` is required even when you send `pr_number`, because every CI job knows its branch — including jobs that run before a pull request exists.
 
