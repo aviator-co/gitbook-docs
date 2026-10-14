@@ -14,7 +14,7 @@ Verify picks which in-scope invariants apply by comparing each one's title, cate
 
 ### Working with the CLI
 
-Listing works with any API token. Anything that changes an invariant needs a maintainer or admin signed in with `aviator login` or a personal access token.
+Listing works with any API token. Creating or changing an invariant needs a user signed in with `aviator login` or a personal access token. Anyone can create one; editing, approving, rejecting, and deleting need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams).
 
 | Command                                          | What it does                                                                                         |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |

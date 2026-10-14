@@ -10,15 +10,15 @@ Invariants live in a per-account catalog. Each invariant has a source:
 
 | Source                  | What it is                                                                                    |
 | ----------------------- | --------------------------------------------------------------------------------------------- |
-| **Manual**              | Authored by an admin in **Settings → Invariants**.                                           |
+| **Manual**              | Written by hand on the **Invariants** page. Anyone on the account can create one.            |
 | **Template**            | Instantiated from Aviator's starter library — common patterns you can adopt as-is or tweak. |
-| **AI-generated**        | AI-drafted from signals about the repo, awaiting admin approval.                             |
+| **AI-generated**        | AI-drafted from signals about the repo, awaiting approval.                                   |
 | **AI from docs**        | Extracted from your repo's `CONTRIBUTING.md`, `LLM.md`, or similar files by the docs pipeline. |
 | **AI from PR comments** | Mined from your team's recurring PR-review comments. Often the highest-yield source — it captures real-world feedback your team has already given. |
 | **Slack**               | Drafted on request from a `@Aviator invariant` command in Slack.                              |
 | **GitHub comment**      | Drafted on request from a `@aviator invariant` comment on a pull request.                     |
 
-Sources that aren't `manual` produce drafts. Admins promote drafts to active in the UI; that's when they start producing verdicts.
+Sources that aren't `manual` produce drafts. The invariant's [owner team](#owner-teams), a maintainer, or an admin promotes drafts to active in the UI; that's when they start producing verdicts.
 
 ### Creating invariants from Slack
 
@@ -28,9 +28,43 @@ Mention the Aviator Slack app in a channel, or DM it, with `@Aviator invariant [
 
 ### Creating invariants from a GitHub comment
 
-Include `@aviator invariant` in any pull request comment (a regular comment, an inline review comment, or a review body) and Aviator acknowledges with a 👍 reaction, then drafts invariants from the comment and its surrounding discussion. This trigger is limited to repository maintainers; Aviator replies on the pull request with the draft titles and a link to review and approve them.
+Include `@aviator invariant` in any pull request comment (a regular comment, an inline review comment, or a review body) and Aviator acknowledges with a 👍 reaction, then drafts invariants from the comment and its surrounding discussion. The commenter's GitHub account needs to be connected to Aviator, otherwise the comment is ignored; Aviator replies on the pull request with the draft titles and a link to review and approve them.
 
 <figure><img src="../../.gitbook/assets/verify-invariant-github-comment.png" alt="A PR comment reading @aviator invariant the error message should not be in first person, with Aviator replying with a draft invariant and a review link"><figcaption><p>Turning a PR comment into a draft invariant</p></figcaption></figure>
+
+### Owner teams
+
+Every invariant has an **owner team**, the GitHub team responsible for it. Aviator picks it when the invariant is created, and you can change it later. An invariant without a team of its own is owned by the account's default owner team, and with neither it's unowned. Open an invariant to see who owns it. You can filter both invariant pages by **Owner team**, including **My teams** for the teams you're directly on.
+
+| Action                                                             | Who can do it                                                                                             |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Create an invariant                                                | Anyone on the account                                                                                     |
+| Approve, reject, edit, enable or disable, delete, change the owner | Direct members of the owner team, and Aviator [maintainers and admins](../../manage/access-management.md) |
+| Set the default owner team                                         | Admins                                                                                                    |
+
+Team membership only counts once your GitHub account is connected to Aviator.
+
+#### How the owner is picked
+
+Aviator looks at the people behind the invariant and picks the team most of them are directly on. Which people count depends on where the invariant came from:
+
+| Source                  | People considered                                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Manual**              | The person who created it.                                                                            |
+| **AI from docs**        | The admin who started the docs extraction.                                                            |
+| **Slack**               | The person who ran `@Aviator invariant`.                                                              |
+| **GitHub comment**      | The person who wrote the `@aviator invariant` comment.                                                |
+| **AI from PR comments** | The pull request authors, and anyone who commented or left a written review.                          |
+
+If nobody behind the invariant is on a team, it gets no team of its own, so you may not be able to edit an invariant you created.
+
+#### Changing the owner
+
+The **Owner** field on the invariant's edit page is a team picker. Anyone who can edit the invariant can hand it to another team, or pick **Use the default owner team** to drop its own team and fall back to the default. If no default owner team is set, that option reads **Remove owner team** and leaves the invariant unowned. Once you pick a team, only its members, maintainers, and admins can edit the invariant. The CLI doesn't currently show or change owners.
+
+#### Default owner team
+
+Admins can set a **Default invariant owner team** in **Verify → Settings → Verify**. It owns every invariant that didn't get a team of its own, across all repositories. Changing the default immediately re-owns every invariant without a team, including ones created before you set it. Invariants with a team of their own keep it.
 
 ### Conditions
 
@@ -102,7 +136,7 @@ Most invariants worth writing start as a review comment that's been left more th
 2. **Write the assertion.** State the rule in one sentence. Don't write the *fix* — the verifier will explain what's wrong.
 3. **Pick a category.** Helps with grouping and reporting.
 4. **Add conditions if needed.** Most invariants don't need them.
-5. **Save as draft, watch a week of verifications.** Draft invariants don't get materialized into reviews. Use that to confirm the rule reads cleanly before promoting to active.
+5. **Save it, then watch a week of verifications.** Manual invariants are active as soon as you save. Use the first verdicts to confirm the rule reads cleanly, and turn off the **Enabled** switch on its edit page if you need to rework it.
 
 Example, turning a real review comment into an invariant:
 
