@@ -8,7 +8,7 @@ description: >-
 
 ## **Managing team access**
 
-Aviator offers multi-user account capabilities in all plans. You can invite all your team members to access the Aviator dashboard at no additional cost. See the [<mark style="color:blue;">Billing</mark>](faqs/billing.md) section to understand how pricing works.
+Aviator offers multi-user account capabilities in all plans. You can invite all your team members to access the Aviator dashboard at no additional cost. See the [<mark style="color:blue;">Billing</mark>](faqs/billing-and-pricing.md) section to understand how pricing works.
 
 To invite your team members to access the Aviator dashboard, go to the Users and Roles page, and enter their email address along with an appropriate role.
 
