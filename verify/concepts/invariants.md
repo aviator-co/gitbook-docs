@@ -47,8 +47,8 @@ Aviator looks at the people behind the invariant and picks the team most of them
 | **Manual**              | The person who created it.                                                                            |
 | **AI from docs**        | The admin who started the docs extraction.                                                            |
 | **Slack**               | The person who ran `@Aviator invariant`.                                                              |
-| **GitHub comment**      | The person who wrote the `@aviator invariant` comment, and the pull request's author.                 |
-| **AI from PR comments** | The authors, reviewers, and commenters on the pull requests the invariant was mined from (up to five). |
+| **GitHub comment**      | The person who wrote the `@aviator invariant` comment.                                                |
+| **AI from PR comments** | The authors, reviewers, and commenters on the pull requests the invariant was mined from.             |
 
 A few details worth knowing:
 
@@ -67,12 +67,12 @@ People directly on an invariant's owner team can approve, reject, edit, enable o
 * **Parent teams don't count here either.** Being in `payments` doesn't let you edit invariants owned by `payments-api`.
 * **The default owner team has the same rights.** Its members can act on every invariant that has no team of its own.
 * **Unowned invariants are maintainer-only.** With no owner team and no default, only maintainers and admins can act on the invariant.
-* **Anyone can create an invariant.** The creator's team becomes its owner, so the person who wrote a rule can also approve it.
+* **Anyone can create an invariant.**
 * **Bulk actions are all or nothing.** A CLI or API request that approves, rejects, or deletes several invariants fails as a whole if any of them isn't yours to edit. In the UI, you can only select the ones you can edit.
 
 #### Changing the owner
 
-The **Owner** field on the invariant's edit page is a team picker. Anyone who can edit the invariant can hand it to another team, or pick **Use the default owner team** to drop its own team and fall back to the default. Once you pick a team, only its members, maintainers, and admins can edit the invariant. The CLI and API don't show or change owners yet.
+The **Owner** field on the invariant's edit page is a team picker. Anyone who can edit the invariant can hand it to another team, or pick **Use the default owner team** to drop its own team and fall back to the default. If no default owner team is set, that option reads **Remove owner team** and leaves the invariant unowned. Once you pick a team, only its members, maintainers, and admins can edit the invariant. The CLI and API don't show or change owners yet.
 
 #### Default owner team
 
