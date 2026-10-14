@@ -32,7 +32,7 @@ How invariants get into your catalog:
 * **Adopt from templates.** Aviator's starter library covers the common categories: security baseline, observability, data access, backwards compatibility.
 * **Author manually.** Anyone on the account writes the rule directly.
 
-All AI-drafted invariants land in draft status. The owner team or an admin reviews each before it goes active. Failed invariant verdicts can be waived by the reviewer with a category (`false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`) — every waiver is recorded in the audit trail.
+All AI-drafted invariants land in draft status and need [approval](concepts/invariants.md#owner-teams) before they go active. Failed invariant verdicts can be waived by the reviewer with a category (`false_positive`, `doesnt_apply`, `accepted_risk`, `fix_in_followup`) — every waiver is recorded in the audit trail.
 
 → [Concepts: Invariants](concepts/invariants.md)
 

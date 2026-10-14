@@ -8,15 +8,14 @@ In this tutorial, you'll create a security invariant by hand, watch the selector
 
 **Prerequisites:**
 
-* Admin access to your Aviator account.
 * At least one repository connected to Verify.
 * Familiar with [How Verify works](how-it-works.md) and [Concepts: Invariants](concepts/invariants.md).
 
 ### Step 1: Open the invariant editor
 
-Go to **Verify → Settings → Invariants**.
+Go to **Verify → Invariants** and open the **Library** tab.
 
-You'll see the invariant catalog — every entry your account has, grouped by category. The list may already include AI-drafted entries (from PR-comment mining or docs extraction) and template-derived ones; those wait in draft status until their owner team or an admin promotes them.
+You'll see the invariant catalog — every entry your account has, grouped by category. The list may already include AI-drafted entries (from PR-comment mining or docs extraction) and template-derived ones; those wait in draft status until they're [approved](concepts/invariants.md#owner-teams).
 
 For this tutorial, you'll create a manual entry.
 
@@ -59,19 +58,15 @@ This makes the invariant eligible only when a review touches Go files under `src
 
 Eligibility doesn't mean the invariant applies — the selector still decides per review whether it's a defensible match. Conditions are useful for hard exclusions, not fine-grained scoping.
 
-### Step 5: Save as draft
+### Step 5: Save
 
-Click **Save**. New invariants land in **draft** status.
-
-Draft invariants are visible in the catalog but the selector ignores them when building a review's criteria. Use the draft state to review the rule's wording — both with yourself and with the rest of your team — before it starts producing verdicts.
-
-### Step 6: Promote to active
-
-Once you're happy with the wording, edit the invariant and toggle **Status → Active**.
+Click **Save**. Manual invariants are active as soon as you save.
 
 From this point on, the selector considers this invariant for every new review. When it picks the invariant for a review, it materializes it as an acceptance criterion (tagged with `source: baseline_invariant`) and the criterion is verified through the standard pipeline.
 
-The audit trail records the promotion: who promoted, when, and from which draft state.
+### Step 6: Turn it off when you need to
+
+To pause the invariant without deleting it, open its edit page and turn off the **Enabled** switch under **Status**. The selector skips disabled invariants until you turn it back on.
 
 ### Step 7: Watch it in a real review
 
@@ -113,7 +108,7 @@ If you find yourself waiving the same invariant repeatedly, the rule is wrong. S
 * Created a manual invariant in the account catalog.
 * Wrote a rule body that's specific about the assertion but doesn't prescribe implementation.
 * Added a glob condition to scope eligibility by language.
-* Promoted it from draft to active, at which point the selector started considering it.
+* Saved it, at which point the selector started considering it.
 * Saw it materialize as a criterion in a real review and produce a verdict.
 
 ### Next steps
