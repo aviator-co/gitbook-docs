@@ -28,7 +28,7 @@ Mention the Aviator Slack app in a channel, or DM it, with `@Aviator invariant [
 
 ### Creating invariants from a GitHub comment
 
-Include `@aviator invariant` in any pull request comment (a regular comment, an inline review comment, or a review body) and Aviator acknowledges with a 👍 reaction, then drafts invariants from the comment and its surrounding discussion. The commenter needs an Aviator account; Aviator replies on the pull request with the draft titles and a link to review and approve them.
+Include `@aviator invariant` in any pull request comment (a regular comment, an inline review comment, or a review body) and Aviator acknowledges with a 👍 reaction, then drafts invariants from the comment and its surrounding discussion. The commenter's GitHub account needs to be connected to Aviator, otherwise the comment is ignored; Aviator replies on the pull request with the draft titles and a link to review and approve them.
 
 <figure><img src="../../.gitbook/assets/verify-invariant-github-comment.png" alt="A PR comment reading @aviator invariant the error message should not be in first person, with Aviator replying with a draft invariant and a review link"><figcaption><p>Turning a PR comment into a draft invariant</p></figcaption></figure>
 
@@ -41,6 +41,8 @@ Every invariant has an **owner team**, the GitHub team responsible for it. Aviat
 | Create an invariant                                                | Anyone on the account                                                                                     |
 | Approve, reject, edit, enable or disable, delete, change the owner | Direct members of the owner team, and Aviator [maintainers and admins](../../manage/access-management.md) |
 | Set the default owner team                                         | Admins                                                                                                    |
+
+Team membership only counts once your GitHub account is connected to Aviator.
 
 #### How the owner is picked
 

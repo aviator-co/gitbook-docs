@@ -37,7 +37,7 @@ Acceptance criteria are what *this* change should do. **Invariants** are what *e
 
 Four phases:
 
-1. **Catalog.** Invariants live in an account-level catalog. Anyone can author them manually or adopt from templates. Three of the AI sources worth knowing about:
+1. **Catalog.** Invariants live in an account-level catalog. Anyone can author them manually. Three of the AI sources worth knowing about:
    - **PR-comment mining.** AI reads your team's actual PR review comments and proposes invariants from the patterns. The highest-leverage source — you're already enforcing these in review, this just encodes them.
    - **Docs extraction.** Your `CONTRIBUTING.md`, `LLM.md`, or similar guidance files are read and proposed as invariants.
    - **Repo-signal synthesis.** AI looks at the shape of the codebase and proposes rules that fit.

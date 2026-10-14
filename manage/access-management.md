@@ -18,7 +18,7 @@ There are two different roles you can find in the User and Roles section.
 
 * **ADMIN**: The admin has access to the entire Aviator product, including the ability to add more users and manage billing.
 * **MAINTAINER**: A maintainer has all the permissions as a member, and can also modify the config and take queue actions such as pausing, deactivating or resetting the queue. A maintainer cannot delete a repository. A maintainer cannot review billing information, invite other members or revoke someone's access.
-* **MEMBER**: A member is only allowed to view the dashboard and the queue. They are not allowed to modify the config, take actions on a queue or delete a repository. The members are not allowed to invite others or revoke someone’s access. Members also cannot view or update billing information.
+* **MEMBER**: A member is only allowed to view the dashboard and the queue. They are not allowed to modify the config, take actions on a queue or delete a repository. The members are not allowed to invite others or revoke someone’s access. Members also cannot view or update billing information. In Verify, members can create invariants and manage the ones their teams own; see [Owner teams](../verify/concepts/invariants.md#owner-teams).
 
 ## **Google SSO**
 

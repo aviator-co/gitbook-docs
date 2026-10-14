@@ -56,7 +56,7 @@ When the timeout expires, the sandbox is torn down and the preview link stops re
 
 ### Invariants
 
-Invariants have their own configuration surface in **Settings → Invariants**. Field-level reference and writing guidance are on the concept and tutorial pages:
+Invariants have their own configuration surface in **Verify → Invariants**. Field-level reference and writing guidance are on the concept and tutorial pages:
 
 * [Concepts: Invariants](../concepts/invariants.md) — sources, categories, selection
 * [Setting up org invariants](../setting-up-org-invariants.md) — step-by-step setup

@@ -15,7 +15,7 @@ In this tutorial, you'll create a security invariant by hand, watch the selector
 
 Go to **Verify → Invariants** and open the **Library** tab.
 
-You'll see the invariant catalog — every entry your account has, grouped by category. The list may already include AI-drafted entries (from PR-comment mining or docs extraction) and template-derived ones; those wait in draft status until they're [approved](concepts/invariants.md#owner-teams).
+You'll see the invariant catalog — every active entry your account has, grouped by category. AI-drafted entries (from PR-comment mining or docs extraction) wait on the **Review** tab until they're [approved](concepts/invariants.md#owner-teams).
 
 For this tutorial, you'll create a manual entry.
 
