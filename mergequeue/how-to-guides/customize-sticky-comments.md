@@ -23,7 +23,8 @@ merge_rules:
     open_message: "..."
     # A message to include when the pull request is in the queued state.
     queued_message: "..."
-    # A message to include when the pull request is in the blocked state.
+    # An optional message to include in the Aviator status comment when the pull request is blocked.
+    # The same message is also posted in the GitHub comment associated with the failed reason.
     blocked_message: "..."
 
 ```
