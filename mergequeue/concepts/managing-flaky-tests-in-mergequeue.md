@@ -35,9 +35,9 @@ Continue from the example above. When a CI run for `Draft PR #3` fails, without 
 
 There are two settings to configure optimistic validation. Both are specified within the parallel mode section of the configuration.
 
-`use_optimistic_validation` - boolean value that configures only the look-ahead of CI. If the CI of the top of the PR fails, it will still immediately dequeue the PR. Defaults to `true`.
+`use_optimistic_validation` - boolean. When the top draft PR hasn't passed (still running, or failed), Aviator checks the draft PRs below it, and if any of them has passed, it treats the top as passing and merges it. Defaults to `true`.
 
-`optimistic_validation_failure_depth` - integer value that how many PRs, including the failing PR itself, it will check for the optimistic validation. Setting `1` effectively means that it won't use optimistic validation. This is capped to 3 in order to cap the GitHub API calls. Requires `use_optimistic_validation` to be enabled.
+`optimistic_validation_failure_depth` - integer, default `1`. How many failed draft PRs, counting the top one, Aviator waits for before dequeuing a failed top PR, as long as some draft PRs below it are still running. At `1`, a failed top PR is dequeued unless a draft PR below it has already passed. Requires `use_optimistic_validation` to be enabled.
 
 ```
 merge_rules:
