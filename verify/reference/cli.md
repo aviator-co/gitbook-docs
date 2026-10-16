@@ -60,11 +60,11 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | `aviator verify`  | Submit intent and acceptance criteria for a change you're writing yourself.                                                                                     |
 | `aviator runbook` | Create a runbook and have Aviator's agent implement the change.                                                                                                 |
 | `aviator sessions` | List your reviews in a repo, or find the one on a branch or PR. See [`aviator sessions`](#aviator-sessions).                                                  |
-| `aviator show`    | Show a review, its criteria, and its latest verification, e.g. `aviator show r/123`.                                                                            |
+| `aviator show`    | Show a review, its criteria, its latest verification, and its recent runs, e.g. `aviator show r/123`.                                                           |
 | `aviator results` | Show the failures from a review's latest verification.                                                                                                          |
 | `aviator edit`    | Update a review's intent or replace its acceptance criteria. See [`aviator edit`](#aviator-edit).                                                               |
 | `aviator dismiss` | Delete acceptance criteria or waive failing invariants on a review. See [`aviator dismiss`](#aviator-dismiss).                                                   |
-| `aviator scenarios` | Show what the latest verification run exercised and the evidence it captured.                                                                                 |
+| `aviator scenarios` | Show what a verification run exercised and the evidence it captured. Defaults to the latest run.                                                              |
 | `aviator evidence` | Download one piece of evidence, such as a screenshot or a scenario's trace.                                                                                    |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
 | `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
@@ -119,7 +119,7 @@ A review tracks exactly one PR. Running `aviator verify` again for a branch that
 
 For stacked PRs, submit once per PR, each with its own `--working-branch`, intent, and criteria, and pass the parent branch as `--target-branch`.
 
-To start a verification run on an existing review, pass its ID: `aviator verify r/123`. If an equivalent run already exists for the current commit and criteria, you get that run back instead of a new one. `--force` starts a fresh full run anyway. `--evaluator-only` re-judges the evidence an earlier run collected instead of collecting it again. It's refused once criteria have been added or reworded, since those need a full run.
+To start a verification run on an existing review, pass its ID: `aviator verify r/123`. If an equivalent run already exists for the current commit and criteria, you get that run back instead of a new one. `--force` starts a fresh full run anyway. `--evaluator-only` re-judges the evidence an earlier run collected instead of collecting it again. It's refused once criteria have been added or reworded, since those need a full run. The command prints the run's ID.
 
 ### `aviator edit`
 
@@ -151,10 +151,11 @@ aviator dismiss r/123 --criteria-json '[
 
 ### `aviator scenarios` and `aviator evidence`
 
-`aviator scenarios r/123` shows what the review's latest verification run exercised: each scenario's status, the criteria it covers, and the evidence it captured, with an ID for each piece of evidence. Every scenario that ran records a trace of the verifier's actions.
+`aviator scenarios r/123` shows what the review's latest verification run exercised: each scenario's status, the criteria it covers, and the evidence it captured, with an ID for each piece of evidence. Every scenario that ran records a trace of the verifier's actions. Pass `--run <id>` to see an earlier run instead. `aviator show r/123` lists a review's recent runs with their IDs.
 
 ```bash
 aviator scenarios r/123
+aviator scenarios r/123 --run 887
 aviator evidence 4567 -o trace.json
 ```
 
