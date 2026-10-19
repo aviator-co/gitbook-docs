@@ -115,6 +115,14 @@ jq -r '.transcript[] | select(.tool_result and (.text | test("failed|Timeout|Err
 jq -r '.transcript[] | select(.tool == "finish") | .input.summary' trace.json
 ```
 
+### Comparing with an earlier run
+
+When a criterion fails now but passed in an earlier run, compare the two runs.
+
+1. Find the runs with `aviator show r/<n> --json`. `runs` lists the latest 20, newest first, each with its `run_id`, `commit_sha`, `status`, and the review `version` it ran against. `runs_has_more: true` means there are older runs, which are in the review's run history in Aviator.
+2. Find the last run where that criterion passed. In a run whose `status` is `passed`, every criterion passed or was waived. For a `failed` run, `aviator results r/<n> --run <run_id> --json` lists the criteria it didn't pass in `run.failures`, so a criterion missing from that list passed. If the two runs' `version` differs, the review was edited in between, which may include its criteria.
+3. Read each run's scenarios with `aviator scenarios r/<n> --run <run_id> --json`, and compare the scenarios that cover the failing criterion, their steps, and their evidence.
+
 ### Fixing a failure
 
 Each cause lists its signals, the fix, and what the CLI and the review in Aviator can each do.
