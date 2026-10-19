@@ -9,6 +9,57 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-10-17" %}
+## 2026.10.17-1-rc1
+
+frontend: `sha256:6f16466d722b5c66887f218b7b940a2e726c26ce3d2c6d79356ae498f0652070`
+
+mergeit: `sha256:a59f5bfdd9c5cf79ac639e921c4e08dadf13fff2234179736fd59d19efcf2966`
+
+**MergeQueue**
+
+* New `merge_mode.parallel_mode.non_destructive_skip_line` option lets skip-line PRs go ahead of the queue without resetting it or cancelling running drafts. [Read the docs](https://docs.aviator.co/mergequeue/concepts/priority-merges).
+* New `merge_mode.parallel_mode.block_batch_on_checks` option dequeues the whole batch instead of bisecting when one of the listed checks fails. [Read the docs](https://docs.aviator.co/mergequeue/reference/complete-reference-guide).
+* With `draft_checks_started_timeout_mins` set, a draft PR that conflicts with its base branch is rebuilt on the latest base instead of dequeuing its PRs
+* In parallel mode, a queued stack now counts each of its PRs toward `batch_size`
+* The queue page now groups a queued stack under its top PR
+* The MergeQueue config now warns about option combinations that don't work together
+* New "Copy agent prompt" button on the MergeQueue config page for tuning the config with a coding agent
+* New batch, merge, blocked PR and wait time metrics on `/api/metrics` for accounts with Advanced Metrics enabled. [Read the docs](https://docs.aviator.co/api/reference/monitoring-metrics).
+* Skip-line restrictions now check the user who queued the PR instead of its author
+* Setting `merge_rules.labels.skip_line` to an empty string now disables the skip-line label
+* The merge failure comment now includes `merge_rules.status_comment.blocked_message`
+* When a stack merge fails partway, the PRs that already landed are now marked merged
+* Better handling of GitHub errors while processing a failed batch
+* More reliable PR status sync when a webhook races a merge or GitHub is briefly unreachable
+* Fixed duplicate commits when restacking a stack whose parent PR was squash merged
+* PR authors now get the blocked Slack DM when their PR fails CI in parallel mode
+* Slack notifications for PRs authored by bots now go to the user who queued them
+* The "Submitted to queue" timeline entry is now recorded on repositories with a ready hook
+* The draft PR comment is now posted once instead of every time the queue label is added
+* The PR page now shows the queue position for queued PRs
+
+**FlexReview**
+
+* Reviewer assignment now continues when posting the FlexReview status comment fails
+* Better handling of approvals on commits GitHub can no longer resolve
+* "Reassign the reviewer" is now disabled for the "When a new reviewer is assigned" trigger
+
+**Inbox**
+
+* The Inbox now shows one section at a time, with a linkable `?section=` URL
+* Review and CI status are combined into a single status column
+* Pull request page tabs now have their own URLs
+
+**General**
+
+* Requested reviewers now get a Slack DM when a draft PR is marked ready for review, and draft PRs no longer send channel updates or blocked/closed DMs
+* Logs now use structured fields and record IDs instead of GitHub logins, emails and team names
+* Fixed log rotation re-copying full log files every hour
+* Fixed Celery Prometheus metric scrapes slowing down with pod uptime
+* Increased the nginx keepalive timeout to prevent intermittent 503s behind load balancers with long idle timeouts
+{% endupdate %}
+
 {% update date="2026-10-02" %}
 ## 2026.10.02-2-rc1
 
