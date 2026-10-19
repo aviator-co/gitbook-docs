@@ -25,8 +25,7 @@ mergeit: `sha256:a59f5bfdd9c5cf79ac639e921c4e08dadf13fff2234179736fd59d19efcf296
 * The queue page now groups a queued stack under its top PR
 * The MergeQueue config now warns about option combinations that don't work together
 * New "Copy agent prompt" button on the MergeQueue config page for tuning the config with a coding agent
-* New batch, merge, blocked PR and wait time metrics on `/api/metrics` for accounts with Advanced Metrics enabled. [Read the docs](https://docs.aviator.co/api/reference/monitoring-metrics).
-* Skip-line restrictions now check the user who queued the PR instead of its author
+* Skip-line restrictions now check against the user who queued the PR instead of the PR author
 * Setting `merge_rules.labels.skip_line` to an empty string now disables the skip-line label
 * The merge failure comment now includes `merge_rules.status_comment.blocked_message`
 * When a stack merge fails partway, the PRs that already landed are now marked merged
@@ -43,7 +42,6 @@ mergeit: `sha256:a59f5bfdd9c5cf79ac639e921c4e08dadf13fff2234179736fd59d19efcf296
 
 * Reviewer assignment now continues when posting the FlexReview status comment fails
 * Better handling of approvals on commits GitHub can no longer resolve
-* "Reassign the reviewer" is now disabled for the "When a new reviewer is assigned" trigger
 
 **Inbox**
 
@@ -54,7 +52,6 @@ mergeit: `sha256:a59f5bfdd9c5cf79ac639e921c4e08dadf13fff2234179736fd59d19efcf296
 **General**
 
 * Requested reviewers now get a Slack DM when a draft PR is marked ready for review, and draft PRs no longer send channel updates or blocked/closed DMs
-* Logs now use structured fields and record IDs instead of GitHub logins, emails and team names
 * Fixed log rotation re-copying full log files every hour
 * Fixed Celery Prometheus metric scrapes slowing down with pod uptime
 * Increased the nginx keepalive timeout to prevent intermittent 503s behind load balancers with long idle timeouts
