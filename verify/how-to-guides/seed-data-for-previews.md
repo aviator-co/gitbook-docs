@@ -101,6 +101,18 @@ Best for repos that boot fast but need a couple of per-run mutations. Bake the b
 
 This combines the speed of pre-baked state with the freshness of per-run additions. It's the right answer once your baseline is too big for setup-time loading but you still need pull-time data.
 
+### Environments you host
+
+The strategies above run in a setup script inside a container Aviator throws away. An [endpoint preview](registering-an-external-preview.md) runs in an environment you own, and if that environment is reused across verifications — a staging slot, a pooled VM, a [preview built on request](provisioning-a-preview-on-request.md) — the three properties above are yours to keep. What changes:
+
+* **Reset on every deploy, not every push.** The environment carries the previous verification's data until you remove it. Make the reset part of the deploy, so a registration never points at leftover state: restore a known baseline, then run the branch's migrations on top of it. Restoring a snapshot is fast; a from-scratch seed is slower but self-healing when the baseline drifts.
+* **Seed from the branch under test.** Load fixtures and run factories from the commit you are deploying, not from a copy baked into the environment. A pull request that changes the seed is then verified with its own data. If you keep a baseline snapshot for speed, rebuild it when the seed inputs change — a hash of the fixture files and seed scripts decides, not whether the branch moved, so unrelated branches reuse the snapshot and a branch that touched the seed gets a fresh one.
+* **Treat migrations as part of the deploy.** A branch whose migrations can't apply to the baseline can't be previewed; the deploy fails, and the run degrades to code analysis. Surface that failure where authors see it rather than registering a half-migrated environment.
+* **Seed the stores, not only the rows.** Anything the app fetches by reference — uploaded files, generated reports, object-store blobs — needs the object present, not just a row pointing at it. If the object store is also reset per deploy, re-upload the fixtures there as a deploy step, or the page renders a dead link and the criterion fails for a reason that has nothing to do with the change.
+* **Everything a criterion needs must be reachable from a cold sign-in.** The runner arrives at the registered URL with the credentials from the registration and your skill file, and nothing else. State that only a previous run created, or that needs an operator's action, isn't there.
+
+Measure the reset and seed time; it belongs in the endpoint preview's `wait_timeout_sec` alongside the deploy itself.
+
 ### Reset between scenarios within a run
 
 If your scenarios mutate state, give them a reset hook so they don't interact.
@@ -129,3 +141,4 @@ Two rules:
 * [Creating a preview](creating-a-preview.md)
 * [Managing previews](managing-previews.md)
 * [Writing a SKILL.md](writing-a-skill-md.md) — how scenarios learn what your seed contains
+* [Provisioning a preview on request](provisioning-a-preview-on-request.md) — reusing a pool of environments you host
