@@ -8,6 +8,15 @@ description: >-
 
 {% updates format="full" %}
 
+{% update date="2026-10-19" %}
+## 2026.10.19-1-rc1
+
+**Verify**
+
+* The Verify tab appears again on pull requests after GitHub's latest change to its pull request header
+* The Verify tab has its own URL, so the back button, reloads and shared links open it
+{% endupdate %}
+
 {% update date="2026-10-08" %}
 ## 2026.10.08-1-rc1
 
