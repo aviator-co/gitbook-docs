@@ -161,10 +161,43 @@ verify:
 | `wait_timeout_sec`    | int    | no       | How long a verification run waits for a registered preview before falling back to code analysis. Defaults to 1800. Range 60–7200. |
 | `expires_default_sec` | int    | no       | How long a registration stays current when it doesn't supply its own `expires_at`. Defaults to 7200. Range 300–86400. |
 | `verify_skill`        | string | no       | Repo-relative path to this preview's [Verify skill](../how-to-guides/writing-a-skill-md.md) entry point. Overrides the default `.aviator/verify/skills/<preview-name>.md` lookup. |
+| `provision`           | object | no       | How Aviator asks your system to build a preview for a commit, and tells it when the preview is no longer needed. Leave unset when your CI deploys on every push and registers on its own. See [Provision](#provision). |
 
 Endpoint entries take none of the sandbox fields — `image`, `port`, `setup`, `teardown`, and `secrets` are all rejected, because the environment isn't Aviator's to build. Credentials for driving the app come from the registration itself.
 
 Registering a preview is an API call from your CI pipeline. See [Registering an external preview](../how-to-guides/registering-an-external-preview.md) for the request shape, the waiting behavior, and the expiry and deregistration semantics.
+
+#### Provision
+
+With `provision` set, a verification run that needs the preview and finds nothing registered for its commit sends a `preview_provision` event, and sends `preview_done` when nothing will drive that preview any more. Aviator retires the commit's registration when it says done, so the next run asks again. `type` picks the transport.
+
+```yaml
+verify:
+  preview:
+    - name: ci
+      method: endpoint
+      provision:
+        type: workflow
+        workflow: deploy-preview.yml
+        ref: branch
+```
+
+| Field      | Type   | Required             | Description                                                                                                        |
+| ---------- | ------ | -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `type`     | string | yes                  | `workflow` dispatches a GitHub Actions workflow in this repo (`workflow_dispatch`); the event arrives in the workflow's `inputs`. `webhook` posts the event to the Verify webhook URL configured for your account under **Settings → Integrations**, signed with its secret. |
+| `workflow` | string | `workflow` only      | Filename of the workflow under `.github/workflows/`, with or without that prefix. Must be a `.yml` or `.yaml` file that declares a `workflow_dispatch` trigger. |
+| `ref`      | string | no (`workflow` only) | Which copy of the workflow file runs: `branch` (default) runs the file as it exists on the PR branch; `default_branch` runs the one on the repository's default branch. |
+
+```yaml
+verify:
+  preview:
+    - name: ci
+      method: endpoint
+      provision:
+        type: webhook
+```
+
+`type: webhook` takes no further fields; the Integrations webhook URL only has to be set. See [Provisioning a preview on request](../how-to-guides/provisioning-a-preview-on-request.md) for the event payloads and what the receiver does with them.
 
 ### See also
 
@@ -172,3 +205,4 @@ Registering a preview is an API call from your CI pipeline. See [Registering an 
 * [Creating a preview](../how-to-guides/creating-a-preview.md)
 * [Managing previews](../how-to-guides/managing-previews.md)
 * [Registering an external preview](../how-to-guides/registering-an-external-preview.md)
+* [Provisioning a preview on request](../how-to-guides/provisioning-a-preview-on-request.md)
