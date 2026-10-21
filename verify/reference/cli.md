@@ -176,17 +176,19 @@ aviator runbook \
 
 ### `aviator invariants`
 
-Manages your account's [invariants](../concepts/invariants.md). `list` and `categories` work with any API token. The other subcommands need a user signed in with `aviator login` or a personal access token: anyone can `create`, and the rest need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams). Every subcommand takes `--json` to print the result as JSON.
+Manages your account's [invariants](../concepts/invariants.md). `list`, `categories`, and `owner-teams` work with any API token. The other subcommands need a user signed in with `aviator login` or a personal access token: anyone can `create`, and the rest need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams). Every subcommand takes `--json` to print the result as JSON.
 
 | Subcommand                    | What it does                                                                                    |
 | ----------------------------- | ----------------------------------------------------------------------------------------------- |
 | `list`                        | List invariants, newest first.                                                                  |
 | `categories`                  | List the category slugs that `create` and `edit` accept.                                       |
+| `owner-teams`                 | List the teams that can own invariants, with how many each owns.                                |
 | `create`                      | Create an invariant. It's active immediately unless you pass `--disable`.                       |
 | `edit <id>`                   | Change only the fields you pass.                                                                |
 | `approve <id>...`             | Set invariants to `active`.                                                                     |
 | `reject <id>...`              | Set invariants to `rejected`. They stop applying but stay on record.                            |
 | `set-status <status> <id>...` | Set invariants to `pending`, `active`, or `rejected`.                                           |
+| `set-owner <team> <id>...`    | Make `org/team-slug` the owner team, or pass `default` to use the default owner team.           |
 | `delete <id>`                 | Delete an invariant permanently.                                                                |
 
 `list` flags:
@@ -197,6 +199,8 @@ Manages your account's [invariants](../concepts/invariants.md). `list` and `cate
 | `--repo`   | Only invariants that apply to this `owner/repo`, including account-wide ones.                                                |
 | `--source` | Comma-separated sources: `manual`, `ai_generated`, `ai_generated_docs`, `ai_generated_pr_comments`, `template`, `slack`, `github_comment`. |
 | `--ids`    | Comma-separated invariant IDs.                                                                                               |
+| `--owner-team` | Comma-separated `org/team-slug` teams. Includes invariants that fall back to the default owner team.                     |
+| `--unowned` | Only invariants with no owner team and no default owner team.                                                                |
 | `--limit`  | Invariants per page. Defaults to 20, up to 100.                                                                              |
 | `--page`   | Page number, starting at 1. The JSON response's `has_more` says whether another page exists.                                 |
 
@@ -213,6 +217,8 @@ Manages your account's [invariants](../concepts/invariants.md). `list` and `cate
 | `--enable`                  | Turn an active invariant back on. Use `approve` for a pending one. `edit` only.                                             |
 | `--account-scoped`          | Apply the invariant to every repository. `edit` only.                                                                        |
 | `--no-conditions`           | Remove all conditions. `edit` only.                                                                                          |
+| `--owner-team`              | Set the owner team to this `org/team-slug`. Repeatable, and replaces the existing set. `edit` only.                          |
+| `--default-owner`           | Remove the owner teams so the default owner team applies. `edit` only.                                                       |
 
 See [Managing invariants with the CLI](../how-to-guides/managing-invariants-with-the-cli.md) for what makes a good invariant.
 

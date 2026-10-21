@@ -18,13 +18,15 @@ Listing works with any API token. Creating or changing an invariant needs a user
 
 | Command                                          | What it does                                                                                         |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| `aviator invariants list`                        | List invariants, newest first. Filter with `--status`, `--repo`, `--source`, and `--ids`.            |
+| `aviator invariants list`                        | List invariants, newest first. Filter with `--status`, `--repo`, `--source`, `--owner-team`, and `--ids`. |
 | `aviator invariants categories`                  | List the category slugs that `create` and `edit` accept.                                            |
+| `aviator invariants owner-teams`                 | List the teams that can own invariants, with how many each owns.                                     |
 | `aviator invariants create`                      | Create an invariant. Needs `--title`, `--category`, and `--body` or `--body-file`.                  |
 | `aviator invariants edit <id>`                   | Change only the fields you pass.                                                                     |
 | `aviator invariants approve <id>...`             | Activate invariants so Verify starts applying them.                                                   |
 | `aviator invariants reject <id>...`              | Stop applying invariants but keep them on record.                                                    |
 | `aviator invariants set-status <status> <id>...` | Set any status, for example to restore a rejected invariant to `pending`.                           |
+| `aviator invariants set-owner <team> <id>...`    | Change the [owner team](../concepts/invariants.md#owner-teams) of one or more invariants.            |
 | `aviator invariants delete <id>`                 | Delete an invariant permanently.                                                                     |
 
 An invariant's status is `pending` (proposed, not applied), `active` (applied), or `rejected` (not applied, kept on record). An active invariant can also be turned off with `edit --disable`, which `list` shows as `active (disabled)`.
@@ -55,6 +57,18 @@ Things to know:
 * Use `--body-file` to avoid shell quoting problems.
 * `list` doesn't show bodies. Add `--json` to any command for the full response.
 * `list` returns 20 invariants per page by default, up to 100 with `--limit`. Page with `--page` until `has_more` is false.
+
+### Fixing owner teams
+
+To move invariants to the team that should own them, list what a team owns, then hand the wrong ones to the right team:
+
+```bash
+aviator invariants owner-teams
+aviator invariants list --owner-team acme/platform
+aviator invariants set-owner acme/payments 42 57 61
+```
+
+`set-owner default 42` removes the invariant's owner team so the default owner team applies. You need to be able to edit every invariant you pass, or none of them change.
 
 ### See also
 
