@@ -57,7 +57,9 @@ You can subscribe to notifications for the following events:
 * **`MERGEQUEUE_ACTIVATE_DEACTIVATE`** – Notifications when MergeQueue is activated or deactivated.
 * **`MERGEQUEUE_CONFIG_UPDATE`** – Notifications when MergeQueue configuration is updated.
 * **`MERGEQUEUE_PAUSE_UNPAUSE`** – Notifications when MergeQueue is paused or unpaused.
+* **`MERGEQUEUE_MANUAL_RESET`** – Notifications when someone manually resets the queue. Automatic resets are not posted. Off by default. Channel only; not available as a personal notification.
 * **`PR_MERGED`** – Notifications for PRs merged via Aviator MergeQueue.
+* **`PR_INSTANT_MERGED`** – Notifications when a PR is [instantly merged](../mergequeue/concepts/priority-merges/instant-merges.md), skipping the queue. When enabled, this replaces the `PR_MERGED` notification for instant merges, so each merge still produces one post. Off by default. Channel only; not available as a personal notification.
 * **`PR_BLOCKED`** – Notifications for PRs marked as blocked by MergeQueue.
 * **`PR_QUEUED`** – Notifications when PRs are queued for merging by Aviator MergeQueue.
 
