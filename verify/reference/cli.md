@@ -176,13 +176,13 @@ aviator runbook \
 
 ### `aviator invariants`
 
-Manages your account's [invariants](../concepts/invariants.md). `list`, `categories`, and `owner-teams` work with any API token. The other subcommands need a user signed in with `aviator login` or a personal access token: anyone can `create`, and the rest need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams). Every subcommand takes `--json` to print the result as JSON.
+Manages your account's [invariants](../concepts/invariants.md). `list`, `categories`, and `owner-teams` work with any API token. The other subcommands need a user signed in with `aviator login` or a personal access token: anyone can `create`, and the rest need a maintainer, an admin, or a direct member of the invariant's [owner team](../concepts/invariants.md#owner-teams). Every subcommand takes `--json` to print the result as JSON.
 
 | Subcommand                    | What it does                                                                                    |
 | ----------------------------- | ----------------------------------------------------------------------------------------------- |
 | `list`                        | List invariants, newest first.                                                                  |
 | `categories`                  | List the category slugs that `create` and `edit` accept.                                       |
-| `owner-teams`                 | List the teams that can own invariants, with how many each owns.                                |
+| `owner-teams`                 | List the teams that can own invariants, with how many each owns, most first. Takes `--limit` and `--page` like `list`. |
 | `create`                      | Create an invariant. It's active immediately unless you pass `--disable`.                       |
 | `edit <id>`                   | Change only the fields you pass.                                                                |
 | `approve <id>...`             | Set invariants to `active`.                                                                     |
@@ -199,8 +199,7 @@ Manages your account's [invariants](../concepts/invariants.md). `list`, `categor
 | `--repo`   | Only invariants that apply to this `owner/repo`, including account-wide ones.                                                |
 | `--source` | Comma-separated sources: `manual`, `ai_generated`, `ai_generated_docs`, `ai_generated_pr_comments`, `template`, `slack`, `github_comment`. |
 | `--ids`    | Comma-separated invariant IDs.                                                                                               |
-| `--owner-team` | Comma-separated `org/team-slug` teams. Includes invariants that fall back to the default owner team.                     |
-| `--unowned` | Only invariants with no owner team and no default owner team.                                                                |
+| `--owner-team` | Comma-separated `org/team-slug` teams.                                                                                    |
 | `--limit`  | Invariants per page. Defaults to 20, up to 100.                                                                              |
 | `--page`   | Page number, starting at 1. The JSON response's `has_more` says whether another page exists.                                 |
 

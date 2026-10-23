@@ -14,7 +14,7 @@ Verify picks which in-scope invariants apply by comparing each one's title, cate
 
 ### Working with the CLI
 
-Listing works with any API token. Creating or changing an invariant needs a user signed in with `aviator login` or a personal access token. Anyone can create one; editing, approving, rejecting, and deleting need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams).
+Listing invariants and owner teams works with any API token. Creating or changing an invariant needs a user signed in with `aviator login` or a personal access token. Anyone can create one; editing, approving, rejecting, deleting, and changing the owner need a maintainer, an admin, or a direct member of the invariant's [owner team](../concepts/invariants.md#owner-teams).
 
 | Command                                          | What it does                                                                                         |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
@@ -68,7 +68,7 @@ aviator invariants list --owner-team acme/platform
 aviator invariants set-owner acme/payments 42 57 61
 ```
 
-`set-owner default 42` removes the invariant's owner team so the default owner team applies. You need to be able to edit every invariant you pass, or none of them change.
+`set-owner default 42` removes the invariant's owner team so the default owner team applies, or leaves it unowned if there's no default. You need to be able to edit every invariant you pass, or none of them change.
 
 ### See also
 
