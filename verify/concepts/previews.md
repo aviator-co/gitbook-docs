@@ -60,6 +60,8 @@ The split of responsibility:
 
 Aviator never builds or tears down an externally hosted preview, and never holds infrastructure credentials for it — the environment is already running by the time Aviator sees it.
 
+**Registered on every push, or built on request.** The table above is the simplest arrangement: CI deploys and registers on every push, and Aviator finds a registration waiting. When a deploy is expensive, or environments come from a small pool, an endpoint preview can instead carry a `provision` block: Aviator sends your system a `preview_provision` event when a verification run needs a preview of a commit and nothing is registered for it, and a `preview_done` event when nothing will drive that preview any more. Your system builds on the first, registers as usual, and reclaims on the second. The event reaches you as a GitHub Actions `workflow_dispatch` or as a signed webhook. The environment is still yours; only the trigger moves. See [Provisioning a preview on request](../how-to-guides/provisioning-a-preview-on-request.md).
+
 **Waiting, then degrading.** Verification and the deploy pipeline run on their own clocks, so a run that needs the preview waits for one to be registered, up to a configured timeout. If the registration arrives in time, scenarios run against it. If it doesn't, verification still completes on code analysis alone — a degraded result rather than a failure — and a registration that lands afterwards starts a follow-up verification automatically. A registration also has to match the commit being verified: one built from a stale commit never drives the run.
 
 **Choosing between the two methods:**
@@ -70,7 +72,9 @@ Aviator never builds or tears down an externally hosted preview, and never holds
 | The service boots from an image plus a setup script                     | The environment needs infrastructure Aviator can't host — managed data stores, private networks, a multi-service topology |
 | You want previews with no CI work at all                                | You want verification to run against the same environment your team already reviews |
 
-See [Registering an external preview](../how-to-guides/registering-an-external-preview.md) for the registration call and its semantics.
+Within endpoint, register on every push when deploys are cheap and already happen per PR; add `provision` when they aren't — a shared staging slot, a VM pool, a managed database that can't be cloned per push — so an environment is built only for a verification that needs one.
+
+See [Registering an external preview](../how-to-guides/registering-an-external-preview.md) for the registration call and its semantics, and [Provisioning a preview on request](../how-to-guides/provisioning-a-preview-on-request.md) for the event round trip.
 
 ### Multiple previews per repo
 
@@ -116,3 +120,4 @@ Previews look like CI environments but they're not the same thing:
 * [Managing previews](../how-to-guides/managing-previews.md) — bake vs. setup, refresh, cleanup
 * [Seed data for previews](../how-to-guides/seed-data-for-previews.md) — fixtures and deterministic state
 * [Registering an external preview](../how-to-guides/registering-an-external-preview.md) — using an environment your CI deploys
+* [Provisioning a preview on request](../how-to-guides/provisioning-a-preview-on-request.md) — having Aviator ask for one when a run needs it

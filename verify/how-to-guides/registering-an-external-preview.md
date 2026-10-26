@@ -6,6 +6,8 @@ Aviator never builds or tears down an endpoint preview. It correlates the regist
 
 For the alternative — Aviator booting a container from a preview image — see [Creating a preview](creating-a-preview.md). For the concept, see [Concepts: Previews](../concepts/previews.md).
 
+> This guide assumes CI deploys and registers on every push. If deploys are expensive or environments come from a pool, Aviator can instead ask for one when a verification run needs it — see [Provisioning a preview on request](provisioning-a-preview-on-request.md). The registration call is the same either way.
+
 **Time:** ~20 minutes
 
 **Prerequisites:**
@@ -155,6 +157,7 @@ Deregistration is idempotent: an unknown or already-deleted registration returns
 
 ### Next steps
 
+* [Provisioning a preview on request](provisioning-a-preview-on-request.md) — let Aviator ask for the environment instead of deploying on every push
 * [Preview YAML reference](../reference/preview-yaml.md) — every preview field
 * [Writing a Verify skill](writing-a-skill-md.md) — teach the runner how to drive your app
 * [Concepts: Previews](../concepts/previews.md) — how previews fit into verification
