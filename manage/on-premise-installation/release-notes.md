@@ -9,6 +9,29 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-10-22" %}
+## 2026.10.22-2-rc1
+
+frontend: `sha256:6274d2e4597e2e0d855143dde2f5c81485b6cbf92e563bc6061c01b1d65ab485`
+
+mergeit: `sha256:25b0a9edcbdf5d6988cdbb448a9f7ba9c86ab4f1956a5506f63fc64f31501e6d`
+
+**MergeQueue**
+
+* New and newly saved configs now default `merge_mode.parallel_mode.use_optimistic_validation` to `false`. [Read the docs](https://docs.aviator.co/mergequeue/concepts/managing-flaky-tests-in-mergequeue).
+* Optimistic validation now considers every queued draft PR below the top, not just the nearest few
+* `merge_mode.parallel_mode.draft_checks_started_timeout_mins` now waits for required checks gated behind other jobs, and dequeues draft PRs whose GitHub Actions runs are stuck waiting for a runner
+* With `merge_mode.parallel_mode.update_before_requeue`, auto-requeue now proceeds even when GitHub refuses to update the PR's branch
+* Removing the queue label now checks dequeue permission before dequeuing the PR
+* New opt-in Slack channel notifications for instant merges and manual queue resets
+* A merge whose GitHub response is cut off is now rechecked instead of reported as failed
+* Applying a MergeQueue config is faster on repositories with many reported checks
+
+**General**
+
+* The frontend image now uses Node.js 24.22.1
+{% endupdate %}
+
 {% update date="2026-10-17" %}
 ## 2026.10.17-1-rc1
 
