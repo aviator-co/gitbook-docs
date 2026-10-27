@@ -176,7 +176,7 @@ aviator runbook \
 
 ### `aviator invariants`
 
-Manages your account's [invariants](../concepts/invariants.md). `list` and `categories` work with any API token. The other subcommands need a user signed in with `aviator login` or a personal access token: anyone can `create`, and the rest need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams). Every subcommand takes `--json` to print the result as JSON.
+Manages your account's [invariants](../concepts/invariants.md). `list`, `categories`, `insights`, `show`, `reviews`, and `waivers` work with any API token. The other subcommands need a user signed in with `aviator login` or a personal access token: anyone can `create`, and the rest need a maintainer, an admin, or a member of the invariant's [owner team](../concepts/invariants.md#owner-teams). Every subcommand takes `--json` to print the result as JSON.
 
 | Subcommand                    | What it does                                                                                    |
 | ----------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -188,6 +188,11 @@ Manages your account's [invariants](../concepts/invariants.md). `list` and `cate
 | `reject <id>...`              | Set invariants to `rejected`. They stop applying but stay on record.                            |
 | `set-status <status> <id>...` | Set invariants to `pending`, `active`, or `rejected`.                                           |
 | `delete <id>`                 | Delete an invariant permanently.                                                                |
+| `list --usage`                | Add applied, failed, failure rate, and waived counts to each row.                                |
+| `insights`                    | Rank active invariants by times applied, failure rate, and waives, and list the never-applied ones. |
+| `show <id>`                   | One invariant with its usage, by version and optionally by repository, and its latest waives.   |
+| `reviews <id>`                | The reviews an invariant applied to, with the outcome on each.                                   |
+| `waivers`                     | Waivers across the account, newest first.                                                        |
 
 `list` flags:
 
@@ -199,6 +204,10 @@ Manages your account's [invariants](../concepts/invariants.md). `list` and `cate
 | `--ids`    | Comma-separated invariant IDs.                                                                                               |
 | `--limit`  | Invariants per page. Defaults to 20, up to 100.                                                                              |
 | `--page`   | Page number, starting at 1. The JSON response's `has_more` says whether another page exists.                                 |
+| `--usage`  | Add usage counts to each row, and show only active invariants unless `--status` is passed.                                   |
+| `--sort`   | With `--usage`: `applied`, `failed`, `failure-rate`, or `waived`, highest first.                                             |
+| `--never-applied` | With `--usage`: only invariants no review has applied.                                                                |
+| `--since`  | With `--usage`: count only reviews since `<N>d` ago (for example `30d`) or a `YYYY-MM-DD` date. All time by default.         |
 
 `create` and `edit` flags:
 
@@ -213,6 +222,21 @@ Manages your account's [invariants](../concepts/invariants.md). `list` and `cate
 | `--enable`                  | Turn an active invariant back on. Use `approve` for a pending one. `edit` only.                                             |
 | `--account-scoped`          | Apply the invariant to every repository. `edit` only.                                                                        |
 | `--no-conditions`           | Remove all conditions. `edit` only.                                                                                          |
+
+`insights`, `show`, `reviews`, and `waivers` flags:
+
+| Flag            | Description                                                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `--since`       | Count only reviews since `<N>d` ago (for example `30d`) or a `YYYY-MM-DD` date. All time by default.                         |
+| `--repo`        | Only reviews in this `owner/repo`. `insights`, `reviews`, and `waivers`.                                                     |
+| `--status`      | `insights` only. Which invariants to rank. `active` by default.                                                              |
+| `--limit`       | Rows per table on `insights`, rows per page elsewhere. Defaults to 20, up to 100.                                            |
+| `--page`        | Page number, starting at 1. `show` (its waives), `reviews`, and `waivers`.                                                   |
+| `--by-repo`     | `show` only. Add a per-repository breakdown.                                                                                 |
+| `--outcome`     | `reviews` only. `passed`, `failed`, `warned`, `errored`, `waived`, `fixed` (failed on an earlier run, passes now), or `not_run`. |
+| `--invariant`   | `waivers` only. Only waivers of this invariant ID.                                                                           |
+| `--user`        | `waivers` only. `me`, or an email on the account. `me` needs a user token.                                                   |
+| `--category`    | `waivers` only. `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`.                                     |
 
 See [Managing invariants with the CLI](../how-to-guides/managing-invariants-with-the-cli.md) for what makes a good invariant.
 

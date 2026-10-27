@@ -56,6 +56,53 @@ Things to know:
 * `list` doesn't show bodies. Add `--json` to any command for the full response.
 * `list` returns 20 invariants per page by default, up to 100 with `--limit`. Page with `--page` until `has_more` is false.
 
+### Seeing how invariants perform
+
+These commands show which invariants apply, which fail, which get waived, and on which reviews. They work with any API token.
+
+| Command                           | What it shows                                                                                                 |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `aviator invariants insights`     | Active invariants ranked by times applied, failure rate, and waives, plus the ones never applied.             |
+| `aviator invariants list --usage` | Applied, failed, failure rate, and waived counts on each row. Sort with `--sort`, or pass `--never-applied`.  |
+| `aviator invariants show <id>`    | One invariant's usage, by version and with `--by-repo` by repository, and its latest waives.                  |
+| `aviator invariants reviews <id>` | The reviews an invariant applied to and its outcome on each. Filter with `--outcome` and `--repo`.            |
+| `aviator invariants waivers`      | Waivers across the account, newest first. Filter with `--invariant`, `--user`, `--category`, and `--repo`.    |
+
+```bash
+aviator invariants show 42
+```
+
+```
+#42 HTTP handlers authenticate before business logic
+  Category: security
+  Status: active (enabled: true)
+  Version: 3
+
+Usage · all time
+  Applied 143 · Failed 31 (22%) · Waived 18 of 31 failures (58%)
+  Waived as: false positive 11 · doesn't apply 4 · accepted risk 2 · fix in follow-up 1
+
+By version
+  VERSION  SINCE       APPLIED  FAILED  RATE  WAIVED
+  3        2026-10-02  40       4       10%   1
+  2        2026-08-19  78       21      27%   14
+  —        before      25       6       24%   3
+
+Waives (18)
+  WHEN        REVIEW  PR             REASON          BY       JUSTIFICATION
+  2026-10-21  r/1288  acme/web#4821  false positive  Dana K.  Endpoint is internal-only, behind the VPN gate.
+  See more waives --page 2
+```
+
+Things to know:
+
+* Counts are per review (`r/N`), not per verification run or pull request.
+* Numbers are all-time by default. Narrow them with `--since 30d` or `--since 2026-09-01`.
+* `list --usage` and `insights` cover active invariants unless you pass `--status`.
+* A waive is a [waiver](../concepts/invariants.md#waivers), made with [`aviator dismiss`](../reference/cli.md#aviator-dismiss) or from the review in Aviator.
+* `--json` on any of these gives the full response.
+* On-premise installations get the endpoints behind these commands in the release after cloud. Against an older backend, the commands say so.
+
 ### See also
 
 * [Invariant conditions](../reference/invariant-conditions.md): exact glob and language matching rules
