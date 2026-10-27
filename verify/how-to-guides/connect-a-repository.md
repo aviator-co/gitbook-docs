@@ -37,7 +37,7 @@ After enabling, you can configure:
 
 | Setting             | Description                                              | Default |
 | ------------------- | -------------------------------------------------------- | ------- |
-| **Auto-create review on PR open** | Opening a PR in this repository automatically creates a review for it. See [How a PR gets its review](../reference/github-integration.md#how-a-pr-gets-its-review) | Off |
+| **Auto-create review on PR open** | Opening a PR in this repository automatically creates a review for it. See [How a PR gets its review](../reference/github-integration.md#how-a-pr-gets-its-review). Narrow which PRs it applies to with [filters](../reference/configuration-reference.md#per-repo-filters) | Off |
 | **Generate invariants from PR comments** | Aviator reviews merged-PR comments weekly to propose new baseline invariants | On after onboarding |
 | **`verify.yaml`**   | Per-repo Verify configuration, including preview environments, edited under **Verify → Settings → Verify** | Empty |
 
