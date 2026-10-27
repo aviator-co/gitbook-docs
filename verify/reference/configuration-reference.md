@@ -16,6 +16,7 @@ The root of all per-repo configuration. Edit it in the Aviator dashboard under *
 | ---------------- | ---- | ------- | --------------------------------------------------------------------- |
 | `verify`         | map  | none    | Root key. All Verify configuration nests under it.                    |
 | `verify.preview` | list | none    | One or more preview definitions. See [Preview YAML](preview-yaml.md). |
+| `verify.filters` | map  | none    | Which pull requests get an auto-created review. See [Filters](#per-repo-filters). |
 
 Example:
 
@@ -32,6 +33,35 @@ verify:
 ```
 
 Unknown keys are rejected: saving fails with a validation error rather than silently ignoring them. A common mistake is starting the document at `preview:` — it must nest under `verify:`.
+
+### Per-repo: filters
+
+Filters narrow which pull requests get an [auto-created review](github-integration.md#how-a-pr-gets-its-review), for example to keep Verify off docs-only changes or PRs from a team you don't verify. They only matter when **Auto-create review on PR open** is on, and never apply to a PR that's already linked to a review, such as one submitted with `/verify-submit`.
+
+| Key              | Type | Description                                                         |
+| ---------------- | ---- | ------------------------------------------------------------------- |
+| `authors`        | list | Only auto-create for PRs from these authors.                        |
+| `authors_ignore` | list | Never auto-create for PRs from these authors.                       |
+| `paths`          | list | Only auto-create when the PR changes at least one matching file.    |
+| `paths_ignore`   | list | Never auto-create when every file the PR changes matches.           |
+
+A PR has to pass every filter that's set. When it doesn't, Verify posts a skipped `aviator/verify` check that names the filter it matched.
+
+**Authors** are GitHub logins or teams written as `@org/team`. Logins match case-insensitively, and `*` matches any characters, so `*[bot]` matches every GitHub App bot. A team matches its members, including members of nested teams. Saving fails if a team doesn't exist.
+
+**Paths** are gitignore-style globs. A `!` prefix excludes a path, and later patterns win over earlier ones. Use either `paths` or `paths_ignore`, not both.
+
+This example auto-creates reviews for PRs that change something under `src/` other than Markdown, unless someone on `@acme/release-eng` opened them:
+
+```yaml
+verify:
+  filters:
+    authors_ignore:
+      - "@acme/release-eng"
+    paths:
+      - "src/**"
+      - "!src/**/*.md"
+```
 
 ### Per-repo: preview block
 
