@@ -180,7 +180,7 @@ The manifest is YAML or JSON: scenarios with a summary and ordered steps, each s
 
 | Flag       | Description                                                                                          |
 | ---------- | ---------------------------------------------------------------------------------------------------- |
-| `--commit` | The commit the evidence was captured against. Defaults to the manifest's `commit`, then to `HEAD` of the current directory. |
+| `--commit` | The full 40-character SHA the evidence was captured against. Overrides the manifest's `commit`; one of the two is required. |
 | `--json`   | Print a single JSON object with the scenario, scenario run and evidence ids.                          |
 
 The manifest format and the evidence types are in [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md).

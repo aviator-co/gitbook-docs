@@ -51,7 +51,7 @@ The manifest lists the scenarios you ran. A scenario has a one-line summary and 
 
 ```yaml
 # evidence.yaml
-commit: 4f2c9e1           # optional; a short SHA is resolved to the full one, default is HEAD of the directory you run from
+commit: 4f2c9e1a7b3d5c6e8f9a0b1c2d3e4f5a6b7c8d9e   # required, the full SHA you ran
 scenarios:
   - summary: Retry a rejected delivery from the delivery log
     criteria:              # optional, see below
@@ -73,7 +73,7 @@ scenarios:
             label: POST /deliveries/812/retry returned 200
 ```
 
-Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 20 steps per scenario and 10 files per step. JSON works the same way as YAML.
+Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step. JSON works the same way as YAML.
 
 **Pinning criteria.** `criteria` names the acceptance criteria a scenario covers, by the `stable_key` that `aviator show r/123` prints, or by `baseline_invariant_id` for an invariant. Pinning is optional. When a run starts, Verify maps every criterion you did not pin onto the submitted scenarios whose evidence can show it, and routes the rest to code scan. Pin a criterion when you want to be sure which scenario answers it.
 
@@ -87,7 +87,7 @@ The CLI validates the manifest, creates the scenarios, uploads each file to stor
 
 Submitting replaces whatever was submitted for the review before. To change a scenario or add evidence, edit the manifest and submit it again.
 
-The evidence is bound to a commit: the `commit` in the manifest, `--commit` on the command line, or the HEAD of the directory you run from. A run judges from submitted evidence only when the pull request's head is that commit. After you push a new commit, run the change again and submit again.
+The evidence is bound to the commit you ran: the full 40-character SHA in the manifest's `commit`, or `--commit` on the command line, which takes precedence. One of them is required. A run judges from submitted evidence only when the pull request's head is that commit. After you push a new commit, run the change again and submit again.
 
 ### Step 5: Start a run
 
