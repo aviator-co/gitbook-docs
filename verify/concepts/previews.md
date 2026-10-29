@@ -12,6 +12,8 @@ Previews are optional. Verify works on day one with code-scan alone — without 
 
 A preview unlocks **runtime verification**: behavioral criteria like "the endpoint returns 429" or "the modal closes on submit" need the code to actually run, and that requires a preview. Most teams get going with code-scan and add a preview when their criterion list starts asking about behavior the diff alone can't answer.
 
+There is a third option for a change you can run but Aviator can't: run it yourself and submit what you saw. Verify then judges your evidence instead of collecting its own. See [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md).
+
 ### Lifecycle
 
 <figure><img src="../../.gitbook/assets/verify-preview-lifecycle.svg" alt="Preview lifecycle: define, build, boot, use, teardown"><figcaption><p>A preview moves through five phases</p></figcaption></figure>
