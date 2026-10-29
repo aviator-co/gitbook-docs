@@ -189,8 +189,8 @@ Manages your account's [invariants](../concepts/invariants.md). `list`, `categor
 | `set-status <status> <id>...` | Set invariants to `pending`, `active`, or `rejected`.                                           |
 | `delete <id>`                 | Delete an invariant permanently.                                                                |
 | `list --usage`                | Add applied, failed, failure rate, and waived counts to each row.                                |
-| `insights`                    | Rank active invariants by times applied, failure rate, and waives, and list the never-applied ones. |
-| `show <id>`                   | One invariant with its usage, by version and optionally by repository, and its latest waives.   |
+| `insights`                    | Rank active invariants by times applied, failure rate, and waivers, and list the never-applied ones. |
+| `show <id>`                   | One invariant with its usage, by version and optionally by repository, and its latest waivers.  |
 | `reviews <id>`                | The reviews an invariant applied to, with the outcome on each.                                   |
 | `waivers`                     | Waivers across the account, newest first.                                                        |
 
@@ -205,9 +205,8 @@ Manages your account's [invariants](../concepts/invariants.md). `list`, `categor
 | `--limit`  | Invariants per page. Defaults to 20, up to 100.                                                                              |
 | `--page`   | Page number, starting at 1. The JSON response's `has_more` says whether another page exists.                                 |
 | `--usage`  | Add usage counts to each row, and show only active invariants unless `--status` is passed.                                   |
-| `--sort`   | With `--usage`: `applied`, `failed`, `failure-rate`, or `waived`, highest first.                                             |
-| `--never-applied` | With `--usage`: only invariants no review has applied.                                                                |
-| `--since`  | With `--usage`: count only reviews since `<N>d` ago (for example `30d`) or a `YYYY-MM-DD` date. All time by default.         |
+| `--sort`   | With `--usage`: `applied`, `failed`, `failure_rate`, or `waived`, highest first.                                             |
+| `--never-applied` | With `--usage`: only enabled invariants no review has applied.                                                        |
 
 `create` and `edit` flags:
 
@@ -227,11 +226,11 @@ Manages your account's [invariants](../concepts/invariants.md). `list`, `categor
 
 | Flag            | Description                                                                                                                  |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `--since`       | Count only reviews since `<N>d` ago (for example `30d`) or a `YYYY-MM-DD` date. All time by default.                         |
+| `--since`       | `insights` only. Count only reviews since `<N>d` ago (for example `7d`), a `YYYY-MM-DD` date, or `all`. The last 30 days by default. |
 | `--repo`        | Only reviews in this `owner/repo`. `insights`, `reviews`, and `waivers`.                                                     |
 | `--status`      | `insights` only. Which invariants to rank. `active` by default.                                                              |
 | `--limit`       | Rows per table on `insights`, rows per page elsewhere. Defaults to 20, up to 100.                                            |
-| `--page`        | Page number, starting at 1. `show` (its waives), `reviews`, and `waivers`.                                                   |
+| `--page`        | Page number, starting at 1. `show` (its waivers), `reviews`, and `waivers`.                                                  |
 | `--by-repo`     | `show` only. Add a per-repository breakdown.                                                                                 |
 | `--outcome`     | `reviews` only. `passed`, `failed`, `warned`, `errored`, `waived`, `fixed` (failed on an earlier run, passes now), or `not_run`. |
 | `--invariant`   | `waivers` only. Only waivers of this invariant ID.                                                                           |
