@@ -29,10 +29,6 @@ mergeit: `sha256:6a146627fdc8a9350a6239c2254d1fd9b3d4ced1716c1d39a092c20df4b692a
 
 * Marking a Runbook PR ready for review no longer re-requests reviews from people who already reviewed it
 
-**FlexReview**
-
-* Excluded and out-of-office reviewers are no longer treated as ignored users
-
 **General**
 
 * Dark mode now covers every page
