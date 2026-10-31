@@ -9,6 +9,32 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-10-29" %}
+## 2026.10.29-2-rc1
+
+frontend: `sha256:616d573e49c9c90554a6f1ce4b1ad796dd8f080b9d532ffa07574fdf6fca7f59`
+
+mergeit: `sha256:6a146627fdc8a9350a6239c2254d1fd9b3d4ced1716c1d39a092c20df4b692a4`
+
+**MergeQueue**
+
+* `merge_mode.parallel_mode.use_optimistic_validation` now applies to stacks, which are decided by their top draft PR
+* New `merge_mode.parallel_mode.batch_by_identical_targets` option, when set to `false`, batches affected-target PRs in queue order instead of only grouping PRs with identical targets
+* `merge_mode.parallel_mode.draft_checks_started_timeout_mins` now measures a workflow run's wait for a runner from its last finished job
+* Creating a draft PR now retries GitHub's transient `Reference update failed` error instead of blocking the PR
+* With `merge_rules.require_skip_line_reason` set, the skip-line label is now removed with a comment pointing to `/aviator merge --skip-line=<reason>`
+* Co-authored-by trailers now use each commit's Git name and email, matching GitHub's squash and merge
+
+**Runbooks**
+
+* Marking a Runbook PR ready for review no longer re-requests reviews from people who already reviewed it
+
+**General**
+
+* Dark mode now covers every page
+* The Repos and Users settings pages now hide or report actions your role can't perform
+{% endupdate %}
+
 {% update date="2026-10-22" %}
 ## 2026.10.22-2-rc1
 
