@@ -81,6 +81,7 @@
     * [Seed data for previews](verify/how-to-guides/seed-data-for-previews.md)
     * [Registering an external preview](verify/how-to-guides/registering-an-external-preview.md)
     * [Provisioning a preview on request](verify/how-to-guides/provisioning-a-preview-on-request.md)
+    * [Submitting evidence from your own run](verify/how-to-guides/submitting-evidence-from-your-own-run.md)
     * [Running with remote agents](verify/how-to-guides/running-with-remote-agents.md)
     * [Configuring branch protection](verify/how-to-guides/configuring-branch-protection.md)
     * [Understanding verification results](verify/how-to-guides/understanding-verification-results.md)
