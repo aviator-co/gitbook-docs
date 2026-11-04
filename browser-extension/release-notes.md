@@ -8,6 +8,21 @@ description: >-
 
 {% updates format="full" %}
 
+{% update date="2026-11-02" %}
+## 2026.11.02-2-rc1
+
+**MergeQueue**
+
+* Queued pull requests show their Aviator status on GitHub's merge button again instead of a red X
+* The state label in the pull request header now shows Queueing before Queued
+
+**Verify**
+
+* The Verify tab shows each criterion's screenshots, which open in a viewer you can step through with the arrow keys
+* Any failing acceptance criterion can now be waived with a reason from the Verify tab, not only invariants
+* Waived criteria show who waived them and at which commit
+{% endupdate %}
+
 {% update date="2026-10-19" %}
 ## 2026.10.19-1-rc1
 
