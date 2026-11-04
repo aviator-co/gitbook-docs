@@ -173,10 +173,10 @@ On a review created with `--evidence-source external`, `aviator scenarios` shows
 Submits the scenarios you ran yourself and the evidence each step produced, for a review created with `--evidence-source external`.
 
 ```bash
-aviator evidence submit r/123 evidence.yaml
+aviator evidence submit r/123 evidence.json
 ```
 
-The manifest is YAML or JSON: scenarios with a summary and ordered steps, each step listing evidence files with a `type`, a `file` path relative to the manifest, and a `label` saying what the file shows. A scenario may pin the criteria it covers. The CLI uploads every file and confirms the uploads; submitting replaces the review's previous submission and starts no run.
+The manifest is a JSON file: scenarios with a summary and ordered steps, each step listing evidence files with a `type`, a `file` path relative to the manifest, and a `label` saying what the file shows. A scenario may pin the criteria it covers. The CLI uploads every file the review doesn't already have and confirms the uploads. Submitting replaces the review's previous submission and starts no run; start one with `aviator verify r/123`.
 
 | Flag       | Description                                                                                          |
 | ---------- | ---------------------------------------------------------------------------------------------------- |
