@@ -60,7 +60,7 @@ If nobody behind the invariant is on a team, it gets no team of its own, so you 
 
 #### Changing the owner
 
-The **Owner** field on the invariant's edit page is a team picker. Anyone who can edit the invariant can hand it to another team, or pick **Use the default owner team** to drop its own team and fall back to the default. If no default owner team is set, that option reads **Remove owner team** and leaves the invariant unowned. Once you pick a team, only its members, maintainers, and admins can edit the invariant. The CLI doesn't currently show or change owners.
+The **Owner** field on the invariant's edit page is a team picker. Anyone who can edit the invariant can hand it to another team, or pick **Use the default owner team** to drop its own team and fall back to the default. If no default owner team is set, that option reads **Remove owner team** and leaves the invariant unowned. Once you pick a team, only its members, maintainers, and admins can edit the invariant.
 
 #### Default owner team
 

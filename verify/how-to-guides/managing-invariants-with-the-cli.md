@@ -56,6 +56,35 @@ Things to know:
 * `list` doesn't show bodies. Add `--json` to any command for the full response.
 * `list` returns 20 invariants per page by default, up to 100 with `--limit`. Page with `--page` until `has_more` is false.
 
+### Seeing how invariants perform
+
+These commands show which invariants apply, which fail, which get waived, and on which reviews. They work with any API token.
+
+| Command                           | What it shows                                                                                                 |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `aviator invariants insights`     | Active invariants ranked by times applied, failure rate, and waivers, plus the ones never applied.            |
+| `aviator invariants list --usage` | Applied, failed, failure rate, and waived counts on each row. Sort with `--sort`, or pass `--never-applied`.  |
+| `aviator invariants show <id>`    | One invariant's usage, by version and with `--by-repo` by repository, and its latest waivers.                 |
+| `aviator invariants reviews <id>` | The reviews an invariant applied to and its outcome on each. Filter with `--outcome` and `--repo`.            |
+| `aviator invariants waivers`      | Waivers across the account, newest first. Filter with `--invariant`, `--user`, `--category`, and `--repo`.    |
+
+```bash
+aviator invariants insights --since 7d
+aviator invariants show 42 --by-repo
+aviator invariants reviews 42 --outcome fail
+aviator invariants waivers --invariant 42
+```
+
+Things to know:
+
+* Counts are per review (`r/N`), not per verification run or pull request.
+* A review counts as failed if any of its runs failed the invariant. `reviews` shows where each review ended up, so a `warn` or `waived` review may or may not have failed on an earlier run.
+* In `show`, the `Waived` count on the usage line includes only waivers on reviews that failed. `Waived as` and the waiver list include every waiver, so they can show more.
+* `insights` covers the last 30 days. Change that with `--since 7d`, `--since 2026-09-01`, or `--since all`. The other commands count all time.
+* `list --usage` and `insights` cover active invariants unless you pass `--status`.
+* A [waiver](../concepts/invariants.md#waivers) is made with [`aviator dismiss`](../reference/cli.md#aviator-dismiss) or from the review in Aviator.
+* `--json` on any of these gives the full response.
+
 ### See also
 
 * [Invariant conditions](../reference/invariant-conditions.md): exact glob and language matching rules
