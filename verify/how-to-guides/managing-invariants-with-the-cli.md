@@ -76,6 +76,7 @@ aviator invariants show 42
 #42 HTTP handlers authenticate before business logic
   Category: security
   Status: active (enabled: true)
+  Mode: enforced
   Owner: @acme/platform
   Version: 3
 
@@ -92,12 +93,14 @@ By version
 Waivers (18)
   WHEN        REVIEW  PR             REASON          BY       JUSTIFICATION
   2026-10-21  r/1288  acme/web#4821  false positive  Dana K.  Endpoint is internal-only, behind the VPN gate.
-  See more waivers --page 2
+  See all: aviator invariants waivers --invariant 42
 ```
 
 Things to know:
 
 * Counts are per review (`r/N`), not per verification run or pull request.
+* A review counts as failed if any of its runs failed the invariant. `reviews` shows where each review ended up, so a `warn` or `waived` review may or may not have failed on an earlier run.
+* `Waived 18 of 31 failures` counts only waivers on reviews that failed. `Waived as` and the waiver list include every waiver, so they can show more.
 * `insights` covers the last 30 days. Change that with `--since 7d`, `--since 2026-09-01`, or `--since all`. The other commands count all time.
 * `list --usage` and `insights` cover active invariants unless you pass `--status`.
 * A [waiver](../concepts/invariants.md#waivers) is made with [`aviator dismiss`](../reference/cli.md#aviator-dismiss) or from the review in Aviator.
