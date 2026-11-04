@@ -47,59 +47,77 @@ A file is at most 10 MB. Give every file a label saying what it shows: the label
 
 ### Step 3: Write the manifest
 
-The manifest lists the scenarios you ran. A scenario has a one-line summary and ordered steps; a step may attach evidence files. Paths are relative to the manifest file.
+The manifest is a JSON file listing the scenarios you ran. A scenario has a one-line summary and ordered steps; a step may attach evidence files. Paths are relative to the manifest file.
 
-```yaml
-# evidence.yaml
-commit: 4f2c9e1a7b3d5c6e8f9a0b1c2d3e4f5a6b7c8d9e   # required, the full SHA you ran
-scenarios:
-  - summary: Retry a rejected delivery from the delivery log
-    criteria:              # optional, see below
-      - stable_key: ac-7f3a
-    steps:
-      - text: Open the delivery log filtered to rejected deliveries
-      - text: Click Retry on the rejected push delivery
-        evidence:
-          - type: screenshot
-            file: shots/rejected-before-retry.png
-            label: Delivery log filtered to rejected deliveries before the retry
-      - text: Confirm the retried delivery appears as routed
-        evidence:
-          - type: screenshot
-            file: shots/retried-routed.png
-            label: The retried push delivery routed with 200
-          - type: api_response
-            file: api/retry-response.json
-            label: POST /deliveries/812/retry returned 200
+```json
+{
+  "commit": "4f2c9e1a7b3d5c6e8f9a0b1c2d3e4f5a6b7c8d9e",
+  "scenarios": [
+    {
+      "summary": "Retry a rejected delivery from the delivery log",
+      "criteria": [{ "stable_key": "ac-7f3a" }],
+      "steps": [
+        { "text": "Open the delivery log filtered to rejected deliveries" },
+        {
+          "text": "Click Retry on the rejected push delivery",
+          "evidence": [
+            {
+              "type": "screenshot",
+              "file": "shots/rejected-before-retry.png",
+              "label": "Delivery log filtered to rejected deliveries before the retry"
+            }
+          ]
+        },
+        {
+          "text": "Confirm the retried delivery appears as routed",
+          "evidence": [
+            {
+              "type": "screenshot",
+              "file": "shots/retried-routed.png",
+              "label": "The retried push delivery routed with 200"
+            },
+            {
+              "type": "api_response",
+              "file": "api/retry-response.json",
+              "label": "POST /deliveries/812/retry returned 200"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 ```
 
-Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step. JSON works the same way as YAML.
+`commit` is required: the full SHA you ran. `criteria` is optional, see below.
+
+Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step.
 
 **Pinning criteria.** `criteria` names the acceptance criteria a scenario covers, by the `stable_key` that `aviator show r/123` prints, or by `baseline_invariant_id` for an invariant. Pinning is optional. When a run starts, Verify maps every criterion you did not pin onto the submitted scenarios whose evidence can show it, and routes the rest to code scan. Pin a criterion when you want to be sure which scenario answers it.
 
 ### Step 4: Submit
 
 ```bash
-aviator evidence submit r/123 evidence.yaml
+aviator evidence submit r/123 evidence.json
 ```
 
 The CLI validates the manifest, creates the scenarios, uploads each file to storage and confirms the uploads. It prints the scenarios it created and how many files landed; with `--json` it prints a single object with the scenario, scenario run and evidence ids.
 
-Submitting replaces whatever was submitted for the review before. To change a scenario or add evidence, edit the manifest and submit it again.
+Submitting replaces whatever was submitted for the review before. To change a scenario or add evidence, edit the manifest and submit it again. Files the review already has from an earlier submission aren't uploaded again, so after re-running one scenario, resubmitting sends only the files that changed.
 
 The evidence is bound to the commit you ran: the full 40-character SHA in the manifest's `commit`, or `--commit` on the command line, which takes precedence. One of them is required. A run judges from submitted evidence only when the pull request's head is that commit. After you push a new commit, run the change again and submit again.
 
 ### Step 5: Start a run
 
-Submitting starts nothing. Start a run when you're ready:
+Submitting doesn't start a run, so you can submit, check the review page and resubmit as often as you need. Start one when the submission is complete:
 
 ```bash
 aviator verify r/123
 ```
 
-The usual triggers also start one: marking the PR ready for review, approving it, or queueing it. Every run on an externally verified review goes straight to judging; there is no collector phase and no preview to wait for.
+The usual triggers (marking the PR ready for review, approving it, queueing it) wait for evidence on these reviews: they start a run only when a complete submission exists for the PR's head commit, so a review isn't judged from code alone while you're still capturing. Every run on an externally verified review goes straight to judging; there is no collector phase and no preview to wait for.
 
-If no complete submission exists for the PR's head commit, the run still completes, judging every criterion from code, and says so on the review page.
+A run you start yourself always runs. If no complete submission exists for the PR's head commit, it judges every criterion from code and says so on the review page.
 
 ### Reading the result
 
