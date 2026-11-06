@@ -68,10 +68,11 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | `aviator evidence` | Download one piece of evidence, such as a screenshot or a scenario's trace.                                                                                    |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
 | `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
+| `aviator decisions` | Read and record a review's [decisions](../concepts/decisions.md). See [`aviator decisions`](#aviator-decisions).                                            |
 | `aviator invariants` | Manage your account's [invariants](../concepts/invariants.md).                                                                                               |
 | `aviator version` | Print the CLI version.                                                                                                                                          |
 
-`verify`, `runbook`, `sessions`, `show`, `results`, `edit`, `dismiss`, `scenarios`, and `invariants` take `--json` to print a single JSON object instead of the human summary. Reviews are identified by `id` (for example `r/123`) and `url`.
+`verify`, `runbook`, `sessions`, `show`, `results`, `edit`, `dismiss`, `scenarios`, `decisions`, and `invariants` take `--json` to print a single JSON object instead of the human summary. Reviews are identified by `id` (for example `r/123`) and `url`.
 
 ### `aviator sessions`
 
@@ -163,6 +164,66 @@ aviator evidence 4567 -o trace.json
 
 With `--json`, `aviator scenarios` also lists each scenario's steps. Each piece of evidence carries the `step_id` it was captured on. See [Understanding verification results](../how-to-guides/understanding-verification-results.md#reading-a-scenario-trace) for the trace format.
 
+### `aviator decisions`
+
+Reads and records a review's [decisions](../concepts/decisions.md). Requires v0.0.29 or later. The command is experimental and may change, so `aviator --help` doesn't list it yet. `aviator decisions --help` works, and `aviator decisions apply --help` prints the current batch format.
+
+| Subcommand | What it does |
+| ---------------------------------------------- | ------------------------------------------------------------------- |
+| `list <review>` | List a review's decisions, each with its comment count. |
+| `show <review> <decision-id>` | Show one decision with its comment thread. |
+| `apply <review> --file <path>` | Create, change, settle, reopen, and comment from a JSON batch. `--file -` reads stdin. |
+
+```bash
+aviator decisions list r/123 --status open --json
+aviator decisions show r/123 7 --json
+aviator decisions apply r/123 --file batch.json --json
+```
+
+`list` flags:
+
+| Flag       | Description                                |
+| ---------- | ------------------------------------------ |
+| `--status` | `open` or `settled`. Defaults to both.     |
+| `--limit`  | Decisions per page. Defaults to 20, up to 100. |
+| `--page`   | Page number, starting at 1.                |
+
+#### Batch format
+
+A batch is `{"decisions": [...]}` with at least one item, and it's all or nothing.
+
+| Key | Applies to | Description |
+| ------------ | ---------------- | --------------------------------------------------------------------------------- |
+| `id` | Existing decision | The decision to change. Leave it out to create a decision. |
+| `author` | Create or change | `{"role": ..., "model": ..., "harness": ..., "skills": [...]}`. `role` is required: `person`, `coding_agent`, or `review_agent`. |
+| `type` | Create or change | `question`, `possible_bug`, `risk`, or `choice`. Required to create. |
+| `title` | Create or change | Required to create. |
+| `summary` | Create or change | Null clears it. |
+| `anchor` | Create or change | `{"commit_sha", "file_path", "start_line", "end_line"}`, replaced as a whole. Null clears it. |
+| `outcome` | Create or change | `decided`, `fixed`, `intended`, `accepted_risk`, `follow_up`, or `withdrawn`. Settles the decision and needs a `resolution`. Null reopens it and needs a new comment. |
+| `resolution` | Create or change | Why it was settled this way. |
+| `comments` | Any item | New comments, or edits to existing ones. Applied after the decision's change. |
+
+An item with an `id` changes only the keys it has.
+
+Each entry in `comments` is one of:
+
+* **A new comment:** `{"author": {...}, "body": "...", "model_metadata": {...}}`. Without an `author` it takes the item's. `model_metadata` is optional.
+* **An edit:** `{"id": 23, "body": "..."}`, with no other keys.
+
+The rules the server enforces:
+
+* Anyone can settle, reopen, and comment.
+* Only the user who raised a decision can change its type, title, summary, or anchor.
+* A settled decision has to be reopened before it can change.
+* Only the user who wrote a comment can edit it.
+
+`apply` needs a user access token, from `aviator login` or a personal token. An account-scoped API token can run `list` and `show`, but `apply` is refused.
+
+The response has each item's decision in request order, with its comments. In `list` and `show` output, `raised_by` is the account that raised the decision, and `author` is the role and agent details of whoever wrote its current version. For a settled decision, that's who settled it. `author` here means who wrote the entry, not the PR's author.
+
+See [Work with decisions](../how-to-guides/working-with-decisions.md#batch-recipes) for examples and errors.
+
 ### `aviator runbook`
 
 Creates a runbook from an intent and hands the implementation to Aviator's agent. Acceptance criteria are optional here.
@@ -246,8 +307,11 @@ You rarely type `aviator verify` by hand. The `/verify-submit` skill, from the [
 
 Run `aviator init` once per repo to have your agent remind you before a PR is opened. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).
 
+The `/aviator-decide` skill, from the same plugin, records the decisions from your session with `aviator decisions apply`. See [Record decisions with aviator-decide](../how-to-guides/recording-decisions.md).
+
 ### See also
 
 * [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md) — the pre-PR reminder
 * [Your first verification](../your-first-spec.md) — hands-on tutorial
+* [Work with decisions](../how-to-guides/working-with-decisions.md) — read, answer, and record decisions
 * [Writing effective acceptance criteria](../how-to-guides/writing-effective-acceptance-criteria.md)

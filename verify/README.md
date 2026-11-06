@@ -4,9 +4,9 @@ icon: shield-check
 
 # Verify
 
-Aviator Verify replaces line-by-line code review with verification of *what the change is supposed to do*. You work with your agent locally. Aviator captures your intent through a single CLI call, runs every acceptance criterion against the running code, and produces a review document with verdicts and evidence.
+Aviator Verify replaces line-by-line code review with verification of *what the change is supposed to do*. You work with your agent locally. Aviator captures your intent through a single CLI call, runs every acceptance criterion against the running code, and produces a review document with verdicts, evidence, and the decisions behind the change.
 
-The reviewer judges behavior — not the diff.
+The reviewer judges behavior and the calls that shaped it, starting from those rather than the diff.
 
 You can start using Verify with code-scan alone — no preview, no infrastructure setup. A preview is what unlocks **runtime verification**: scenarios driven against your running code. Most teams get value from day one with code-scan, then add a preview when behavioral criteria start mattering.
 
@@ -14,10 +14,19 @@ You can start using Verify with code-scan alone — no preview, no infrastructur
 
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot — anything you use today. No new tooling, no behavior change.
 2. **Submit intent with the Aviator CLI.** When you're done, the agent runs `/verify-submit`, which captures the intent and the acceptance criteria from what was built and submits them. Set up [agent hooks](how-to-guides/set-up-agent-hooks.md) and it gets prompted before every PR.
-3. **Aviator verifies end to end.** Scenarios run in your preview, invariants apply automatically, code-scan handles structural checks.
-4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence. They approve, waive with reason, or ask for another scenario on the spot.
+3. **Record the decisions.** The agent runs `/aviator-decide`, which records the calls behind the change on the review: what was picked, what risks were accepted, and whether a person or an agent made each call.
+4. **Aviator verifies end to end.** Scenarios run in your preview, invariants apply automatically, code-scan handles structural checks.
+5. **Review the behavior and the decisions.** The reviewer sees the intent, the verdict per criterion, the evidence, and the decisions. They approve, waive with reason, ask for another scenario, or reopen a decision.
 
 → [How it works](how-it-works.md) — the full narrative, with diagrams.
+
+### Decisions — the calls behind the change
+
+Verification can show that a change does what was agreed. It can't say whether what was agreed was the right call. Decisions record those calls: per account or per repo, ship the risk or fix it, do this now or later.
+
+Each decision has a type, an outcome, a reason, and a comment thread. Humans and agents are credited separately on every entry, so a reviewer can see which positions a person took and which ones an agent took on its own.
+
+→ [Concepts: Decisions](concepts/decisions.md) · [Work with decisions](how-to-guides/working-with-decisions.md)
 
 ### Invariants — the standing rules
 
@@ -36,26 +45,23 @@ All AI-drafted invariants land in draft status and need [approval](concepts/inva
 
 → [Concepts: Invariants](concepts/invariants.md)
 
-### Why this approach
+### How review changes
 
-Code review was designed when humans wrote code slowly. AI changes that. Code generates in minutes; reviewing it line by line still takes the same hour as before. The shift:
+A diff shows what changed. It doesn't show what the change was for, whether it works, or why it was built this way. Verify answers those separately:
 
-* **Traditional review asks:** *Does this code look okay?*
-* **Verify asks:** *Does this code do what we agreed it should do?*
+* **What is it for?** The intent.
+* **Does it do that?** Acceptance criteria, verdicts, and evidence.
+* **Does it break our standing rules?** Invariants.
+* **Why this way, and who made the call?** Decisions.
 
-Three things follow:
-
-* **Faster reviews.** A reviewer judges intent and evidence, not 800 lines of diff.
-* **Systematic checking.** Every criterion is verified, every time — no sampling, no fatigue.
-* **Complete audit trail.** Every change links intent → verifier verdict → evidence → reviewer decision.
-
-→ [Why intent-driven verification](concepts/why-intent-driven-verification.md)
+→ [How Verify reviews a change](concepts/review-model.md)
 
 ### Core concepts
 
 | Concept                                                                | What it is                                                                              |
 | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | [Intent and acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md) | What the agent submits — what the change is for, and the verifiable assertions it must satisfy. |
+| [Decisions](concepts/decisions.md)                                     | The calls behind a change, with the reason and who made each one, person or agent.     |
 | [Invariants](concepts/invariants.md)                                   | Team-defined rules applied to every matching change. Security baseline, data access, conventions. |
 | [Previews](concepts/previews.md)                                       | Ephemeral environments scenarios run against. Per-run, torn down after.                 |
 | [Verification layers](concepts/verification-layers.md)                 | How criteria, invariants, and domain contracts stack.                                   |
@@ -74,5 +80,6 @@ Three things follow:
 * **Writing for the agent:** [SKILL.md guide](how-to-guides/writing-a-skill-md.md) · [Effective acceptance criteria](how-to-guides/writing-effective-acceptance-criteria.md)
 * **Configuration:** [Preview YAML](reference/preview-yaml.md)
 * **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
-* **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md)
+* **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md) · [Work with decisions](how-to-guides/working-with-decisions.md)
+* **Recording decisions:** [Record decisions with aviator-decide](how-to-guides/recording-decisions.md)
 * **Reading results and fixing failures:** [Understanding verification results](how-to-guides/understanding-verification-results.md)

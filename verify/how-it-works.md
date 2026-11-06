@@ -9,7 +9,7 @@ The full loop:
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot, or anything else you use today. No new tooling, no behavior change.
 2. **Submit intent with the Aviator CLI.** When you're done, the agent runs `/verify-submit`, which reads the change and submits it through the [Aviator CLI](reference/cli.md). It captures the intent you and the agent agreed on and the acceptance criteria from what was built.
 3. **Aviator verifies end to end.** Every criterion runs through the verification pipeline. Code-scan handles structural checks against the diff — this works out of the box. Runtime checks run against a preview environment if you've configured one (optional; see [Concepts: Previews](concepts/previews.md)). Matching invariants apply automatically.
-4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence behind each verdict. They can approve, waive with reason, or ask for another scenario on the spot.
+4. **Review the behavior and the decisions.** The reviewer sees the intent, the verdict per criterion, the evidence behind each verdict, and the [decisions](concepts/decisions.md) behind the change. They can approve, waive with reason, ask for another scenario on the spot, or reopen a decision.
 
 ### What gets submitted
 
@@ -73,19 +73,30 @@ Most teams start without a preview and add one when behavioral criteria start ma
 
 ### The review document
 
-The review document is the surface reviewers actually use. Three regions:
+The review document is the surface reviewers actually use. It has four parts:
 
 1. **Intent** — what you and the agent agreed to build.
 2. **Evidence** — every criterion with its verdict and the proof.
-3. **Decisions** — request another scenario, open the preview, approve, or waive with reason.
+3. **Decisions** — the calls behind the change, each with its outcome, its reason, and whether a person or an agent made it.
+4. **Actions** — request another scenario, open the preview, approve, or waive with reason.
 
-The reviewer is judging behavior and intent — not the diff. The diff is still there if you want it, but it's not the primary surface.
+The reviewer is judging behavior, intent, and the calls behind the change. The diff is still there if you want it, but it's not the primary surface.
 
-The same verdicts and decisions are available on the pull request itself. With the [Aviator Chrome extension](../mergequeue/aviator-chrome-extension.md), a **Verify** tab on the PR mirrors the review document and carries the rerun, waive and remove actions. See [Review verification on the pull request](how-to-guides/verify-on-github.md).
+The same verdicts are available on the pull request itself. With the [Aviator Chrome extension](../mergequeue/aviator-chrome-extension.md), a **Verify** tab on the PR mirrors the verdicts and carries the rerun, waive and remove actions. Decisions are on the review document only. See [Review verification on the pull request](how-to-guides/verify-on-github.md).
+
+### Decisions in the loop
+
+Verification can show that a change does what was agreed. It can't say whether what was agreed was the right call, so those calls get recorded as [decisions](concepts/decisions.md).
+
+After the PR is open, the agent runs [`/aviator-decide`](how-to-guides/recording-decisions.md), which records the choices, risks, and questions from the session on the review. Each entry is credited to whoever made that call, a person or an agent. Reviewers read them, comment, and reopen the ones they disagree with, and the author or their agent answers.
+
+Decisions don't affect the Verify check.
+
+→ [How Verify reviews a change](concepts/review-model.md)
 
 ### Audit and compliance
 
-Every step is recorded as an immutable event: intent submitted, who submitted it, criteria generated, verifier and verdict per criterion, evidence captured, reviewer decisions, exceptions and waivers. Compliance teams export this log as a single audit trail per change.
+Every step is recorded as an immutable event: intent submitted, who submitted it, criteria generated, verifier and verdict per criterion, evidence captured, reviewer actions, exceptions and waivers. Decisions are kept alongside these, with a version for every change. Compliance teams export this log as a single audit trail per change.
 
 → [Audit trails and compliance](concepts/audit-trails-and-compliance.md)
 
@@ -95,6 +106,8 @@ If you'd rather not run the agent locally, Aviator Runbooks runs the implementin
 
 ### See also
 
+- [Concepts: How Verify reviews a change](concepts/review-model.md)
+- [Concepts: Decisions](concepts/decisions.md)
 - [Reference: Aviator CLI](reference/cli.md)
 - [How to: Set up agent hooks](how-to-guides/set-up-agent-hooks.md)
 - [Setting up org invariants](setting-up-org-invariants.md)

@@ -13,15 +13,17 @@ For every review:
 | Verification run      | Trigger source (manual / ready / approval / queued / linked; criteria-edit appears only on older runs), commit SHA, run status, counts (passed / failed / skipped / waived) |
 | Verification result   | One per criterion: verifier path, verdict, evidence reference, reason, location                        |
 | Reviewer waiver       | Reviewer, timestamp, criterion, category (false-positive / doesn't-apply / accepted-risk / fix-in-followup), free-text reason |
+| [Decision](decisions.md) version | One per change to a decision: its type, title, summary, anchor, outcome, and resolution at that point, with the account and declared role that wrote it |
+| Decision comment      | Account, declared role, for an agent its declared model, harness, and skills, timestamp, body         |
 
-Records are immutable. Once written, they can't be modified or deleted by users.
+Records are immutable. Once written, they can't be modified or deleted by users. The one exception is a decision comment, which its writer can edit. See [Immutability](#immutability).
 
 ### The audit chain
 
 Every merged change has a complete chain:
 
 ```
-Implementation → Review submission → Verification run(s) → Reviewer decisions → Merged
+Implementation → Review submission → Verification run(s) → Reviewer actions → Merged
        ↓                ↓                    ↓                       ↓               ↓
    Commit SHA      Submission           One result per           Waivers +       Merge
                     record              criterion + evidence     approval        reference
@@ -33,6 +35,7 @@ This chain answers the questions an auditor asks:
 * **Did the running code actually do it?** → Each verification result, with evidence per criterion.
 * **Who decided this could merge?** → The reviewer's recorded actions on the review.
 * **What was overridden, and why?** → Waivers, each with a category and reason.
+* **What calls were made along the way, and who made them?** → [Decisions](decisions.md), with the account and the declared role of each entry.
 
 ### Segregation of duties
 
@@ -56,7 +59,7 @@ Every production change links back to:
 
 * The review submission (the *what was supposed to happen*).
 * The verification results (the *what actually happened*).
-* The reviewer's recorded decisions (the *who said yes*, including waivers).
+* The reviewer's recorded actions (the *who said yes*, including waivers).
 * The commit SHA (the *what shipped*).
 
 If an auditor asks "why was this change made and how do you know it was safe," you can show all four in one query.
@@ -67,7 +70,7 @@ If an auditor asks "why was this change made and how do you know it was safe," y
 
 | Trust Service Criteria          | How Verify helps                                                       |
 | ------------------------------- | ---------------------------------------------------------------------- |
-| CC6.1 — Logical access controls | Reviewer decisions track who authorized each change.                   |
+| CC6.1 — Logical access controls | Reviewer actions track who authorized each change.                     |
 | CC6.6 — Authorized changes      | Every merged change has a reviewer record.                             |
 | CC6.7 — Changes are tested      | Verification produces a result for every criterion (user and invariant). |
 | CC8.1 — Change management       | Complete chain: submission → verification → review → merge, immutable. |
@@ -85,7 +88,7 @@ If an auditor asks "why was this change made and how do you know it was safe," y
 | Requirement        | How Verify helps                                                            |
 | ------------------ | --------------------------------------------------------------------------- |
 | Access controls    | Only authorized reviewers can approve; access is logged.                    |
-| Audit controls     | Immutable records of every submission, verdict, and reviewer decision.      |
+| Audit controls     | Immutable records of every submission, verdict, and reviewer action.        |
 | Integrity controls | Verification gives evidence that the code matches the declared intent.      |
 
 ### Retention
@@ -102,6 +105,11 @@ Audit records cannot be:
 
 The trail is what happened, not a summary someone wrote afterwards.
 
+Decisions have two limits to keep in mind:
+
+* **A decision comment can be edited by its writer.** The edit replaces the text, and the earlier text isn't kept. Changes to the decision itself add a new version, and earlier versions are kept.
+* **The role on a decision is declared by the client.** The account is authenticated, but `person`, `coding_agent`, and `review_agent` aren't, and an agent can record a user's call as `person`. Don't use a decision as evidence of sign-off. Use the reviewer's approval or waiver. See [Identity](decisions.md#identity).
+
 ### What Verify doesn't do
 
 Verify provides an audit trail for code changes. It doesn't:
@@ -116,4 +124,5 @@ Integrate Verify alongside your other compliance tools for full coverage.
 ### See also
 
 * [How verification works](how-verification-works.md)
-* [Why intent-driven verification](why-intent-driven-verification.md)
+* [How Verify reviews a change](review-model.md)
+* [Decisions](decisions.md)
