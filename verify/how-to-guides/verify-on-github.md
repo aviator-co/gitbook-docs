@@ -37,6 +37,15 @@ Failing invariant rows offer **Waive…**. Invariants are account-wide rules you
 
 <figure><img src="../../.gitbook/assets/verify-tab-waive-dialog.png" alt="The waive dialog showing the invariant text, a category dropdown set to False positive, and a required reason field" width="496"><figcaption><p>Waiving an invariant failure with a category and a reason</p></figcaption></figure>
 
+### Waive an acceptance criterion
+
+Failing acceptance-criteria rows also offer **Waive…**. Use it when the code meets the criterion but Verify can't confirm it. If the code doesn't meet it, remove the criterion instead.
+
+1. Give a reason (required).
+2. Confirm. The failure clears, the counter and header update, and the `aviator/verify` check is re-posted.
+
+The waiver lasts until the criterion's text changes, so it also covers later pushes and runs.
+
 ### Remove an acceptance criterion
 
 Failing acceptance-criteria rows offer **Remove…**, which drops a criterion you don't want verified. The last remaining criterion and account invariants can't be removed; when the backend refuses, the tab tells you why.

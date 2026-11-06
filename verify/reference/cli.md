@@ -63,7 +63,7 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | `aviator show`    | Show a review, its criteria, its latest verification, and its recent runs, e.g. `aviator show r/123`.                                                           |
 | `aviator results` | Show the failures from a review's latest verification, or from an earlier run with `--run`.                                                                     |
 | `aviator edit`    | Update a review's intent or replace its acceptance criteria. See [`aviator edit`](#aviator-edit).                                                               |
-| `aviator dismiss` | Delete acceptance criteria or waive failing invariants on a review. See [`aviator dismiss`](#aviator-dismiss).                                                   |
+| `aviator dismiss` | Delete or waive acceptance criteria, or waive failing invariants, on a review. See [`aviator dismiss`](#aviator-dismiss).                                        |
 | `aviator scenarios` | Show what a verification run exercised and the evidence it captured. Defaults to the latest run.                                                              |
 | `aviator evidence` | Download one piece of evidence, such as a screenshot or a scenario's trace.                                                                                    |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
@@ -115,6 +115,7 @@ aviator verify \
 | `--working-branch` | no       | The branch the work lives on, so a PR opened from it is verified against these criteria.                                                                            |
 | `--target-branch`  | no       | Base branch to verify against. Defaults to the repo default.                                                                                                        |
 | `--spec`           | no       | Path to a spec file carrying the key decisions and architecture.                                                                                                    |
+| `--scenario-guidance` | no | A note on how to verify the change, such as which seeded user to log in as. It's read until the review's first scenarios are written, and it can't be changed after. |
 
 The command prints the review URL and the number of criteria it recorded. The first verification run happens when the PR is marked ready for review, or when you start one with `aviator verify r/123`.
 
@@ -122,7 +123,7 @@ A review tracks exactly one PR. Running `aviator verify` again for a branch that
 
 For stacked PRs, submit once per PR, each with its own `--working-branch`, intent, and criteria, and pass the parent branch as `--target-branch`.
 
-To start a verification run on an existing review, pass its ID: `aviator verify r/123`. If an equivalent run already exists for the current commit and criteria, you get that run back instead of a new one. `--force` starts a fresh full run anyway. `--evaluator-only` re-judges the evidence an earlier run collected instead of collecting it again. It's refused once criteria have been added or reworded, since those need a full run. The command prints the run's ID, and `aviator results r/123 --run <id>` follows that run even after a newer one starts.
+To start a verification run on an existing review, pass its ID: `aviator verify r/123`. If an equivalent run already exists for the current commit and criteria, you get that run back instead of a new one. `--force` starts a fresh full run anyway. `--evaluator-only` re-judges the evidence an earlier run collected instead of collecting it again. It's refused once criteria have been added or reworded, since those need a full run. `--regenerate-scenarios "<feedback>"` rewrites the review's scenarios before the run, with the feedback saying what the new ones should do differently. The command prints the run's ID, and `aviator results r/123 --run <id>` follows that run even after a newer one starts.
 
 ### `aviator edit`
 
@@ -139,16 +140,17 @@ A criterion whose text is unchanged keeps its key and the way it's checked. A re
 
 ### `aviator dismiss`
 
-Clears acceptance criteria off a review so they no longer gate the PR. A task criterion is deleted. An invariant is waived for this PR, with a category and a justification. `aviator show` and `aviator results` print each criterion's handle as `[key ...]` or `[invariant ...]`.
+Clears acceptance criteria off a review so they no longer gate the PR. A task criterion is deleted, or waived with a justification. An invariant is waived for this PR, with a category and a justification. `aviator show` and `aviator results` print each criterion's handle as `[key ...]` or `[invariant ...]`.
 
 ```bash
 aviator dismiss r/123 --key 3f2a9c...
 aviator dismiss r/123 --criteria-json '[
+  {"stable_key": "3f2a9c...", "action": "waive", "justification": "Verify can't reach the payment sandbox from the preview"},
   {"baseline_invariant_id": 42, "category": "accepted_risk", "justification": "Known flake, tracked separately"}
 ]'
 ```
 
-`--criteria-json` (or `--criteria-json-file`) takes a JSON array. Each entry is either `{"stable_key": "..."}` to delete a criterion, or `{"baseline_invariant_id": 42, "category": "...", "justification": "..."}` to waive an invariant. The categories are `false_positive`, `doesnt_apply`, `accepted_risk`, and `fix_in_followup`; see [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-invariant-doesnt-fit-this-change) for when to use each. `--key` is shorthand for a `stable_key` entry and is repeatable.
+`--criteria-json` (or `--criteria-json-file`) takes a JSON array. Each entry is `{"stable_key": "..."}` to delete a criterion, `{"stable_key": "...", "action": "waive", "justification": "..."}` to waive one, or `{"baseline_invariant_id": 42, "category": "...", "justification": "..."}` to waive an invariant. A waived task criterion stays waived on later runs until its text is edited. The categories are `false_positive`, `doesnt_apply`, `accepted_risk`, and `fix_in_followup`; see [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-invariant-doesnt-fit-this-change) for when to use each. `--key` is shorthand for a `stable_key` entry and is repeatable.
 
 `dismiss` needs a user access token, from `aviator login` or a personal token. An account-scoped API token is refused.
 
