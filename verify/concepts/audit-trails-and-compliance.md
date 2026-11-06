@@ -12,7 +12,7 @@ For every review:
 | Review version        | Each iteration of the review (steps + acceptance criteria), with version number                       |
 | Verification run      | Trigger source (manual / ready / approval / queued / linked; criteria-edit appears only on older runs), commit SHA, run status, counts (passed / failed / skipped / waived) |
 | Verification result   | One per criterion: verifier path, verdict, evidence reference, reason, location                        |
-| Reviewer waiver       | Reviewer, timestamp, criterion, category (false-positive / doesn't-apply / accepted-risk / fix-in-followup), free-text reason |
+| Reviewer waiver       | Reviewer, timestamp, criterion, free-text reason, and for an invariant a category (false-positive / doesn't-apply / accepted-risk / fix-in-followup) |
 
 Records are immutable. Once written, they can't be modified or deleted by users.
 

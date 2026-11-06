@@ -47,7 +47,7 @@ In the review document, every criterion shows the same things: text, verdict, ve
 Reviewers can:
 
 * **Approve** when every criterion passes.
-* **Waive an invariant verdict** with a reason and a category (see [Invariants — Waivers](invariants.md#waivers)).
+* **Waive a verdict** with a reason, plus a category for an invariant (see [Invariants — Waivers](invariants.md#waivers)). An acceptance criterion can be waived when the code meets it but Verify can't confirm it.
 * **Edit user criteria** with [`aviator edit`](../reference/cli.md#aviator-edit) when the wrong criteria were generated.
 
 Invariant criteria can't be edited per review. They're auto-managed by the catalog; if a rule is wrong, fix the invariant itself.
