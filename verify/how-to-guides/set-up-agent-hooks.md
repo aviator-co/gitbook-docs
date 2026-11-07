@@ -2,7 +2,7 @@
 
 Intent is easiest to capture while the reasoning behind a change is still in the agent's context. Once the PR is open and the session has moved on, it has to be reconstructed from the diff — which is exactly the information Verify needs and the diff doesn't carry.
 
-`aviator init` sets up your coding agents to capture that intent as you open a pull request. It installs three hooks: a standing instruction at the start of every session, a reminder when the agent opens a PR, and a check-in after each commit or push.
+`aviator init` sets up your coding agents to capture that intent as you open a pull request. It installs three hooks: a standing instruction at the start of every session, a reminder when the agent opens a PR, and a check-in after each commit or push, which also points the agent at a PR's decisions when it pulls one up to review.
 
 ### Prerequisites
 
@@ -47,7 +47,7 @@ Everyone the setup covers needs the CLI installed, their own `AVIATOR_API_TOKEN`
 
 **`PreToolUse`** runs `aviator hooks pre-tool-use`. It watches for PR-opening calls — `gh pr create`, `av pr`, and the GitHub MCP server's `create_pull_request` tool — and injects a reminder when it sees one. Treat it as a backstop rather than a gate: Claude and Codex deliver this context alongside the tool result, so the agent usually reads it just after the PR command has run. Every other tool call passes through untouched.
 
-**`PostToolUse`** runs `aviator hooks post-tool-use`. After a shell command that commits or pushes, it reminds the agent to look up the branch's review with `aviator sessions` and keep its criteria in line with the code, or to run `/verify-submit` before opening a PR if there's no review yet.
+**`PostToolUse`** runs `aviator hooks post-tool-use`. After a shell command that commits or pushes, it reminds the agent to look up the branch's review with `aviator sessions` and keep its criteria in line with the code, or to run `/verify-submit` before opening a PR if there's no review yet. After a command that pulls up a PR to review (`gh pr checkout`, `gh pr diff`, `gh pr review`, `av adopt --remote`, `gt get`), it points the agent at that PR's [decisions](working-with-decisions.md).
 
 The hooks only inject text. None of them submits anything or blocks a tool call. `/verify-submit` is what reads the change, drafts the intent and acceptance criteria with you, and calls [`aviator verify`](../reference/cli.md#aviator-verify).
 
