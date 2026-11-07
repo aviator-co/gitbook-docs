@@ -72,6 +72,8 @@ The skill reads the change, drafts the submission with you, and calls `aviator v
 * **Acceptance criteria** — the verifiable assertions, generated from what was built.
 * **Working branch** — the branch the work lives on, so the PR you open from it is verified against these criteria.
 
+It also shows you draft [decisions](concepts/decisions.md) from your session, and records the ones you confirm on the review.
+
 The CLI prints a review URL like `https://app.aviator.co/r/218`.
 
 Open the URL in your browser. You'll see the review with the generated plan, the acceptance criteria, and (once verification starts) a streaming verdict per criterion.
@@ -118,7 +120,7 @@ From the review document you can:
 
 If you'd rather stay on GitHub, the [Verify tab on the pull request](how-to-guides/verify-on-github.md) carries the verdicts and the rerun, waive and remove actions.
 
-Approve to close the loop. The audit trail now has a complete record: review submission, verdicts per criterion with evidence, your decision.
+Approve to close the loop. The audit trail now has a complete record: review submission, verdicts per criterion with evidence, your approval.
 
 ### What you just learned
 
@@ -126,12 +128,13 @@ Approve to close the loop. The audit trail now has a complete record: review sub
 * The CLI is the only handoff between you and Aviator. One call carries everything.
 * Acceptance criteria come from what was built, not what you planned upfront.
 * The review document is the surface — verdicts and evidence per criterion, not a 500-line diff.
-* Reviewer decisions, scenario evidence, and verdicts are all recorded as one immutable audit trail per change.
+* Reviewer actions, scenario evidence, and verdicts are all recorded as one immutable audit trail per change.
 
 ### Next steps
 
 * [Creating a preview](how-to-guides/creating-a-preview.md) — unlock runtime verdicts. This is usually the next step once you have a feel for the loop.
 * [How Verify works](how-it-works.md) — the full picture
+* [Work with decisions](how-to-guides/working-with-decisions.md) — record the calls behind a change, and read and answer them in review
 * [Concepts: Invariants](concepts/invariants.md) — encode team rules so they apply automatically
 * [Writing a SKILL.md](how-to-guides/writing-a-skill-md.md) — give the scenario runner the context it needs
 * [Understanding verification results](how-to-guides/understanding-verification-results.md) — what to do when a verdict goes red
