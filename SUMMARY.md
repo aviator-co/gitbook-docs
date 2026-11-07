@@ -87,7 +87,7 @@
     * [Understanding verification results](verify/how-to-guides/understanding-verification-results.md)
     * [Review verification on the pull request](verify/how-to-guides/verify-on-github.md)
     * [Work with decisions](verify/how-to-guides/working-with-decisions.md)
-    * [Record decisions with aviator-decide](verify/how-to-guides/recording-decisions.md)
+    * [Record decisions with /aviator:decisions](verify/how-to-guides/recording-decisions.md)
 * [Releases](releases-beta/README.md)
   * [Getting Started with Releases](releases-beta/getting-started.md)
   * [Concepts for Releases](releases-beta/concepts/README.md)

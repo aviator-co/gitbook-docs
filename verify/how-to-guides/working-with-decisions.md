@@ -23,7 +23,7 @@ If you already have it, run `brew upgrade aviator-co/tap/aviator`. Check that it
 /plugin install aviator@aviator-plugins
 ```
 
-This adds `/aviator-decide`, which records the decisions from your agent session. See [Record decisions with aviator-decide](recording-decisions.md).
+This adds `/aviator:decisions`, which records the decisions from your agent session and reads them back in a review. See [Record decisions with /aviator:decisions](recording-decisions.md).
 
 To only read and comment on the review page, you just need to sign in to Aviator. See [Setting up your machine](../setting-up-your-machine.md) for the full setup.
 
@@ -34,7 +34,7 @@ On the review page, decisions are in the **Decisions** section, with **Open** ab
 From the CLI, find the review for a branch and list its decisions:
 
 ```bash
-aviator sessions --repo myorg/myrepo --branch add-rate-limiting
+aviator sessions --repo myorg/myrepo --branch add-rate-limiting  # or --pr 456
 aviator decisions list r/123 --status open
 aviator decisions show r/123 7
 ```
@@ -61,9 +61,11 @@ To respond:
 
 Your comments on the page are credited to you as a person. No one is notified, so tell the author when you've reopened something.
 
+Your agent can read them too. Ask "what's been decided on this PR?", and `/aviator:decisions` checks the settled decisions against the code, then tells you which are open and which it would dispute. It shows you anything it would record first, and its entries are credited as `review_agent`.
+
 ### If you're the author
 
-Your agent records decisions from your session with `/aviator-decide`. After that, your job is the ones still open.
+`/verify-submit` drafts decisions from your session and records them once you confirm. After more work, run `/aviator:decisions` to add what's new. Beyond that, your job is the ones still open.
 
 To answer one, tell your agent your call and why. The agent settles it with you as `person`. You can also apply a [batch](#batch-recipes) yourself.
 
@@ -200,7 +202,7 @@ Nothing was recorded. Fix what the error names and resend the whole batch.
 * Read `aviator decisions apply --help` before writing a batch. It's the current format, and this command is still changing.
 * Use `--json` on every command and read the fields, not the human summary. Fetch every page of `aviator decisions list`.
 * Check existing decisions first. If one covers the same question, change, settle, reopen, or comment on it instead of raising another.
-* Credit whoever made the call. A call the user made is `{"role": "person"}`, even if you raised it. A call you made that the user let stand is `coding_agent`, with your model, harness, and skills. Use `review_agent` when it came from a reviewer subagent.
+* Credit whoever made the call. A call the user made is `{"role": "person"}`, even if you raised it. A call you made that the user let stand is `coding_agent`, with your model, harness, and skills. Use `review_agent` when it came from a reviewer subagent, or when you're reviewing someone else's PR.
 * Never write the user's name, since the server records their account. Don't quote them word for word. State the point of what they said.
 * Build each comment from what was actually said or shown in the session. Don't invent turns, and don't include private reasoning.
 * When you comment on a settled decision, reopen it in the same item with `"outcome": null`, unless the user only asked you to add a note.
@@ -211,6 +213,6 @@ Nothing was recorded. Fix what the error names and resend the whole batch.
 ### See also
 
 * [Concepts: Decisions](../concepts/decisions.md)
-* [Record decisions with aviator-decide](recording-decisions.md)
+* [Record decisions with /aviator:decisions](recording-decisions.md)
 * [Aviator CLI: `aviator decisions`](../reference/cli.md#aviator-decisions)
 * [Understanding verification results](understanding-verification-results.md)

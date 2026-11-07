@@ -40,10 +40,10 @@ See [Author and reviewer](decisions.md#author-and-reviewer) for how these positi
 ### How a review goes
 
 1. **The author builds the change** with their agent.
-2. **The agent submits the intent and criteria** with `/verify-submit`, which creates the review.
-3. **The author opens the PR, and the agent records decisions** with [`/aviator-decide`](../how-to-guides/recording-decisions.md).
+2. **The agent submits the intent and criteria** with `/verify-submit`, which creates the review. It also [records the decisions](../how-to-guides/recording-decisions.md) the author confirms.
+3. **The author opens the PR.**
 4. **Verify runs** when the PR is marked ready for review, or when someone starts a run. See [When a run is triggered](how-verification-works.md#when-a-run-is-triggered).
-5. **The reviewer reads the review page.** A useful order is the intent, then open decisions and failed verdicts, then settled decisions, then the evidence and diff for whatever needs a closer look.
+5. **The reviewer reads the review page.** They start with the intent, then read open decisions and failed verdicts, then settled decisions. The evidence and diff are there for whatever needs a closer look.
 6. **The reviewer and author go back and forth.** The reviewer comments on or reopens decisions, and the author or their agent answers and settles them. See [Work with decisions](../how-to-guides/working-with-decisions.md).
 7. **The reviewer approves or waives** with a reason, and the PR moves on to your normal merge flow.
 

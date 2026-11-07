@@ -88,7 +88,7 @@ The same verdicts are available on the pull request itself. With the [Aviator Ch
 
 Verification can show that a change does what was agreed. It can't say whether what was agreed was the right call, so those calls get recorded as [decisions](concepts/decisions.md).
 
-After the PR is open, the agent runs [`/aviator-decide`](how-to-guides/recording-decisions.md), which records the choices, risks, and questions from the session on the review. Each entry is credited to whoever made that call, a person or an agent. Reviewers read them, comment, and reopen the ones they disagree with, and the author or their agent answers.
+`/verify-submit` drafts the choices, risks, and questions from the session along with the criteria, and [records them](how-to-guides/recording-decisions.md) on the review once you confirm. Each entry is credited to whoever made that call, a person or an agent. Reviewers read them, comment, and reopen the ones they disagree with, and the author or their agent answers.
 
 Decisions don't affect the Verify check.
 

@@ -72,6 +72,8 @@ The skill reads the change, drafts the submission with you, and calls `aviator v
 * **Acceptance criteria** — the verifiable assertions, generated from what was built.
 * **Working branch** — the branch the work lives on, so the PR you open from it is verified against these criteria.
 
+It also shows you draft [decisions](concepts/decisions.md) from your session, and records the ones you confirm on the review.
+
 The CLI prints a review URL like `https://app.aviator.co/r/218`.
 
 Open the URL in your browser. You'll see the review with the generated plan, the acceptance criteria, and (once verification starts) a streaming verdict per criterion.

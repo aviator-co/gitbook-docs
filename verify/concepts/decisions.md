@@ -14,7 +14,7 @@ A decision is a good fit for:
 * Work left for a later PR.
 * A question that needs an answer before or during review.
 
-It's a poor fit for what the diff already says, mechanical work, or dead ends that left no trace in the code. A handful per PR is normal. A dozen usually means it's narrating the work.
+It's a poor fit for what the diff already says, mechanical work, or dead ends that left no trace in the code. A handful from one session is normal, and a review can reach 10 or more as it goes back and forth. A dozen from one session usually means it's narrating the work.
 
 Decisions sit next to a few similar things:
 
@@ -29,7 +29,7 @@ Decisions sit next to a few similar things:
 | Field | Description |
 | ------------ | ------------------------------------------------------------------------------------------------ |
 | `type` | The kind of decision. See below. |
-| `title` | The question it answers, in one line, readable without any other context. |
+| `title` | The call, or the question while it's open, in one line, readable without any other context. |
 | `summary` | Optional. What was decided or what's being asked, in a sentence or two. |
 | `anchor` | Optional. The commit, file, and lines it's about. Returned by the CLI and API, not shown on the review page. |
 | `outcome` | How it was settled. Empty while it's open. |
@@ -123,7 +123,7 @@ An entry with no badge is credited to a person. The page shows who raised the de
 
 The account is authenticated. The role isn't.
 
-* **`person` means the call was the person's. It doesn't mean these are their exact words.** When [`aviator-decide`](../how-to-guides/recording-decisions.md) records from a session, the agent decides whether a call was the person's, credits it as `person`, and paraphrases what they said. A comment typed on the review page is also `person`, and the page shows both the same way.
+* **`person` means the call was the person's. It doesn't mean these are their exact words.** When [`/aviator:decisions`](../how-to-guides/recording-decisions.md) records from a session, the agent decides whether a call was the person's, credits it as `person`, and paraphrases what they said. The person sees the drafts first and can change them. A comment typed on the review page is also `person`, and the page shows both the same way.
 * **Any client with a valid credential can declare any role.** Treat the role as a record of who made the call. Don't treat it as proof.
 * **`person` isn't an approval.** Settling a decision doesn't approve the PR or count as review sign-off.
 
@@ -143,7 +143,7 @@ The usual pattern is that the author settles and a reviewer who disagrees reopen
 
 Two terms are easy to mix up:
 
-* **`author` in a batch or an API response means who wrote that entry.** It doesn't mean the PR's author. A reviewer's comment has the reviewer's role as its `author`.
+* **An entry's author is whoever wrote that entry, not the PR's author.** Their identity is the user account plus the role, so a reviewer's comment is the reviewer's account with `person`. In a batch or an API response, the `author` field holds the role details, and a response gives the account as `user` or `raised_by`.
 * **`review_agent` isn't the human reviewer.** A human reviewer is recorded as `person`, the same as the PR's author. To tell them apart, compare the account on the entry to the PR's author.
 
 ### Permissions
@@ -169,7 +169,7 @@ The chat on the review page can read a review's decisions and their comments, so
 ### See also
 
 * [Work with decisions](../how-to-guides/working-with-decisions.md)
-* [Record decisions with aviator-decide](../how-to-guides/recording-decisions.md)
+* [Record decisions with /aviator:decisions](../how-to-guides/recording-decisions.md)
 * [How Verify reviews a change](review-model.md)
 * [Audit trails and compliance](audit-trails-and-compliance.md)
 * [Aviator CLI: `aviator decisions`](../reference/cli.md#aviator-decisions)

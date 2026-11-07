@@ -14,7 +14,7 @@ You can start using Verify with code-scan alone — no preview, no infrastructur
 
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot — anything you use today. No new tooling, no behavior change.
 2. **Submit intent with the Aviator CLI.** When you're done, the agent runs `/verify-submit`, which captures the intent and the acceptance criteria from what was built and submits them. Set up [agent hooks](how-to-guides/set-up-agent-hooks.md) and it gets prompted before every PR.
-3. **Record the decisions.** The agent runs `/aviator-decide`, which records the calls behind the change on the review: what was picked, what risks were accepted, and whether a person or an agent made each call.
+3. **Record the decisions.** `/verify-submit` also drafts the calls behind the change: what was picked, what risks were accepted, and whether a person or an agent made each call. Once you confirm them, it records them on the review.
 4. **Aviator verifies end to end.** Scenarios run in your preview, invariants apply automatically, code-scan handles structural checks.
 5. **Review the behavior and the decisions.** The reviewer sees the intent, the verdict per criterion, the evidence, and the decisions. They approve, waive with reason, ask for another scenario, or reopen a decision.
 
@@ -65,7 +65,7 @@ A diff shows what changed. It doesn't show what the change was for, whether it w
 | [Invariants](concepts/invariants.md)                                   | Team-defined rules applied to every matching change. Security baseline, data access, conventions. |
 | [Previews](concepts/previews.md)                                       | Ephemeral environments scenarios run against. Per-run, torn down after.                 |
 | [Verification layers](concepts/verification-layers.md)                 | How criteria, invariants, and domain contracts stack.                                   |
-| [Audit and compliance](concepts/audit-trails-and-compliance.md)        | Immutable trail of every step — submission, verdicts, evidence, decisions.              |
+| [Audit and compliance](concepts/audit-trails-and-compliance.md)        | Immutable trail of submissions, verdicts, and evidence, plus each decision's version history. |
 
 ### Getting started
 
@@ -81,5 +81,5 @@ A diff shows what changed. It doesn't show what the change was for, whether it w
 * **Configuration:** [Preview YAML](reference/preview-yaml.md)
 * **Operations:** [Managing previews](how-to-guides/managing-previews.md) · [Seed data for previews](how-to-guides/seed-data-for-previews.md)
 * **Reviewing:** [Review verification on the pull request](how-to-guides/verify-on-github.md) · [Work with decisions](how-to-guides/working-with-decisions.md)
-* **Recording decisions:** [Record decisions with aviator-decide](how-to-guides/recording-decisions.md)
+* **Recording decisions:** [Record decisions with /aviator:decisions](how-to-guides/recording-decisions.md)
 * **Reading results and fixing failures:** [Understanding verification results](how-to-guides/understanding-verification-results.md)

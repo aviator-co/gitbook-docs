@@ -1,6 +1,6 @@
-# Record decisions with aviator-decide
+# Record decisions with /aviator:decisions
 
-`/aviator-decide` is a skill that reads your agent session and records the calls behind your PR as [decisions](../concepts/decisions.md) on its review. The reasoning stays in that session otherwise, where no reviewer can see it.
+`/aviator:decisions` reads your agent session, drafts the calls behind your PR as [decisions](../concepts/decisions.md), and records them on its review once you confirm.
 
 ### Before you start
 
@@ -9,13 +9,15 @@
 
 ### Run it
 
-After the PR is open, run this in the same agent session that did the work:
+`/verify-submit` does this for you. It shows you the draft decisions along with the acceptance criteria, and records them on the new review once you confirm. The PR doesn't need to be open.
+
+After more work, run this in the same agent session that did the work:
 
 ```
-/aviator-decide
+/aviator:decisions
 ```
 
-It only knows what's in that conversation, so run it before you close the session. It doesn't ask before recording. It then shows you what it recorded, grouped by branch, and names anything left open.
+It only knows what's in that conversation, so run it before you close the session. It shows you the drafts, with any comment credited to you in full, and records nothing until you confirm, since anyone with access to the review can read them and they can't be deleted. It then shows you what it recorded, grouped by branch, and names anything left open.
 
 You can also ask your agent in plain words, such as "record the decisions behind this PR".
 
@@ -34,9 +36,9 @@ The skill looks for things a reviewer could ask "why?" about, and that the sessi
 | Asked a question the user answered | `question` | `decided` |
 | Still unresolved | any | left open |
 
-It leaves out what the diff already says, dead ends that left no trace, typos and lint fixes, and anything already recorded on the review. A fixed bug only earns a place if a reviewer would wonder about the fix, or if the same mistake is easy to make again.
+It leaves out what the diff already says, dead ends that left no trace, typos and lint fixes, secrets, personal data, customer names, and anything already recorded on the review. A fixed bug only earns a place if a reviewer would wonder about the fix, or if the same mistake is easy to make again.
 
-Expect a handful per PR, and few of them left open. A reviewer should be able to get through the list in a minute.
+Expect a handful per run, and few of them left open. A reviewer should be able to get through the list in a minute.
 
 ### Who gets credit
 
@@ -48,9 +50,10 @@ Each decision and comment is credited to whoever made that call. See [Identity](
 | You told the agent to keep some behavior | Settled as `person` |
 | The agent picked an approach, and you saw it and said nothing | Settled as `coding_agent` |
 | A reviewer subagent objected | A comment as `review_agent` |
+| Your agent is reviewing someone else's PR | Its entries as `review_agent` |
 | A question nobody answered | Left open, credited to whoever raised it |
 
-`person` entries land under your account, and the skill never writes your name. Agent entries carry the model, the harness, and every skill loaded in the session.
+`person` entries land under your account, and the skill never writes your name. Agent entries carry the model, the harness, and the skills that shaped that call.
 
 If the agent picked something you'd want on record as your call, say so in the session before running the skill, and it's credited to you.
 
@@ -64,7 +67,7 @@ A simple call needs no comment, or one naming the alternative and why it lost. A
 
 ### Stacked PRs
 
-Each PR has its own review, and reviewers only see that review's decisions. The skill finds the review for each branch the session worked on, and puts each decision on the branch whose diff holds the code it's about. A decision that spans several branches goes on the lowest one.
+Each PR has its own review, and reviewers only see that review's decisions. The skill finds the review for each branch the session worked on, and puts each decision on the branch whose diff holds the code it's about. A decision that spans several branches goes on the one closest to trunk.
 
 A branch with no review has nowhere to record yet. The skill tells you, suggests `/verify-submit` for it, and records the others.
 
@@ -73,7 +76,7 @@ A branch with no review has nowhere to record yet. The skill tells you, suggests
 * **You settle an open decision.** Tell the agent your call and why, and it records it as you right away.
 * **A comment has a wrong detail.** The agent can edit a comment it recorded.
 * **You changed your mind.** The agent reopens the decision or adds a comment. It doesn't rewrite what was recorded.
-* **More work landed.** Run `/aviator-decide` again. It reads what's recorded and adds only what's new.
+* **More work landed.** Run `/aviator:decisions` again. It reads what's recorded and adds only what's new.
 
 ### See also
 

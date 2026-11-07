@@ -307,7 +307,7 @@ You rarely type `aviator verify` by hand. The `/verify-submit` skill, from the [
 
 Run `aviator init` once per repo to have your agent remind you before a PR is opened. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).
 
-The `/aviator-decide` skill, from the same plugin, records the decisions from your session with `aviator decisions apply`. See [Record decisions with aviator-decide](../how-to-guides/recording-decisions.md).
+The `/aviator:decisions` skill, from the same plugin, records the decisions from your session with `aviator decisions apply`, and `/verify-submit` uses it to record them with the submission. See [Record decisions with /aviator:decisions](../how-to-guides/recording-decisions.md).
 
 ### See also
 

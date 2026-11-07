@@ -1,6 +1,6 @@
 # Audit trails and compliance
 
-Every Verify run produces an immutable record of what was submitted, what ran, what was found, and what was decided. This page covers what's recorded, how it composes into a chain you can hand an auditor, and how Verify maps to common compliance frameworks.
+Every Verify run produces an immutable record of what was submitted, what ran, what was found, and what was approved or waived. This page covers what's recorded, how it composes into a chain you can hand an auditor, and how Verify maps to common compliance frameworks.
 
 ### What gets recorded
 
@@ -16,7 +16,7 @@ For every review:
 | [Decision](decisions.md) version | One per change to a decision: its type, title, summary, anchor, outcome, and resolution at that point, with the account and declared role that wrote it |
 | Decision comment      | Account, declared role, for an agent its declared model, harness, and skills, timestamp, body         |
 
-Records are immutable. Once written, they can't be modified or deleted by users. The one exception is a decision comment, which its writer can edit. See [Immutability](#immutability).
+Records are immutable, except for decisions. Once written, the other records can't be modified or deleted by users. A decision can change, with a version kept for each change, and its comments can be edited. See [Immutability](#immutability).
 
 ### The audit chain
 
@@ -105,9 +105,10 @@ Audit records cannot be:
 
 The trail is what happened, not a summary someone wrote afterwards.
 
-Decisions have two limits to keep in mind:
+Decisions work differently:
 
-* **A decision comment can be edited by its writer.** The edit replaces the text, and the earlier text isn't kept. Changes to the decision itself add a new version, and earlier versions are kept.
+* **A decision can change, but can't be deleted.** It can be edited while it's open, and it can be settled and reopened. Each change adds a new version, and earlier versions are kept.
+* **A decision comment can be edited by its writer.** The edit replaces the text, and the earlier text isn't kept.
 * **The role on a decision is declared by the client.** The account is authenticated, but `person`, `coding_agent`, and `review_agent` aren't, and an agent can record a user's call as `person`. Don't use a decision as evidence of sign-off. Use the reviewer's approval or waiver. See [Identity](decisions.md#identity).
 
 ### What Verify doesn't do
