@@ -59,35 +59,38 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `aviator verify`  | Submit intent and acceptance criteria for a change you're writing yourself.                                                                                     |
 | `aviator runbook` | Create a runbook and have Aviator's agent implement the change.                                                                                                 |
-| `aviator sessions` | List your reviews in a repo, or find the one on a branch or PR. See [`aviator sessions`](#aviator-sessions).                                                  |
+| `aviator sessions` | List reviews in a repo, or find the one on a branch or PR. See [`aviator sessions`](#aviator-sessions).                                                       |
 | `aviator show`    | Show a review, its criteria, its latest verification, and its recent runs, e.g. `aviator show r/123`.                                                           |
 | `aviator results` | Show the failures from a review's latest verification, or from an earlier run with `--run`.                                                                     |
 | `aviator edit`    | Update a review's intent or replace its acceptance criteria. See [`aviator edit`](#aviator-edit).                                                               |
 | `aviator dismiss` | Delete acceptance criteria or waive failing invariants on a review. See [`aviator dismiss`](#aviator-dismiss).                                                   |
 | `aviator scenarios` | Show what a verification run exercised and the evidence it captured. Defaults to the latest run.                                                              |
 | `aviator evidence` | Download one piece of evidence, such as a screenshot or a scenario's trace.                                                                                    |
+| `aviator decisions` | Read and record the decisions on a review. See [`aviator decisions`](#aviator-decisions).                                                                     |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
 | `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
 | `aviator invariants` | Manage your account's [invariants](../concepts/invariants.md).                                                                                               |
 | `aviator version` | Print the CLI version.                                                                                                                                          |
 
-`verify`, `runbook`, `sessions`, `show`, `results`, `edit`, `dismiss`, `scenarios`, and `invariants` take `--json` to print a single JSON object instead of the human summary. Reviews are identified by `id` (for example `r/123`) and `url`.
+`verify`, `runbook`, `sessions`, `show`, `results`, `edit`, `dismiss`, `scenarios`, `decisions`, and `invariants` take `--json` to print a single JSON object instead of the human summary. Reviews are identified by `id` (for example `r/123`) and `url`.
 
 ### `aviator sessions`
 
-Lists your reviews in a repo, newest first. Check here before running `aviator verify`, so you don't create a second review for a branch that already has one.
+Lists your reviews in a repo, newest first, or everyone's with `--all`. Check here before running `aviator verify`, so you don't create a second review for a branch that already has one.
 
 ```bash
 aviator sessions --repo myorg/myrepo --branch add-rate-limiting
 aviator sessions --repo myorg/myrepo --pr 1234
+aviator sessions --repo myorg/myrepo --all
 ```
 
 | Flag       | Required | Description                                          |
 | ---------- | -------- | ---------------------------------------------------- |
 | `--repo`   | yes      | GitHub repo as `owner/repo`.                         |
 | `--branch` | no       | Only reviews on this working branch.                 |
-| `--pr`     | no       | Only reviews linked to this PR number.               |
-| `--status` | no       | `active` (the default) or `archived`.                |
+| `--pr`     | no       | Only reviews linked to this PR number, whoever created them. |
+| `--all`    | no       | Include everyone's reviews, not just yours.          |
+| `--status` | no       | `active` (the default) or `archived`. With `--pr`, any status unless you pass this. |
 | `--limit`  | no       | Reviews per page. Defaults to 20, up to 100.         |
 | `--page`   | no       | Page number, starting at 1.                          |
 
@@ -162,6 +165,21 @@ aviator evidence 4567 -o trace.json
 `aviator evidence <id>` prints a short-lived signed URL for the file. With `-o <path>` it downloads the file instead, or writes it to stdout with `-o -`. Like `curl -o`, it overwrites an existing file at that path once the download starts.
 
 With `--json`, `aviator scenarios` also lists each scenario's steps. Each piece of evidence carries the `step_id` it was captured on. See [Understanding verification results](../how-to-guides/understanding-verification-results.md#reading-a-scenario-trace) for the trace format.
+
+### `aviator decisions`
+
+Reads and records the [decisions](../how-to-guides/recording-and-reviewing-decisions.md) on a review.
+
+```bash
+aviator decisions list r/123
+aviator decisions list r/123 --status open
+aviator decisions show r/123 7
+aviator decisions apply r/123 --file batch.json
+```
+
+`list` shows a review's decisions, and `show` adds one decision's comment thread. `apply` creates, changes, settles, reopens, and comments on decisions from a JSON file, or from stdin with `--file -`, in one request, so either all of it is recorded or none of it is. `aviator decisions apply --help` has the format.
+
+`apply` needs a user access token, from `aviator login` or a personal token. An account-scoped API token is refused.
 
 ### `aviator runbook`
 

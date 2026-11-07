@@ -85,6 +85,7 @@
     * [Configuring branch protection](verify/how-to-guides/configuring-branch-protection.md)
     * [Understanding verification results](verify/how-to-guides/understanding-verification-results.md)
     * [Review verification on the pull request](verify/how-to-guides/verify-on-github.md)
+    * [Recording and reviewing decisions](verify/how-to-guides/recording-and-reviewing-decisions.md)
 * [Releases](releases-beta/README.md)
   * [Getting Started with Releases](releases-beta/getting-started.md)
   * [Concepts for Releases](releases-beta/concepts/README.md)

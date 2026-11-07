@@ -9,7 +9,7 @@ The full loop:
 1. **Build with your agent.** Implement the task with Cursor, Claude, Copilot, or anything else you use today. No new tooling, no behavior change.
 2. **Submit intent with the Aviator CLI.** When you're done, the agent runs `/verify-submit`, which reads the change and submits it through the [Aviator CLI](reference/cli.md). It captures the intent you and the agent agreed on and the acceptance criteria from what was built.
 3. **Aviator verifies end to end.** Every criterion runs through the verification pipeline. Code-scan handles structural checks against the diff — this works out of the box. Runtime checks run against a preview environment if you've configured one (optional; see [Concepts: Previews](concepts/previews.md)). Matching invariants apply automatically.
-4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence behind each verdict. They can approve, waive with reason, or ask for another scenario on the spot.
+4. **Review the behavior.** The reviewer sees the intent, the verdict per criterion, and the evidence behind each verdict. They can approve, waive with reason, or ask for another scenario on the spot. The [decisions](how-to-guides/recording-and-reviewing-decisions.md) recorded on the review show what was already weighed.
 
 ### What gets submitted
 
