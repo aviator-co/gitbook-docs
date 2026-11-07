@@ -14,7 +14,7 @@ brew install aviator-co/tap/aviator
 aviator login
 ```
 
-If you already have it, run `brew upgrade aviator-co/tap/aviator`. Check that it works with `aviator decisions --help`. `aviator decisions` is experimental, so `aviator --help` doesn't list it yet and it may still change.
+If you already have it, run `brew upgrade aviator-co/tap/aviator`. Check that it works with `aviator decisions --help`.
 
 **2. Install the skill.** In Claude Code:
 
@@ -31,10 +31,10 @@ To only read and comment on the review page, you just need to sign in to Aviator
 
 On the review page, decisions are in the **Decisions** section, with **Open** above **Settled**. The section doesn't appear when a review has no decisions.
 
-From the CLI, find the review for a branch and list its decisions:
+From the CLI, find a PR's review, whoever created it, and list its decisions:
 
 ```bash
-aviator sessions --repo myorg/myrepo --branch add-rate-limiting  # or --pr 456
+aviator sessions --repo myorg/myrepo --pr 456
 aviator decisions list r/123 --status open
 aviator decisions show r/123 7
 ```
@@ -42,6 +42,8 @@ aviator decisions show r/123 7
 ### If you're the reviewer
 
 Each row on the page shows the title, the type, the status, and who raised it. Expand a row for the summary, resolution, and comments. A settled decision also shows who settled it.
+
+Treat each decision as a claim, not a fact. Agents wrote many of them, and the code may have moved since.
 
 A useful order:
 
@@ -199,7 +201,7 @@ Nothing was recorded. Fix what the error names and resend the whole batch.
 
 ### For coding agents
 
-* Read `aviator decisions apply --help` before writing a batch. It's the current format, and this command is still changing.
+* Read `aviator decisions apply --help` before writing a batch. It's the current format.
 * Use `--json` on every command and read the fields, not the human summary. Fetch every page of `aviator decisions list`.
 * Check existing decisions first. If one covers the same question, change, settle, reopen, or comment on it instead of raising another.
 * Credit whoever made the call. A call the user made is `{"role": "person"}`, even if you raised it. A call you made that the user let stand is `coding_agent`, with your model, harness, and skills. Use `review_agent` when it came from a reviewer subagent, or when you're reviewing someone else's PR.
