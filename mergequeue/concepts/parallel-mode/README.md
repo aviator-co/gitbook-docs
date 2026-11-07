@@ -73,6 +73,8 @@ There are a few ways in which Parallel Mode can be reset. One was the stuck beha
 
 If the queue is stuck, you may want to reset the queue. This can be done from the [<mark style="color:blue;">Queues page</mark>](https://app.aviator.co/queue) by clicking "Reset Queue" button. This will close all existing draft PRs and requeue everything by creating new draft PRs.
 
+To announce manual resets in Slack, enable the `MERGEQUEUE_MANUAL_RESET` [<mark style="color:blue;">channel notification</mark>](../../../api/personal-integrations.md#channel-notifications).
+
 ### **Skip the line in parallel mode**
 
 The skip the line label works the same way in parallel mode as in the standard mode, except in this case it will also reset all parallel PRs (similar to the manual reset). The PR that is labeled for skipping the line will move to the front and new parallel draft PRs are created.
