@@ -8,6 +8,20 @@ description: >-
 
 {% updates format="full" %}
 
+{% update date="2026-11-09" %}
+## 2026.11.09-2-rc1
+
+**MergeQueue**
+
+* The repository's pull request list shows whether each pull request is queueing, queued, blocked or merged by Aviator
+* The Aviator merge panel works on GitHub's new pull request Overview page
+
+**Verify**
+
+* The Verify tab shows the pull request's decisions, grouped into open and settled, with their comments. [Read the docs](https://docs.aviator.co/verify/how-to-guides/working-with-decisions)
+* Authors who haven't signed in to the Aviator CLI get a prompt to copy into their coding agent, which sets up the CLI and walks through the results. [Read the docs](https://docs.aviator.co/verify/setting-up-your-machine)
+{% endupdate %}
+
 {% update date="2026-11-02" %}
 ## 2026.11.02-2-rc1
 
