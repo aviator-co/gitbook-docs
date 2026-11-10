@@ -13,9 +13,9 @@ For the alternative, where Aviator runs the scenarios against an environment, se
 * The repo connected to Aviator — see [Connect a repository](connect-a-repository.md)
 * The `aviator` CLI, signed in — see [Setting up your machine](../setting-up-your-machine.md)
 
-### Step 1: Create the review with an external evidence source
+### Step 1: Create the review for external evidence
 
-Create the review as usual, adding `--evidence-source external`:
+Create the review as usual, adding `--external-evidence`:
 
 ```bash
 aviator verify \
@@ -23,12 +23,12 @@ aviator verify \
   --working-branch add-retry-button \
   --intent "Let an operator retry a rejected webhook delivery from the delivery log" \
   --criteria-file criteria.txt \
-  --evidence-source external
+  --external-evidence
 ```
 
-An existing review can be switched with `aviator edit r/123 --evidence-source external` while no verification run is in progress, and back with `--evidence-source aviator`.
+An existing review can be switched with `aviator edit r/123 --external-evidence` while no verification run is in progress, and back with `--external-evidence=false`. Switching back discards a submission that no run has judged yet.
 
-The review page shows the evidence source under session settings, and the review's scenarios can't be regenerated: they are whatever you submit.
+The review page shows this under session settings, and the review's scenarios can't be regenerated: they are whatever you submit.
 
 ### Step 2: Run the change and capture what it did
 
@@ -117,7 +117,7 @@ aviator verify r/123
 
 The usual triggers (marking the PR ready for review, approving it, queueing it) wait for evidence on these reviews: they start a run only when a complete submission exists for the PR's head commit, so a review isn't judged from code alone while you're still capturing. Every run on an externally verified review goes straight to judging; there is no collector phase and no preview to wait for.
 
-A run you start yourself always runs. If no complete submission exists for the PR's head commit, it judges every criterion from code and says so on the review page.
+A run you start yourself waits for the same thing: it is refused until a complete submission exists for the PR's head commit.
 
 ### Reading the result
 
