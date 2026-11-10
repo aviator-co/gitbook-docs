@@ -66,7 +66,7 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | `aviator dismiss` | Delete acceptance criteria or waive failing invariants on a review. See [`aviator dismiss`](#aviator-dismiss).                                                   |
 | `aviator scenarios` | Show what a verification run exercised and the evidence it captured. Defaults to the latest run.                                                              |
 | `aviator evidence` | Download one piece of evidence, such as a screenshot or a scenario's trace.                                                                                    |
-| `aviator evidence submit` | Submit scenarios and evidence from your own run of the change, for a review with an external evidence source.                                           |
+| `aviator evidence submit` | Submit scenarios and evidence from your own run of the change, for a review created with `--external-evidence`.                                           |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
 | `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
 | `aviator invariants` | Manage your account's [invariants](../concepts/invariants.md).                                                                                               |
@@ -113,7 +113,7 @@ aviator verify \
 | `--working-branch` | no       | The branch the work lives on, so a PR opened from it is verified against these criteria.                                                                            |
 | `--target-branch`  | no       | Base branch to verify against. Defaults to the repo default.                                                                                                        |
 | `--spec`           | no       | Path to a spec file carrying the key decisions and architecture.                                                                                                    |
-| `--evidence-source` | no      | `aviator` (default) or `external`. On an external review Aviator never collects evidence; you submit it with `aviator evidence submit`. See [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md). |
+| `--external-evidence` | no    | Aviator never collects evidence on the review; you submit it with `aviator evidence submit`. See [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md). |
 
 The command prints the review URL and the number of criteria it recorded. The first verification run happens when the PR is marked ready for review, or when you start one with `aviator verify r/123`.
 
@@ -130,10 +130,10 @@ Updates the intent of an existing review, replaces its acceptance criteria, chan
 ```bash
 aviator edit r/123 --intent "Rate limit the public API per client"
 aviator edit r/123 --expected-version 4 --criteria-file criteria.txt
-aviator edit r/123 --evidence-source external
+aviator edit r/123 --external-evidence
 ```
 
-`--evidence-source` is refused while a verification run is in progress.
+`--external-evidence` (or `--external-evidence=false` to turn it off) is refused while a verification run is in progress.
 
 Replacing criteria replaces the whole list, so pass the complete new set. `--expected-version` is required with criteria. Read the current version from `aviator show r/123`. If the criteria changed since you read it, the edit is refused and nothing is written, so read the version again and retry. Edits don't start a verification run; run `aviator verify r/123` when you're ready.
 
@@ -166,11 +166,11 @@ aviator evidence 4567 -o trace.json
 
 `aviator evidence <id>` prints a short-lived signed URL for the file. With `-o <path>` it downloads the file instead, or writes it to stdout with `-o -`. Like `curl -o`, it overwrites an existing file at that path once the download starts.
 
-On a review created with `--evidence-source external`, `aviator scenarios` shows who submitted each scenario and for which commit in place of the tool call count.
+On a review created with `--external-evidence`, `aviator scenarios` shows who submitted each scenario and for which commit in place of the tool call count.
 
 ### `aviator evidence submit`
 
-Submits the scenarios you ran yourself and the evidence each step produced, for a review created with `--evidence-source external`.
+Submits the scenarios you ran yourself and the evidence each step produced, for a review created with `--external-evidence`.
 
 ```bash
 aviator evidence submit r/123 evidence.json
