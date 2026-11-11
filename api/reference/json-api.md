@@ -458,6 +458,113 @@ Example:
 {% endtab %}
 {% endtabs %}
 
+### Fetch the bisection status of a PR
+
+<mark style="color:blue;">`GET`</mark> `https://api.aviator.co/api/v1/pull_request/bisection`
+
+In parallel mode with a batch size greater than 1, a failed batch is split and its PRs are re-tested in smaller batches to find the one that broke the build. This endpoint reports whether a PR is currently being bisected and, if so, which Bot PR failed and which of its checks failed.
+
+If Aviator can tell which PR in a failed batch caused the failure, it blocks that PR and requeues the others without bisecting them, so `is_bisecting` is `false` for all of them. A PR that exists but isn't being bisected returns `200` with `is_bisecting: false`, not `404`.
+
+Example:
+
+`curl -H "Authorization: Bearer <aviator_token>"`\
+`https://api.aviator.co/api/v1/pull_request/bisection?org=orgname&repo=reponame&number=1234`
+
+#### Query Parameters
+
+| Name                                     | Type    | Description                                 |
+| ---------------------------------------- | ------- | ------------------------------------------- |
+| org<mark style="color:red;">\*</mark>    | String  | Organization associated with the repository |
+| repo<mark style="color:red;">\*</mark>   | String  | Name of the repository                      |
+| number<mark style="color:red;">\*</mark> | Integer | PR number                                   |
+
+{% tabs %}
+{% tab title="200: OK Bisecting" %}
+```javascript
+{
+    "pull_request": {
+        "number": 1234,
+        "stack_top_number": null
+    },
+    "is_bisecting": true,
+    "bisection": {
+        "round": 1,
+        "current_bot_pull_request": null,
+        "last_failed_bot_pull_request": {
+            "number": 5678,
+            "github_url": "https://github.com/org-name/repo-name/pull/5678",
+            "target_branch": "master",
+            "head_commit_sha": "acffa575c02f2cf000aabe69f44e8905bc04c25d",
+            "head_branch_oid": "acffa575c02f2cf000aabe69f44e8905bc04c25d",
+            "codemix_pre_batch_sha": null,
+            "failure_reason": "failed",
+            "batch_pr_numbers": [1230, 1234, 1236, 1240],
+            "failed_checks": [
+                {
+                    "name": "build / unit-tests",
+                    "status": "failure",
+                    "url": "https://github.com/org-name/repo-name/actions/runs/123/job/456",
+                    "required": true
+                },
+                {
+                    "name": "lint",
+                    "status": "timed_out",
+                    "url": "https://github.com/org-name/repo-name/actions/runs/123/job/789",
+                    "required": false
+                }
+            ]
+        }
+    }
+}
+```
+{% endtab %}
+
+{% tab title="200: OK Not bisecting" %}
+```javascript
+{
+    "pull_request": {
+        "number": 1234,
+        "stack_top_number": null
+    },
+    "is_bisecting": false,
+    "bisection": null
+}
+```
+{% endtab %}
+
+{% tab title="403: Forbidden" %}
+```javascript
+{
+    "error": "forbidden",
+    "message": "repository (org-name/repo-name) not found (is this repo configured with Aviator?)"
+}
+```
+{% endtab %}
+
+{% tab title="404: Not Found" %}
+```javascript
+{
+    "error": "not-found",
+    "message": "pull_request not found"
+}
+```
+{% endtab %}
+{% endtabs %}
+
+#### Response parameters
+
+| Name                                                    | Type           | Description                                                                                                                                                                                                                       |
+| ------------------------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **pull\_request.stack\_top\_number**                    | Integer        | For a queued PR in a stack, the top PR of the stack. A stack is bisected as one unit, so the response describes the whole stack. `null` for PRs not in a stack, and for PRs that aren't queued.                                  |
+| **is\_bisecting**                                       | Boolean        | `true` while the PR is waiting for, or running in, a bisected batch.                                                                                                                                                              |
+| **bisection.round**                                     | Integer        | How many times this PR has been bisected since it was queued. Starts at 1.                                                                                                                                                        |
+| **bisection.current\_bot\_pull\_request**                | Object \| null | The Bot PR currently testing the PR's bisected batch, or `null` while the PR waits to be placed in one. See the [BotPullRequest schema](#botpullrequest) for the fields returned.                                                 |
+| **bisection.last\_failed\_bot\_pull\_request**           | Object \| null | The Bot PR whose failure started the current bisection round, with the [BotPullRequest](#botpullrequest) fields plus the fields below.                                                                                            |
+| **last\_failed\_bot\_pull\_request.failure\_reason**      | String         | `ci_timedout` when the batch's CI ran past the timeout. `failed` for any other reason the batch was taken down, such as a failed check, a PR in the batch leaving the queue, or a final gate.                                    |
+| **last\_failed\_bot\_pull\_request.batch\_pr\_numbers**  | List           | PRs that were in the failed batch, including stack ancestors tested along with their stack's top PR.                                                                                                                             |
+| **last\_failed\_bot\_pull\_request.failed\_checks**       | List           | Checks that finished unsuccessfully on the Bot PR's head commit, each with `name`, `status` (the GitHub status, such as `failure`, `cancelled`, `timed_out` or `error`), `url`, and `required`, which is `true` for checks Aviator requires on Bot PRs. Shows the latest run of each check, so a re-run's result replaces the original. Can be empty when `failure_reason` is `ci_timedout`. |
+
 ## BotPullRequest
 
 ### Fetch information of PRs associated with a provided Bot PullRequest
