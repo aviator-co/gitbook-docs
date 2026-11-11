@@ -13,9 +13,9 @@ For the alternative, where Aviator runs the scenarios against an environment, se
 * The repo connected to Aviator — see [Connect a repository](connect-a-repository.md)
 * The `aviator` CLI, signed in — see [Setting up your machine](../setting-up-your-machine.md)
 
-### Step 1: Create the review for external evidence
+### Step 1: Create the review as a draft
 
-Create the review as usual, adding `--external-evidence`:
+Create the review as usual, adding `--external-evidence`. That makes it a draft: it holds your criteria and runs nothing until your evidence is in.
 
 ```bash
 aviator verify \
@@ -26,9 +26,7 @@ aviator verify \
   --external-evidence
 ```
 
-An existing review can be switched with `aviator edit r/123 --external-evidence` while no verification run is in progress, and back with `--external-evidence=false`. Switching back discards a submission that no run has judged yet.
-
-The review page shows this under session settings, and the review's scenarios can't be regenerated: they are whatever you submit.
+You can also submit evidence to a review that isn't a draft, including one Aviator has already run. From then on its scenarios are the ones you submitted: they can't be regenerated, and the review page shows this under session settings.
 
 ### Step 2: Run the change and capture what it did
 
@@ -107,17 +105,15 @@ Submitting replaces whatever was submitted for the review before. To change a sc
 
 The evidence is bound to the commit you ran: the full 40-character SHA in the manifest's `commit`, or `--commit` on the command line, which takes precedence. One of them is required. A run judges from submitted evidence only when the pull request's head is that commit. After you push a new commit, run the change again and submit again.
 
-### Step 5: Start a run
+### Step 5: The run
 
-Submitting doesn't start a run, so you can submit, check the review page and resubmit as often as you need. Start one when the submission is complete:
+Once every file of the submission is uploaded, a draft review becomes active, and a run starts if the evidence is for the pull request's head commit. `aviator evidence submit` prints the run it started. Every run on a review with submitted scenarios goes straight to judging; there is no collector phase and no preview to wait for.
+
+Until the evidence for the head commit is complete, the review waits, so it isn't judged from code alone while you're still capturing. That applies after each new commit too: the usual triggers (marking the PR ready for review, approving it, queueing it) are held, and `aviator verify r/123` is refused. To run anyway and have the criteria judged from code, pass `--force`:
 
 ```bash
-aviator verify r/123
+aviator verify r/123 --force
 ```
-
-The usual triggers (marking the PR ready for review, approving it, queueing it) wait for evidence on these reviews: they start a run only when a complete submission exists for the PR's head commit, so a review isn't judged from code alone while you're still capturing. Every run on an externally verified review goes straight to judging; there is no collector phase and no preview to wait for.
-
-A run you start yourself waits for the same thing: it is refused until a complete submission exists for the PR's head commit.
 
 ### Reading the result
 
