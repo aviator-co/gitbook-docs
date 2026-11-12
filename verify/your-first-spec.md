@@ -114,7 +114,7 @@ Click any verdict to see the evidence. If something failed, the verdict is annot
 From the review document you can:
 
 * **Approve** — sign off and continue your normal merge flow.
-* **Waive a failed verdict with a category** — `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`, here or with [`aviator dismiss`](reference/cli.md#aviator-dismiss). Recorded in the audit trail.
+* **Waive a failed verdict** — with a reason, plus a category for an invariant (`false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`), here or with [`aviator dismiss`](reference/cli.md#aviator-dismiss). Recorded in the audit trail.
 * **Edit the acceptance criteria** — use `aviator edit` to replace them, then re-verify. Re-running `/verify-submit` creates a new session, so edit rather than resubmit.
 * **Open the preview** — if you have one configured, poke at the running code yourself before approving.
 

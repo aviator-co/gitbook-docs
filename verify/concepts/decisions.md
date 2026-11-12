@@ -21,7 +21,7 @@ Decisions sit next to a few similar things:
 | Thing | What it does | How a decision differs |
 | ---------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------- |
 | Acceptance criterion | States what the code must do. Verify judges it. | Says why it was built this way. Nothing judges it. |
-| [Invariant waiver](invariants.md) | Clears a failed invariant verdict for this PR. | Doesn't change any verdict or the Verify check. |
+| [Waiver](verification-layers.md) | Clears a failed criterion or invariant verdict for this PR. | Doesn't change any verdict or the Verify check. |
 | PR or code comment | Discusses a line or the PR. | Has a type, an outcome, a reason, and separate credit for people and agents. |
 
 ### What a decision holds
