@@ -107,6 +107,33 @@ For details, refer to the [<mark style="color:blue;">configuration reference</ma
 
 If you need assistance in setting up the Rulesets, please contact [howto@aviator.co](mailto:howto@aviator.co).
 
+### Validating a stack with one draft PR
+
+In parallel mode with separate commits and a `batch_size` of 1, Aviator creates one draft PR for each PR in the stack, so a stack of 10 PRs runs CI 10 times. To run CI once for the whole stack, enable `use_single_draft_for_stack`:
+
+```
+merge_mode:
+  type: parallel
+  parallel_mode:
+    use_single_draft_for_stack: true
+merge_strategy:
+  use_separate_commits_for_stack: true
+```
+
+With this setting:
+
+* Aviator creates one draft PR built from the top PR of the stack, which includes the changes of every PR below it.
+* After that draft PR passes CI, the stack still lands as one commit per PR.
+* If the draft PR fails CI, the whole stack is dequeued, because the failure can't be traced to one PR in the stack.
+* If a new commit is pushed to any PR in the stack while its draft PR is running, the whole stack is dequeued.
+* If a new commit is pushed to a lower PR before the draft PR is built, and the top PR doesn't include it, the whole stack is dequeued when the draft PR is built.
+
+In either case, restack the stack and queue it again.
+
+The individual commits don't run CI on their own. If a merge stops partway because of a GitHub error, the base branch can hold a state that no CI run tested.
+
+The setting has no effect with [fast forwarding](merging-stacked-prs.md#fast-forwarding), without `use_separate_commits_for_stack`, or with a `batch_size` above 1, because a stack already gets one draft PR in those cases. For details, refer to the [configuration reference](https://docs.aviator.co/mergequeue/reference/complete-reference-guide#parallel-mode).
+
 ### Setting original PRs as merged \[Beta]
 
 When Aviator merges stack PRs, by default the following occurs:
