@@ -9,6 +9,42 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-11-12" %}
+## 2026.11.12-3-rc1
+
+frontend: `sha256:57df128f55ad788d1dd43ff4f2adf4e3f3f9092221dcb8ff66814b82ab1ecc4e`
+
+mergeit: `sha256:767a0db43cccdd71e4ae7096cfa0d390ba8b07d4ab1851fbab6a02fe96d1531a`
+
+**MergeQueue**
+
+* New `merge_mode.parallel_mode.use_single_draft_for_stack` option validates a stack with one draft PR built from its top PR, while `use_separate_commits_for_stack` still lands one commit per PR
+* A push to any PR in a queued stack fails the entire stack
+* A batch that conflicts on the previous draft PR is now rebuilt from the latest target branch before the conflict is reported
+* A PR that merges while a draft PR is being built is now included in that draft PR instead of skipped
+* PRs whose branch update GitHub keeps rejecting over a stale head are now dequeued after 30 minutes instead of retried indefinitely
+* A diff too large for GitHub to generate is treated as "not up to date" instead of failing
+* The skip-line reset now fires right away instead of waiting for a queue event
+* New `GET /api/v1/pull_request/bisection` API reports whether a PR is being bisected, with the failing draft PR and its failed checks
+* Every PR in a merged stack now shows as merged in the activity feed and timeline
+* The analytics date range is now capped at 5 years
+
+**Runbooks**
+
+* Cloning a large repository into a Runbook sandbox now has more time before it times out
+
+**FlexReview**
+
+* When GitHub refuses an assigned reviewer, the retry now picks a different reviewer, and a failed retry is reported on the PR
+* PRs whose diff is too large to fetch from GitHub now skip reviewer assignment instead of failing
+* FlexReview Slack channel messages now get a :octagonal_sign: reaction when the PR is closed without merging, and draft PR approvals now consistently get the approval reaction
+
+**Releases**
+
+* Cherry-picks onto a release candidate that is waiting on its resolution PR are now rejected up front
+* Releases created through the API now sort correctly in the changelog
+{% endupdate %}
+
 {% update date="2026-10-29" %}
 ## 2026.10.29-2-rc1
 
