@@ -182,8 +182,8 @@ The manifest is a JSON file: scenarios with a summary and ordered steps, each st
 
 | Flag       | Description                                                                                          |
 | ---------- | ---------------------------------------------------------------------------------------------------- |
-| `--commit` | The full 40-character SHA the evidence was captured against. Overrides the manifest's `commit`; one of the two is required. |
-| `--json`   | Print a single JSON object with the scenario, scenario run and evidence ids.                          |
+| `--commit` | The full 40-character SHA the evidence was captured against. Overrides the manifest's `commit_sha`; one of the two is required. |
+| `--json`   | Print a single JSON object with the scenario and scenario run ids and one `files` entry per declared file, giving its `path`, `evidence_id` and `status`. |
 
 The manifest format and the evidence types are in [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md).
 

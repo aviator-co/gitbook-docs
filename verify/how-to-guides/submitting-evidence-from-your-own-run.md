@@ -49,7 +49,7 @@ The manifest is a JSON file listing the scenarios you ran. A scenario has a one-
 
 ```json
 {
-  "commit": "4f2c9e1a7b3d5c6e8f9a0b1c2d3e4f5a6b7c8d9e",
+  "commit_sha": "4f2c9e1a7b3d5c6e8f9a0b1c2d3e4f5a6b7c8d9e",
   "scenarios": [
     {
       "summary": "Retry a rejected delivery from the delivery log",
@@ -87,7 +87,7 @@ The manifest is a JSON file listing the scenarios you ran. A scenario has a one-
 }
 ```
 
-`commit` is required: the full SHA you ran. `criteria` is optional, see below.
+`commit_sha` is required: the full SHA you ran. A key the manifest format doesn't have is an error, so a misspelled one never drops silently. `criteria` is optional, see below.
 
 Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step, with at most 20 screenshots and 64 MB of screenshots across the whole manifest.
 
@@ -99,15 +99,15 @@ Every scenario needs evidence on at least one step. A manifest may hold up to 10
 aviator evidence submit r/123 evidence.json
 ```
 
-The CLI validates the manifest, creates the scenarios, uploads each file to storage and confirms the uploads. It prints the scenarios it created and how many files landed; with `--json` it prints a single object with the scenario, scenario run and evidence ids.
+The CLI validates the manifest, creates the scenarios, uploads each file to storage and confirms the uploads. It prints the scenarios it created and how many files landed; with `--json` it prints a single object with the scenario and scenario run ids and one `files` entry per file you declared, giving its `path`, `evidence_id` and `status` (`uploaded`, `reused`, `upload_failed`, `missing`, `rejected`, `unknown` or `not_confirmed`).
 
-Submitting replaces whatever was submitted for the review before. To change a scenario or add evidence, edit the manifest and submit it again. Files the review already has from an earlier submission aren't uploaded again, so after re-running one scenario, resubmitting sends only the files that changed.
+Submitting replaces whatever was submitted for the review before. To change a scenario or add evidence, edit the manifest and submit it again. Files already in the submission it replaces, or in one a run judged, aren't uploaded again, so after re-running one scenario, resubmitting sends only the files that changed.
 
-The evidence is bound to the commit you ran: the full 40-character SHA in the manifest's `commit`, or `--commit` on the command line, which takes precedence. One of them is required. A run judges from submitted evidence only when the pull request's head is that commit. After you push a new commit, run the change again and submit again.
+The evidence is bound to the commit you ran: the full 40-character SHA in the manifest's `commit_sha`, or `--commit` on the command line, which takes precedence. One of them is required. A run judges from submitted evidence only when the pull request's head is that commit. After you push a new commit, run the change again and submit again.
 
 ### Step 5: The run
 
-Once every file of the submission is uploaded, a draft review becomes active, and a run starts if the evidence is for the pull request's head commit. `aviator evidence submit` prints the run it started. Every run on a review with submitted scenarios goes straight to judging; there is no collector phase and no preview to wait for.
+Once every file of the submission is uploaded, a draft review becomes active, and a run starts if the evidence is for the pull request's head commit. That holds for a draft pull request too, and for one opened after you submitted: the run starts when the pull request is linked to the review. `aviator evidence submit` prints the run it started. Every run on a review with submitted scenarios goes straight to judging; there is no collector phase and no preview to wait for.
 
 Until the evidence for the head commit is complete, the review waits, so it isn't judged from code alone while you're still capturing. That applies after each new commit too: the usual triggers (marking the PR ready for review, approving it, queueing it) are held, and `aviator verify r/123` is refused. To run anyway and have the criteria judged from code, pass `--force`:
 
@@ -116,6 +116,8 @@ aviator verify r/123 --force
 ```
 
 ### Reading the result
+
+Before a run starts, `aviator scenarios r/123` lists the scenarios you submitted, and `aviator results r/123` says whether every file is uploaded and that no run has started.
 
 `aviator results r/123 --json` reads the verdicts as usual. `aviator scenarios r/123` lists the scenarios the run judged; a submitted one shows who submitted it and for which commit instead of a tool call count. On the review page, a submitted scenario shows the same in place of the tool call count, and its screenshots open in the evidence viewer.
 
