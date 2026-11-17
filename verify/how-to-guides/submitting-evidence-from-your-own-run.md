@@ -89,7 +89,7 @@ The manifest is a JSON file listing the scenarios you ran. A scenario has a one-
 
 `commit` is required: the full SHA you ran. `criteria` is optional, see below.
 
-Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step, with at most 20 screenshots in one scenario.
+Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step, with at most 20 screenshots and 64 MB of screenshots across the whole manifest.
 
 **Pinning criteria.** `criteria` names the acceptance criteria a scenario covers, by the `stable_key` that `aviator show r/123` prints, or by `baseline_invariant_id` for an invariant. Pinning is optional. When a run starts, Verify maps every criterion you did not pin onto the submitted scenarios whose evidence can show it, and routes the rest to code scan. Pin a criterion when you want to be sure which scenario answers it.
 

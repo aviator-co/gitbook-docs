@@ -117,8 +117,6 @@ aviator verify \
 | `--target-branch`  | no       | Base branch to verify against. Defaults to the repo default.                                                                                                        |
 | `--spec`           | no       | Path to a spec file carrying the key decisions and architecture.                                                                                                    |
 | `--scenario-guidance` | no | A note on how to verify the change, such as which seeded user to log in as. It's read until the review's first scenarios are written, and it can't be changed after. |
-| `--evidence-source` | no      | `aviator` (default) or `external`. On an external review Aviator never collects evidence; you submit it with `aviator evidence submit`. See [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md). |
-| `--external-evidence` | no    | Aviator never collects evidence on the review; you submit it with `aviator evidence submit`. See [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md). |
 | `--external-evidence` | no    | Creates the review as a draft that runs nothing until you submit evidence with `aviator evidence submit`. See [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md). |
 
 The command prints the review URL and the number of criteria it recorded. The first verification run happens when the PR is marked ready for review, or when you start one with `aviator verify r/123`.
