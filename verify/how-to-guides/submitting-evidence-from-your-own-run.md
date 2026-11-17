@@ -41,7 +41,7 @@ Run the branch wherever you normally would. As you exercise it, save what each s
 | `network_request` | A request and its response, as captured               | `.json`, `.txt`         |
 | `client_storage`  | Cookies, local storage or session storage at the time | `.json`, `.txt`         |
 
-A file is at most 10 MB. Give every file a label saying what it shows: the label is what the reviewer and the evaluator read first.
+A file is at most 10 MB. A screenshot is at most 7 MB and 8000 pixels on its longer side; a larger one is rejected when you confirm its upload. Give every file a label saying what it shows: the label is what the reviewer and the evaluator read first.
 
 ### Step 3: Write the manifest
 
@@ -89,7 +89,7 @@ The manifest is a JSON file listing the scenarios you ran. A scenario has a one-
 
 `commit` is required: the full SHA you ran. `criteria` is optional, see below.
 
-Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step.
+Every scenario needs evidence on at least one step. A manifest may hold up to 10 scenarios, 50 steps per scenario and 10 files per step, with at most 20 screenshots in one scenario.
 
 **Pinning criteria.** `criteria` names the acceptance criteria a scenario covers, by the `stable_key` that `aviator show r/123` prints, or by `baseline_invariant_id` for an invariant. Pinning is optional. When a run starts, Verify maps every criterion you did not pin onto the submitted scenarios whose evidence can show it, and routes the rest to code scan. Pin a criterion when you want to be sure which scenario answers it.
 
