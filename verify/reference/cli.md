@@ -66,6 +66,7 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | `aviator dismiss` | Delete or waive acceptance criteria, or waive failing invariants, on a review. See [`aviator dismiss`](#aviator-dismiss).                                        |
 | `aviator scenarios` | Show what a verification run exercised and the evidence it captured. Defaults to the latest run.                                                              |
 | `aviator evidence` | Download one piece of evidence, such as a screenshot or a scenario's trace.                                                                                    |
+| `aviator evidence submit` | Submit scenarios and evidence from your own run of the change, on any review.                                           |
 | `aviator init`    | Set up your coding agents to capture intent before a PR. See [Set up agent hooks](../how-to-guides/set-up-agent-hooks.md).                                      |
 | `aviator hooks`   | Manage the hooks `init` installed — `aviator hooks uninstall` removes them.                                                                                     |
 | `aviator decisions` | Read and record a review's [decisions](../concepts/decisions.md). See [`aviator decisions`](#aviator-decisions).                                            |
@@ -116,6 +117,7 @@ aviator verify \
 | `--target-branch`  | no       | Base branch to verify against. Defaults to the repo default.                                                                                                        |
 | `--spec`           | no       | Path to a spec file carrying the key decisions and architecture.                                                                                                    |
 | `--scenario-guidance` | no | A note on how to verify the change, such as which seeded user to log in as. It's read until the review's first scenarios are written, and it can't be changed after. |
+| `--external-evidence` | no    | Creates the review as a draft that runs nothing until you submit evidence with `aviator evidence submit`. See [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md). |
 
 The command prints the review URL and the number of criteria it recorded. The first verification run happens when the PR is marked ready for review, or when you start one with `aviator verify r/123`.
 
@@ -165,6 +167,25 @@ aviator evidence 4567 -o trace.json
 ```
 
 `aviator evidence <id>` prints a short-lived signed URL for the file. With `-o <path>` it downloads the file instead, or writes it to stdout with `-o -`. Like `curl -o`, it overwrites an existing file at that path once the download starts.
+
+For scenarios you submitted, `aviator scenarios` shows who submitted each scenario and for which commit in place of the tool call count.
+
+### `aviator evidence submit`
+
+Submits the scenarios you ran yourself and the evidence each step produced. Any review takes a submission; one created with `--external-evidence` is a draft waiting for its first.
+
+```bash
+aviator evidence submit r/123 evidence.json
+```
+
+The manifest is a JSON file: scenarios with a summary and ordered steps, each step listing evidence files with a `type`, a `file` path relative to the manifest, and a `label` saying what the file shows. A scenario may pin the criteria it covers. The CLI uploads every file the review doesn't already have and confirms the uploads. Submitting replaces the review's previous submission. Once every file is uploaded, a draft review becomes active and a run starts if the evidence is for the pull request's head commit.
+
+| Flag       | Description                                                                                          |
+| ---------- | ---------------------------------------------------------------------------------------------------- |
+| `--commit` | The full 40-character SHA the evidence was captured against. Overrides the manifest's `commit_sha`; one of the two is required. |
+| `--json`   | Print a single JSON object with the scenario and scenario run ids and one `files` entry per declared file, giving its `path`, `evidence_id` and `status`. |
+
+The manifest format and the evidence types are in [Submitting evidence from your own run](../how-to-guides/submitting-evidence-from-your-own-run.md).
 
 With `--json`, `aviator scenarios` also lists each scenario's steps. Each piece of evidence carries the `step_id` it was captured on. See [Understanding verification results](../how-to-guides/understanding-verification-results.md#reading-a-scenario-trace) for the trace format.
 
