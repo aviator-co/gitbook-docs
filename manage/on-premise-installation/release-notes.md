@@ -20,6 +20,10 @@ mergeit: `sha256:00368c49f4df6fb82019538725dfb8ec4779c8ba26657c7e442738c8d9b916b
 
 * New `parallel_mode.batch_wait_when_idle` option applies `batch_max_wait_minutes` even when the queue is idle, so the first queued PR can wait for a fuller batch instead of being tested right away
 * MergeQueue Slack notifications now go to the person who queued the PR as well as the author
+
+**Runbooks**
+
+* The Anthropic Key settings page is now called AI Provider, and the old link redirects to it
 {% endupdate %}
 
 {% update date="2026-11-12" %}
