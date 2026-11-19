@@ -13,11 +13,13 @@ Batching works alongside Parallel mode to increase the throughput of PRs merged,
 
 ### Config Settings
 
-There are two settings to set in your configuration file.
+These settings control batching in your configuration file.
 
 `batch_size` = This is the number of queued PRs batched together for a draft PR CI run. Defaults to 1.
 
-`batch_max_wait_minutes`= The time to wait before creating the next batch of PRs, e.g. if `batch_size` = 3 but there are only currently 2 queued PRs, then a batch of those 2 PRs will be created after `batch_max_wait_minutes`. Defaults to 0.
+`batch_max_wait_minutes`= The time to wait before creating the next batch of PRs, e.g. if `batch_size` = 3 but there are only currently 2 queued PRs, then a batch of those 2 PRs will be created after `batch_max_wait_minutes`. The wait is measured from when the last draft PR was created, so it only applies while a draft PR is in flight. Defaults to 0.
+
+`batch_wait_when_idle` = If enabled, `batch_max_wait_minutes` also applies when no draft PR is in flight, measured from when the oldest waiting PR was queued. Defaults to `false`, which tests the first PR on an idle queue right away. See [Waiting on an idle queue](#waiting-on-an-idle-queue).
 
 ```yaml
 version: 1.0.0
@@ -29,7 +31,33 @@ merge_rules:
         parallel_mode:
             batch_size: 3
             batch_max_wait_minutes: 0
+            batch_wait_when_idle: false
 ```
+
+### Waiting on an idle queue
+
+By default, `batch_max_wait_minutes` only holds PRs back while a draft PR is already running. When the queue is idle, the first PR to arrive gets its own draft PR immediately, and PRs queued a few seconds later wait for the next batch. With bursty traffic, this often produces a batch of one followed by a full batch.
+
+Set `batch_wait_when_idle: true` to wait for a fuller batch on an idle queue too:
+
+```yaml
+merge_mode:
+  type: "parallel"
+  parallel_mode:
+    batch_size: 4
+    batch_max_wait_minutes: 5
+    batch_wait_when_idle: true
+```
+
+With this config, when nothing is in flight, Aviator waits up to 5 minutes from when the oldest PR was queued before creating a draft PR.
+
+* A full batch (`batch_size` PRs) is created right away, without waiting.
+* `skip_line` PRs are never held.
+* PRs requeued after a [bisection](#bisection) skip the wait, since they already waited once.
+* `skip_draft_when_up_to_date` still applies once the wait ends.
+* Waiting is tracked per base branch.
+
+This trades a few minutes of latency on a quiet queue for fewer CI runs. It has no effect when `batch_max_wait_minutes` is 0.
 
 ### Current workflow
 
