@@ -9,6 +9,19 @@ hidden: true
 
 {% updates format="full" %}
 
+{% update date="2026-11-17" %}
+## 2026.11.17-2-rc1
+
+frontend: `sha256:41dfdbebff7ece31ce9e421b2ffce619769f9bc132c01d2fcda8ddc99ba5a56a`
+
+mergeit: `sha256:00368c49f4df6fb82019538725dfb8ec4779c8ba26657c7e442738c8d9b916b9`
+
+**MergeQueue**
+
+* New `parallel_mode.batch_wait_when_idle` option applies `batch_max_wait_minutes` even when the queue is idle, so the first queued PR can wait for a fuller batch instead of being tested right away
+* MergeQueue Slack notifications now go to the person who queued the PR as well as the author
+{% endupdate %}
+
 {% update date="2026-11-12" %}
 ## 2026.11.12-3-rc1
 
