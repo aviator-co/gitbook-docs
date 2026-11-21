@@ -76,6 +76,14 @@ This permission includes access to organization, and team membership.
 
 Aviator uses this permission to confirm membership of users. This allows for actions to be restricted to only certain teams or organization members.
 
+## Account Permissions
+
+### Email addresses (read only)
+
+This permission includes read-only access to a user's email addresses.
+
+Aviator uses this permission only when someone signs up with "Continue with GitHub", to read their verified email addresses and use the primary one for their Aviator account. Aviator does not change or add email addresses.
+
 ## Further reading
 
 For a detailed explanation of what actions are enabled why the permissions above, see the [<mark style="color:blue;">GitHub developer docs for app permissions</mark>](https://docs.github.com/en/rest/overview/permissions-required-for-github-apps). Aviator does not use every single permission that it is granted (since GitHub only allows app developers to choose broad buckets of permissions like “administration” rather than just “branch protection rules”).
