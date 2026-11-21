@@ -82,7 +82,7 @@ Aviator uses this permission to confirm membership of users. This allows for act
 
 This permission includes read-only access to a user's email addresses.
 
-Aviator uses this permission only when someone signs up with "Continue with GitHub", to read their verified email addresses and use the primary one for their Aviator account. Aviator does not change or add email addresses.
+Aviator uses this permission only when someone signs up using GitHub SSO, to read their verified email addresses and use the primary one for their Aviator account. Aviator does not change or add email addresses.
 
 ## Further reading
 
