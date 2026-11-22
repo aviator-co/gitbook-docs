@@ -139,7 +139,7 @@ The flakiness dashboard at `https://app.aviator.co/repos/<org>/<repo>/flakiness`
 
 For GitHub Actions, Aviator reruns the individual failing job rather than the workflow run, so matrix legs that already passed are not repeated. Jobs that declare a `needs:` dependency on the failed job are rerun with it.
 
-Checks that report as commit statuses rather than check runs can be investigated, but cannot be retried automatically — there is no per-job handle to retry. For those, Aviator can still extend the queue's patience.
+Checks that report as commit statuses rather than check runs, such as most Jenkins setups, have no per-job handle Aviator can retry. For those, host a [rerun webhook](../how-to-guides/configure-flaky-test-management.md#rerunning-checks-through-a-webhook) that starts the check again, and Aviator calls it. Without one, Aviator can still extend the queue's patience.
 
 ## Configuring it
 
@@ -150,6 +150,7 @@ Checks that report as commit statuses rather than check runs can be investigated
 | Decide which checks may be retried | [Choosing which checks](../how-to-guides/configure-flaky-test-management.md#choosing-which-checks) |
 | Tell Aviator how a check tends to fail | [Giving Aviator context](../how-to-guides/configure-flaky-test-management.md#giving-aviator-context) |
 | Keep that description in your repository | [Keeping context in a file](../how-to-guides/configure-flaky-test-management.md#keeping-context-in-a-file) |
+| Rerun checks Aviator can't retry itself, such as Jenkins | [Rerunning checks through a webhook](../how-to-guides/configure-flaky-test-management.md#rerunning-checks-through-a-webhook) |
 | Adjust how long the queue waits | [Tuning alongside optimistic validation](../how-to-guides/configure-flaky-test-management.md#tuning-alongside-optimistic-validation) |
 
 ## Limitations
