@@ -113,7 +113,7 @@ The `modified_by` property contains email and gh\_username. If the config was mo
 
 ## Webhook Signatures
 
-All webhooks sent by Aviator include a digest signature to verify that the webhook was sent by Aviator itself. The signature is included in a `X-Aviator-Signature-SHA256` header and is calculated as the SHA256 of the webhook body using the Aviator account API token as the HMAC key.
+All webhooks sent by Aviator include a digest signature to verify that the webhook was sent by Aviator itself. The signature is included in a `X-Aviator-Signature-SHA256` header and is calculated as the SHA256 of the webhook body using the account's webhook signing secret as the HMAC key. Generate the secret under Integrations > Webhooks with **Generate secret**, and rotate it there too. Webhooks aren't signed until the account has one.
 
 In Python, this can be calculated as follows.
 
@@ -122,8 +122,8 @@ In Python, this can be calculated as follows.
 # The exact HTTP body of the webhook
 message_body = "{...}"
 
-# The Aviator API token associated with the account
-api_token = "av_live_xxxyyyzzz"
+# The webhook signing secret from Integrations > Webhooks
+webhook_secret = "..."
 
 # The signature received in the headers of the webhook request
 received_signature = "bbbf25d449dc5f1101d36085b7913dfccce6a9307048ed110d4c70afd83eafd5"
@@ -132,7 +132,7 @@ import hashlib
 import hmac
 
 signature = hmac.new(
-    api_token.encode(), message_body.encode(), hashlib.sha256
+    webhook_secret.encode(), message_body.encode(), hashlib.sha256
 ).hexdigest()
 
 # Use compare_digest rather than == to prevent timing attacks.
