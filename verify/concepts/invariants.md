@@ -110,7 +110,34 @@ Two consequences:
 
 ### Writing a good invariant
 
-Three rules of thumb:
+Verify judges each invariant on its own against what a change did, and every run on the same change should reach the same verdict. A rule that gives different verdicts on unchanged code is almost always worded so two readers could disagree. These habits prevent that.
+
+**State one requirement.**
+
+Each extra clause or exception is another place for readings to split. If a rule needs two requirements, make it two invariants.
+
+**Say when the rule applies, in terms the change shows.**
+
+* ✓ "Code that runs on every retry of a background job must be safe to run twice."
+* ✗ "Code that runs repeatedly must be idempotent." (Whether something runs "repeatedly" is a judgment the change itself may not show.)
+
+**Replace loaded terms with what they mean.**
+
+* ✓ "Tests for an HTTP endpoint must send a request through the router, not call the handler function directly."
+* ✗ "Tests must go through the real entry point." (Readers disagree on what the real entry point is.)
+
+**Describe what to look for by kind, with names as examples.**
+
+* ✓ "Request handlers must not make a blocking network call, such as an HTTP request."
+* ✗ "Request handlers must not call `requests.get`, `urlopen` or `httpx.get`." (A list of exact names misses an alias or a wrapper.)
+
+**Say whether code the change calls counts.**
+
+Without "directly or through a function it calls", a rule covers only the lines the change adds or alters. A blocking call inside a helper the handler calls passes.
+
+**Don't contradict your type checker or your other invariants.**
+
+A rule against defensive checks has to allow the narrowing a type checker requires, or no code can satisfy both.
 
 **Be specific about the assertion, vague about the implementation.**
 

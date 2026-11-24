@@ -43,7 +43,7 @@ A few rules (covered in depth in [Invariants — Writing a good invariant](conce
 
 * Don't name specific functions or modules — the rule should survive renames.
 * Don't write the *fix* — the verifier will explain what's wrong.
-* If you need "do X *except* when Y," use conditions or accept that the selector will pass on Y-shaped changes.
+* State one requirement, and say when it applies in terms the change shows. Use conditions for exclusions by file or language.
 
 ### Step 4: Add conditions (optional)
 
