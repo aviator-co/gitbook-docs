@@ -174,6 +174,7 @@ aviator dismiss r/<n> --criteria-json '[
 | ----------------- | -------------------------------------------------------------- |
 | `false_positive`  | The rule fired but misjudged this case.                        |
 | `doesnt_apply`    | The rule is valid in general but isn't relevant to this PR.    |
+| `flaky`           | The verdict came from flaky verification, not the change.      |
 | `accepted_risk`   | The failure is real and the author accepts it.                 |
 | `fix_in_followup` | The failure is real and a separate PR will fix it.             |
 

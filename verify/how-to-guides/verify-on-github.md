@@ -31,7 +31,7 @@ Select **Rerun verification** to start a new run against the PR's latest commit.
 
 Failing invariant rows offer **Waive…**. Invariants are account-wide rules you can't edit here, so failures clear by waiving them:
 
-1. Pick a category — **False positive**, **Doesn't apply**, **Accepted risk**, or **Fix in follow-up**.
+1. Pick a category — **False positive**, **Doesn't apply**, **Flaky**, **Accepted risk**, or **Fix in follow-up**.
 2. Give a reason (required).
 3. Confirm. The failure clears, the counter and header update, and the `aviator/verify` check is re-posted.
 
