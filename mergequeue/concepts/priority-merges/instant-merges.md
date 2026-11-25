@@ -48,6 +48,8 @@ scenarios:
       instant_merge: {}
 ```
 
+To get a Slack post in your notification channel whenever a PR is instantly merged, enable the `PR_INSTANT_MERGED` [<mark style="color:blue;">channel notification</mark>](../../../api/personal-integrations.md#channel-notifications).
+
 ### Elevated permissions
 
 If you only need instant merge to merge PRs while bypassing creating a draft PR in parallel mode, you do not need to provide any elevated permissions.
