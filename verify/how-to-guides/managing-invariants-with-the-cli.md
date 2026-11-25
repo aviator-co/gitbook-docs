@@ -9,6 +9,7 @@ An invariant is a rule an LLM checks against what a pull request changed. Good o
 * **One rule per invariant.**
 * **Put scope in [conditions](../reference/invariant-conditions.md)**, not the body. An invariant is only considered for pull requests that change a file matching its conditions.
 * **Carve out recurring exceptions, [waive](../concepts/invariants.md#waivers) rare ones.** Only name an exception in the body if it keeps coming up.
+* **Word it so two readers agree.** See [Writing a good invariant](../concepts/invariants.md#writing-a-good-invariant).
 
 Verify picks which in-scope invariants apply by comparing each one's title, category, reason, and body to the change's spec and plan, so make the rule's subject clear in its title and body.
 
