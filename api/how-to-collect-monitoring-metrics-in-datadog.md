@@ -51,7 +51,7 @@ The `openmetrics` section should list your instance with no errors. Metrics appe
 
 ## Why histogram_buckets_as_distributions
 
-The merge timing metrics are Prometheus histograms. Without this option the buckets arrive as separate counters and percentiles cannot be computed from them. With it set, Datadog stores them as distributions, so `p50`, `p90` and `p99` are available in queries and monitors, and can be aggregated across repositories and branches.
+The merge timing, wait and batch size metrics are Prometheus histograms. Without this option the buckets arrive as separate counters and percentiles cannot be computed from them. With it set, Datadog stores them as distributions, so `p50`, `p90` and `p99` are available in queries and monitors, and can be aggregated across repositories and branches.
 
 Set it before building dashboards. Turning it on later changes how the metric is stored, and earlier points are not converted.
 
@@ -64,12 +64,16 @@ Useful starting queries:
 * Time lost to resets: `p50:aviator.mergequeue_cumulative_queue_seconds{*}` minus `p50:aviator.mergequeue_time_to_merge_seconds{*}`
 * Merge throughput: `sum:aviator.mergequeue_merged_pr_count.count{*}.as_rate()` by `merged_by`
 * Reset rate by cause: `sum:aviator.mergequeue_reset_event_count.count{*}.as_rate() by {reset_type}`
+* Merges by method: `sum:aviator.mergequeue_merge_count.count{*}.as_count() by {merge_method}`
+* Average batch size: `avg:aviator.mergequeue_batch_size{*} by {repo}`
+* Failed batches by cause: `sum:aviator.mergequeue_batch_closed_count.count{*}.as_count() by {reason}`
+* Time waiting to enter the queue, 90th percentile: `p90:aviator.mergequeue_pr_wait_seconds{phase:awaiting_enqueue} by {repo}`
 
 For the reset metric, scrape with an explicit `branches` value. Aviator publishes a zero for every reset type on a named branch, which gives `as_rate()` a floor to work from; without a branch filter, a reset type only appears once it has fired at least once.
 
 ## Notes
 
-* Aviator's merge timing values are recomputed in the background, not on each scrape, so a `min_collection_interval` below 60 seconds adds requests without adding resolution.
+* Aviator's merge timing and activity values are recomputed in the background, not on each scrape, so a `min_collection_interval` below 60 seconds adds requests without adding resolution.
 * A scrape covers at most 100 repository and branch combinations. Split larger estates across several instances.
 * Datadog counts each distinct metric and tag combination toward your custom metrics allocation. Scraping many repositories on a short interval is the main thing that drives that number up here.
 
