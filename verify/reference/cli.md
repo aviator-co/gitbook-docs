@@ -61,7 +61,7 @@ For on-premise installations, point the CLI at your instance with `AVIATOR_API_H
 | `aviator runbook` | Create a runbook and have Aviator's agent implement the change.                                                                                                 |
 | `aviator sessions` | List reviews in a repo, or find the one on a branch or PR. See [`aviator sessions`](#aviator-sessions).                                                       |
 | `aviator show`    | Show a review, its criteria, its latest verification, and its recent runs, e.g. `aviator show r/123`.                                                           |
-| `aviator results` | Show the failures from a review's latest verification, or from an earlier run with `--run`.                                                                     |
+| `aviator results` | Show every verdict from a review's latest verification, or from an earlier run with `--run`.                                                                    |
 | `aviator edit`    | Update a review's intent or replace its acceptance criteria. See [`aviator edit`](#aviator-edit).                                                               |
 | `aviator dismiss` | Delete or waive acceptance criteria, or waive failing invariants, on a review. See [`aviator dismiss`](#aviator-dismiss).                                        |
 | `aviator scenarios` | Show what a verification run exercised and the evidence it captured. Defaults to the latest run.                                                              |
