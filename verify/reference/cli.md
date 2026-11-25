@@ -148,11 +148,11 @@ Clears acceptance criteria off a review so they no longer gate the PR. A task cr
 aviator dismiss r/123 --key 3f2a9c...
 aviator dismiss r/123 --criteria-json '[
   {"stable_key": "3f2a9c...", "action": "waive", "justification": "Verify can't reach the payment sandbox from the preview"},
-  {"baseline_invariant_id": 42, "category": "accepted_risk", "justification": "Known flake, tracked separately"}
+  {"baseline_invariant_id": 42, "category": "flaky", "justification": "Known flake, tracked separately"}
 ]'
 ```
 
-`--criteria-json` (or `--criteria-json-file`) takes a JSON array. Each entry is `{"stable_key": "..."}` to delete a criterion, `{"stable_key": "...", "action": "waive", "justification": "..."}` to waive one, or `{"baseline_invariant_id": 42, "category": "...", "justification": "..."}` to waive an invariant. A waived task criterion stays waived on later runs until its text is edited. The categories are `false_positive`, `doesnt_apply`, `accepted_risk`, and `fix_in_followup`; see [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-invariant-doesnt-fit-this-change) for when to use each. `--key` is shorthand for a `stable_key` entry and is repeatable.
+`--criteria-json` (or `--criteria-json-file`) takes a JSON array. Each entry is `{"stable_key": "..."}` to delete a criterion, `{"stable_key": "...", "action": "waive", "justification": "..."}` to waive one, or `{"baseline_invariant_id": 42, "category": "...", "justification": "..."}` to waive an invariant. A waived task criterion stays waived on later runs until its text is edited. The categories are `false_positive`, `doesnt_apply`, `flaky`, `accepted_risk`, and `fix_in_followup`; see [Understanding verification results](../how-to-guides/understanding-verification-results.md#the-invariant-doesnt-fit-this-change) for when to use each. `--key` is shorthand for a `stable_key` entry and is repeatable.
 
 `dismiss` needs a user access token, from `aviator login` or a personal token. An account-scoped API token is refused.
 
@@ -322,7 +322,7 @@ Manages your account's [invariants](../concepts/invariants.md). `list`, `categor
 | `--outcome`     | `reviews` only. `pass`, `fail`, `warn`, `error`, `waived`, `fixed` (failed on an earlier run, passes now), or `not_run`. |
 | `--invariant`   | `waivers` only. Only waivers of this invariant ID.                                                                           |
 | `--user`        | `waivers` only. `me`, or an email on the account. `me` needs a user token.                                                   |
-| `--category`    | `waivers` only. `false_positive`, `doesnt_apply`, `accepted_risk`, or `fix_in_followup`.                                     |
+| `--category`    | `waivers` only. `false_positive`, `doesnt_apply`, `flaky`, `accepted_risk`, or `fix_in_followup`.                            |
 
 See [Managing invariants with the CLI](../how-to-guides/managing-invariants-with-the-cli.md) for what makes a good invariant.
 

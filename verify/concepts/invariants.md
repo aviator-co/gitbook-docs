@@ -190,6 +190,7 @@ Invariant verdicts can be waived with a categorized reason, from the review docu
 | ------------------ | ------------------------------------------------------------------------------ |
 | `false_positive`   | The invariant fired but the rule misjudged this case.                          |
 | `doesnt_apply`     | The rule is valid in general but isn't relevant to this PR.                    |
+| `flaky`            | The verdict came from flaky verification, not the change.                      |
 | `accepted_risk`    | The failure is real but the PR author accepts the trade-off.                   |
 | `fix_in_followup`  | The failure is real and will be addressed in a separate follow-up PR.          |
 
