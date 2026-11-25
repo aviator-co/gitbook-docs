@@ -266,7 +266,109 @@ For GitHub Actions, Aviator retries the individual failing job rather than the w
 
 For Buildkite, Aviator retries the failing step within the build.
 
-Checks reporting as commit statuses rather than check runs can still be investigated, and can still stop a transient failure from dequeuing a pull request, but cannot be retried automatically.
+Checks reporting as commit statuses rather than check runs, such as most Jenkins setups, give Aviator no handle to retry them. Set up a [rerun webhook](#rerunning-checks-through-a-webhook) and Aviator calls it to start the check again. Without one, they can still be investigated and can still stop a transient failure from dequeuing a pull request.
+
+## Rerunning checks through a webhook
+
+For CI that Aviator can't retry on its own, host an endpoint that starts the check again and point Aviator at it. It can be an AWS Lambda, a small proxy in front of your CI, or anything else that can receive an HTTPS request.
+
+```yaml
+  flaky_retry:
+    enabled: true
+    rerun_webhook_url: "https://ci-proxy.example.com/aviator/rerun"
+    retriable_checks:
+      - name: "continuous-integration/jenkins/tests"
+```
+
+The webhook is used for every retriable check that isn't a GitHub Actions job, including checks that report as check runs. GitHub Actions jobs are still rerun directly.
+
+Requests are signed with your account's webhook secret, so one has to be set on the workspace [Integrations](https://app.aviator.co/settings/workspace/integrations) page. Without it Aviator sends nothing, and the config shows a warning.
+
+### The request
+
+When a check is judged flaky, Aviator sends:
+
+```http
+POST https://ci-proxy.example.com/aviator/rerun
+Content-Type: application/json
+X-Aviator-Signature-SHA256: <signature>
+```
+
+```json
+{
+  "version": 1,
+  "action": "rerun_check",
+  "rerun_id": "inv_8812",
+  "repository": "acme/app",
+  "check_name": "continuous-integration/jenkins/tests",
+  "head_commit_sha": "3f9c2e1d7b5a4c8e9f0a1b2c3d4e5f6a7b8c9d0e",
+  "branch": "mq-tmp-bot-pr-1234",
+  "pull_request_number": 5678,
+  "failed_run_url": "https://jenkins.acme.internal/job/app/42/"
+}
+```
+
+| Field | Description |
+| ----- | ----------- |
+| `version` | The payload version, currently `1`. |
+| `action` | Always `rerun_check`. |
+| `rerun_id` | Identifies this rerun. A repeated `rerun_id` is the same request sent again. |
+| `repository` | The repository, as `owner/name`. |
+| `check_name` | The check to rerun, as it is reported to GitHub. |
+| `head_commit_sha` | The commit the check failed on. |
+| `branch` | The draft PR's branch. |
+| `pull_request_number` | The draft PR's number. |
+| `failed_run_url` | The link on the failing status, usually the build to rerun. |
+
+Verify `X-Aviator-Signature-SHA256` before acting on a request. It is computed the same way as for every other Aviator webhook; see [webhook signatures](../../api/reference/webhooks.md#webhook-signatures).
+
+### Responding
+
+* Start the check again and reply with any `2xx` status. Aviator then tells the pull request authors the check was rerun and waits for it.
+* Reply within 5 seconds. Any other status, or no answer in time, means the check was not rerun, and the failure is handled as it would be without flaky test management.
+* Start the build promptly. The rerun has to report a pending status to GitHub within about a minute; queuing the build is enough, it doesn't have to finish.
+
+The rerun can report under a new build URL or under the same one: either way, a second failure counts as a real one and the pull request is dequeued.
+
+### Example: rerunning a Jenkins build from AWS Lambda
+
+A minimal handler that checks the signature and asks Jenkins to build the failed job again. Jenkins credentials and the Aviator webhook secret are kept in environment variables; use a Jenkins API token rather than a password.
+
+```python
+import base64
+import hashlib
+import hmac
+import json
+import os
+import urllib.request
+
+AVIATOR_SECRET = os.environ["AVIATOR_WEBHOOK_SECRET"]
+JENKINS_AUTH = base64.b64encode(
+    f"{os.environ['JENKINS_USER']}:{os.environ['JENKINS_TOKEN']}".encode()
+).decode()
+
+
+def handler(event, context):
+    body = event["body"]
+    expected = hmac.new(AVIATOR_SECRET.encode(), body.encode(), hashlib.sha256).hexdigest()
+    received = event["headers"].get("x-aviator-signature-sha256", "")
+    if not hmac.compare_digest(expected, received):
+        return {"statusCode": 401}
+
+    payload = json.loads(body)
+    # https://jenkins.acme.internal/job/app/42/ -> https://jenkins.acme.internal/job/app
+    job_url = payload["failed_run_url"].rstrip("/").rsplit("/", 1)[0]
+    request = urllib.request.Request(
+        f"{job_url}/build",
+        method="POST",
+        headers={"Authorization": f"Basic {JENKINS_AUTH}"},
+    )
+    with urllib.request.urlopen(request, timeout=5):
+        pass
+    return {"statusCode": 202}
+```
+
+For a parameterized job, call `buildWithParameters` with the job's parameters instead of `build`. If your proxy may receive the same `rerun_id` twice, start the build only once.
 
 ## Related
 
