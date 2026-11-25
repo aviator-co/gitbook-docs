@@ -33,8 +33,8 @@ This page covers how to read a review's verification results, tell how each crit
 | `baseline_invariant_id` | The invariant's handle, for waiving with `aviator dismiss`. `null` for a criterion.       |
 | `status`                | `pass`, `fail`, `warn` (flagged for a look, doesn't block the merge), or `error` (the verifier couldn't decide; treat it as needing a human). |
 | `reason`                | Why the verifier passed or failed it.                                                     |
-| `evidence`              | What a code scan verdict rests on: `source` is `code_analysis`, and `snippets` each have `file` and `code`. `null` for a runtime verdict, whose evidence is in `aviator scenarios`. |
-| `evidence_ids`          | The runtime evidence the verdict cited, by its `id` in `aviator scenarios`. Empty when it cited none. |
+| `evidence`              | The code analysis behind the verdict: `source` is `code_analysis`, and `snippets` each have `file` and `code`. Runtime verdicts usually carry one too. `null` when there's none. |
+| `evidence_ids`          | The runtime evidence the verdict cited, by its `id` in `aviator scenarios`. Empty when it cited none. A code scan verdict can cite some too. |
 | `waived`                | Whether the failure has been waived. Waived failures stay in the list.                    |
 
 `latest_verification.status` is the run's status:
@@ -62,7 +62,7 @@ Each criterion is checked one of two ways:
 * A criterion meant for runtime falls back to code scan when no scenario gets planned for it. Its verdict then comes from reading the code, not running it. That applies to passes as well as failures.
 * Once a criterion is on code scan, later runs keep it there. Only [regenerating scenarios](#the-scenarios-checked-the-wrong-thing) moves it back to runtime.
 * If a review's first run had no preview, every criterion went to code scan. Adding a preview later doesn't change that until scenarios are regenerated.
-* A verdict's `evidence_ids` say what it rested on. One with none cited no runtime evidence, even when a scenario covers its criterion, so its `reason` and `evidence` are the whole verdict. `evidence.source` is `code_analysis` when code scan judged it.
+* The CLI doesn't say which way a criterion was checked. Work it out from the scenarios that cover it: collect every `steps[].evidence_types` value and every `evidence[].type` other than `trace`. If any required type wasn't captured, or nothing but traces was captured, code scan judged it. A scenario's `status` doesn't decide this, and neither do `evidence` or `evidence_ids`: a runtime verdict usually carries a code analysis too, and a code scan verdict can cite evidence its scenario did capture.
 
 A scenario with `reused: true` didn't run again. Its evidence comes from an earlier run on the same commit.
 
