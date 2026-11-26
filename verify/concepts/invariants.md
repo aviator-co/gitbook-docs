@@ -139,6 +139,13 @@ Without "directly or through a function it calls", a rule covers only the lines 
 
 A rule against defensive checks has to allow the narrowing a type checker requires, or no code can satisfy both.
 
+**Leave out why the rule exists.**
+
+Verify reads the whole body as the rule, so a sentence explaining its purpose becomes part of what it checks. If that sentence describes more code than the rule covers, the rule gets applied there too.
+
+* ✓ "A periodic task that retries stuck jobs handles at most a fixed number of jobs per tick."
+* ✗ "A periodic task that retries stuck jobs handles at most a fixed number per tick. Retrying one job starts more work, so an unbounded sweep floods the queue." (The second sentence describes any task that starts work, so the rule gets applied to tasks that retry nothing.)
+
 **Be specific about the assertion, vague about the implementation.**
 
 * ✓ "All HTTP handlers must call an authentication middleware before any business logic."
